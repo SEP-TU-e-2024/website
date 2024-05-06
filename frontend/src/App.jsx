@@ -33,7 +33,6 @@ function App() {
 
   // This will run once (in production mode!) when the component is mounted.
   useEffect(() => {
-    console.log(import.meta.env.VITE_APP_TITLE);
     getProblems();
   }, []);
 
