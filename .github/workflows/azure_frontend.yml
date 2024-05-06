@@ -15,7 +15,7 @@ jobs:
     name: Build and Deploy Job
     env: 
       NODE_VERSION: 20
-      VITE_API_URL: ${{ secrets.VITE_API_URL }}
+      VITE_API_URL: ${{ secrets.VITE_API_URL }} # This is located in GitHub Secrets
     steps:
       - uses: actions/checkout@v3
         with:
