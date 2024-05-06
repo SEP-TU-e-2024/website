@@ -1,0 +1,21 @@
+.login_page {
+    text-align: center;
+}
+
+.register_page {
+    text-align: center;
+}
+
+.form_container{
+    display: inline-block;
+    margin-top:15%
+}
+
+.form_container * {
+    margin:auto;
+    margin:3px;
+}
+
+
+
+
