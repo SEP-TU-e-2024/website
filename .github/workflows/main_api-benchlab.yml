@@ -10,7 +10,7 @@ on:
       - main
     paths:
       - 'backend/**'
-      - '.github/workflows/azure_backend.yml'
+      - '.github/workflows/main_api-benchlab.yml'
   workflow_dispatch:
 
 jobs:
@@ -27,24 +27,29 @@ jobs:
 
       - name: Create and start virtual environment
         run: |
+          cd ./backend
           python -m venv venv
           source venv/bin/activate
       
       - name: Install dependencies
-        run: pip install -r ./backend/requirements.txt
+        run: |
+          cd ./backend
+          pip install -r ./requirements.txt
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
-        run: zip release.zip ./backend/* -r
+        run: |
+          cd ./backend 
+          zip release.zip ./* -r
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v3
         with:
           name: python-app
           path: |
-            release.zip
-            !venv/
+            ./backend/release.zip
+            ./backend/!venv/
 
   deploy:
     runs-on: ubuntu-latest
