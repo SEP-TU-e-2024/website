@@ -47,9 +47,11 @@ class AuthViewSet(ViewSet):
         The method creates an user in the database and puts them on non active, after which verification email is sent   
         """
 
-        # Converts JSON data into python object 
+        # Converts JSON data into python object and checks validaty
         serializer = UserSerializer(data=request.data)
         if not serializer.is_valid():
+            for field, messages in serializer.errors.items():
+                return Response({"error": messages}, status=status.HTTP_400_BAD_REQUEST)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         # Setting user password and disabling user
@@ -60,11 +62,10 @@ class AuthViewSet(ViewSet):
 
         # Sending verification email
         email_send = self.activateEmail(request, user)
-        status_request=status.HTTP_400_BAD_REQUEST
-        if email_send : status_request=status.HTTP_201_CREATED
-        return Response({
-            'email_send': email_send
-        }, status=status_request)
+        if not email_send: 
+            user.delete()
+            return Response({"error": "Failed to send email"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({}, status=status.HTTP_201_CREATED)
 
     def activate(self, uidb64, token):
         """ Activates an user in the database

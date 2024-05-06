@@ -6,6 +6,11 @@ const AuthContext = createContext();
 
 export default AuthContext
 
+/**
+ * This react component provides data and authentication methods to child components
+ * 
+ * @param {ReactNode} children - child components to render 
+ */
 export const AuthProvider = ({children}) => {
 
     // Navigation object for multipage navigation
@@ -24,8 +29,8 @@ export const AuthProvider = ({children}) => {
      * Sets authentication tokens.
      * 
      * @param {JSON} data - Data containing authentication tokens
-     * @returns {boolean} Description of the return value.
-     * @throws {Error} Description of possible exceptions thrown.
+     * @returns {boolean} - Description of the return value.
+     * @throws {Error} - Description of possible exceptions thrown.
      */
     let setTokens = (data)=> {
         setAuthTokens(data)
@@ -61,23 +66,24 @@ export const AuthProvider = ({children}) => {
                 body: JSON.stringify({"username":e.target.username.value, "email":e.target.email.value, "password":e.target.password.value})    
             })
 
+            let data = await response.json();
+
             // Check if the fetch request was successful
-            if (!response.ok) {
-                throw new Error('Failed to register user');
+            if (!response.ok && data.error) {
+                throw new Error(data.error);
             }
 
             // Receives submission status and notifies user adequately
-            let data = await response.json();
-            if (data.status === 201) {
+            if (response.status === 201) {
                 alert("Email sent successfully, please check your email");
                 navigate('/login');
             } else {
-                throw new Error('Failed to register user');
+                throw new Error('Failed to register user, unknown error');
             }
-        } catch {
+        } catch(error) {
             // Handle errors
             console.error('Registration error:', error.message);
-            alert("An unknown error occurred, please try again");
+            alert(error.message);
         }
     }
 
@@ -111,14 +117,12 @@ export const AuthProvider = ({children}) => {
 
             // Receives login reponse data
             let data = await response.json()
-            if (response.status != 200) {
-                throw new Error('Failed to login user');
-            }
 
             // Sets session tokens and redirects to home page;
-            setTokens(response, data);
+            setTokens(data);
             navigate('/home');
-        } catch {
+
+        } catch (error) {
             // Handle errors
             console.error('Login error:', error.message);
             alert("An unknown error occurred, please try again");
@@ -152,15 +156,12 @@ export const AuthProvider = ({children}) => {
 
             // Check if the fetch request was successful
             if (!response.ok) {
+                logoutUser();
                 throw new Error('Failed to update authentication tokens');
             }
     
             // Gets data from the response
             let data = await response.json()
-            if (response.status != 200) {
-                logoutUser();
-                throw new Error('Failed to update authentication tokens');
-            }
 
             // Sets session tokens
             setTokens(data)
@@ -169,7 +170,7 @@ export const AuthProvider = ({children}) => {
             if (loading) {
                 setLoading(false)
             }
-        } catch {
+        } catch (error) {
             // Handle errors
             console.error('Update error:', error.message);
         }
