@@ -1,16 +1,25 @@
-import { useState, useEffect, useContext } from 'react'
+import React, { useState } from 'react';
 import './Submit.css';
-import AuthContext from '../../context/AuthContext';
+import { FileUploader } from "react-drag-drop-files";
+
+const fileTypes = ["ZIP"];
 
 function Submit() {
-    let {logout_user} = useContext(AuthContext)
+  const [file, setFile] = useState(null);
 
-    return (
-        <div >
-            <h2> Submit page </h2>
-            <button onClick={logout_user}> Log out </button>
-        </div>
-    );
-};
-  
-export default Submit
+  const handleChange = (file) => {
+    console.log("File selected:", file);
+    setFile(file);
+  };
+
+  console.log("File state:", file);
+
+  return (
+    <div>
+      <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
+      {file && <img src={file.preview} alt="Uploaded file" />}
+    </div>
+  );
+}
+
+export default Submit;
