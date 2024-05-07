@@ -18,7 +18,7 @@ urlpatterns = [
     path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('activate/<uidb64>/<token>', AuthViewSet.activate, name='activate'),
-    path('loginEmail/<uidb64>/<token>', AuthViewSet.login, name='loginEmail'),
+    path('loginEmail/<uidb64>/<token>', AuthViewSet.login_through_email, name='loginEmail'),
 ]
 
 # Combining urls of routers and patterns

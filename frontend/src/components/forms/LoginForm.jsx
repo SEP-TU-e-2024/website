@@ -8,8 +8,8 @@ import AuthContext from '../../context/AuthContext';
 function LoginForm() {
 
     const navigate = useNavigate();
-    let {loginUser} = useContext(AuthContext)
-    let {emailLogin} = useContext(AuthContext)
+    let {login_user} = useContext(AuthContext)
+    let {send_email_login} = useContext(AuthContext)
 
     const handleRegister = (event) => {
         navigate("/register")
@@ -18,7 +18,7 @@ function LoginForm() {
     const PasswordForm = () => {
         return (
             <div className='form_container'>
-                <form onSubmit={loginUser} method='post'>
+                <form onSubmit={login_user} method='post'>
                     <div>
                         <input
                             name="email"
@@ -44,7 +44,7 @@ function LoginForm() {
     const EmailForm = () => {
         return (
             <div className='form_container'>
-                <form onSubmit={emailLogin} method='post'>
+                <form onSubmit={send_email_login} method='post'>
                     <div>
                         <input
                             name="email"

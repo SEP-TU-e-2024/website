@@ -8,28 +8,7 @@ import AuthContext from '../../context/AuthContext';
 function RegisterForm() {
 
     const navigate = useNavigate();
-    let {registerUser} = useContext(AuthContext)
-
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirm_password, setConfirmPassword] = useState('');
-    const [email, setEmail] = useState('');
-
-    const handleUsernameChange = (event) => {
-        setUsername(event.target.value);
-    };
-
-    const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
-    };
-
-    const handleConfirmPasswordChange = (event) => {
-        setConfirmPassword(event.target.value);
-    };
-
-    const handleEmailChange = (event) => {
-        setEmail(event.target.value);
-    };
+    let {register_user} = useContext(AuthContext)
 
     const handleLogin = (event) => {
         navigate("/login")
@@ -38,21 +17,12 @@ function RegisterForm() {
     return (
         <div className='register_page'>
             <div className='form_container'>
-                <form onSubmit={registerUser} method='post'>
-                    <div>
-                        <input
-                            name="username"
-                            type="text"
-                            placeholder={"Username"}
-                            onChange={handleUsernameChange}
-                            required/>
-                    </div>
+                <form onSubmit={register_user} method='post'>
                     <div>
                         <input
                             name="email"
                             type="text"
                             placeholder={"Email"}
-                            onChange={handleEmailChange}
                             required
                         />
                     </div>
@@ -61,7 +31,6 @@ function RegisterForm() {
                             name="password"
                             type="password"
                             placeholder={"Password"}
-                            onChange={handlePasswordChange}
                             required
                         />
                     </div>
@@ -70,7 +39,6 @@ function RegisterForm() {
                             name="confirm_password"
                             type="password"
                             placeholder={"Confirm password"}
-                            onChange={handleConfirmPasswordChange}
                             required
                         />
                     </div>
