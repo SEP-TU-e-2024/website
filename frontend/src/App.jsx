@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import Navbar from './components/navbar/Navbar_old';
+import MyNavbar from './components/navbar/MyNavbar';
 import HomePage from './components/homepage/HomePage';
 import LoginForm from './components/forms/LoginForm';
 import LeaderboardPage from './components/leaderboardPage/LeaderboardPage'
@@ -17,7 +17,9 @@ function App() {
     <>
         <Router>
             <AuthProvider>
-            <Navbar />
+                
+            <MyNavbar />
+            
             <div className='container'>
                 <Routes>
                     <Route 

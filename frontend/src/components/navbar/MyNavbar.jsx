@@ -4,7 +4,7 @@ import {
     NavbarBrand,
     Nav,
     NavItem,
-    NavLink
+    NavLink 
 } from 'reactstrap'
 
 /**
@@ -22,7 +22,7 @@ function MyNavbar() {
             </NavbarBrand>
             <Nav navbar className='me-auto' pills>
                 <NavItem>
-                    <NavLink active href='/scoreboard/1'>Scoreboard</NavLink>
+                    <NavLink active href='/leaderboard/'>Leaderboard</NavLink>
                 </NavItem>
                 <NavItem>
                     <NavLink href='/probleminstances/'>Problem instances</NavLink>
