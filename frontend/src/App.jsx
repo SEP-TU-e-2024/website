@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-import Navbar from './components/navbar/Navbar';
+import Navbar from './components/navbar/Navbar_old';
 import HomePage from './components/homepage/HomePage';
 import LoginForm from './components/forms/LoginForm';
+import LeaderboardPage from './components/leaderboardPage/LeaderboardPage'
 import RegisterForm from './components/forms/RegisterForm';
 import { AuthProvider } from './context/AuthContext';
 import {
@@ -22,16 +23,29 @@ function App() {
                     <Route 
                         path= "/" 
                         element = 
-                        {<ProtectedRoute> 
+                        {
+                        // <ProtectedRoute> 
                             <HomePage/>
-                        </ProtectedRoute>} 
+                        // </ProtectedRoute>
+                        } 
                     />
                     <Route 
                         path= "/home"
                         element = 
-                        {<ProtectedRoute> 
+                        {
+                        // <ProtectedRoute> 
                             <HomePage/>
-                        </ProtectedRoute>} 
+                        // </ProtectedRoute>
+                        } 
+                    />
+                    <Route 
+                        path= "/leaderboard"
+                        element = 
+                        {
+                        // <ProtectedRoute> 
+                            <LeaderboardPage/>
+                        // </ProtectedRoute>
+                        } 
                     />
                     <Route 
                         path="/login" 
