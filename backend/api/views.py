@@ -20,7 +20,7 @@ from rest_framework.viewsets import ViewSet
 from .serializers import UserSerializer
 from .tokens import account_activation_token
 from .models import UserProfile as User
-
+import os
 
 # Create your views here.
 def main(request):
@@ -99,7 +99,7 @@ class AuthViewSet(ViewSet):
                 'refresh_token': str(token),
                 'access_token': str(token.access_token),
             }
-            redirect_url = f"http://localhost:5173/tokens/?refresh_token={response_data['refresh_token']}&access_token={response_data['access_token']}"
+            redirect_url =  f"{os.getenv("FRONTEND_URL")}tokens/?refresh_token={response_data['refresh_token']}&access_token={response_data['access_token']}"
             return redirect(redirect_url)
         return HttpResponse({}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -198,4 +198,4 @@ class AuthViewSet(ViewSet):
             user.save()
 
         # Redirects to login
-        return redirect('http://localhost:5173/login')
+        return redirect(f'{os.getenv("FRONTEND_URL")}login')

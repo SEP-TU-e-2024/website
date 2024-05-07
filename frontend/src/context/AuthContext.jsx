@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect, Navigation} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
+import api from '../api';
 
 const AuthContext = createContext();
 
@@ -58,21 +59,11 @@ export const AuthProvider = ({children}) => {
         
         try {
             // Submits user data to API
-            let response = await fetch('http://127.0.0.1:8000/api/auth/signup/', {
-                method: 'POST',
-                headers: {
-                    "Content-Type":"application/json"
-                },
-                body: JSON.stringify({"email":e.target.email.value, "password":e.target.password.value})    
-            })
-
-            let data = await response.json();
-
-            // Check if the fetch request was successful
-            if (!response.ok && data.error) {
-                throw new Error(data.error);
-            }
-
+            let response = await api.post('/auth/signup/', {
+                email: e.target.email.value,
+                password: e.target.password.value
+            });
+            
             // Receives submission status and notifies user adequately
             if (response.status === 201) {
                 alert("Email sent successfully, please check your email");
@@ -82,8 +73,12 @@ export const AuthProvider = ({children}) => {
             }
         } catch(error) {
             // Handle errors
-            console.error('Registration error:', error.message);
+            if (error.response.data.error) {
+                alert(error.response.data.error)
+                return
+            }
             alert(error.message);
+            console.error('Singup error:', error.message);
         }
     }
 
@@ -100,35 +95,25 @@ export const AuthProvider = ({children}) => {
         e.preventDefault()
         
         try {
-            // Submits login data to the backend API
-            let response = await fetch('http://127.0.0.1:8000/api/auth/token/', {
-                method: 'POST',
-                headers: {
-                    "Content-Type":"application/json"
-                },
-                body: JSON.stringify({"email":e.target.email.value, "password":e.target.password.value})    
-            })
-
-            
-            // Receives login reponse data
-            let data = await response.json()
-
-            // Check if the fetch request was successful
-            if (!response.ok) {
-                if (data.detail) {
-                    throw new Error(data.detail);
-                }
-                throw new Error("Unkown error");
-            }
+            // Submits user data to API
+            let response = await api.post('/auth/token/', {
+                email: e.target.email.value,
+                password: e.target.password.value
+            });
 
             // Sets session tokens and redirects to home page;
-            set_tokens(data);
+            set_tokens(response.data);
             navigate('/home');
 
         } catch (error) {
             // Handle errors
-            console.error('Login error:', error.message);
+            if (error.response.data.detail) {
+                alert(error.response.data.detail)
+                console.error('Login error:', error.response.data.detail);
+                return
+            }
             alert(error.message);
+            console.error('Login error:', error.message);
         }
     }
 
@@ -146,20 +131,14 @@ export const AuthProvider = ({children}) => {
         
         try {
             // Submits login data to the backend API
-            let response = await fetch('http://127.0.0.1:8000/api/auth/send_login_email/', {
-                method: 'POST',
-                headers: {
-                    "Content-Type":"application/json"
-                },
-                body: JSON.stringify({"email":e.target.email.value})    
-            })
+            let response = await api.post('/auth/send_login_email/', {
+                email: e.target.email.value,
+            });
 
-            // Check if the fetch request was successful
-            if (!response.ok) {
-                throw new Error('Failed to send login email');
-            }
             alert("Email sent succesfully")
         } catch(error) {
+            // Handle errors
+            alert("Failed to send email");
             console.error('Login error:', error.message);
         }
     }
@@ -196,27 +175,12 @@ export const AuthProvider = ({children}) => {
 
         try {
             // Fetches access tokens from backend using refresh tokens
-            let response = await fetch('http://127.0.0.1:8000/api/auth/token/refresh/', {
-                method: 'POST',
-                headers: {
-                    "Content-Type":"application/json"
-                },
-                body: JSON.stringify({"refresh": authTokens.refresh})    
-            })
-
-            console.log(response)
-
-            // Check if the fetch request was successful
-            if (!response.ok) {
-                logout_user();
-                throw new Error('Failed to update authentication tokens');
-            }
+            let response = await api.post('/auth/token/refresh/', {
+                refresh: authTokens.refresh
+            });
     
-            // Gets data from the response
-            let data = await response.json()
-
             let tokens = authTokens
-            tokens.access = data.access
+            tokens.access = response.data.access
             set_tokens(tokens)
             
             // Sets loading to false to stop the calling of this function
@@ -225,9 +189,9 @@ export const AuthProvider = ({children}) => {
             }
         } catch (error) {
             // Handle errors
+            logout_user();
             console.error('Update error:', error.message);
         }
-
     }
 
     /**

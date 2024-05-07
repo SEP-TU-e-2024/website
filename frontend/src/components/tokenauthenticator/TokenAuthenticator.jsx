@@ -11,7 +11,7 @@ import { Navigate } from "react-router-dom";
  * redirection to the home page upon successful authentication.
  */
 function TokenAuthenticator() {
-    let {setTokens} = useContext(AuthContext)
+    let {set_tokens} = useContext(AuthContext)
     const [tokensSet, setTokensSet] = useState(false);
     
     /**
@@ -51,7 +51,7 @@ function TokenAuthenticator() {
                 refresh: refresh_token,
                 access: access_token
             };
-            setTokens(tokens);
+            set_tokens(tokens);
             setTokensSet(true);
         }
     }, [tokensSet])
