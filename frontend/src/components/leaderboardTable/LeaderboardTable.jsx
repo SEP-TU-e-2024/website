@@ -12,7 +12,15 @@ import {Pagination, PaginationItem, PaginationLink, Table, Container, Row, Col} 
 
 function LeaderboardTable({columnNames, columnKeys, rows}) {
     
-    //TODO sorting logic
+    //TODO move this to a settings file
+    const MAX_DISPLAYED_ROWS = 10;
+    
+    //sorting logic
+    //TODO maybe this is not the most optimal place to sort but I don't really know where to do it better
+    let displayRows = rows.sort((a,b) => a[columnKeys.colKeys[0]] > b[columnKeys.colKeys[0]]); 
+    
+    displayRows = displayRows.slice(0, MAX_DISPLAYED_ROWS);
+    
     //TODO add check for id in rows
     //TODO add check/sorting of the rows
     const nrCols = 6;
@@ -21,6 +29,7 @@ function LeaderboardTable({columnNames, columnKeys, rows}) {
     firstPageActiveProps['disabled'] = true;
     const lastPageActiveProps = {};
     lastPageActiveProps['disabled'] = false;
+    
     
     return (
         <Container fluid className='justify-content-center'>
@@ -50,7 +59,7 @@ function LeaderboardTable({columnNames, columnKeys, rows}) {
                     </tr>
                 </thead>
                 <tbody>
-                    {!rows || rows.length <= 0 ? (
+                    {!displayRows || displayRows.length <= 0 ? (
                         <tr>
                             {/* the +1 is because there is always the rank column */}
                             <td colSpan={columnNames.length + 1} align='center'>
@@ -58,7 +67,7 @@ function LeaderboardTable({columnNames, columnKeys, rows}) {
                             </td>
                         </tr>
                     ) : (
-                        rows.map(row => (
+                        displayRows.map(row => (
                             <tr key={row[columnKeys.idKey]}>
                                 {!columnKeys.colKeys || columnKeys.colKeys.length <= 0 ? (
                                     <td colSpan={columnNames.length + 1} align='center'>Error: no column keys</td>
@@ -87,6 +96,7 @@ function LeaderboardTable({columnNames, columnKeys, rows}) {
                     <PaginationLink previous href='#' />
                 </PaginationItem>
                 
+                {/* For loop here */}
                 <PaginationItem active>
                     <PaginationLink href='#' > 1 </PaginationLink>
                 </PaginationItem>

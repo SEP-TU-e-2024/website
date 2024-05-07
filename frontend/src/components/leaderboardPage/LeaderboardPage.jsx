@@ -20,19 +20,19 @@ async function fetchData() {
 //dummy function to generate a bit of data for testing the ui without needing the communication with the backend
 function generatePlaceholderRows() {
   let rows = [
-      {id: 0, rank: 0, submissionName: 'Foo', submittedBy: 'John Doe', metric: '1s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
-      {id: 1, rank: 1, submissionName: 'Joe', submittedBy: 'John Smith', metric: '1s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
-      {id: 2, rank: 2, submissionName: 'Bar', submittedBy: 'Jane Doe', metric: '2s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
+      {id: 0, rank: 1, submissionName: 'Foo', submittedBy: 'John Doe', metric: '1s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
+      {id: 1, rank: 2, submissionName: 'Joe', submittedBy: 'John Smith', metric: '1s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
       {id: 3, rank: 3, submissionName: 'Foo', submittedBy: 'John Doe', metric: '1s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
-      {id: 4, rank: 4, submissionName: 'Joe', submittedBy: 'John Smith', metric: '1s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
+      {id: 2, rank: 4, submissionName: 'Bar', submittedBy: 'Jane Doe', metric: '2s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
       {id: 5, rank: 5, submissionName: 'Bar', submittedBy: 'Jane Doe', metric: '2s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
-      {id: 6, rank: 6, submissionName: 'Foo', submittedBy: 'John Doe', metric: '1s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
-      {id: 7, rank: 7, submissionName: 'Joe', submittedBy: 'John Smith', metric: '1s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
-      {id: 8, rank: 8, submissionName: 'Bar', submittedBy: 'Jane Doe', metric: '2s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
-      {id: 9, rank: 9, submissionName: 'Foo', submittedBy: 'John Doe', metric: '1s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
-      {id: 10, rank: 10, submissionName: 'Joe', submittedBy: 'John Smith', metric: '1s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
+      {id: 4, rank: 6, submissionName: 'Joe', submittedBy: 'John Smith', metric: '1s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
+      {id: 6, rank: 7, submissionName: 'Foo', submittedBy: 'John Doe', metric: '1s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
+      {id: 7, rank: 8, submissionName: 'Joe', submittedBy: 'John Smith', metric: '1s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
+      {id: 8, rank: 9, submissionName: 'Bar', submittedBy: 'Jane Doe', metric: '2s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
+      {id: 9, rank: 10, submissionName: 'Foo', submittedBy: 'John Doe', metric: '1s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
       {id: 11, rank: 11, submissionName: 'Bar', submittedBy: 'Jane Doe', metric: '2s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
-      {id: 12, rank: 12, submissionName: 'Bar', submittedBy: 'Jane Doe', metric: '2s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'}
+      {id: 12, rank: 12, submissionName: 'Bar', submittedBy: 'Jane Doe', metric: '2s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
+      {id: 10, rank: 13, submissionName: 'Joe', submittedBy: 'John Smith', metric: '1s', submissionDate: '1-1-2024', otherMetrics: 'placeholder'},
   ];
   return rows;
 };
