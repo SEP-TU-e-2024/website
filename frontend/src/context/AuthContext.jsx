@@ -107,7 +107,7 @@ export const AuthProvider = ({children}) => {
                 headers: {
                     "Content-Type":"application/json"
                 },
-                body: JSON.stringify({"username":e.target.username.value, "password":e.target.password.value})    
+                body: JSON.stringify({"email":e.target.email.value, "password":e.target.password.value})    
             })
 
             // Check if the fetch request was successful
@@ -125,7 +125,31 @@ export const AuthProvider = ({children}) => {
         } catch (error) {
             // Handle errors
             console.error('Login error:', error.message);
-            alert("An unknown error occurred, please try again");
+            alert("An unknown error occurred");
+        }
+    }
+
+    let emailLogin = async (e)=> {
+        // Prevents default form submission
+        e.preventDefault()
+        
+        try {
+            // Submits login data to the backend API
+            let response = await fetch('http://127.0.0.1:8000/api/auth/loginEmail/', {
+                method: 'POST',
+                headers: {
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify({"email":e.target.email.value})    
+            })
+
+            // Check if the fetch request was successful
+            if (!response.ok) {
+                throw new Error('Failed to send login email');
+            }
+            alert("Email sent succesfully")
+        } catch(error) {
+            console.error('Login error:', error.message);
         }
     }
 
@@ -154,6 +178,8 @@ export const AuthProvider = ({children}) => {
                 body: JSON.stringify({"refresh": authTokens.refresh})    
             })
 
+            console.log(response)
+
             // Check if the fetch request was successful
             if (!response.ok) {
                 logoutUser();
@@ -163,8 +189,9 @@ export const AuthProvider = ({children}) => {
             // Gets data from the response
             let data = await response.json()
 
-            // Sets session tokens
-            setTokens(data)
+            let tokens = authTokens
+            tokens.access = data.access
+            setTokens(tokens)
             
             // Sets loading to false to stop the calling of this function
             if (loading) {
@@ -189,7 +216,7 @@ export const AuthProvider = ({children}) => {
     useEffect(()=> {
         loading ? updateToken() : undefined;
 
-        let intervalTime = 1000 * 60 * 4
+        let intervalTime = 1000 * 4 * 60
         let interval = setInterval(()=> {
             if (authTokens) {
                 updateToken()
@@ -204,9 +231,11 @@ export const AuthProvider = ({children}) => {
      */
     let contextData = {
         user:user,
+        setTokens:setTokens,
         loginUser:loginUser,
         logoutUser:logoutUser,
         registerUser:registerUser,
+        emailLogin:emailLogin,
     }
 
     return(

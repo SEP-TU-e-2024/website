@@ -82,6 +82,8 @@ TEMPLATES = [
     },
 ]
 
+AUTH_USER_MODEL = 'api.UserProfile'
+
 WSGI_APPLICATION = "backend.wsgi.application"
 
 # Database

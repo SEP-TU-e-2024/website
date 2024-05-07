@@ -17,7 +17,8 @@ urlpatterns = [
     path("problems", RetrieveProblems.as_view()),
     path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('activate/<uidb64>/<token>', AuthViewSet.activate, name='activate')
+    path('activate/<uidb64>/<token>', AuthViewSet.activate, name='activate'),
+    path('loginEmail/<uidb64>/<token>', AuthViewSet.login, name='loginEmail'),
 ]
 
 # Combining urls of routers and patterns

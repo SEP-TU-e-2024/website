@@ -10,6 +10,7 @@ import {
     Route,
 } from "react-router-dom";
 import ProtectedRoute from './util/ProtectedRoute';
+import TokenAuthenticator from './components/tokenauthenticator/TokenAuthenticator';
 
 function App() {
   return (
@@ -19,6 +20,13 @@ function App() {
             <Navbar />
             <div className='container'>
                 <Routes>
+                    <Route
+                        path="/tokens"
+                        element = {
+                            <TokenAuthenticator/>
+                        }
+                    />
+
                     <Route 
                         path= "/" 
                         element = 

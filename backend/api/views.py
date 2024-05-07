@@ -3,13 +3,14 @@ from django.http import HttpResponse
 from .serializers import ProblemSerializer
 from .models import Problem
 from rest_framework import generics
-from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
 from django.core.mail import EmailMessage
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from rest_framework import status
 from rest_framework.decorators import action
@@ -18,6 +19,7 @@ from rest_framework.viewsets import ViewSet
 
 from .serializers import UserSerializer
 from .tokens import account_activation_token
+from .models import UserProfile as User
 
 
 # Create your views here.
@@ -82,12 +84,14 @@ class AuthViewSet(ViewSet):
         redirect : HTTP response
             Redirects the user's browser to the login page URL.  
         """
+
         # Decodes uid and gets user object from database
+        user = None
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
-        except:
-            user = None
+        except Exception as e:
+            print(e)
 
         # Checks token and sets user to active
         if user is not None and account_activation_token.check_token(user, token) :
@@ -96,6 +100,46 @@ class AuthViewSet(ViewSet):
 
         # Redirects to login
         return redirect('http://localhost:5173/login')
+
+    @action(detail=False, methods=['POST'])
+    def login(self, uidb64, token):
+        user = None
+        try:
+            uid = force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+        except Exception as e:
+            print(e)
+
+        # Checks token and sets user to active
+        if user is not None and account_activation_token.check_token(user, token) :
+            token = RefreshToken.for_user(user)
+            response_data = {
+                'refresh_token': str(token),
+                'access_token': str(token.access_token),
+            }
+            redirect_url = f"http://localhost:5173/tokens/?refresh_token={response_data['refresh_token']}&access_token={response_data['access_token']}"
+            return redirect(redirect_url)
+        return HttpResponse({}, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['POST'])
+    def loginEmail(self, request):
+        user = None
+        try: 
+            user = User.objects.get(email=request.data["email"])
+            mail_subject = "Login into your account."
+            message = render_to_string("email_template_login.html", {
+                "user": user.name,
+                "domain": get_current_site(request).domain,
+                "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                "token": account_activation_token.make_token(user),
+                "protocol": "https" if request.is_secure() else "http",
+            })
+            email = EmailMessage(mail_subject, message, from_email="benchlab@outlook.com", to={user.email})
+            email.send()
+            return HttpResponse({}, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+        return HttpResponse({}, status=status.HTTP_400_BAD_REQUEST)
 
     def activateEmail(self, request, user):
         """ Sends activation email

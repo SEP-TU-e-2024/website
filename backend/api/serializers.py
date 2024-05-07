@@ -1,6 +1,6 @@
 from api.models import Problem
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from .models import UserProfile as User
 from rest_framework.serializers import ModelSerializer
 
 class ProblemSerializer(serializers.ModelSerializer):
