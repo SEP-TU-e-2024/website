@@ -99,8 +99,8 @@ class AuthViewSet(ViewSet):
                 'refresh_token': str(token),
                 'access_token': str(token.access_token),
             }
-            redirect_url =  f"{os.getenv("FRONTEND_URL")}tokens/?refresh_token={response_data['refresh_token']}&access_token={response_data['access_token']}"
-            return redirect(redirect_url)
+            redirect_url =  f"{os.getenv('FRONTEND_URL')}tokens/?refresh_token={response_data['refresh_token']}&access_token={response_data['access_token']}"
+            return redirect(redirect_url)            
         return HttpResponse({}, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=False, methods=['POST'])
