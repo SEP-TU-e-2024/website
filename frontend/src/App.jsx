@@ -26,27 +26,27 @@ function App() {
                         path= "/" 
                         element = 
                         {
-                        // <ProtectedRoute> 
+                        <ProtectedRoute> 
                             <HomePage/>
-                        // </ProtectedRoute>
+                        </ProtectedRoute>
                         } 
                     />
                     <Route 
                         path= "/home"
                         element = 
                         {
-                        // <ProtectedRoute> 
+                        <ProtectedRoute> 
                             <HomePage/>
-                        // </ProtectedRoute>
+                        </ProtectedRoute>
                         } 
                     />
                     <Route 
                         path= "/leaderboard"
                         element = 
                         {
-                        // <ProtectedRoute> 
+                        <ProtectedRoute> 
                             <LeaderboardPage/>
-                        // </ProtectedRoute>
+                        </ProtectedRoute>
                         } 
                     />
                     <Route 
