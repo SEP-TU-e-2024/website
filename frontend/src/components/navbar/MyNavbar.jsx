@@ -4,7 +4,8 @@ import {
     NavbarBrand,
     Nav,
     NavItem,
-    NavLink 
+    NavLink,
+    Container 
 } from 'reactstrap'
 import { useLocation } from 'react-router-dom'
 
@@ -32,8 +33,10 @@ function MyNavbar() {
     return (
         <Navbar expand full /*fixed='top'*/ container='sm' color='dark' dark>
             <NavbarBrand href='/'>
-                <img alt='logo' src='../../assets/react.svg' style={{height:40, width:40}} />
+                <img alt='logo' src='/assets/react.svg' style={{height:40, width:40}} />
             </NavbarBrand>
+            
+            {/* Navbar left aligned items */}
             <Nav navbar className='me-auto' pills>
                 <NavItem>
                     <NavLink active={routeStrings.HOME == location.pathname || routeStrings.ROOT == location.pathname} href={routeStrings.HOME}>home</NavLink>
@@ -47,12 +50,19 @@ function MyNavbar() {
                 <NavItem>
                     <NavLink active={routeStrings.PROBLEM_OCCURENCES == location.pathname} href={routeStrings.PROBLEM_OCCURENCES}>Problem occurences</NavLink>
                 </NavItem>
+            </Nav>
+                
+            {/* Navbar right aligned items */}
+            <Nav navbar className='ms-auto' pills>
                 <NavItem>
                     <NavLink active={routeStrings.REGISTER == location.pathname} href={routeStrings.REGISTER}>Registration</NavLink>
                 </NavItem>
+            {/* </Col>
+            <Col> */}
                 <NavItem>
                     <NavLink active={routeStrings.LOGIN == location.pathname} href={routeStrings.LOGIN}>Login</NavLink>
                 </NavItem>
+                
             </Nav>
         </Navbar>
     )
