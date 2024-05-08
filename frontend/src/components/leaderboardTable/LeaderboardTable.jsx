@@ -22,11 +22,6 @@ function LeaderboardTable({columnNames, columnKeys, rows}) {
     //TODO add check/sorting of the rows
     const nrCols = 6;
     //TODO throw error if size of a row doesn't match the number of columns
-    const firstPageActiveProps = {};
-    firstPageActiveProps['disabled'] = true;
-    const lastPageActiveProps = {};
-    lastPageActiveProps['disabled'] = false;
-    
     
     return (
         <Container fluid className='justify-content-center'>
