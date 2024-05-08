@@ -1,21 +1,6 @@
 import { useState, useEffect, useContext} from 'react';
 import LeaderboardTable from '../leaderboardTable/LeaderboardTable';
 
-// Example function for fetching data from API
-async function fetchData() {
-    console.log(import.meta.env.VITE_API_URL)
-    try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}example/`);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const result = await response.json();
-        console.log(result);
-        return result;
-    } catch (error) {
-      console.error('Error fething data:', error);
-    }
-};
 
 //dummy function to generate a bit of data for testing the ui without needing the communication with the backend
 function generatePlaceholderRows() {
@@ -37,15 +22,22 @@ function generatePlaceholderRows() {
   return rows;
 };
 
+//temporary function to generate the column names
 function generatePlaceholderColumnNames() {
   return ["Metric", "Submission name", "Submitted by", "Submission date", "Other metrics"];
 }
 
+//temporary function to generate the column keys in the list of rows
 function generatePlaceholderColumnKeys() {
   //important that rank is the first string here
   return {idKey: "id", colKeys: ["rank", "metric", "submissionName", "submittedBy", "submissionDate", "otherMetrics"]};
 }
 
+/**
+ * Example page component for a leaderboard
+ * 
+ * @returns component
+ */
 function LeaderboardPage() {
   return (
     <div>

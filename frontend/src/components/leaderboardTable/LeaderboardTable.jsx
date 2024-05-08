@@ -1,19 +1,16 @@
 import { useState, useEffect, useContext, Component} from 'react'
 import {Pagination, PaginationItem, PaginationLink, Table, Container, Row, Col} from 'reactstrap'
     
-    /*
-    rank
-    name/email
-    submission name
-    submission date
-    
-    */
-    
-
+/**
+ * Leaderboard table component.
+ * 
+ * @param {columnNames, columnKeys, rows} param0 a dict with column labels, column keys in the row list, and a list of rows
+ * @returns component
+ */
 function LeaderboardTable({columnNames, columnKeys, rows}) {
     
     //TODO move this to a settings file
-    const MAX_DISPLAYED_ROWS = 10;
+    const MAX_DISPLAYED_ROWS = rows.length;
     
     //sorting logic
     //TODO maybe this is not the most optimal place to sort but I don't really know where to do it better
@@ -50,12 +47,6 @@ function LeaderboardTable({columnNames, columnKeys, rows}) {
                                 <th>{colName}</th>
                             ))
                         )}
-                        
-                        {/* <th>Metric</th>
-                        <th>Submission name</th>
-                        <th>Submitted by</th>
-                        <th>Submission date</th>
-                    <th>Other metrics</th> */}
                     </tr>
                 </thead>
                 <tbody>
@@ -76,19 +67,14 @@ function LeaderboardTable({columnNames, columnKeys, rows}) {
                                         <td>{row[key]}</td>
                                     ))
                                 )}
-                                {/* <td>{row.rank}</td>
-                                <td>{row.metric}</td>
-                                <td>{row.submissionName}</td>
-                                <td>{row.submittedBy}</td>
-                                <td>{row.submissionDate}</td>
-                            <td>{row["otherMetrics"]}</td> */}
                             </tr>
                         ))
                     )}
                 </tbody>
             </Table>
             
-            <Pagination className='d-flex justify-content-center'>
+            {/* Possible code for a skeleton of a pagination if we want to add that */}
+            {/* <Pagination className='d-flex justify-content-center'>
                 <PaginationItem disabled>
                     <PaginationLink first href='#' />
                 </PaginationItem>
@@ -96,7 +82,7 @@ function LeaderboardTable({columnNames, columnKeys, rows}) {
                     <PaginationLink previous href='#' />
                 </PaginationItem>
                 
-                {/* For loop here */}
+                {/* For loop here *
                 <PaginationItem active>
                     <PaginationLink href='#' > 1 </PaginationLink>
                 </PaginationItem>
@@ -107,9 +93,7 @@ function LeaderboardTable({columnNames, columnKeys, rows}) {
                 <PaginationItem >
                     <PaginationLink last href='#' />
                 </PaginationItem>
-            </Pagination>
-                    {/* </Col>
-                </Row> */}
+            </Pagination> */}
         </ Container>
     )
 }
