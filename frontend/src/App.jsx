@@ -4,7 +4,6 @@ import HomePage from './components/homepage/HomePage';
 import RegisterForm from "./components/forms/RegisterForm";
 import LoginForm from './components/forms/LoginForm';
 import LeaderboardPage from './components/leaderboardPage/LeaderboardPage'
-import RegisterForm from './components/forms/RegisterForm';
 import { AuthProvider } from './context/AuthContext';
 import {
     BrowserRouter as Router,
