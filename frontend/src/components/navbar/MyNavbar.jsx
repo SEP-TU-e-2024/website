@@ -33,7 +33,7 @@ function MyNavbar() {
     return (
         <Navbar expand full /*fixed='top'*/ container='sm' color='dark' dark>
             <NavbarBrand href='/'>
-                <img alt='logo' src='/assets/react.svg' style={{height:40, width:40}} />
+                <img alt='logo' src='/src/assets/react.svg' style={{height:40, width:40}} />
             </NavbarBrand>
             
             {/* Navbar left aligned items */}
