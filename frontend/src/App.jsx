@@ -1,6 +1,7 @@
 import Navbar from "./components/navbar/Navbar";
 import HomePage from "./components/homepage/HomePage";
 import LoginForm from "./components/forms/LoginForm";
+import Submit from "./components/submit/Submit";
 import RegisterForm from "./components/forms/RegisterForm";
 import { AuthProvider } from "./context/AuthContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -34,14 +35,14 @@ function App() {
               />
               <Route path="/login" element={<LoginForm />} />
               <Route path="/register" element={<RegisterForm />} />
-              {/* <Route
+              <Route
                 path="/submit"
                 element={
                   <ProtectedRoute>
                     <Submit />
                   </ProtectedRoute>
                 }
-              /> */}
+              /> 
             </Routes>
           </div>
         </AuthProvider>

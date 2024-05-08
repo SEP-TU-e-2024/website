@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 from django.utils.translation import gettext_lazy as _
+from django import forms
+
 
 # Create your models here.
 
@@ -53,3 +55,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         """ Return string representation of our user """
         return self.email
+    
+class UploadFile(forms.Form):
+    title = forms.CharField(max_length=50)
+    file = forms.FileField()
