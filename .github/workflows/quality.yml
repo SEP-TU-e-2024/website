@@ -1,0 +1,73 @@
+---
+name: Code Quality checks with understand
+run-name: ${{ github.actor }} is checking code quality
+
+on:
+    push:
+        branches:
+          - main
+    pull_request:
+        branches:
+          - main
+
+jobs:
+    build:
+        name: Code Quality
+        runs-on: ubuntu-latest
+
+        permissions:
+            contents: read
+            packages: read
+            statuses: write # Report results
+        
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: install understand
+              run: |
+                wget -nv http://builds.scitools.com/all_builds/b1183/Understand/Understand-CLI-6.5.1183-Linux-64bit.tgz
+                tar -xzf Understand-CLI-6.5.1183-Linux-64bit.tgz
+            
+            - name: set understand license
+              run: scitools/bin/linux64/und -setlicensecode ${{ secrets.UNDERSTAND_LICENSE }}
+
+            - name: run und commands
+              run: |
+                scitools/bin/linux64/und .github/und_commands.txt || true
+            
+            - name: remove license (for some reason this throws an error)
+              run: |
+                scitools/bin/linux64/und -deregisterlicensecode || true
+
+            - uses: actions/setup-java@v4
+              with:
+                distribution: 'temurin'
+                java-version: '17'
+            
+            - name: check java version
+              run: |
+                java --version
+
+            - name: simian check
+              run: |
+                java -jar .github/simian-4.0.0.jar {balanceParentheses=true, failOnDuplication=true, ignoreCharacterCase=true, ignoreCurlyBraces=true, ignoreIdentifierCase=true, ignoreModifiers=true, ignoreStringCase=true, threshold=6} "src/**" >> simian-out.txt || true
+
+            - name: show understand general metrics
+              run: |
+                cat metrics.csv
+            
+            - name: show understand file dependency
+              run: |
+                cat matrix.csv
+
+            - name: show simian output
+              run: |
+                cat simian-out.txt
+            
+            - name: install pandas for python script
+              run: pip3 install pandas
+
+            - name: Show output
+              run: |
+                python3 .github/processMetrics.py
