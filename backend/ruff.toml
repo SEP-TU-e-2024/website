@@ -1,0 +1,33 @@
+preview = true
+
+extend-exclude = []
+
+line-length = 100
+indent-width = 4
+
+# Assume Python 3.12
+target-version = "py312"
+
+[lint]
+# Here we set the rules we want to use.
+# E1 - spacing/indentation (https://docs.astral.sh/ruff/rules/#pycodestyle-e-w)
+# E22 - whitespace (https://docs.astral.sh/ruff/rules/#pycodestyle-e-w) [preview]
+# E252 - whitespace (https://docs.astral.sh/ruff/rules/#pycodestyle-e-w) [preview]
+# E4 - imports (https://docs.astral.sh/ruff/rules/#pycodestyle-e-w)
+# E7 - statement (https://docs.astral.sh/ruff/rules/#pycodestyle-e-w)
+# F - (https://docs.astral.sh/ruff/rules/#pyflakes-f) [preview]
+# C901 - complex-structure (https://docs.astral.sh/ruff/rules/#pycodestyle-e-w)
+# N - naming convention (https://docs.astral.sh/ruff/rules/#pep8-naming-n)
+# COM - commas (https://docs.astral.sh/ruff/rules/#flake8-commas-com)
+# I - isort (https://docs.astral.sh/ruff/rules/#isort-i)
+# We could also add the following rules:
+# "ANN0" - missing-type-function-argument (https://docs.astral.sh/ruff/rules/#flake8-annotations-ann)
+# "ANN201" - missing-return-type-undocumented-public-function (https://docs.astral.sh/ruff/rules/#flake8-annotations-ann)
+# Sometimes useful:
+# ERA - commented-out-code (https://docs.astral.sh/ruff/rules/#eradicate-era)
+# E5 - line length (https://docs.astral.sh/ruff/rules/#pycodestyle-e-w)
+select = ["E1", "E22", "E252", "E4", "E7", "E9", "F", "W291", "C901", "N", "COM818", "COM819", "I"]
+
+# Here we set the rules we want to ignore.
+# N804 - invalid-first-argument-name-for-class-method (https://docs.astral.sh/ruff/rules/#pep8-naming-n)
+ignore = ["N804", "C901"]
