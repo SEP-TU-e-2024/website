@@ -57,12 +57,9 @@ function MyNavbar() {
                 <NavItem>
                     <NavLink active={routeStrings.REGISTER == location.pathname} href={routeStrings.REGISTER}>Registration</NavLink>
                 </NavItem>
-            {/* </Col>
-            <Col> */}
                 <NavItem>
                     <NavLink active={routeStrings.LOGIN == location.pathname} href={routeStrings.LOGIN}>Login</NavLink>
                 </NavItem>
-                
             </Nav>
         </Navbar>
     )
