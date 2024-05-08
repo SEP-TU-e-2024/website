@@ -8,33 +8,22 @@ import AuthContext from '../../context/AuthContext';
 function LoginForm() {
 
     const navigate = useNavigate();
-    let {loginUser} = useContext(AuthContext)
-
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-
-    const handleUsernameChange = (event) => {
-        setUsername(event.target.value);
-    };
-
-    const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
-    };
+    let {login_user} = useContext(AuthContext)
+    let {send_email_login} = useContext(AuthContext)
 
     const handleRegister = (event) => {
         navigate("/register")
     };
 
-    return (
-        <div className='login_page'>
+    const PasswordForm = () => {
+        return (
             <div className='form_container'>
-                <form onSubmit={loginUser} method='post'>
+                <form onSubmit={login_user} method='post'>
                     <div>
                         <input
-                            name="username"
+                            name="email"
                             type="text"
-                            placeholder={"Username"}
-                            onChange={handleUsernameChange}
+                            placeholder={"Email"}
                             required/>
                     </div>
                     <div>
@@ -42,7 +31,6 @@ function LoginForm() {
                             name="password"
                             type="password"
                             placeholder={"Password"}
-                            onChange={handlePasswordChange}
                             required
                         />
                     </div>
@@ -50,6 +38,32 @@ function LoginForm() {
                 </form>
                 <p onClick={handleRegister}> Or register here! </p>
             </div>
+        )
+    }
+
+    const EmailForm = () => {
+        return (
+            <div className='form_container'>
+                <form onSubmit={send_email_login} method='post'>
+                    <div>
+                        <input
+                            name="email"
+                            type="text"
+                            placeholder={"Email"}
+                            required/>
+                    </div>
+                    <button type="submit"> Send email </button>
+                </form>
+            </div>
+        )
+    }
+
+    return (
+        <div className='login_page'>
+            <h2> Email login option</h2>
+            <EmailForm/>
+            <h2> Password login option</h2>
+            <PasswordForm/>
         </div>
     );
 };

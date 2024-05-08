@@ -82,6 +82,8 @@ TEMPLATES = [
     },
 ]
 
+AUTH_USER_MODEL = 'api.UserProfile'
+
 WSGI_APPLICATION = "backend.wsgi.application"
 
 # Database
@@ -149,7 +151,7 @@ EMAIL_FROM = os.environ.get("EMAIL_FROM")
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD= os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = os.environ.get("EMAIL_PORT")
-EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS")
+EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS") == "True"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

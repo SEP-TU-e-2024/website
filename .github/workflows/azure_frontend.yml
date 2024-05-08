@@ -3,7 +3,7 @@ name: Azure Frontend Static CI/CD
 on:
   push:
     branches:
-      - main
+      - production
     paths:
       - 'frontend/**'
       - '.github/workflows/azure_frontend.yml'

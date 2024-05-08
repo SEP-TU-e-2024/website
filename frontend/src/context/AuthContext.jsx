@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect, Navigation} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
+import api from '../api';
 
 const AuthContext = createContext();
 
@@ -32,7 +33,7 @@ export const AuthProvider = ({children}) => {
      * @returns {boolean} - Description of the return value.
      * @throws {Error} - Description of possible exceptions thrown.
      */
-    let setTokens = (data)=> {
+    let set_tokens = (data)=> {
         setAuthTokens(data)
         setUser(jwtDecode(data.access))
         localStorage.setItem('authTokens', JSON.stringify(data))
@@ -46,7 +47,7 @@ export const AuthProvider = ({children}) => {
      * 
      * @param {Event} e - The submission event from the registration form.
      */
-    let registerUser = async (e)=> {
+    let register_user = async (e)=> {
         // Prevents default form submission
         e.preventDefault()
 
@@ -58,21 +59,11 @@ export const AuthProvider = ({children}) => {
         
         try {
             // Submits user data to API
-            let response = await fetch('http://127.0.0.1:8000/api/auth/signup/', {
-                method: 'POST',
-                headers: {
-                    "Content-Type":"application/json"
-                },
-                body: JSON.stringify({"username":e.target.username.value, "email":e.target.email.value, "password":e.target.password.value})    
-            })
-
-            let data = await response.json();
-
-            // Check if the fetch request was successful
-            if (!response.ok && data.error) {
-                throw new Error(data.error);
-            }
-
+            let response = await api.post('/auth/signup/', {
+                email: e.target.email.value,
+                password: e.target.password.value
+            });
+            
             // Receives submission status and notifies user adequately
             if (response.status === 201) {
                 alert("Email sent successfully, please check your email");
@@ -82,11 +73,14 @@ export const AuthProvider = ({children}) => {
             }
         } catch(error) {
             // Handle errors
-            console.error('Registration error:', error.message);
+            if (error.response.data.error) {
+                alert(error.response.data.error)
+                return
+            }
             alert(error.message);
+            console.error('Singup error:', error.message);
         }
     }
-
 
     /**
      * Logs user into the backend
@@ -94,42 +88,69 @@ export const AuthProvider = ({children}) => {
      * This function handles the submission event from a login form, sends the user data to the 
      * backend API for authentication, and sets authentication tokens.
      * 
-     * @param {Event} e - The submission event from the registration form.
+     * @param {Event} e - The submission event from the login form.
      */
-    let loginUser = async (e)=> {
+    let login_user = async (e)=> {
+        // Prevents default form submission
+        e.preventDefault()
+        
+        try {
+            // Submits user data to API
+            let response = await api.post('/auth/token/', {
+                email: e.target.email.value,
+                password: e.target.password.value
+            });
+
+            // Sets session tokens and redirects to home page;
+            set_tokens(response.data);
+            navigate('/home');
+
+        } catch (error) {
+            // Handle errors
+            if (error.response.data.detail) {
+                alert(error.response.data.detail)
+                console.error('Login error:', error.response.data.detail);
+                return
+            }
+            alert(error.message);
+            console.error('Login error:', error.message);
+        }
+    }
+
+    /**
+     * Send login email to user
+     * 
+     * This function handles the submission event from a login form, sends the user data to the 
+     * backend API to trigger an email send
+     * 
+     * @param {Event} e - The submission event from the login form.
+     */
+    let send_email_login = async (e)=> {
         // Prevents default form submission
         e.preventDefault()
         
         try {
             // Submits login data to the backend API
-            let response = await fetch('http://127.0.0.1:8000/api/auth/token/', {
-                method: 'POST',
-                headers: {
-                    "Content-Type":"application/json"
-                },
-                body: JSON.stringify({"username":e.target.username.value, "password":e.target.password.value})    
-            })
+            let response = await api.post('/auth/send_login_email/', {
+                email: e.target.email.value,
+            });
 
-            // Check if the fetch request was successful
-            if (!response.ok) {
-                throw new Error('Failed to login user');
-            }
-
-            // Receives login reponse data
-            let data = await response.json()
-
-            // Sets session tokens and redirects to home page;
-            setTokens(data);
-            navigate('/home');
-
-        } catch (error) {
+            alert("Email sent succesfully")
+        } catch(error) {
             // Handle errors
+            alert("Failed to send email");
             console.error('Login error:', error.message);
-            alert("An unknown error occurred, please try again");
         }
     }
 
-    let logoutUser = ()=> {
+    /**
+     * Logs out the user
+     * 
+     * This function removes the authenticaton tokens from the local storage and resets all variables
+     * 
+     * @param {Event} e - The submission event from the login form.
+     */
+    let logout_user = ()=> {
         setAuthTokens(null)
         setUser(null)
         localStorage.removeItem("authTokens")
@@ -137,8 +158,16 @@ export const AuthProvider = ({children}) => {
         navigate("/")
     }
 
-    // TODO Fix this on loading
-    let updateToken = async ()=> {
+    /**
+     * Updates the access token using the refresh token.
+     * 
+     * This function sends the refresh token to the api in order to get a new acess
+     * token. If the token is not valid it will logout the user, if it is valid, then
+     * it will set the tokens accordingly.
+     * 
+     * @param {Event} e - The submission event from the login form.
+     */
+    let update_token = async ()=> {
         if (authTokens == null) {
             setLoading(false)
             return
@@ -146,25 +175,13 @@ export const AuthProvider = ({children}) => {
 
         try {
             // Fetches access tokens from backend using refresh tokens
-            let response = await fetch('http://127.0.0.1:8000/api/auth/token/refresh/', {
-                method: 'POST',
-                headers: {
-                    "Content-Type":"application/json"
-                },
-                body: JSON.stringify({"refresh": authTokens.refresh})    
-            })
-
-            // Check if the fetch request was successful
-            if (!response.ok) {
-                logoutUser();
-                throw new Error('Failed to update authentication tokens');
-            }
+            let response = await api.post('/auth/token/refresh/', {
+                refresh: authTokens.refresh
+            });
     
-            // Gets data from the response
-            let data = await response.json()
-
-            // Sets session tokens
-            setTokens(data)
+            let tokens = authTokens
+            tokens.access = response.data.access
+            set_tokens(tokens)
             
             // Sets loading to false to stop the calling of this function
             if (loading) {
@@ -172,9 +189,9 @@ export const AuthProvider = ({children}) => {
             }
         } catch (error) {
             // Handle errors
+            logout_user();
             console.error('Update error:', error.message);
         }
-
     }
 
     /**
@@ -187,12 +204,12 @@ export const AuthProvider = ({children}) => {
      * @param {boolean} loading - The current loading state indicating whether data is being fetched.
      */
     useEffect(()=> {
-        loading ? updateToken() : undefined;
+        loading ? update_token() : undefined;
 
-        let intervalTime = 1000 * 60 * 4
+        let intervalTime = 1000 * 4 * 60
         let interval = setInterval(()=> {
             if (authTokens) {
-                updateToken()
+                update_token()
             }
         }, intervalTime)
         return ()=> clearInterval(interval)
@@ -204,9 +221,11 @@ export const AuthProvider = ({children}) => {
      */
     let contextData = {
         user:user,
-        loginUser:loginUser,
-        logoutUser:logoutUser,
-        registerUser:registerUser,
+        set_tokens:set_tokens,
+        login_user:login_user,
+        logout_user:logout_user,
+        register_user:register_user,
+        send_email_login:send_email_login,
     }
 
     return(
