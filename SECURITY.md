@@ -1,1 +1,1 @@
-# Add here security contact information
+# Add security contact information here
