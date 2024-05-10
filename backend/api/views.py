@@ -40,6 +40,17 @@ class SubmitZip(ViewSet):
     
     @action(detail=False, methods=['POST'])
     def upload_file(self, request):
+        """ Handles the file upload api.
+
+        Parameters
+        ----------
+        request : HTTP Post request 
+            Request containing FILE object and a string attribute: name
+        
+        Notes
+        -----
+        The method uploads the file on the request to the Azure Blob Storage.
+        """
         try:
             uploaded_file = request.FILES
             if not uploaded_file:

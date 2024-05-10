@@ -17,7 +17,8 @@ function Submit() {
     if (file) {
 
       // Check file type
-      if (!['application/zip', 'application/x-rar-compressed', 'application/x-7z-compressed'].includes(file.type)) {
+      let file_extension = file.name.split('.').pop();
+      if (!['zip', 'rar', '7zip'].includes(file_extension)) {
         console.error('Invalid file type.');
         alert("Invalid file type. Please upload a .zip, .rar, or .7zip file.")
         return;
@@ -44,7 +45,7 @@ function Submit() {
         .then(response => {
           console.log(response.data);
           // Handle success response
-          // alert("Successfully submitted file!");
+          alert("Successfully submitted file!");
           // navigate('/home');
         })
         .catch(error => {
