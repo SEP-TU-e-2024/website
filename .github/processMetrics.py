@@ -12,6 +12,7 @@ CONFIG_FILE = ".github/metrics_config.json"
 
 # Colors
 AQUA = '\033[94;1m'
+RED = '\033[31;1m'
 TABLE_COL = ('\033[97;4m', '\033[37;4;2m')
 END_COL = '\033[0m'
 
@@ -52,7 +53,10 @@ def nice_print(dictionary):
     i = 0
     for key, val in dictionary.items():
         spaces = ' ' * max(0, MAXLEN - len(key))
-        print(TABLE_COL[i % 2], key, spaces, val, END_COL)
+        if 0 < val < 2:
+            print(TABLE_COL[i % 2], key, spaces, RED, val, END_COL)
+        else:
+            print(TABLE_COL[i % 2], key, spaces, val, END_COL)
         i += 1
 
 
@@ -85,6 +89,10 @@ def main():
     print(f"{AQUA}Ranks{END_COL}")
     nice_print(ranks)
     print(f"{AQUA}Grade:{END_COL} ", grade)
+
+    # Fail process
+    if grade < 10:
+        raise Exception(f"{RED}Code violations found!!!!!{END_COL}")
     
 if __name__ == "__main__":
     main()
