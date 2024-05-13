@@ -45,7 +45,15 @@ function App() {
                     <LeaderboardPage/>
                 </ProtectedRoute>
                 } 
-                />
+              />
+              <Route 
+                path= "/temporary"
+                element = {
+                <ProtectedRoute> 
+                    <RegisterForm/>
+                </ProtectedRoute>
+                } 
+              />
               <Route path="/login" element={<LoginForm />} />
               <Route path="/register" element={<RegisterForm />} />
               {/* <Route
