@@ -1,31 +1,24 @@
 # from django.shortcuts import render
-from django.http import HttpResponse
-from .serializers import ProblemSerializer
-from .models import Problem, UploadFile
-from rest_framework import generics
-
 import os
+
+from azure.storage.blob import BlobServiceClient
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
+from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
-
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.views import TokenObtainPairView
-from django.http import JsonResponse
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework import generics, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
+from rest_framework_simplejwt.tokens import RefreshToken
 
-from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 from .models import Problem
 from .models import UserProfile as User
 from .serializers import ProblemSerializer, UserSerializer
 from .tokens import account_activation_token
-
 
 
 # Create your views here.
@@ -48,7 +41,7 @@ class SubmitZip(ViewSet):
 
         Parameters
         ----------
-        request : HTTP Post request 
+        request : HTTP Post request
             Request containing FILE object and a string attribute: name
         
         Notes
@@ -66,7 +59,7 @@ class SubmitZip(ViewSet):
             container_name = os.getenv("AZURE_STORAGE_CONTAINER_NAME")
             blob_client = blob_service_client.get_blob_client(container=container_name, blob=uploaded_file['file'].name)
             
-            with uploaded_file['file'].open() as data:    
+            with uploaded_file['file'].open() as data:
                 blob_client.upload_blob(data)
 
             return HttpResponse({'message': 'File uploaded successfully'}, status=status.HTTP_200_OK)
