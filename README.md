@@ -80,6 +80,13 @@ Pressing <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>O</kbd> will use isort to sor
 
 ## Code quality analysis
 
+### What to do if checks fail?
+
+Navigate to *show output* as shown below in the **Usage** section.
+If *show output* in the workflow failed and it states **Code violations found!!!!!** at the bottom then you're code does not adhere to the quality standards. The table in the output above shows which categories have violations (in red). For a better understanding of quality standards you can look at the tables in the **Metrics** section.
+
+For any questions about this workflow or issues contact Tom.
+
 ### Usage
 
 This worklfow is run whenever a commit is pushed to main or a pr into main is made. It may take between 1 to 3 minutes to complete the analysis. To view the results do the following:
