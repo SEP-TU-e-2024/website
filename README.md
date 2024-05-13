@@ -1,11 +1,11 @@
-# website
+# BenchLab Website
 
-## Installation
+## Installation & Development
 
 ### Prerequisites
 1. Clone the repository.
-2. Open the root folder.
-3. Create a `.env` file in the root folder.
+2. Open the website folder.
+3. Create a `.env` file in the website folder.
 4. Add the following environment variables to the `.env` file:
 ``` properties
 ## Backend 
@@ -30,22 +30,27 @@ FRONTEND_URL = http://localhost:5173/
 ## Frontend 
 VITE_API_URL = "http://localhost:8000/api"
 ```
-<!-- 5. Create a virtual environment for the backend by running `virtualenv .venv` in the root folder. -->
 
 ### Frontend
 1. Make sure you have **Node.js 20.13.0 LTS** installed on your machine. If not, please install it. **LINUX ONLY**: You might need to use Node Version Manager(NVM) to install this specific verison of Node.js. 
-3. Install/Activate yarn (run `corepack enable`, this command might require admin priviliges).
-4. Open the frontend folder.
-5. Run `yarn` (this will install all dependencies).
-6. To start vite you can run `yarn vite`.
+2. Install/Activate yarn (run `corepack enable`, this command might require admin priviliges).
+3. Open the frontend folder.
+4. Run `yarn` (this will install all dependencies). **DO NOT USE NPM TO INSTALL DEPENDENCIES**.
+5. To start vite you can run `yarn vite`.
 
 ### Backend
 1. Make sure you have **Python 3.12.3** installed.
-2. 
+2. Create a virtual environment by running `python -m venv .venv` in the website(root) directory.
+3. Select the virtual environment in VSCode.
+4. Activate the virtual environment by running (LINUX)`source .venv/bin/activate` or (WINDOWS)`.venv/bin/activate`.
+5. Run pip install -r requirements.txt (this will install all dependencies).
+6. Install the Ruff VSCode extension.
 
 ### Folder Structure
+After following the steps above, the folder structure should look like this:
+
 ```
-.root/
+website/
 ├─ .github/
 ├─ .venv/
 ├─ backend/
@@ -54,20 +59,28 @@ VITE_API_URL = "http://localhost:8000/api"
 ├─ .env
 ├─ .gitignore
 ├─ README.md
+├─ ruff.toml
 ├─ SECURITY.md
 ```
-
-
-## !Use YARN to install dependencies for the frontend!
-
 
 ## Deployment
 Use the production branch to deploy the webapp.
 
+## Ruff
 
-# Code quality analysis
+Ruff is a tool that checks, based on some rules, the Python code, similar to Java Checkstyle.
 
-## Usage
+To change the settings or add features to ruff check the `ruff.toml` file. This can be found in the `backend` folder. This file also contains explanations for each setting/rule.
+
+The following keybinds might be different on your machine:
+
+Pressing <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd> will allow you to use Ruff to format and fix the code. Keep in mind that Ruff is not able to fix all issues.
+
+Pressing <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>O</kbd> will use isort to sort the imports. 
+
+## Code quality analysis
+
+### Usage
 
 This worklfow is run whenever a commit is pushed to main or a pr into main is made. It may take between 1 to 3 minutes to complete the analysis. To view the results do the following:
 
@@ -81,7 +94,7 @@ The output starts with some intermediate debug results, which you can ignore.
 The evaluation of you code is shown in the tables below. *Threshold violation percentages* is the percentage of files/code that violate the metrics shown in the table below. *Ranks* shows the combined rank for each maintainability attribute. It shows the grade that our code would get according to the metrics that the TU/e uses.
 
 
-## Metrics
+### Metrics
 
 For each characteristic we compute what percentage of the code is above the threshold. Then a rank is computed for that characteristic. For each Maintainability attribute we compute the average rank (based on its corresponding code characteristics).
 
@@ -116,7 +129,7 @@ T    | Testability
 The code quality assessment document that TU/e uses can be found [here](https://canvas.tue.nl/courses/25283/files/folder/SEP%20Materials/Assessment%20and%20Guidelines?).
 
 
-## Code analysis tools
+### Code analysis tools
 TU/e uses [simian](http://www.harukizaemon.com/simian/index.html/) to analyse code duplication.
 [understand](http://scitools.com/student) is used to derive all the other metrics.
 
