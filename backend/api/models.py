@@ -1,4 +1,9 @@
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django import forms
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin,
+)
 from django.db import models
 
 # Create your models here.
@@ -55,3 +60,9 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         """Return string representation of our user"""
         return self.email
+
+
+class UploadFile(forms.Form):
+    title = forms.CharField(max_length=50)
+    file = forms.FileField()
+    """Return string representation of our user"""

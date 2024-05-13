@@ -1,8 +1,9 @@
+import LoginForm from "./components/forms/LoginForm";
+import Submit from "./components/submit/Submit";
 import { useState, useEffect } from 'react'
 import MyNavbar from './components/navbar/MyNavbar';
 import HomePage from './components/homepage/HomePage';
 import RegisterForm from "./components/forms/RegisterForm";
-import LoginForm from './components/forms/LoginForm';
 import LeaderboardPage from './components/leaderboardPage/LeaderboardPage'
 import { AuthProvider } from './context/AuthContext';
 import {
@@ -56,14 +57,14 @@ function App() {
               />
               <Route path="/login" element={<LoginForm />} />
               <Route path="/register" element={<RegisterForm />} />
-              {/* <Route
+              <Route
                 path="/submit"
                 element={
                   <ProtectedRoute>
                     <Submit />
                   </ProtectedRoute>
                 }
-              /> */}
+              /> 
             </Routes>
           </div>
         </AuthProvider>
