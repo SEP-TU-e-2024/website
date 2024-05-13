@@ -1,10 +1,9 @@
-import { useState, useEffect, useContext } from 'react'
-import {Table, Container, Row, Col} from 'reactstrap'
-import './HomePage.css';
-import AuthContext from '../../context/AuthContext';
+import {Container} from 'reactstrap'
+import './HomePage.scss';
 import { useNavigate } from 'react-router-dom';
 
 function ProblemOccurenceTable({columnNames, columnKeys, rows}) {
+    // Can be used in the future for page numbers
     const MAX_DISPLAYED_ROWS = rows.length;
     let displayRows = rows.sort((a,b) => a[columnKeys.colKeys[0]] > b[columnKeys.colKeys[0]]); 
     displayRows = displayRows.slice(0, MAX_DISPLAYED_ROWS);
@@ -18,15 +17,12 @@ function ProblemOccurenceTable({columnNames, columnKeys, rows}) {
         <table className='problem-occurence-table'>
             <thead>
                 <tr>
-                    {/* If there are column names provided, render them */}
-                    {!columnNames || columnNames.length <= 0 ? (
-                        <th>No column names where specified</th>
-                    ) : (
-                        columnNames.map(colName => (
-                            //maybe add a check somewhere that colname is a string
-                            <th key={colName}>{colName}</th>
-                        ))
-                    )}
+                    <th>Type</th>
+                    <th>Problem Name</th>
+                    <th>Style</th>
+                    <th>Submissions</th>
+                    <th>Aggregate Upper Bound</th>
+                    <th>Benchmark Instances</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,7 +30,7 @@ function ProblemOccurenceTable({columnNames, columnKeys, rows}) {
                     <tr>
                         {/* the +1 is because there is always the rank column */}
                         <td colSpan={columnNames.length + 1} align='center'>
-                            <b>Oops no one here</b>
+                            <b>No data found</b>
                         </td>
                     </tr>
                 ) : (
@@ -87,19 +83,14 @@ function generatePlaceholderColumnKeys() {
     return {idKey: "id", colKeys: ["scientific", "problemName", "problemStyle", "submissions", "upperBound", "benchmarkInstances"]};
 };
 
-function generatePlaceholderColumnNames() {
-    return ["Type", "Problem Name", "Style", "Submissions", "Aggregate Upper Bound", "Benchmark Instances"];
-}
-
 function HomePage() {
     let rows = generatePlaceholderRows();
-    let columnNames = generatePlaceholderColumnNames();
     let columnKeys = generatePlaceholderColumnKeys();
 
     return (
         <div className='table-wrapper'>
             <Container fluid className='justify-content-center'>
-                <ProblemOccurenceTable columnNames={columnNames} columnKeys={columnKeys} rows={rows}/>
+                <ProblemOccurenceTable columnKeys={columnKeys} rows={rows}/>
             </Container>
         </div>
         
