@@ -1,52 +1,52 @@
 # from django.shortcuts import render
-from django.http import HttpResponse
-from .serializers import ProblemSerializer
-from .models import Problem
-from rest_framework import generics
+import os
+
 from django.contrib.sites.shortcuts import get_current_site
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-from django.utils.encoding import force_bytes, force_str
 from django.core.mail import EmailMessage
+from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.views import TokenObtainPairView
-
-from rest_framework import status
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from rest_framework import generics, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
+from rest_framework_simplejwt.tokens import RefreshToken
 
-from .serializers import UserSerializer
-from .tokens import account_activation_token
+from .models import Problem
 from .models import UserProfile as User
-import os
+from .serializers import ProblemSerializer, UserSerializer
+from .tokens import account_activation_token
+
 
 # Create your views here.
 def main(request):
     return HttpResponse("Hello, world!")
 
+
 class RetrieveProblems(generics.ListAPIView):
     queryset = Problem.objects.all()
     serializer_class = ProblemSerializer
+
 
 class AuthViewSet(ViewSet):
     """
     This class is responsible for handling all request related to authenticating an user.
     """
 
-    @action(detail=False, methods=['POST'])
+    @action(detail=False, methods=["POST"])
     def signup(self, request):
-        """ Handles the signing up for users.
+        """Handles the signing up for users.
 
         Parameters
         ----------
-        request : HTTP Post request 
+        request : HTTP Post request
             Request containing 3 string attributes: email, username and password
-        
+
         Notes
         -----
-        The method creates an user in the database and puts them on non active, after which verification email is sent   
+        The method creates an user in the database and puts them on non active, after which verification email is sent
         """
 
         # Converts JSON data into python object and checks validaty
@@ -58,19 +58,19 @@ class AuthViewSet(ViewSet):
 
         # Setting user password and disabling user
         user = serializer.save()
-        user.set_password(request.data['password'])
-        user.is_active=False
+        user.set_password(request.data["password"])
+        user.is_active = False
         user.save()
 
         # Sending verification email
         email_send = self.send_activate_email(request, user)
-        if not email_send: 
+        if not email_send:
             user.delete()
             return Response({"error": "Failed to send email"}, status=status.HTTP_400_BAD_REQUEST)
         return Response({}, status=status.HTTP_201_CREATED)
 
     def login_through_email(self, uidb64, token):
-        """ Handles loggin in through email.
+        """Handles loggin in through email.
 
         Parameters
         ----------
@@ -78,11 +78,11 @@ class AuthViewSet(ViewSet):
             Base 64 encoded uid of an user
         token : string
             Unique identication token for user
-        
+
         Returns
         -------
         redirect : HTTP response
-            Redirects the user's browser to the token authenticator in the front end.    
+            Redirects the user's browser to the token authenticator in the front end.
         """
         # Tries to get user from database
         user = None
@@ -93,46 +93,49 @@ class AuthViewSet(ViewSet):
             print(e)
 
         # Checks token and sets user to active
-        if user is not None and account_activation_token.check_token(user, token) :
+        if user is not None and account_activation_token.check_token(user, token):
             token = RefreshToken.for_user(user)
             response_data = {
-                'refresh_token': str(token),
-                'access_token': str(token.access_token),
+                "refresh_token": str(token),
+                "access_token": str(token.access_token),
             }
-            redirect_url =  f"{os.getenv('FRONTEND_URL')}tokens/?refresh_token={response_data['refresh_token']}&access_token={response_data['access_token']}"
-            return redirect(redirect_url)
             redirect_url =  f"{os.getenv('FRONTEND_URL')}tokens/?refresh_token={response_data['refresh_token']}&access_token={response_data['access_token']}"
             return redirect(redirect_url)            
         return HttpResponse({}, status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=False, methods=['POST'])
+    @action(detail=False, methods=["POST"])
     def send_login_email(self, request):
-        """ Sends activation email
+        """Sends activation email
 
         Parameters
         ----------
         request : HTTP Post request
-            Original login request 
-        
+            Original login request
+
         Notes
         -----
-        Uses email templates defined by email_template_login.html    
+        Uses email templates defined by email_template_login.html
         """
         user = None
-        try: 
+        try:
             # Gets user by email
             user = User.objects.get(email=request.data["email"])
 
             # Email setup
             mail_subject = "Login into your account."
-            message = render_to_string("email_template_login.html", {
-                "user": user.name,
-                "domain": get_current_site(request).domain,
-                "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                "token": account_activation_token.make_token(user),
-                "protocol": "https" if request.is_secure() else "http",
-            })
-            email = EmailMessage(mail_subject, message, from_email="benchlab@outlook.com", to={user.email})
+            message = render_to_string(
+                "email_template_login.html",
+                {
+                    "user": user.name,
+                    "domain": get_current_site(request).domain,
+                    "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                    "token": account_activation_token.make_token(user),
+                    "protocol": "https" if request.is_secure() else "http",
+                },
+            )
+            email = EmailMessage(
+                mail_subject, message, from_email="benchlab@outlook.com", to={user.email}
+            )
             email.send()
             return HttpResponse({}, status=status.HTTP_200_OK)
         except Exception as e:
@@ -140,38 +143,43 @@ class AuthViewSet(ViewSet):
         return HttpResponse({}, status=status.HTTP_400_BAD_REQUEST)
 
     def send_activate_email(self, request, user):
-        """ Sends activation email
+        """Sends activation email
 
         Parameters
         ----------
         request : HTTP Post request
-            Original signup request 
+            Original signup request
         user : User
             User to send email to
-        
+
         Notes
         -----
-        Uses email templates defined by email_template.html    
+        Uses email templates defined by email_template.html
 
         Returns
         -------
         send : boolean
-            Send email and returns whether it was succesfull  
+            Send email and returns whether it was succesfull
         """
-                
+
         mail_subject = "Activate your user account."
-        message = render_to_string("email_template.html", {
-            "user": user.name,
-            "domain": get_current_site(request).domain,
-            "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-            "token": account_activation_token.make_token(user),
-            "protocol": "https" if request.is_secure() else "http",
-        })
-        email = EmailMessage(mail_subject, message, from_email="benchlab@outlook.com", to={user.email})
+        message = render_to_string(
+            "email_template.html",
+            {
+                "user": user.name,
+                "domain": get_current_site(request).domain,
+                "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                "token": account_activation_token.make_token(user),
+                "protocol": "https" if request.is_secure() else "http",
+            },
+        )
+        email = EmailMessage(
+            mail_subject, message, from_email="benchlab@outlook.com", to={user.email}
+        )
         return email.send()
-    
+
     def activate(self, uidb64, token):
-        """ Activates an user in the database
+        """Activates an user in the database
 
         Parameters
         ----------
@@ -179,11 +187,11 @@ class AuthViewSet(ViewSet):
             Base 64 encoded uid of an user
         token : string
             Unique identication token for user
-        
+
         Returns
         -------
         redirect : HTTP response
-            Redirects the user's browser to the login page URL.  
+            Redirects the user's browser to the login page URL.
         """
 
         # Decodes uid and gets user object from database
@@ -195,9 +203,9 @@ class AuthViewSet(ViewSet):
             print(e)
 
         # Checks token and sets user to active
-        if user is not None and account_activation_token.check_token(user, token) :
+        if user is not None and account_activation_token.check_token(user, token):
             user.is_active = True
             user.save()
 
         # Redirects to login
-        return redirect(f'{os.getenv('FRONTEND_URL')}login')
+        return redirect(f'{os.getenv("FRONTEND_URL")}login')
