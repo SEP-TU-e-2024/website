@@ -6,11 +6,6 @@ on:
     push:
         branches:
           - main
-        paths:
-          - '.github/**.py'
-          - '.github/workflows/quality.yml'
-          - 'backend/**'
-          - 'frontend/**'
     pull_request:
         branches:
           - main
