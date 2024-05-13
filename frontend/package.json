@@ -22,10 +22,14 @@
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.2.1",
+    "bootstrap": "^5.3.3",
+    "chartjs": "^0.3.24",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "reactstrap": "^9.2.2",
+    "sass": "^1.77.1",
     "vite": "^5.2.0"
   }
 }
