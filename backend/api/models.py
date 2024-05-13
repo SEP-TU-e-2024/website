@@ -64,5 +64,4 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
 class UploadFile(forms.Form):
     title = forms.CharField(max_length=50)
     file = forms.FileField()
-        """Return string representation of our user"""
-        return self.email
+    """Return string representation of our user"""
