@@ -3,10 +3,6 @@ on:
     push:
         branches:
             - main
-        paths:
-          - '.github/workflows/ruff.yml'
-          - 'ruff.toml'
-          - 'backend/**'
     pull_request:
         branches:
             - main
