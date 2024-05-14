@@ -19,6 +19,10 @@ from ..serializers import UserSerializer
 from ..tokens import account_activation_token
 
 
+def main(request):
+    return HttpResponse("Hello, world!")
+
+
 class AuthViewSet(ViewSet):
     """
     This class is responsible for handling all request related to authenticating an user.

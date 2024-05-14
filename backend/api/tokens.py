@@ -1,5 +1,5 @@
 import hashlib
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import six
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -41,7 +41,9 @@ class SubmissionConfirmTokenGenerator:
         expiration_time = submission_created_at + timedelta(
             hours=self.TOKEN_EXPIRATION_TIME
         )
-        return expiration_time < datetime.now()
+        # Make datetime.now() aware of timezone
+        now = datetime.now(timezone.utc)
+        return expiration_time < now
 
 
 account_activation_token = AccountActivationTokenGenerator()

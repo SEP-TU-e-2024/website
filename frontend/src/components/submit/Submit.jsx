@@ -17,6 +17,12 @@ function Submit() {
   const navigate = useNavigate();
 
   let checkFileType = (file)=> {
+    /**
+     * Checks file for valid type
+     * 
+     * @param {JSON} file - File to check
+     * @returns {boolean} - Whether type is allowed.
+     */
     let file_extension = file.name.split('.').pop().toLowerCase();
     if (!['zip', 'rar', '7zip'].includes(file_extension)) {
       console.error('Invalid file type.');
@@ -27,6 +33,12 @@ function Submit() {
   }
 
   let checkFileName = (file)=> {
+    /**
+     * Checks file for valid name
+     * 
+     * @param {JSON} file - File to check
+     * @returns {boolean} - Whether name is allowed.
+     */
     if (file.name.length > 50) {
       console.error('File name exceeds 50 characters.');
       alert("File name exceeds 50 characters.")
@@ -36,7 +48,12 @@ function Submit() {
   }
 
   let checkFileSize = (file)=> {
-    // Check file size
+    /**
+     * Checks file for valid size
+     * 
+     * @param {JSON} file - File to check
+     * @returns {boolean} - Whether size is allowed.
+     */
     if (file.size > 50 * 1024 * 1024) { // 50 MB in bytes
       console.error('File size exceeds 50MB.');
       alert("File size exceeds 50MB.")
@@ -46,23 +63,35 @@ function Submit() {
   }
 
   let uploadHandler = async (e) => {
+    /**
+     * Handles submission of code
+     * 
+     * @param {JSON} file - File to check
+     * @returns {boolean} - Whether type is allowed.
+     */
+
+    // Prevent default submit behaviour
     e.preventDefault()
     const file = e.target.file.files[0]
 
+    // Checks for file existence
     if (!file) {
       return;
     }
 
+    // Checks file properties
     if (!checkFileType(file) || !checkFileName(file) || !checkFileSize(file)) {
       return;
     }
 
     try {
+      // Formats data for backend 
       const formData = new FormData();
       formData.append('file', file);
       formData.append('submission_name', e.target.submission_name.value);
       e.target.email ? formData.append('email', e.target.email.value) : formData.append('email', null)  
 
+      // POST request to backend
       let response = await api.post('/submit/upload_submission/', formData);
 
       // Receives submission status and notifies user adequately

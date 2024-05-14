@@ -29,7 +29,7 @@ urlpatterns = [
     path(
         "confirmSubmission/<sidb64>/<token>",
         SubmitZip.confirm_submission,
-        name="confirm_submission",
+        name="confirmSubmission",
     ),
 ]
 

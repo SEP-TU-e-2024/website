@@ -18,10 +18,76 @@ from ..serializers import SubmissionSerializer
 from ..tokens import submission_confirm_token
 
 
+def main(request):
+    return HttpResponse("Hello, world!")
+
+
 class SubmitZip(ViewSet):
     """
     This class is responsible for handling all requests related to submitting a zip file.
     """
+
+    @action(detail=False, methods=["POST"])
+    def upload_submission(self, request):
+        request_files = request.FILES
+        if not request_files:
+            return HttpResponse(
+                {"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Checks validity of submitted data
+        serializer = SubmissionSerializer(data=request.data)
+        if not serializer.is_valid():
+            for field, messages in serializer.errors.items():
+                return Response({"error": messages}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # Stores submission in database
+        submission = serializer.save()
+        self.save_to_blob_storage(request_files, submission.id)
+
+        # check if user is logged in and send email
+        if request.data["email"] != "null":
+            self.send_submission_email(request, submission)
+        else:
+            submission.is_verified = True
+            submission.save()
+        return HttpResponse({}, status=status.HTTP_200_OK)
+
+    def send_submission_email(self, request, submission):
+        """Saves a file to Azure Blob Storage
+
+        Parameters
+        ----------
+        request : HTTP Post request
+            Original submission request
+        submission : Submission object
+            Used for creating the token
+        """
+
+        try:
+            # Email setup
+            mail_subject = "Confirm your submission."
+            message = render_to_string(
+                "email_template_confirm_submission.html",
+                {
+                    "domain": get_current_site(request).domain,
+                    "sid": urlsafe_base64_encode(force_bytes(submission.id)),
+                    "token": submission_confirm_token.make_token(submission),
+                    "protocol": "https" if request.is_secure() else "http",
+                },
+            )
+            email = EmailMessage(
+                mail_subject,
+                message,
+                from_email=os.getenv("EMAIL_FROM"),
+                to={request.data["email"]},
+            )
+            email.send()
+            return HttpResponse({}, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+        return HttpResponse({}, status=status.HTTP_400_BAD_REQUEST)
 
     def confirm_submission(self, sidb64, token):
         """Activates submission in backend
@@ -52,6 +118,16 @@ class SubmitZip(ViewSet):
         return HttpResponse({}, status=status.HTTP_400_BAD_REQUEST)
 
     def save_to_blob_storage(self, file, submission_id):
+        """Saves a file to Azure Blob Storage
+
+        Parameters
+        ----------
+        file : File
+            File to be saved (zip format)
+        submission_id : string
+            Unique identifier for submission
+        """
+
         try:
             connection_string = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
             blob_service_client = BlobServiceClient.from_connection_string(
@@ -75,53 +151,3 @@ class SubmitZip(ViewSet):
                 {"error": "An error occurred during file upload"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
-
-    def send_submission_email(self, request, submission):
-        """Sends submission email"""
-        try:
-            # Email setup
-            mail_subject = "Confirm your submission."
-            message = render_to_string(
-                "email_template_confirm_submission.html",
-                {
-                    "domain": get_current_site(request).domain,
-                    "sid": urlsafe_base64_encode(force_bytes(submission.id)),
-                    "token": submission_confirm_token.make_token(submission),
-                    "protocol": "https" if request.is_secure() else "http",
-                },
-            )
-            email = EmailMessage(
-                mail_subject,
-                message,
-                from_email=os.getenv("EMAIL_FROM"),
-                to={request.data["email"]},
-            )
-            email.send()
-            return HttpResponse({}, status=status.HTTP_200_OK)
-        except Exception as e:
-            print(e)
-        return HttpResponse({}, status=status.HTTP_400_BAD_REQUEST)
-
-    @action(detail=False, methods=["POST"])
-    def upload_submission(self, request):
-        print(request.data)
-
-        request_files = request.FILES
-        if not request_files:
-            return HttpResponse(
-                {"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST
-            )
-
-        serializer = SubmissionSerializer(data=request.data)
-        if not serializer.is_valid():
-            for field, messages in serializer.errors.items():
-                return Response({"error": messages}, status=status.HTTP_400_BAD_REQUEST)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        submission = serializer.save()
-        self.save_to_blob_storage(request_files, submission.id)
-
-        # check if user is logged in and send email
-        if request.data["email"] is not None:
-            self.send_submission_email(request, submission)
-        return HttpResponse({}, status=status.HTTP_200_OK)
