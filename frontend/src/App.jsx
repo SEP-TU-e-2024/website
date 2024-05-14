@@ -12,7 +12,7 @@ import {
 } from "react-router-dom";
 import ProtectedRoute from './util/ProtectedRoute';
 import TokenAuthenticator from "./components/tokenauthenticator/TokenAuthenticator";
-import ProblemOccurenceOverviewPage from './components/problemOccurenceOverview/ProblemOccurenceOverviewPage';
+import ProblemOccurrenceOverviewPage from './components/problemOccurenceOverview/ProblemOccurrenceOverviewPage';
 
 function App() {
   return (
@@ -51,7 +51,7 @@ function App() {
                 path= "/problemoccurence" //TODO add multiple paths here for the different problem occurences
                 element = {
                 // <ProtectedRoute> 
-                    <ProblemOccurenceOverviewPage/>
+                    <ProblemOccurrenceOverviewPage/>
                 // </ProtectedRoute>
                 } 
                 />
