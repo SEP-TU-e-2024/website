@@ -3,6 +3,7 @@ from rest_framework.serializers import ModelSerializer
 
 from api.models import Problem
 
+from .models import Submission
 from .models import UserProfile as User
 
 
@@ -16,3 +17,9 @@ class UserSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ("id", "password", "email")
+
+
+class SubmissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Submission
+        fields = ("submission_id", "email", "submission_name")

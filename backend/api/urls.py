@@ -24,6 +24,11 @@ urlpatterns = [
         AuthViewSet.login_through_email,
         name="loginEmail",
     ),
+    path(
+        "confirmSubmission/<sidb64>/<token>",
+        SubmitZip.confirm_submission,
+        name="confirm_submission",
+    ),
 ]
 
 # Combining urls of routers and patterns
