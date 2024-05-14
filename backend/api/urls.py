@@ -5,7 +5,9 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from .views import AuthViewSet, RetrieveProblems, SubmitZip, main
+from .views.auth_view import AuthViewSet
+from .views.submit_view import SubmitZip
+from .views.views import RetrieveProblems, main
 
 # Routers are standard for viewsets
 api_router = DefaultRouter()

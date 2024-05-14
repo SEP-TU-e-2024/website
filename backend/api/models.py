@@ -62,9 +62,10 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
 
 
 class Submission(models.Model):
-    "Database model for submissions"
+    """Database model for submissions"""
+
+    id = models.AutoField(primary_key=True)
     email = models.CharField(max_length=100)
-    submission_id = models.AutoField(primary_key=True)
-    submission_name = models.CharField(max_length=100)
+    submission_name = models.CharField(max_length=100, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_verified = models.BooleanField(default=False)

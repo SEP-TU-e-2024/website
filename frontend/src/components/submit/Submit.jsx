@@ -49,32 +49,37 @@ function Submit() {
     e.preventDefault()
     const file = e.target.file.files[0]
 
-    if (file) {
-      if (!checkFileType(file) || !checkFileName(file) || !checkFileSize(file)) {
-        return;
-      }
-
-      try {
-        let email = e.target.email ? formData.append('email', e.target.email.value) : "" 
-
-        let response = await api.post('/submit/upload_submission/',{
-          email: email,
-          submission_name: e.target.submission_name.value,
-          is_logged_in: (user !== null).toString(),
-          file: file
-        });
-
-        // Receives submission status and notifies user adequately
-        if (response.status === 200) {
-          alert("Submission sent successfully, please check your email");
-        } 
-      } catch (error) {
-        console.log(error)
-      }
+    if (!file) {
+      return;
     }
+
+    if (!checkFileType(file) || !checkFileName(file) || !checkFileSize(file)) {
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('submission_name', e.target.submission_name.value);
+      e.target.email ? formData.append('email', e.target.email.value) : formData.append('email', null)  
+
+      let response = await api.post('/submit/upload_submission/', formData);
+
+      // Receives submission status and notifies user adequately
+      if (response.status === 200) {
+        !user ? alert("Check your email to confirm submission") : alert("Submission uploaded successfully.");
+      } 
+    } catch (error) {
+      // Handle errors
+      if (error.response.data.error) {
+          alert(error.response.data.error)
+          return
+      }
+      alert(error.message);
+      console.error('Singup error:', error.message);
+  }
   };
   
-
   return (
     <>
     <div className='submit_container'>

@@ -60,9 +60,7 @@ function App() {
               <Route
                 path="/submit"
                 element={
-                  <ProtectedRoute>
                     <Submit />
-                  </ProtectedRoute>
                 }
               /> 
             </Routes>

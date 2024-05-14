@@ -22,4 +22,10 @@ class UserSerializer(ModelSerializer):
 class SubmissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Submission
-        fields = ("submission_id", "email", "submission_name")
+        fields = (
+            "id",
+            "email",
+            "submission_name",
+            "created_at",
+            "is_verified",
+        )
