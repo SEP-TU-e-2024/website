@@ -44,11 +44,16 @@ class SubmitZip(ViewSet):
 
         # Stores submission in database
         submission = serializer.save()
-        self.save_to_blob_storage(request_files, submission.id)
+        if not self.save_to_blob_storage(request_files, submission.id):
+            return HttpResponse(
+                {"error": "An error occurred during file upload"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
 
         # check if user is logged in and send email
         if request.data["email"] != "null":
             self.send_submission_email(request, submission)
+        # user is already logged in, and hence verified
         else:
             submission.is_verified = True
             submission.save()
@@ -100,7 +105,7 @@ class SubmitZip(ViewSet):
             Unique identication token for submission
         """
 
-        # Decodes sid and gets user object from database
+        # Decodes sid and gets submission information from database
         submission = None
         try:
             sid = force_str(urlsafe_base64_decode(sidb64))
@@ -108,10 +113,11 @@ class SubmitZip(ViewSet):
         except Exception as e:
             print(e)
 
-        # Checks token and sets user to active
+        # Checks token validity
         if submission is not None and submission_confirm_token.check_token(
             submission, token
         ):
+            # Puts submission to verified
             submission.is_verified = True
             submission.save()
             return HttpResponse({}, status=status.HTTP_200_OK)
@@ -141,13 +147,8 @@ class SubmitZip(ViewSet):
             with file["file"].open() as data:
                 blob_client.upload_blob(data)
 
-            return HttpResponse(
-                {"message": "File uploaded successfully"}, status=status.HTTP_200_OK
-            )
+            return True
 
         except Exception as e:
             print("Error: " + str(e))
-            return HttpResponse(
-                {"error": "An error occurred during file upload"},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            )
+            return False
