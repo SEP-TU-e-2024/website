@@ -51,6 +51,16 @@ $body-tertiary-bg:          $gray-100 !default;
 
 $body-emphasis-color:       $black !default;
 
+/* font weights */
+$font-weight-lighter:         lighter !default;
+$font-weight-light:           300 !default;
+$font-weight-normal:          400 !default;
+$font-weight-medium:          500 !default;
+$font-weight-semibold:        600 !default;
+$font-weight-bold:            700 !default;
+$font-weight-bolder:          bolder !default;
+
+$font-weight-base:            $font-weight-normal !default;
 
 // $primary-text-emphasis:   shade-color($primary, 60%) !default;
 // $secondary-text-emphasis: shade-color($secondary, 60%) !default;
@@ -96,6 +106,38 @@ $nav-underline-gap:                 1rem !default;
 $nav-underline-border-width:        .125rem !default;
 $nav-underline-link-active-color:   var(--#{$prefix}emphasis-color);
 
+
+
 /* bootstrap import */
 // @import 'bootstrap/dist/css/bootstrap.min.css';
 @import "node_modules/bootstrap/scss/bootstrap";
+
+/* Nav underline */
+/* We override this class because the styling doesn't really fit with the ortec look and feel */
+.nav-underline {
+    // scss-docs-start nav-underline-css-vars
+    --#{$prefix}nav-underline-gap: #{$nav-underline-gap};
+    --#{$prefix}nav-underline-border-width: #{$nav-underline-border-width};
+    --#{$prefix}nav-underline-link-active-color: #{$nav-underline-link-active-color};
+    // scss-docs-end nav-underline-css-vars
+  
+    gap: var(--#{$prefix}nav-underline-gap);
+  
+    .nav-link {
+      padding-right: 0;
+      padding-left: 0;
+      border-bottom: var(--#{$prefix}nav-underline-border-width) solid transparent;
+  
+      &:hover,
+      &:focus {
+        border-bottom-color: currentcolor;
+      }
+    }
+  
+    .nav-link.active,
+    .show > .nav-link {
+      font-weight: $font-weight-medium;
+      color: var(--#{$prefix}nav-underline-link-active-color);
+      border-bottom-color: currentcolor;
+    }
+  }
