@@ -1,8 +1,11 @@
 # from django.shortcuts import render
+import logging
 import os
+from smtplib import SMTPException
 
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
@@ -58,6 +61,8 @@ class AuthViewSet(ViewSet):
         # Sending verification email
         email_send = self.send_activate_email(request, user)
         if not email_send:
+            logger = logging.getLogger(__name__) 
+            logger.warning("Failed to sent email, deleting user")
             user.delete()
             return Response(
                 {"error": "Failed to send email"}, status=status.HTTP_400_BAD_REQUEST
@@ -84,9 +89,11 @@ class AuthViewSet(ViewSet):
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
-        except Exception as e:
-            print(e)
-
+        except ObjectDoesNotExist as e:
+            logger = logging.getLogger(__name__) 
+            logger.warning("Failed to find user")
+            return HttpResponse({"User error" : "User not found."}, status=status.HTTP_400_BAD_REQUEST)
+        
         # Checks token and sets user to active
         if user is not None and account_activation_token.check_token(user, token):
             token = RefreshToken.for_user(user)
@@ -96,7 +103,9 @@ class AuthViewSet(ViewSet):
             }
             redirect_url = f"{os.getenv('FRONTEND_URL')}tokens/?refresh_token={response_data['refresh_token']}&access_token={response_data['access_token']}"
             return redirect(redirect_url)
-        return HttpResponse({}, status=status.HTTP_400_BAD_REQUEST)
+        logger = logging.getLogger(__name__) 
+        logger.warning("Invalid token supplied")
+        return HttpResponse({"User error" : "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=False, methods=["POST"])
     def send_login_email(self, request):
@@ -115,7 +124,12 @@ class AuthViewSet(ViewSet):
         try:
             # Gets user by email
             user = User.objects.get(email=request.data["email"])
-
+        except ObjectDoesNotExist as e:
+            logger = logging.getLogger(__name__) 
+            logger.warning("Failed to find user")
+            return HttpResponse({"User error" : "User not found."}, status=status.HTTP_400_BAD_REQUEST)
+            
+        try:
             # Email setup
             mail_subject = "Login into your account."
             message = render_to_string(
@@ -135,10 +149,11 @@ class AuthViewSet(ViewSet):
                 to={user.email},
             )
             email.send()
-            return HttpResponse({}, status=status.HTTP_200_OK)
-        except Exception as e:
-            print(e)
-        return HttpResponse({}, status=status.HTTP_400_BAD_REQUEST)
+        except SMTPException as e:
+            logger = logging.getLogger(__name__) 
+            logger.warning("File to send email")
+            HttpResponse({"Email erorr" : "Failed to sent email"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return HttpResponse({}, status=status.HTTP_200_OK) 
 
     def send_activate_email(self, request, user):
         """Sends activation email
@@ -197,13 +212,18 @@ class AuthViewSet(ViewSet):
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
-        except Exception as e:
-            print(e)
+        except ObjectDoesNotExist as e:
+            logger = logging.getLogger(__name__) 
+            logger.warning("Failed to locate user")
+            return HttpResponse({"User error" : "User not found."}, status=status.HTTP_400_BAD_REQUEST)
 
         # Checks token and sets user to active
         if user is not None and account_activation_token.check_token(user, token):
             user.is_active = True
             user.save()
+            return redirect(f'{os.getenv("FRONTEND_URL")}login')
 
         # Redirects to login
-        return redirect(f'{os.getenv("FRONTEND_URL")}login')
+        logger = logging.getLogger(__name__) 
+        logger.warning("Invalid token supplied")
+        return HttpResponse({"User error" : "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)

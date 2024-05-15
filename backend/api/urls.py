@@ -28,7 +28,7 @@ urlpatterns = [
     ),
     path(
         "confirmSubmission/<sidb64>/<token>",
-        SubmitZip.confirm_submission,
+        SubmitViewSet.confirm_submission,
         name="confirmSubmission",
     ),
 ]

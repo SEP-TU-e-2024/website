@@ -82,7 +82,9 @@ function Submit() {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('submission_name', e.target.submission_name.value);
-      e.target.email ? formData.append('email', e.target.email.value) : formData.append('email', null)  
+      // TODO Use propper session management
+      formData.append('logged_in', user != null)
+      if (e.target.email) formData.append('email', e.target.email.value);
 
       // POST request to backend
       let response = await api.post('/submit/upload_submission/', formData);
@@ -123,7 +125,7 @@ function Submit() {
           <input
             name="file"
             type="file"
-            accept=".zip,.rar,.7zip"
+            accept=".zip,.rar,.7z"
             required
           />
         </div>
