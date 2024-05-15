@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {
     Navbar,
     NavbarBrand,
@@ -9,6 +9,7 @@ import {
     Collapse
 } from 'reactstrap'
 import { useLocation } from 'react-router-dom'
+import AuthContext from "../../context/AuthContext";
 
 /**
  * Our custom navbar component.
@@ -19,6 +20,8 @@ import { useLocation } from 'react-router-dom'
 function MyNavbar() {
     let location = useLocation();
     const [isOpen, setIsOpen] = useState(false);
+    let {user} = useContext(AuthContext)
+    let {logout_user} = useContext(AuthContext)
     
     const toggle = () => setIsOpen(!isOpen); //toggle the isOpen state variable
     
@@ -29,6 +32,7 @@ function MyNavbar() {
         PROBLEM_OCCURENCES: '/problemoccurences',
         REGISTER: '/register',
         LOGIN: '/login',
+        LOGOUT: '/logout',
         HOME: '/home',
         ROOT: '/'
     }
@@ -63,9 +67,15 @@ function MyNavbar() {
                     <NavItem>
                         <NavLink active={routeStrings.REGISTER == location.pathname} href={routeStrings.REGISTER}>Registration</NavLink>
                     </NavItem>
+                    {user ? (
                     <NavItem>
-                        <NavLink active={routeStrings.LOGIN == location.pathname} href={routeStrings.LOGIN}>Login</NavLink>
+                        <NavLink onClick={logout_user}>Logout</NavLink>
                     </NavItem>
+                ) : (
+                    <NavItem>
+                        <NavLink active={routeStrings.LOGIN === location.pathname} href={routeStrings.LOGIN}>Login</NavLink>
+                    </NavItem>
+                )}
                 </Nav>
                 
             </Collapse>

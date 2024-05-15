@@ -10,10 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/react-dnd-html5-backend": "^3.0.2",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
     "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
+    "react-dnd": "^16.0.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.0",
     "reactstrap": "^9.2.2"
@@ -22,11 +24,14 @@
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.2.1",
+    "bootstrap": "^5.3.3",
+    "chartjs": "^0.3.24",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
-    "sass": "^1.77.0",
+    "reactstrap": "^9.2.2",
+    "sass": "^1.77.1",
     "vite": "^5.2.0"
   }
 }

@@ -10,11 +10,11 @@ import {
   Legend,
   Filler,
 } from "chart.js";
-import api from "./api";
-import reactLogo from "./assets/react.svg";
+import api from "../../api";
+import reactLogo from "../../assets/react.svg";
 import viteLogo from "/vite.svg";
 import { Line } from "react-chartjs-2";
-import "./App.css";
+import "../../App.css";
 
 ChartJS.register(
   CategoryScale,

@@ -1,0 +1,24 @@
+@import '../../main.scss';
+
+.table-wrapper{
+    margin-top: 5%;
+}
+
+.problem-occurence-table{
+    border-collapse:separate; 
+    border-spacing: 0 0.8em;
+    color: $primary;
+}
+
+.problem-occurence-table tbody tr{
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.6); /* Adjust the values for the drop shadow as needed */
+    outline: 1px solid $primary;
+}
+
+.problem-occurence-table tbody td{
+    padding: 0.5em;
+}
+
+.problem-occurence-table thead th {
+    padding-right: 5em;
+}
