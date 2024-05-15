@@ -4,8 +4,8 @@ import os
 from smtplib import SMTPException
 
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.mail import EmailMessage
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
@@ -61,7 +61,7 @@ class AuthViewSet(ViewSet):
         # Sending verification email
         email_send = self.send_activate_email(request, user)
         if not email_send:
-            logger = logging.getLogger(__name__) 
+            logger = logging.getLogger(__name__)
             logger.warning("Failed to sent email, deleting user")
             user.delete()
             return Response(
@@ -90,8 +90,9 @@ class AuthViewSet(ViewSet):
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
         except ObjectDoesNotExist as e:
-            logger = logging.getLogger(__name__) 
+            logger = logging.getLogger(__name__)
             logger.warning("Failed to find user")
+            logger.warning(e)
             return HttpResponse({"User error" : "User not found."}, status=status.HTTP_400_BAD_REQUEST)
         
         # Checks token and sets user to active
@@ -103,7 +104,7 @@ class AuthViewSet(ViewSet):
             }
             redirect_url = f"{os.getenv('FRONTEND_URL')}tokens/?refresh_token={response_data['refresh_token']}&access_token={response_data['access_token']}"
             return redirect(redirect_url)
-        logger = logging.getLogger(__name__) 
+        logger = logging.getLogger(__name__)
         logger.warning("Invalid token supplied")
         return HttpResponse({"User error" : "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -124,8 +125,8 @@ class AuthViewSet(ViewSet):
         try:
             # Gets user by email
             user = User.objects.get(email=request.data["email"])
-        except ObjectDoesNotExist as e:
-            logger = logging.getLogger(__name__) 
+        except ObjectDoesNotExist:
+            logger = logging.getLogger(__name__)
             logger.warning("Failed to find user")
             return HttpResponse({"User error" : "User not found."}, status=status.HTTP_400_BAD_REQUEST)
             
@@ -149,11 +150,11 @@ class AuthViewSet(ViewSet):
                 to={user.email},
             )
             email.send()
-        except SMTPException as e:
-            logger = logging.getLogger(__name__) 
+        except SMTPException:
+            logger = logging.getLogger(__name__)
             logger.warning("File to send email")
             HttpResponse({"Email erorr" : "Failed to sent email"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        return HttpResponse({}, status=status.HTTP_200_OK) 
+        return HttpResponse({}, status=status.HTTP_200_OK)
 
     def send_activate_email(self, request, user):
         """Sends activation email
@@ -212,8 +213,8 @@ class AuthViewSet(ViewSet):
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
-        except ObjectDoesNotExist as e:
-            logger = logging.getLogger(__name__) 
+        except ObjectDoesNotExist:
+            logger = logging.getLogger(__name__)
             logger.warning("Failed to locate user")
             return HttpResponse({"User error" : "User not found."}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -224,6 +225,6 @@ class AuthViewSet(ViewSet):
             return redirect(f'{os.getenv("FRONTEND_URL")}login')
 
         # Redirects to login
-        logger = logging.getLogger(__name__) 
+        logger = logging.getLogger(__name__)
         logger.warning("Invalid token supplied")
         return HttpResponse({"User error" : "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)

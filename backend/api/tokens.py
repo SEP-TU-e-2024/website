@@ -1,11 +1,9 @@
-import hashlib
-from datetime import datetime, timedelta, timezone
 import os
-from django.utils.crypto import constant_time_compare, salted_hmac
-import hmac
+from datetime import datetime, timedelta, timezone
 
 import six
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.utils.crypto import salted_hmac
 
 
 class AccountActivationTokenGenerator(PasswordResetTokenGenerator):

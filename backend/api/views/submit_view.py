@@ -19,6 +19,7 @@ from ..models import Submission
 from ..serializers import SubmissionSerializer
 from ..tokens import submission_confirm_token
 
+
 class SubmitViewSet(ViewSet):
     """
     This class is responsible for handling all requests related to submitting a zip file.
@@ -151,8 +152,8 @@ class SubmitViewSet(ViewSet):
         try:
             sid = force_str(urlsafe_base64_decode(sidb64))
             submission = Submission.objects.get(id=sid)
-        except ObjectDoesNotExist as e:
-            logger = logging.getLogger(__name__) 
+        except ObjectDoesNotExist:
+            logger = logging.getLogger(__name__)
             logger.warning("Could not locate user")
             return HttpResponse({"User error" : "User not found."}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -195,7 +196,7 @@ class SubmitViewSet(ViewSet):
             return True
 
         except Exception as e:
-            logger = logging.getLogger(__name__) 
+            logger = logging.getLogger(__name__)
             logger.warning("File failed to upload")
             logger.warning(e)
             return False
