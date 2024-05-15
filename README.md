@@ -46,6 +46,14 @@ VITE_API_URL = "http://localhost:8000/api"
 5. Run pip install -r requirements.txt (this will install all dependencies).
 6. Install the Ruff VSCode extension.
 
+### MySQL
+1. Install MySQL
+2. Create a basic server
+3. Open the created database and run `CREATE DATABASE benchlab;`
+4. The run `CREATE USER 'user'@'127.0.0.1' IDENTIFIED WITH mysql_native_password BY 'password';`
+5. Finally run `GRANT ALL PRIVILEGES ON benchlab.* TO 'user'@'127.0.0.1';`
+6. Adjust the .env file based on the properties defined above.
+
 ### Folder Structure
 After following the steps above, the folder structure should look like this:
 
