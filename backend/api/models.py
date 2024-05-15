@@ -67,13 +67,32 @@ class EvaluationSettings(models.Model):
     cpu = models.IntegerField()
     time_limit = models.FloatField()
 
+class StorageLocation(models.Model):
+    """Storage path reference to locate file(s)"""
+
+    id = models.AutoField(primary_key=True)
+    filepath = models.CharField(max_length=256)
+
+class Simulator(StorageLocation):
+    """Program that will evaluate solvers"""
+    pass
+
+class Validator(StorageLocation):
+    """Program that will evaluate solutions"""
+    pass
+
+class BenchmarkInstance(StorageLocation):
+    """Single data instance for an optimization problem """
+    pass
+
 class ProblemCategory(models.Model):
     """Category of problem """
 
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=256) # For example TSP
     description = models.CharField(max_length=512) # Description of problem
-    evaluator = None
+    simulator_id = models.ForeignKey(Simulator, on_delete=models.CASCADE)
+    validator_id = models.ForeignKey(Validator, on_delete=models.CASCADE)
 
 class SpecifiedProblem(models.Model):
     """Occurence of problem, i.e. with certain settings """
@@ -82,12 +101,6 @@ class SpecifiedProblem(models.Model):
     category_id = models.ForeignKey(ProblemCategory, on_delete=models.CASCADE)
     evualuation_settings = models.ForeignKey(EvaluationSettings, on_delete=models.CASCADE)
     metrics = models.CharField(max_length=512) # Problem specific metrics to use
-    
-class BenchmarkInstance(models.Model):
-    """Single dataset for a problem """
-
-    id = models.AutoField(primary_key=True)
-    filepath = models.CharField(max_length=256) # Path to dataset
 
 class BenchmarkSet(models.Model):
     """Relational table between specified problems and their benchmark instances """
