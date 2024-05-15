@@ -44,8 +44,9 @@ class UserProfileManager(BaseUserManager):
 
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     """Database model for users in the system"""
-
-    email = models.EmailField(max_length=255, unique=True)
+    
+    id = models.AutoField(primary_key=True)
+    email = models.EmailField(max_length=255, unique=True, null=False)
     name = models.CharField(max_length=255)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
@@ -54,19 +55,62 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     objects = UserProfileManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["name"]
 
     def __str__(self):
         """Return string representation of our user"""
         return self.email
 
+class EvaluationSettings(models.Model):
+    """Settings for a problem """
+
+    id = models.AutoField(primary_key=True)
+    cpu = models.IntegerField()
+    time_limit = models.FloatField()
+
+class ProblemCategory(models.Model):
+    """Category of problem """
+
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=256) # For example TSP
+    description = models.CharField(max_length=512) # Description of problem
+    evaluator = None
+
+class SpecifiedProblem(models.Model):
+    """Occurence of problem, i.e. with certain settings """
+
+    id = models.AutoField(primary_key=True)
+    category_id = models.ForeignKey(ProblemCategory, on_delete=models.CASCADE)
+    evualuation_settings = models.ForeignKey(EvaluationSettings, on_delete=models.CASCADE)
+    metrics = models.CharField(max_length=512) # Problem specific metrics to use
+    
+class BenchmarkInstance(models.Model):
+    """Single dataset for a problem """
+
+    id = models.AutoField(primary_key=True)
+    filepath = models.CharField(max_length=256) # Path to dataset
+
+class BenchmarkSet(models.Model):
+    """Relational table between specified problems and their benchmark instances """
+
+    problem_id = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE)
+    instance_id = models.ForeignKey(BenchmarkInstance, on_delete=models.CASCADE)
 
 class Submission(models.Model):
     """Database model for submissions"""
 
+    # TODO Link with blob storage for getting
     id = models.AutoField(primary_key=True)
-    email = models.CharField(max_length=100) # TODO: change to User ID in the future
+    user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    problem_id = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE)
     submission_name = models.CharField(max_length=100, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_verified = models.BooleanField(default=False)
-    # TODO: add problem ID
+
+class Results(models.Model):
+    """Table that stores result of a submission """
+
+    id = models.AutoField(primary_key=True)
+    submission_id = models.ForeignKey(Submission, on_delete=models.CASCADE)
+    metric = models.CharField(max_length=512)
+    score = models.DecimalField(decimal_places=2,max_digits=6)
+    
