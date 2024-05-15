@@ -5,15 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import AuthContext from "../../context/AuthContext";
 
 function Submit() {
-  const [file, setFile] = useState(null);
-
   let {user} = useContext(AuthContext)
-
-  const handleFileChange = (event) => {
-    //
-    setFile(event.target.files[0]);
-  };
-  
   const navigate = useNavigate();
 
   let checkFileType = (file)=> {
@@ -76,6 +68,7 @@ function Submit() {
 
     // Checks for file existence
     if (!file) {
+      alert("No file provided")
       return;
     }
 
@@ -132,7 +125,7 @@ function Submit() {
             name="file"
             type="file"
             accept=".zip,.rar,.7zip"
-            onChange={handleFileChange}
+            required
           />
         </div>
 
