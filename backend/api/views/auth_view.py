@@ -21,6 +21,7 @@ from ..models import UserProfile as User
 from ..serializers import UserSerializer
 from ..tokens import account_activation_token
 
+
 class AuthViewSet(ViewSet):
     """
     This class is responsible for handling all request related to authenticating an user.
@@ -93,9 +94,9 @@ class AuthViewSet(ViewSet):
                 "refresh_token": str(token),
                 "access_token": str(token.access_token),
             }
-            redirect_url =  f"{os.getenv('FRONTEND_URL')}tokens/?refresh_token={response_data['refresh_token']}&access_token={response_data['access_token']}"
-            return redirect(redirect_url)            
-        return HttpResponse({}, status=status.HTTP_400_BAD_REQUEST)
+            redirect_url = f"{os.getenv('FRONTEND_URL')}tokens/?refresh_token={response_data['refresh_token']}&access_token={response_data['access_token']}"
+            return redirect(redirect_url)
+        return HttpResponse({"User error" : "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=False, methods=["POST"])
     def send_login_email(self, request):
@@ -206,6 +207,8 @@ class AuthViewSet(ViewSet):
         if user is not None and account_activation_token.check_token(user, token):
             user.is_active = True
             user.save()
+            # Redirects to login
+            return redirect(f'{os.getenv("FRONTEND_URL")}login')
+        return HttpResponse({"User error" : "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Redirects to login
-        return redirect(f'{os.getenv("FRONTEND_URL")}login')
+        

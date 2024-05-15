@@ -19,6 +19,7 @@ from ..models import Submission
 from ..serializers import SubmissionSerializer
 from ..tokens import submission_confirm_token
 
+
 class SubmitViewSet(ViewSet):
     """
     This class is responsible for handling all requests related to submitting a zip file.
