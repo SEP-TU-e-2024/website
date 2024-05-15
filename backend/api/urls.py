@@ -6,13 +6,13 @@ from rest_framework_simplejwt.views import (
 )
 
 from .views.auth_view import AuthViewSet
-from .views.submit_view import SubmitZip
+from .views.submit_view import SubmitViewSet
 from .views.views import RetrieveProblems, main
 
 # Routers are standard for viewsets
 api_router = DefaultRouter()
 api_router.register(r"auth", AuthViewSet, basename="auth")
-api_router.register(r"submit", SubmitZip, basename="submit")
+api_router.register(r"submit", SubmitViewSet, basename="submit")
 
 # Urlpatterns are default for normal views
 urlpatterns = [

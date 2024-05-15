@@ -86,7 +86,6 @@ function Submit() {
 
       // POST request to backend
       let response = await api.post('/submit/upload_submission/', formData);
-
       // Receives submission status and notifies user adequately
       if (response.status === 200) {
         !user ? alert("Check your email to confirm submission") : alert("Submission uploaded successfully.");

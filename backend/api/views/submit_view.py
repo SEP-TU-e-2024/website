@@ -22,7 +22,7 @@ def main(request):
     return HttpResponse("Hello, world!")
 
 
-class SubmitZip(ViewSet):
+class SubmitViewSet(ViewSet):
     """
     This class is responsible for handling all requests related to submitting a zip file.
     """
@@ -60,7 +60,7 @@ class SubmitZip(ViewSet):
         return HttpResponse({}, status=status.HTTP_200_OK)
 
     def send_submission_email(self, request, submission):
-        """Saves a file to Azure Blob Storage
+        """Send email to confirm submission
 
         Parameters
         ----------
