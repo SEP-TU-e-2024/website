@@ -217,8 +217,8 @@ class AuthViewSet(ViewSet):
         if user is not None and account_activation_token.check_token(user, token):
             user.is_active = True
             user.save()
+            # Redirects to login
             return redirect(f'{os.getenv("FRONTEND_URL")}login')
 
-        # Redirects to login
         self.logger.warning("Invalid token supplied")
         return HttpResponse({"User error" : "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)
