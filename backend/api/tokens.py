@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 
 import six
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.utils.crypto import salted_hmac
+from django.utils.crypto import constant_time_compare, salted_hmac
 
 
 class AccountActivationTokenGenerator(PasswordResetTokenGenerator):
@@ -40,7 +40,7 @@ class SubmissionConfirmTokenGenerator:
             return False
 
         token_confirm = self.make_token(submission)
-        return token == token_confirm and not self.token_expired(submission.created_at)
+        return constant_time_compare(token, token_confirm) and not self.token_expired(submission.created_at)
 
     def token_expired(self, submission_created_at):
         """Checks if token is expired"""
