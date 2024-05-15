@@ -30,20 +30,21 @@ class RetrieveProblems(generics.ListAPIView):
     queryset = Problem.objects.all()
     serializer_class = ProblemSerializer
 
+
 class SubmitZip(ViewSet):
     """
     This class is responsible for handling all requests related to submitting a zip file.
     """
-    
-    @action(detail=False, methods=['POST'])
+
+    @action(detail=False, methods=["POST"])
     def upload_file(self, request):
-        """ Handles the file upload api.
+        """Handles the file upload api.
 
         Parameters
         ----------
         request : HTTP Post request
             Request containing FILE object and a string attribute: name
-        
+
         Notes
         -----
         The method uploads the file on the request to the Azure Blob Storage.
@@ -51,23 +52,31 @@ class SubmitZip(ViewSet):
         try:
             uploaded_file = request.FILES
             if not uploaded_file:
-                return HttpResponse({'error': 'No file provided'}, status=status.HTTP_400_BAD_REQUEST)
+                return HttpResponse(
+                    {"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST
+                )
 
             connection_string = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
             print(connection_string)
             blob_service_client = BlobServiceClient.from_connection_string(str(connection_string))
             container_name = os.getenv("AZURE_STORAGE_CONTAINER_NAME")
-            blob_client = blob_service_client.get_blob_client(container=container_name, blob=uploaded_file['file'].name)
-            
-            with uploaded_file['file'].open() as data:
+            blob_client = blob_service_client.get_blob_client(
+                container=container_name, blob=uploaded_file["file"].name
+            )
+
+            with uploaded_file["file"].open() as data:
                 blob_client.upload_blob(data)
 
-            return HttpResponse({'message': 'File uploaded successfully'}, status=status.HTTP_200_OK)
-        
+            return HttpResponse(
+                {"message": "File uploaded successfully"}, status=status.HTTP_200_OK
+            )
+
         except Exception as e:
             print("Error: " + str(e))
-            return HttpResponse({'error': 'An error occurred during file upload'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
+            return HttpResponse(
+                {"error": "An error occurred during file upload"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
 
 
 class AuthViewSet(ViewSet):
@@ -139,8 +148,8 @@ class AuthViewSet(ViewSet):
                 "refresh_token": str(token),
                 "access_token": str(token.access_token),
             }
-            redirect_url =  f"{os.getenv('FRONTEND_URL')}tokens/?refresh_token={response_data['refresh_token']}&access_token={response_data['access_token']}"
-            return redirect(redirect_url)            
+            redirect_url = f"{os.getenv("FRONTEND_URL")}tokens/?refresh_token={response_data["refresh_token"]}&access_token={response_data["access_token"]}"
+            return redirect(redirect_url)
         return HttpResponse({}, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=False, methods=["POST"])
