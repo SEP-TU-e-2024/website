@@ -97,7 +97,7 @@ function Submit() {
           return
       }
       alert(error.message);
-      console.error('Singup error:', error.message);
+      console.error('Signup error:', error.message);
   }
   };
   
