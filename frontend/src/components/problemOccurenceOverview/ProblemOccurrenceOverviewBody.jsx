@@ -1,5 +1,6 @@
 import {React, useState } from "react"
 import { Container, Nav, NavItem, NavLink, TabContent, TabPane, Col, Row } from "reactstrap"
+import ProblemOccurrenceDescription from "./contents/ProblemOccurrenceDescription";
 
 function ProblemOccurrenceOverviewBody() {
   const [currentTab, setCurrentTab] = useState("2");
@@ -11,7 +12,7 @@ function ProblemOccurrenceOverviewBody() {
   }
   
   return (
-    <Container fluid className="py-3">
+    <Container fluid className="py-3 px-0">
       
       <ul id="bootstrap-override" className="nav nav-underline">
         <NavItem>
@@ -60,11 +61,11 @@ function ProblemOccurrenceOverviewBody() {
       
       <TabContent activeTab={currentTab}>
         <TabPane tabId="1">
-          <Row>
-            <Col sm="12">
-              <p>The description of TSP will go here</p>
-            </Col>
-          </Row>
+          {/* <Row className="pt-2">
+            <Col sm="12"> */}
+              <ProblemOccurrenceDescription />
+            {/* </Col>
+          </Row> */}
         </TabPane>
         <TabPane tabId="2">
           <Row>
@@ -76,7 +77,7 @@ function ProblemOccurrenceOverviewBody() {
         <TabPane tabId="3">
           <Row>
             <Col sm="12">
-              <p>Submission can be done here</p>
+              <p>Here a more detailed description of the problem and maybe the interaction formatting etc can be given</p>
             </Col>
           </Row>
         </TabPane>
