@@ -21,11 +21,6 @@ from ..models import UserProfile as User
 from ..serializers import UserSerializer
 from ..tokens import account_activation_token
 
-
-def main(request):
-    return HttpResponse("Hello, world!")
-
-
 class AuthViewSet(ViewSet):
     """
     This class is responsible for handling all request related to authenticating an user.
@@ -62,7 +57,6 @@ class AuthViewSet(ViewSet):
         # Sending verification email
         email_send = self.send_activate_email(request, user)
         if not email_send:
-            self.logger.warning("Failed to sent email, deleting user")
             user.delete()
             return Response(
                 {"error": "Failed to send email"}, status=status.HTTP_400_BAD_REQUEST
@@ -89,9 +83,7 @@ class AuthViewSet(ViewSet):
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
-        except ObjectDoesNotExist as e:
-            self.logger.warning("Failed to find user")
-            self.logger.warning(e)
+        except ObjectDoesNotExist:
             return HttpResponse({"User error" : "User not found."}, status=status.HTTP_400_BAD_REQUEST)
         
         # Checks token and sets user to active
@@ -103,7 +95,6 @@ class AuthViewSet(ViewSet):
             }
             redirect_url = f"{os.getenv('FRONTEND_URL')}tokens/?refresh_token={response_data['refresh_token']}&access_token={response_data['access_token']}"
             return redirect(redirect_url)
-        self.logger.warning("Invalid token supplied")
         return HttpResponse({"User error" : "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=False, methods=["POST"])
@@ -124,7 +115,6 @@ class AuthViewSet(ViewSet):
             # Gets user by email
             user = User.objects.get(email=request.data["email"])
         except ObjectDoesNotExist:
-            self.logger.warning("Failed to find user")
             return HttpResponse({"User error" : "User not found."}, status=status.HTTP_400_BAD_REQUEST)
             
         try:
@@ -148,8 +138,8 @@ class AuthViewSet(ViewSet):
             )
             email.send()
         except SMTPException:
-            self.logger.warning("File to send email")
-            HttpResponse({"Email erorr" : "Failed to sent email"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            self.logger.warning("Failed to send email", exc_info=1)
+            return HttpResponse({"Email erorr" : "Failed to send email"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return HttpResponse({}, status=status.HTTP_200_OK)
 
     def send_activate_email(self, request, user):
@@ -210,7 +200,6 @@ class AuthViewSet(ViewSet):
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
         except ObjectDoesNotExist:
-            self.logger.warning("Failed to locate user")
             return HttpResponse({"User error" : "User not found."}, status=status.HTTP_400_BAD_REQUEST)
 
         # Checks token and sets user to active
@@ -220,5 +209,4 @@ class AuthViewSet(ViewSet):
             # Redirects to login
             return redirect(f'{os.getenv("FRONTEND_URL")}login')
 
-        self.logger.warning("Invalid token supplied")
         return HttpResponse({"User error" : "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)

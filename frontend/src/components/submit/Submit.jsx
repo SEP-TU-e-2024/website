@@ -16,9 +16,9 @@ function Submit() {
      * @returns {boolean} - Whether type is allowed.
      */
     let file_extension = file.name.split('.').pop().toLowerCase();
-    if (!['zip', 'rar', '7zip'].includes(file_extension)) {
+    if (!['zip', 'rar', '7z'].includes(file_extension)) {
       console.error('Invalid file type.');
-      alert("Invalid file type. Please upload a .zip, .rar, or .7zip file.")
+      alert("Invalid file type. Please upload a .zip, .rar, or .7z file.")
       return false;
     }
     return true;

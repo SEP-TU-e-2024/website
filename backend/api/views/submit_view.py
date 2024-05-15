@@ -19,7 +19,6 @@ from ..models import Submission
 from ..serializers import SubmissionSerializer
 from ..tokens import submission_confirm_token
 
-
 class SubmitViewSet(ViewSet):
     """
     This class is responsible for handling all requests related to submitting a zip file.
@@ -31,13 +30,11 @@ class SubmitViewSet(ViewSet):
         request_file = request.FILES["file"]
 
         if not request_file:
-            self.logger.warning("No file provided")
             return HttpResponse(
                 {"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST
             )
 
         if not self.check_file_name(request_file) or not self.check_file_size(request_file) or not self.check_file_type(request_file):
-            self.logger.warning("Invalid file")
             return HttpResponse(
                 {"error": "Invalid file provided"}, status=status.HTTP_400_BAD_REQUEST
             )
@@ -53,7 +50,6 @@ class SubmitViewSet(ViewSet):
         # Stores submission in database
         submission = serializer.save()
         if not self.save_to_blob_storage(request_file, submission.id):
-            self.logger.warning("Failed to upload file")
             return HttpResponse(
                 {"error": "An error occurred during file upload"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -68,7 +64,6 @@ class SubmitViewSet(ViewSet):
         
         # User not logged in, hence sent email
         if not self.send_submission_email(request, submission):
-            self.logger.warning("Failed to sent email, deleting submission")
             submission.delete()
             return HttpResponse(
                 {"error": "An error occurred during sending of verification email"},
@@ -194,7 +189,6 @@ class SubmitViewSet(ViewSet):
 
             return True
 
-        except Exception as e:
-            self.logger.warning("File failed to upload")
-            self.logger.warning(e)
+        except Exception:
+            self.logger.warning("File failed to upload", exc_info=1)
             return False
