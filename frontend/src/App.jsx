@@ -49,7 +49,7 @@ function App() {
                 } 
               />
               <Route 
-                path= "/problemoccurence" //TODO add multiple paths here for the different problem occurences
+                path= "/problemoccurrence" //TODO add multiple paths here for the different problem occurences
                 element = {
                 <ProtectedRoute> 
                     <ProblemOccurrenceOverviewPage/>
