@@ -11,8 +11,9 @@ function ProblemOccurrenceOverviewBody() {
   }
   
   return (
-    <Container fluid>
-      <Nav tabs vertical={false}>
+    <Container fluid className="py-3">
+      
+      <ul className="nav nav-underline">
         <NavItem>
           <NavLink active={currentTab == "1"} id="1" onClick={handleTabSwitch}>
             Description
@@ -33,7 +34,29 @@ function ProblemOccurrenceOverviewBody() {
             Problem instances
           </NavLink>
         </NavItem>
-      </Nav>
+      </ul>
+      {/* <Nav tabs vertical={false}>
+        <NavItem>
+          <NavLink active={currentTab == "1"} id="1" onClick={handleTabSwitch}>
+            Description
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink active={currentTab == "2"} id="2" onClick={handleTabSwitch}>
+            Leaderboard
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink active={currentTab == "3"} id="3" onClick={handleTabSwitch}>
+            Submission
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink active={currentTab == "4"} id="4" onClick={handleTabSwitch}>
+            Problem instances
+          </NavLink>
+        </NavItem>
+      </Nav> */}
       
       <TabContent activeTab={currentTab}>
         <TabPane tabId="1">
