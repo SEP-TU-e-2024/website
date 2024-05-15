@@ -1,6 +1,9 @@
 import {React, useState } from "react"
 import { Container, Nav, NavItem, NavLink, TabContent, TabPane, Col, Row } from "reactstrap"
 import ProblemOccurrenceDescription from "./contents/ProblemOccurrenceDescription";
+import ProblemOccurrenceLeaderboard from "./contents/ProblemOccurrenceLeaderboard";
+import ProblemOccurrenceProblemInstanceList from "./contents/ProblemOccurrenceProblemInstanceList";
+import ProblemOccurrenceDetails from "./contents/ProblemOccurrenceDetails";
 
 function ProblemOccurrenceOverviewBody() {
   const [currentTab, setCurrentTab] = useState("2");
@@ -36,57 +39,19 @@ function ProblemOccurrenceOverviewBody() {
           </NavLink>
         </NavItem>
       </ul>
-      {/* <Nav tabs vertical={false}>
-        <NavItem>
-          <NavLink active={currentTab == "1"} id="1" onClick={handleTabSwitch}>
-            Description
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink active={currentTab == "2"} id="2" onClick={handleTabSwitch}>
-            Leaderboard
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink active={currentTab == "3"} id="3" onClick={handleTabSwitch}>
-            Submission
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink active={currentTab == "4"} id="4" onClick={handleTabSwitch}>
-            Problem instances
-          </NavLink>
-        </NavItem>
-      </Nav> */}
       
       <TabContent activeTab={currentTab}>
         <TabPane tabId="1">
-          {/* <Row className="pt-2">
-            <Col sm="12"> */}
-              <ProblemOccurrenceDescription />
-            {/* </Col>
-          </Row> */}
+          <ProblemOccurrenceDescription />
         </TabPane>
         <TabPane tabId="2">
-          <Row>
-            <Col sm="12">
-              <p>Imagine a very nice leaderboard here</p>
-            </Col>
-          </Row>
+          <ProblemOccurrenceLeaderboard />
         </TabPane>
         <TabPane tabId="3">
-          <Row>
-            <Col sm="12">
-              <p>Here a more detailed description of the problem and maybe the interaction formatting etc can be given</p>
-            </Col>
-          </Row>
+          <ProblemOccurrenceDetails />
         </TabPane>
         <TabPane tabId="4">
-          <Row>
-            <Col sm="12">
-              <p>An overview of the problem instances in this problem occurence</p>
-            </Col>
-          </Row>
+          <ProblemOccurrenceProblemInstanceList />
         </TabPane>
       </TabContent>
     </Container>
