@@ -24,20 +24,20 @@ class SubmitViewSet(ViewSet):
     """
     This class is responsible for handling all requests related to submitting a zip file.
     """
+    logger = logging.getLogger(__name__)
 
     @action(detail=False, methods=["POST"])
     def upload_submission(self, request):
-        logger = logging.getLogger(__name__)
         request_file = request.FILES["file"]
 
         if not request_file:
-            logger.warning("No file provided")
+            self.logger.warning("No file provided")
             return HttpResponse(
                 {"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST
             )
 
         if not self.check_file_name(request_file) or not self.check_file_size(request_file) or not self.check_file_type(request_file):
-            logger.warning("Invalid file")
+            self.logger.warning("Invalid file")
             return HttpResponse(
                 {"error": "Invalid file provided"}, status=status.HTTP_400_BAD_REQUEST
             )
@@ -53,7 +53,7 @@ class SubmitViewSet(ViewSet):
         # Stores submission in database
         submission = serializer.save()
         if not self.save_to_blob_storage(request_file, submission.id):
-            logger.warning("Failed to upload file")
+            self.logger.warning("Failed to upload file")
             return HttpResponse(
                 {"error": "An error occurred during file upload"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -68,7 +68,7 @@ class SubmitViewSet(ViewSet):
         
         # User not logged in, hence sent email
         if not self.send_submission_email(request, submission):
-            logger.warning("Failed to sent email, deleting submission")
+            self.logger.warning("Failed to sent email, deleting submission")
             submission.delete()
             return HttpResponse(
                 {"error": "An error occurred during sending of verification email"},
@@ -153,8 +153,7 @@ class SubmitViewSet(ViewSet):
             sid = force_str(urlsafe_base64_decode(sidb64))
             submission = Submission.objects.get(id=sid)
         except ObjectDoesNotExist:
-            logger = logging.getLogger(__name__)
-            logger.warning("Could not locate user")
+            self.logger.warning("Could not locate user")
             return HttpResponse({"User error" : "User not found."}, status=status.HTTP_400_BAD_REQUEST)
 
         # Checks token validity
@@ -196,7 +195,6 @@ class SubmitViewSet(ViewSet):
             return True
 
         except Exception as e:
-            logger = logging.getLogger(__name__)
-            logger.warning("File failed to upload")
-            logger.warning(e)
+            self.logger.warning("File failed to upload")
+            self.logger.warning(e)
             return False
