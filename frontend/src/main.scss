@@ -143,6 +143,7 @@ $nav-underline-link-active-color:   var(--#{$prefix}emphasis-color);
       }
     }
   
+    //mostly changed this bit to match the ortec look and feel a bit better
     .nav-link.active,
     .show > .nav-link {
       font-weight: $font-weight-medium;

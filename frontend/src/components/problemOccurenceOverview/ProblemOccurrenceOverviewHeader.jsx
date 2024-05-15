@@ -1,6 +1,10 @@
 import React from "react"
 import { Container, Row, Col } from 'reactstrap'
 
+/**
+ * Component of the header of a problem occurence overview page.
+ * This UI might change quite a bit depending on what wouter likes
+ */
 function ProblemOccurrenceOverviewHeader() {
   return (
     <Container fluid className="bg-primary mt-4">

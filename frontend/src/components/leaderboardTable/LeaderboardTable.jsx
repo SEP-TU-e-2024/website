@@ -25,8 +25,6 @@ function LeaderboardTable({columnNames, columnKeys, rows}) {
     
     return (
         <Container fluid className='justify-content-center'>
-            {/* <Row>
-                <Col> */}
             <Table striped responsive hover>
                 <thead>
                     <tr>

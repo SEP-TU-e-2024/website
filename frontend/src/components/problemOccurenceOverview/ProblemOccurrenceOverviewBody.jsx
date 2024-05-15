@@ -5,18 +5,22 @@ import ProblemOccurrenceLeaderboard from "./contents/ProblemOccurrenceLeaderboar
 import ProblemOccurrenceProblemInstanceList from "./contents/ProblemOccurrenceProblemInstanceList";
 import ProblemOccurrenceDetails from "./contents/ProblemOccurrenceDetails";
 
+/**
+ * A component of the body of a problem occurence overview page.
+ * Contains tabs for different parts of the overview
+ */
 function ProblemOccurrenceOverviewBody() {
-  const [currentTab, setCurrentTab] = useState("2");
+  const [currentTab, setCurrentTab] = useState("1");
   
+  //Handle the tab switch by setting the currentTab state to the id of the tab that is clicked
   function handleTabSwitch(e) {
     setCurrentTab(e.target.id);
-    // e.target.classList.add("active");
-    console.log(e.target.id);
   }
   
   return (
     <Container fluid className="py-3 px-0">
       
+      {/* Used a normal ul instead of a reactstrap Nav component because reactstrap doesn't support underlined nav */}
       <ul id="bootstrap-override" className="nav nav-underline">
         <NavItem>
           <NavLink active={currentTab == "1"} id="1" onClick={handleTabSwitch}>
@@ -40,6 +44,7 @@ function ProblemOccurrenceOverviewBody() {
         </NavItem>
       </ul>
       
+      {/* Actual content of the tabs */}
       <TabContent activeTab={currentTab}>
         <TabPane tabId="1">
           <ProblemOccurrenceDescription />
