@@ -1,6 +1,9 @@
 /* Override the bootstrap default values to fit our color theme */
 /* These variables can be found in _variables.scss in node_modules/bootstrap/scss/_variables.scss */
 
+$variable-prefix:             bs- !default; // Deprecated in v5.2.0 for the shorter `$prefix`
+$prefix:                      $variable-prefix !default;
+
 //define the colors here so we can use the variables later on in this theming file
 $blue:    #0d6efd;
 $indigo:  #6610f2;
@@ -29,6 +32,7 @@ $black:    #000;
 //theming
 $primary:       #002c67;
 $secondary:     #f67d2a;
+// $bg-gray:       $gray-300;
 $success:       $green !default;
 $info:          $cyan !default;
 $warning:       $yellow !default;
@@ -47,6 +51,16 @@ $body-tertiary-bg:          $gray-100 !default;
 
 $body-emphasis-color:       $black !default;
 
+/* font weights */
+$font-weight-lighter:         lighter !default;
+$font-weight-light:           300 !default;
+$font-weight-normal:          400 !default;
+$font-weight-medium:          500 !default;
+$font-weight-semibold:        600 !default;
+$font-weight-bold:            700 !default;
+$font-weight-bolder:          bolder !default;
+
+$font-weight-base:            $font-weight-normal !default;
 
 // $primary-text-emphasis:   shade-color($primary, 60%) !default;
 // $secondary-text-emphasis: shade-color($secondary, 60%) !default;
@@ -75,7 +89,65 @@ $body-emphasis-color:       $black !default;
 // $light-border-subtle:     $gray-200 !default;
 // $dark-border-subtle:      $gray-500 !default;
 
+/* Font settings */
+$font-family-sans-serif:      system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+
+/* Nav settings */
+// $nav-tabs-border-color:             var(--#{$prefix}border-color) !default;
+// $nav-tabs-border-width:             var(--#{$prefix}border-width) !default;
+// $nav-tabs-border-radius:            var(--#{$prefix}border-radius) !default;
+// $nav-tabs-link-hover-border-color:  var(--#{$prefix}secondary-bg) var(--#{$prefix}secondary-bg) $nav-tabs-border-color !default;
+// $nav-tabs-link-active-color:        var(--#{$prefix}emphasis-color) !default;
+// $nav-tabs-link-active-bg:           var(--#{$prefix}body-bg) !default;
+// $nav-tabs-link-active-border-color: var(--#{$prefix}border-color) var(--#{$prefix}border-color) $nav-tabs-link-active-bg !default;
+$nav-link-padding-y:                .5rem !default;
+$nav-link-padding-x:                1rem !default;
+$nav-link-font-size:                null !default;
+$nav-link-font-weight:              null !default;
+$nav-link-color:                    var(--#{$prefix}link-color) !default;
+$nav-link-hover-color:              var(--#{$prefix}link-hover-color) !default;
+$nav-link-transition:               color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out !default;
+$nav-link-disabled-color:           var(--#{$prefix}secondary-color) !default;
+// $nav-link-focus-box-shadow:         $focus-ring-box-shadow !default;
+
+$nav-underline-gap:                 1rem !default;
+$nav-underline-border-width:        .125rem !default;
+$nav-underline-link-active-color:   var(--#{$prefix}emphasis-color);
+
+
 
 /* bootstrap import */
 // @import 'bootstrap/dist/css/bootstrap.min.css';
 @import "node_modules/bootstrap/scss/bootstrap";
+
+/* Nav underline */
+/* We override this class because the styling doesn't really fit with the ortec look and feel */
+.nav-underline {
+    // scss-docs-start nav-underline-css-vars
+    --#{$prefix}nav-underline-gap: #{$nav-underline-gap};
+    --#{$prefix}nav-underline-border-width: #{$nav-underline-border-width};
+    --#{$prefix}nav-underline-link-active-color: #{$nav-underline-link-active-color};
+    // scss-docs-end nav-underline-css-vars
+  
+    gap: var(--#{$prefix}nav-underline-gap);
+  
+    .nav-link {
+      padding-right: 0;
+      padding-left: 0;
+      border-bottom: var(--#{$prefix}nav-underline-border-width) solid transparent;
+  
+      &:hover,
+      &:focus {
+        border-bottom-color: currentcolor;
+      }
+    }
+  
+    //mostly changed this bit to match the ortec look and feel a bit better
+    .nav-link.active,
+    .show > .nav-link {
+      font-weight: $font-weight-medium;
+      color: var(--#{$prefix}nav-underline-link-active-color);
+      border-bottom-color: currentcolor;
+    }
+  }

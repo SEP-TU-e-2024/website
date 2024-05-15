@@ -35,8 +35,6 @@ function generatePlaceholderColumnKeys() {
 
 /**
  * Example page component for a leaderboard
- * 
- * @returns component
  */
 function LeaderboardPage() {
   return (

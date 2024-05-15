@@ -9,11 +9,6 @@ on:
     pull_request:
         branches:
           - main
-        paths:
-          - '.github/**.py'
-          - '.github/workflows/quality.yml'
-          - 'backend/**'
-          - 'frontend/**'
     workflow_dispatch:
 
 jobs:
