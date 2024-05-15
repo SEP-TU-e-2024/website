@@ -1,5 +1,8 @@
 import hashlib
 from datetime import datetime, timedelta, timezone
+import os
+from django.utils.crypto import constant_time_compare, salted_hmac
+import hmac
 
 import six
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -16,17 +19,22 @@ class AccountActivationTokenGenerator(PasswordResetTokenGenerator):
 
 class SubmissionConfirmTokenGenerator:
     TOKEN_EXPIRATION_TIME = 0.5  # Token expiration time in hours
+    secret = os.getenv("SECRET_KEY")
+    salt_key = "api.tokens.SubmissionConfirmTokenGenerator"
 
     def make_token(self, submission):
         """Hashes unique properties of a submission object into a unique string"""
-        hash_value = hashlib.sha256(
-            (
-                str(submission.id)
-                + str(submission.created_at)
-                + str(submission.is_verified)
-            ).encode()
-        ).hexdigest()
-        return hash_value
+        hmac_hash = salted_hmac(
+            self.salt_key,
+            ( str(submission.id)
+            + str(submission.created_at)
+            + str(submission.is_verified)
+            ).encode(),
+            secret=self.secret,
+            algorithm='sha256'
+        ).hexdigest()[::2] # Limit url length
+
+        return hmac_hash
 
     def check_token(self, submission, token):
         """Compares 2 hash tokens on equality and expiration"""

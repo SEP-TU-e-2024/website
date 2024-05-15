@@ -84,7 +84,7 @@ function Submit() {
       formData.append('submission_name', e.target.submission_name.value);
       // TODO Use propper session management
       formData.append('logged_in', user != null)
-      if (e.target.email) formData.append('email', e.target.email.value);
+      e.target.email ? formData.append('email', e.target.email.value) : formData.append('email', "useremailhere@mail.com")
 
       // POST request to backend
       let response = await api.post('/submit/upload_submission/', formData);

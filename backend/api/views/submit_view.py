@@ -26,15 +26,23 @@ class SubmitViewSet(ViewSet):
 
     @action(detail=False, methods=["POST"])
     def upload_submission(self, request):
-        request_files = request.FILES
-        if not request_files:
-            logger = logging.getLogger(__name__) 
+        logger = logging.getLogger(__name__)
+        request_file = request.FILES["file"]
+
+        if not request_file:
             logger.warning("No file provided")
             return HttpResponse(
                 {"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST
             )
 
+        if not self.check_file_name(request_file) or not self.check_file_size(request_file) or not self.check_file_type(request_file):
+            logger.warning("Invalid file")
+            return HttpResponse(
+                {"error": "Invalid file provided"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
         # Checks validity of submitted data
+        # TODO Make email not manditory in serializer, for future with session management
         serializer = SubmissionSerializer(data=request.data)
         if not serializer.is_valid():
             for field, messages in serializer.errors.items():
@@ -43,8 +51,7 @@ class SubmitViewSet(ViewSet):
 
         # Stores submission in database
         submission = serializer.save()
-        if not self.save_to_blob_storage(request_files, submission.id):
-            logger = logging.getLogger(__name__) 
+        if not self.save_to_blob_storage(request_file, submission.id):
             logger.warning("Failed to upload file")
             return HttpResponse(
                 {"error": "An error occurred during file upload"},
@@ -60,7 +67,6 @@ class SubmitViewSet(ViewSet):
         
         # User not logged in, hence sent email
         if not self.send_submission_email(request, submission):
-            logger = logging.getLogger(__name__) 
             logger.warning("Failed to sent email, deleting submission")
             submission.delete()
             return HttpResponse(
@@ -70,6 +76,30 @@ class SubmitViewSet(ViewSet):
         
         return HttpResponse({}, status=status.HTTP_200_OK)
         
+    def check_file_type(self, file):
+        """
+        Checks file for valid type
+        """
+        file_extension = file.name.split('.')[-1].lower()
+        if file_extension not in ['zip', 'rar', '7z']:
+            return False
+        return True
+
+    def check_file_name(self, file):
+        """
+        Checks file for valid name
+        """
+        if len(file.name) > 50:
+            return False
+        return True
+
+    def check_file_size(self, file):
+        """
+        Checks file for valid size
+        """
+        if file.size > 50 * 1024 * 1024:  # 50 MB in bytes
+            return False
+        return True
 
     def send_submission_email(self, request, submission):
         """Send email to confirm submission
@@ -153,11 +183,13 @@ class SubmitViewSet(ViewSet):
                 str(connection_string)
             )
             container_name = os.getenv("AZURE_STORAGE_CONTAINER_NAME")
+
+            file_extension = file.name.split('.')[-1].lower()
             blob_client = blob_service_client.get_blob_client(
-                container=container_name, blob=f"{submission_id}.zip"
+                container=container_name, blob=f"{submission_id}.{file_extension}"
             )
 
-            with file["file"].open() as data:
+            with file.open() as data:
                 blob_client.upload_blob(data)
 
             return True
@@ -165,4 +197,5 @@ class SubmitViewSet(ViewSet):
         except Exception as e:
             logger = logging.getLogger(__name__) 
             logger.warning("File failed to upload")
+            logger.warning(e)
             return False
