@@ -5,12 +5,14 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from .views import AuthViewSet, RetrieveProblems, SubmitZip, main
+from .views.auth_view import AuthViewSet
+from .views.submit_view import SubmitViewSet
+from .views.views import RetrieveProblems, main
 
 # Routers are standard for viewsets
 api_router = DefaultRouter()
 api_router.register(r"auth", AuthViewSet, basename="auth")
-api_router.register(r"submit", SubmitZip, basename="submit")
+api_router.register(r"submit", SubmitViewSet, basename="submit")
 
 # Urlpatterns are default for normal views
 urlpatterns = [
@@ -23,6 +25,11 @@ urlpatterns = [
         "loginEmail/<uidb64>/<token>",
         AuthViewSet.login_through_email,
         name="loginEmail",
+    ),
+    path(
+        "confirmSubmission/<sidb64>/<token>",
+        SubmitViewSet.confirm_submission,
+        name="confirmSubmission",
     ),
 ]
 

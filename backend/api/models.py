@@ -1,4 +1,3 @@
-from django import forms
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
@@ -62,7 +61,12 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 
-class UploadFile(forms.Form):
-    title = forms.CharField(max_length=50)
-    file = forms.FileField()
-    """Return string representation of our user"""
+class Submission(models.Model):
+    """Database model for submissions"""
+
+    id = models.AutoField(primary_key=True)
+    email = models.CharField(max_length=100) # TODO: change to User ID in the future
+    submission_name = models.CharField(max_length=100, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_verified = models.BooleanField(default=False)
+    # TODO: add problem ID
