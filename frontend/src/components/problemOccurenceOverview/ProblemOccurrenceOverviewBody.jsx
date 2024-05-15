@@ -13,20 +13,20 @@ function ProblemOccurrenceOverviewBody() {
   return (
     <Container fluid className="py-3">
       
-      <ul className="nav nav-underline">
+      <ul id="bootstrap-override" className="nav nav-underline">
         <NavItem>
           <NavLink active={currentTab == "1"} id="1" onClick={handleTabSwitch}>
-            Description
+            Overview
           </NavLink>
         </NavItem>
         <NavItem>
           <NavLink active={currentTab == "2"} id="2" onClick={handleTabSwitch}>
-            Leaderboard
+            Full leaderboard
           </NavLink>
         </NavItem>
         <NavItem>
           <NavLink active={currentTab == "3"} id="3" onClick={handleTabSwitch}>
-            Submission
+            Detailed description
           </NavLink>
         </NavItem>
         <NavItem>
@@ -62,28 +62,28 @@ function ProblemOccurrenceOverviewBody() {
         <TabPane tabId="1">
           <Row>
             <Col sm="12">
-              <p>Tab 1 content</p>
+              <p>The description of TSP will go here</p>
             </Col>
           </Row>
         </TabPane>
         <TabPane tabId="2">
           <Row>
             <Col sm="12">
-              <p>Tab 2 content</p>
+              <p>Imagine a very nice leaderboard here</p>
             </Col>
           </Row>
         </TabPane>
         <TabPane tabId="3">
           <Row>
             <Col sm="12">
-              <p>Tab 3 content</p>
+              <p>Submission can be done here</p>
             </Col>
           </Row>
         </TabPane>
         <TabPane tabId="4">
           <Row>
             <Col sm="12">
-              <p>Tab 4 content</p>
+              <p>An overview of the problem instances in this problem occurence</p>
             </Col>
           </Row>
         </TabPane>
