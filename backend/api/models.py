@@ -60,7 +60,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         """Return string representation of our user"""
         return self.email
 
-class EvaluationSettings(models.Model):
+class EvaluationSetting(models.Model):
     """Settings for a problem """
 
     cpu = models.IntegerField()
@@ -95,7 +95,7 @@ class SpecifiedProblem(models.Model):
     """Occurence of problem, i.e. with certain settings """
 
     category = models.ForeignKey(ProblemCategory, on_delete=models.CASCADE, null=True)
-    evualuation_settings = models.ForeignKey(EvaluationSettings, on_delete=models.CASCADE, null=True)
+    evualuation_settings = models.ForeignKey(EvaluationSetting, on_delete=models.CASCADE, null=True)
     metrics = models.CharField(max_length=512) # Problem specific metrics to use
 
 class BenchmarkSet(models.Model):
@@ -114,7 +114,7 @@ class Submission(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     is_verified = models.BooleanField(default=False)
 
-class Results(models.Model):
+class Result(models.Model):
     """Table that stores result of a submission """
 
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
