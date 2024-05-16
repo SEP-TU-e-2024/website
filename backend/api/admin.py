@@ -4,9 +4,9 @@ from django.contrib import admin
 from .models import (
     BenchmarkInstance,
     BenchmarkSet,
-    EvaluationSettings,
+    EvaluationSetting,
     ProblemCategory,
-    Results,
+    Result,
     Simulator,
     SpecifiedProblem,
     StorageLocation,
@@ -17,7 +17,7 @@ from .models import (
 
 admin.site.register(UserProfile)
 admin.site.register(Submission)
-admin.site.register(EvaluationSettings)
+admin.site.register(EvaluationSetting)
 admin.site.register(StorageLocation)
 admin.site.register(Simulator)
 admin.site.register(Validator)
@@ -25,4 +25,4 @@ admin.site.register(BenchmarkInstance)
 admin.site.register(ProblemCategory)
 admin.site.register(SpecifiedProblem)
 admin.site.register(BenchmarkSet)
-admin.site.register(Results)
+admin.site.register(Result)
