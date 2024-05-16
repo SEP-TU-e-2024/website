@@ -1,7 +1,19 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import BenchmarkInstance, BenchmarkSet, EvaluationSettings, ProblemCategory, Results, Simulator, SpecifiedProblem, StorageLocation, Submission, UserProfile, Validator
+from .models import (
+    BenchmarkInstance,
+    BenchmarkSet,
+    EvaluationSettings,
+    ProblemCategory,
+    Results,
+    Simulator,
+    SpecifiedProblem,
+    StorageLocation,
+    Submission,
+    UserProfile,
+    Validator,
+)
 
 admin.site.register(UserProfile)
 admin.site.register(Submission)
