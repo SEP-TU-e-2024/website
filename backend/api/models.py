@@ -109,7 +109,7 @@ class Submission(models.Model):
 
     # TODO Link with blob storage for getting
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
-    problem = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE, null=True,)
+    problem = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE, null=True)
     submission_name = models.CharField(max_length=100, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_verified = models.BooleanField(default=False)

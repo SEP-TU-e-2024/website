@@ -24,7 +24,6 @@ class SubmissionSerializer(serializers.ModelSerializer):
         model = Submission
         fields = (
             "id",
-            "email",
             "submission_name",
             "created_at",
             "is_verified",

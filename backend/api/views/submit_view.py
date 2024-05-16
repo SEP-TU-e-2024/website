@@ -58,10 +58,14 @@ class SubmitViewSet(ViewSet):
 
         # Check if user is logged in
         # TODO Use proper session management
-        if request.data["logged_in"] == "True":
+        if request.data["logged_in"] == "true":
             submission.is_verified = True
             submission.save()
             return HttpResponse({}, status=status.HTTP_200_OK)
+        
+        # TODO For future, add emmail as user without password
+        # if not User.objects.filter(email=request.data["email"]).exists():
+        #     User.objects.create(email=request.data["email"])
         
         # User not logged in, hence sent email
         if not self.send_submission_email(request, submission):
