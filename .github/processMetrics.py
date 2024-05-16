@@ -14,7 +14,7 @@ CONFIG_FILE = ".github/metrics_config.json"
 AQUA = '\033[94;1m'
 RED = '\033[31;1m'
 BOLD = '\033[;1m'
-YELLOW = '\033[34;1m'
+YELLOW = '\033[33;1m'
 TABLE_COL = ('\033[97;4m', '\033[37;4;2m')
 END_COL = '\033[0m'
 
