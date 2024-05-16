@@ -13,6 +13,8 @@ CONFIG_FILE = ".github/metrics_config.json"
 # Colors
 AQUA = '\033[94;1m'
 RED = '\033[31;1m'
+BOLD = '\033[;1m'
+YELLOW = '\033[34;1m'
 TABLE_COL = ('\033[97;4m', '\033[37;4;2m')
 END_COL = '\033[0m'
 
@@ -53,8 +55,10 @@ def nice_print(dictionary):
     i = 0
     for key, val in dictionary.items():
         spaces = ' ' * max(0, MAXLEN - len(key))
-        if 0 < val < 2:
+        if 0.03 < val < 2:
             print(TABLE_COL[i % 2], key, spaces, RED, val, END_COL)
+        elif 0 < val <= 0.03:
+            print(TABLE_COL[i % 2], key, spaces, YELLOW, val, END_COL)
         else:
             print(TABLE_COL[i % 2], key, spaces, val, END_COL)
         i += 1
@@ -71,12 +75,11 @@ def main():
 
     with open(SIMIAN_FILE, 'r') as f:
         duplications, total_lines, num_files = parse_output(f)
-        print("Duplications: ", duplications, "\tTotal lines: ", total_lines, "\tNumber of files: ", num_files)
 
     with open(DEPENDENCIES_FILE, 'r') as f:
         matrix = process_file(f)
 
-    percentages_understand = compute_percentages_understand(categories, config_understand)
+    percentages_understand, violatingFiles_understand = compute_percentages_understand(categories, config_understand)
     percentages_simian = compute_percentages_simian(duplications, total_lines)
     percentages_dependencies = compute_percentages_dependencies(matrix, num_files)
 
@@ -90,9 +93,21 @@ def main():
     nice_print(ranks)
     print(f"{AQUA}Grade:{END_COL} ", grade)
 
+
     # Fail process
     if grade < 10:
-        raise Exception(f"{RED}Code violations found!!!!!{END_COL}")
+        print(f"{RED}Code violations found!!!!!{END_COL}")
+
+        # print understand violations
+        for key, files in violatingFiles_understand.items():
+            if files:
+                print(f"{BOLD}{key}{END_COL}")
+                for filename, val in files.items():
+                    print(f"\t{filename}\t\t{val}")
+
+        print("\nFor code duplication stats look at the tab 'show simian output' above")
+
+        exit(2)
     
 if __name__ == "__main__":
     main()
