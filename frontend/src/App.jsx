@@ -24,7 +24,7 @@ import ProtectedLayout from "./components/routing/ProtectedLayout";
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route element={<AuthLayout />} >
+      <Route element={<AuthLayout />} errorElement={<ErrorPage />}>
         
         {/* Protected routes */}
         <Route element={<ProtectedLayout />}>
@@ -32,12 +32,12 @@ export const router = createBrowserRouter(
           <Route path="/home" element={<HomePage />} />
           <Route path="/leaderboard" element={<LeaderboardPage />} />
           <Route path="/submit" element={<Submit />} />
-          {/* <Route 
+          <Route 
             path="/problemoccurrence/:poID" 
             element={<ProblemOccurrenceOverviewPage />} 
             loader={async ({ params }) => {
               return "hi"; //TODO fetching logic here
-            }} /> */}
+            }} />
         </Route>
           
         {/* Non protected routes */}
