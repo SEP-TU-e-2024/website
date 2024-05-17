@@ -1,25 +1,18 @@
 import LoginForm from "./components/forms/LoginForm";
 import Submit from "./components/submit/Submit";
-import { useState, useEffect } from 'react'
-import MyNavbar from './components/navbar/MyNavbar';
 import HomePage from './components/homepage/HomePage';
 import RegisterForm from "./components/forms/RegisterForm";
 import LeaderboardPage from './components/leaderboardPage/LeaderboardPage'
-import { AuthProvider } from './context/AuthContext';
 import {
-    // BrowserRouter as Router,
-    Routes,
     Route,
-    BrowserRouter,
     createBrowserRouter,
     createRoutesFromElements,
 } from "react-router-dom";
-import ProtectedRoute from './util/ProtectedRoute';
-import TokenAuthenticator from "./components/tokenauthenticator/TokenAuthenticator";
 import ProblemOccurrenceOverviewPage from './components/problemOccurenceOverview/ProblemOccurrenceOverviewPage';
 import ErrorPage from "./components/errorPage/ErrorPage";
 import AuthLayout from "./components/routing/AuthLayout";
 import ProtectedLayout from "./components/routing/ProtectedLayout";
+import TokenAuthenticator from "./components/tokenauthenticator/TokenAuthenticator";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -43,6 +36,9 @@ export const router = createBrowserRouter(
         {/* Non protected routes */}
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
+        
+        {/* Basically an endpoint to save the auth tokens from email only login */}
+        <Route path="/tokens" element={<TokenAuthenticator />} />
       </Route>
       
     </>
