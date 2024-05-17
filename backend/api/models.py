@@ -47,10 +47,11 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     
     id = models.AutoField(primary_key=True)
     email = models.EmailField(max_length=255, unique=True, null=False)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, null=True, blank=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
+    password = models.CharField(max_length=128, blank=True, null=True)
 
     objects = UserProfileManager()
 
