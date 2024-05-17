@@ -43,7 +43,7 @@ For the value of `EMAIL_HOST_PASSWORD`, ask someone who set up the repository al
 1. Make sure you have **Python 3.12** installed. On Linux, this can be done with `sudo add-apt-repository ppa:deadsnakes/ppa`, followed by `sudo apt install python3.12 python3.12-venv python3.12-dev` (since you also need venv and the Python development headers).
 2. On Linux, you also need the following: `sudo apt install pkg-config default-libmysqlclient-dev build-essential` (used by mysqlclient).
 3. Create a virtual environment by running `python -m venv .venv` in the website(root) directory.
-4. Select the virtual environment in VSCode.
+4. Select the virtual environment as your VS Code interpreter.
 5. Activate the virtual environment by running (Linux) `source .venv/bin/activate` or (Windows) `.venv/bin/activate`.
 6. Run pip install -r requirements.txt in the backend folder (this will install all dependencies).
 7. Install the Ruff VSCode extension.
