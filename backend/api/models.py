@@ -116,7 +116,7 @@ class SpecifiedProblem(models.Model):
     type = models.CharField(max_length=256, null=True)
 
 
-class BenchmarkSet(models.Model):
+class BenchmarkRelations(models.Model):
     """Relational table between specified problems and their benchmark instances"""
 
     problem = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE, null=True)
