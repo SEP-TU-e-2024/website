@@ -7,10 +7,10 @@ import ProblemOccurrenceOverviewBody from "./ProblemOccurrenceOverviewBody";
  */
 function ProblemOccurrenceOverviewPage() {
   return (
-    <>
+    <div>
       <ProblemOccurrenceOverviewHeader />
       <ProblemOccurrenceOverviewBody />
-    </>
+    </div>
   )
 };
 
