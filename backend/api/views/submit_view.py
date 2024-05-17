@@ -16,6 +16,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
 from ..models import Submission
+from ..models import UserProfile as User
 from ..serializers import SubmissionSerializer
 from ..tokens import submission_confirm_token
 
@@ -30,53 +31,63 @@ class SubmitViewSet(ViewSet):
     def upload_submission(self, request):
         request_file = request.FILES["file"]
 
+        # Check if file exists
         if not request_file:
             return HttpResponse(
                 {"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST
             )
 
-        if not self.check_file_name(request_file) or not self.check_file_size(request_file) or not self.check_file_type(request_file):
+        # Check file properties
+        if not (self.check_file_name(request_file) and
+                self.check_file_size(request_file) and
+                self.check_file_type(request_file)):
             return HttpResponse(
                 {"error": "Invalid file provided"}, status=status.HTTP_400_BAD_REQUEST
             )
 
         # Checks validity of submitted data
-        # TODO Make email not manditory in serializer, for future with session management
         serializer = SubmissionSerializer(data=request.data)
         if not serializer.is_valid():
             for field, messages in serializer.errors.items():
                 return Response({"error": messages}, status=status.HTTP_400_BAD_REQUEST)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+        # Gets or creates user
+        user = request.user
+        if user.is_anonymous:
+            user, _ = User.objects.get_or_create(email=request.data["email"])
+
         # Stores submission in database
         submission = serializer.save()
+        submission.user = user
+        submission.save()
+
+        # Stores file in blob storage
         if not self.save_to_blob_storage(request_file, submission.id):
             return HttpResponse(
                 {"error": "An error occurred during file upload"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
-        # Check if user is logged in
-        # TODO Use proper session management
-        if request.data["logged_in"] == "true":
+        # Verfies submission
+        return self.verify_submission(request, not request.user.is_anonymous, submission)
+        
+    def verify_submission(self, request, logged_in, submission):
+        # Verifies submission if logged in
+        if logged_in:
             submission.is_verified = True
             submission.save()
             return HttpResponse({}, status=status.HTTP_200_OK)
         
-        # TODO For future, add emmail as user without password
-        # if not User.objects.filter(email=request.data["email"]).exists():
-        #     User.objects.create(email=request.data["email"])
-        
-        # User not logged in, hence sent email
+        # User not logged in, hence sent verification email
         if not self.send_submission_email(request, submission):
             submission.delete()
             return HttpResponse(
                 {"error": "An error occurred during sending of verification email"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
-        
         return HttpResponse({}, status=status.HTTP_200_OK)
-        
+
     def check_file_type(self, file):
         """
         Checks file for valid type

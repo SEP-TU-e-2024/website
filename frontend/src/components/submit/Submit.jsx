@@ -82,12 +82,11 @@ function Submit() {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('submission_name', e.target.submission_name.value);
-      // TODO Use propper session management
-      formData.append('logged_in', user != null)
       e.target.email ? formData.append('email', e.target.email.value) : formData.append('email', "useremailhere@mail.com")
 
       // POST request to backend
       let response = await api.post('/submit/upload_submission/', formData);
+      
       // Receives submission status and notifies user adequately
       if (response.status === 200) {
         !user ? alert("Check your email to confirm submission") : alert("Submission uploaded successfully.");
