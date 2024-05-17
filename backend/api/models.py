@@ -61,8 +61,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         """Return string representation of our user"""
         return self.email
 
-
-class EvaluationSetting(models.Model):
+class EvaluationSettings(models.Model):
     """Settings for a problem"""
 
     cpu = models.IntegerField()
@@ -89,12 +88,10 @@ class Validator(StorageLocation):
 
 class BenchmarkInstance(StorageLocation):
     """Single data instance for an optimization problem"""
-
     pass
 
-
 class ProblemCategory(models.Model):
-    """Category of problem"""
+    """Category representing an optimization problem"""
 
     name = models.CharField(max_length=256)  # For example TSP
     description = models.CharField(max_length=512)  # Description of problem
@@ -107,12 +104,12 @@ class ProblemCategory(models.Model):
 
 
 class SpecifiedProblem(models.Model):
-    """Occurence of problem, i.e. with certain settings"""
+    """Specified problem, potentially with evaluation settings"""
 
     id = models.AutoField(primary_key=True)
     category = models.ForeignKey(ProblemCategory, on_delete=models.CASCADE, null=True)
     evaluation_settings = models.ForeignKey(
-        EvaluationSetting, on_delete=models.CASCADE, null=True, blank=True
+        EvaluationSettings, on_delete=models.CASCADE, null=True, blank=True
     )
     metrics = models.CharField(max_length=512)  # Problem specific metrics to use
     style = models.CharField(max_length=256, null=True)
@@ -135,8 +132,7 @@ class Submission(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     is_verified = models.BooleanField(default=False)
 
-
-class Result(models.Model):
+class Results(models.Model):
     """Table that stores result of a submission"""
 
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
