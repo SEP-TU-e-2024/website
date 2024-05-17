@@ -14,6 +14,7 @@ import ErrorPage from "./components/errorPage/ErrorPage";
 import AuthLayout from "./components/routing/AuthLayout";
 import ProtectedLayout from "./components/routing/ProtectedLayout";
 import TokenAuthenticator from "./components/tokenauthenticator/TokenAuthenticator";
+import UnProtectedLayout from "./components/routing/UnprotectedLayout";
 
 /**
  * This is the router object.
@@ -40,12 +41,14 @@ export const router = createBrowserRouter(
         </Route>
           
         {/* Non protected routes */}
-        <Route path="/submit" element={<Submit />} />
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/register" element={<RegisterForm />} />
+        <Route element={<UnProtectedLayout />}>
+          <Route path="/submit" element={<Submit />} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<RegisterForm />} />
+          {/* Basically an endpoint to save the auth tokens from email only login */}
+          <Route path="/tokens" element={<TokenAuthenticator />} />
+        </Route>
         
-        {/* Basically an endpoint to save the auth tokens from email only login */}
-        <Route path="/tokens" element={<TokenAuthenticator />} />
       </Route>
       
     </>
