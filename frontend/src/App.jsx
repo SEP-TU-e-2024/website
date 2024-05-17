@@ -19,6 +19,7 @@ import TokenAuthenticator from "./components/tokenauthenticator/TokenAuthenticat
  * This is the router object.
  * The authlayout gives all the other routes acces to the auth context that is needed to do the protected routing.
  * see the react router dom documentation for kind of a guide on how extend this.
+ * If you are adding a page and don't understand how to do it, please contact Thijs.
  */
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,7 +31,6 @@ export const router = createBrowserRouter(
           <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/leaderboard" element={<LeaderboardPage />} />
-          <Route path="/submit" element={<Submit />} />
           <Route 
             path="/problemoccurrence/:poID" 
             element={<ProblemOccurrenceOverviewPage />} 
@@ -40,6 +40,7 @@ export const router = createBrowserRouter(
         </Route>
           
         {/* Non protected routes */}
+        <Route path="/submit" element={<Submit />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
         
