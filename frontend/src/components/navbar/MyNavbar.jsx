@@ -41,7 +41,7 @@ function MyNavbar() {
     return (
         <Navbar expand={'md'} /*fixed='top'*/ container='md' color='dark' dark>
             <NavbarBrand href='/'>
-                <img alt='logo' src='/src/assets/react.svg' style={{height:40, width:40}} />
+                <img alt='logo' src='/src/assets/ortec_logo.svg' height='1em' />
             </NavbarBrand>
             <NavbarToggler onClick={toggle} />
             <Collapse isOpen={isOpen} navbar>
