@@ -1,0 +1,28 @@
+@import '/src/main.scss';
+
+.tab-selector {
+    border-bottom: 2px solid $primary;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tab-selector-link {
+    // $padding-y: 0.25em;
+    display: block;
+    padding-right: 1em;
+    padding-bottom: 0.25em;
+    padding-top: 0.5em;
+    
+    text-decoration: none;
+    font-size: large;
+    font-weight: $font-weight-semibold;
+    color: $primary;
+}
+
+.tab-selector-item .active {
+    color: $secondary;
+}

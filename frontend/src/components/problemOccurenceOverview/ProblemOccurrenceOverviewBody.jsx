@@ -4,6 +4,7 @@ import ProblemOccurrenceDescription from "./contents/ProblemOccurrenceDescriptio
 import ProblemOccurrenceLeaderboard from "./contents/ProblemOccurrenceLeaderboard";
 import ProblemOccurrenceProblemInstanceList from "./contents/ProblemOccurrenceProblemInstanceList";
 import ProblemOccurrenceDetails from "./contents/ProblemOccurrenceDetails";
+import './ProblemOccurrrenceOverviewBody.scss';
 
 /**
  * A component of the body of a problem occurence overview page.
@@ -18,30 +19,30 @@ function ProblemOccurrenceOverviewBody() {
   }
   
   return (
-    <Container fluid className="py-3 px-0">
+    <Container fluid className="py-3 px-5">
       
       {/* Used a normal ul instead of a reactstrap Nav component because reactstrap doesn't support underlined nav */}
-      <ul id="bootstrap-override" className="nav nav-underline">
-        <NavItem>
-          <NavLink active={currentTab == "1"} id="1" onClick={handleTabSwitch}>
+      <ul id="" className="tab-selector">
+        <li className="tab-selector-item">
+          <a className={currentTab == "1" ? "active tab-selector-link": "tab-selector-link"} active={currentTab == "1"} id="1" onClick={handleTabSwitch}>
             Overview
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink active={currentTab == "2"} id="2" onClick={handleTabSwitch}>
+          </a>
+        </li>
+        <li className="tab-selector-item">
+          <a className={currentTab == "2" ? "active tab-selector-link": "tab-selector-link"} active={currentTab == "2"} id="2" onClick={handleTabSwitch}>
             Full leaderboard
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink active={currentTab == "3"} id="3" onClick={handleTabSwitch}>
+          </a>
+        </li>
+        <li className="tab-selector-item">
+          <a className={currentTab == "3" ? "active tab-selector-link": "tab-selector-link"} active={currentTab == "3"} id="3" onClick={handleTabSwitch}>
             Detailed description
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink active={currentTab == "4"} id="4" onClick={handleTabSwitch}>
+          </a>
+        </li>
+        <li className="tab-selector-item">
+          <a className={currentTab == "4" ? "active tab-selector-link": "tab-selector-link"} active={currentTab == "4"} id="4" onClick={handleTabSwitch}>
             Problem instances
-          </NavLink>
-        </NavItem>
+          </a>
+        </li>
       </ul>
       
       {/* Actual content of the tabs */}
