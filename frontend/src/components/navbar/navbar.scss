@@ -1,0 +1,49 @@
+@import '../../main.scss';
+
+.navbar {
+    // Long box shadow to make it soft
+    background-color: $white;
+    box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.2);
+    color: $primary
+}
+
+.navbar a{
+    // This is css 
+    color: $primary;
+    font-weight: bold;
+    font-size:1.2em;
+}
+
+.login-logout-button{
+    background-color: $primary;
+    // outline to make size equal to register button
+    outline: 3px solid $primary;
+    margin-right:8%;
+}
+
+.login-logout-button a {
+    color: $white;
+    font-size: 1em;
+}
+
+.register-button{
+    outline: 3px solid $secondary;
+}
+
+.register-button a {
+    color: $secondary;
+    font-size: 1em;
+}
+
+.information-button{
+    width:3em;
+    height:1.5em;
+    outline: 3px solid $primary;
+    border-radius: 50%; /* Make the button round */
+    font-size: 1em; /* Set the font size */
+    margin:auto;
+    margin-right:8%;
+    display: inline-flex; /* Use inline-flex for centering content */
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+}
