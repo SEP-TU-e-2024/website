@@ -64,6 +64,7 @@ class SubmitViewSet(ViewSet):
 
         # Stores file in blob storage
         if not self.save_to_blob_storage(request_file, submission.id):
+            submission.delete()
             return HttpResponse(
                 {"error": "An error occurred during file upload"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,

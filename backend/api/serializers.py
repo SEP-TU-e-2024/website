@@ -3,23 +3,26 @@ from rest_framework.serializers import ModelSerializer
 
 from api.models import Problem
 
-from .models import Submission
+from .models import Submission, SpecifiedProblem
 from .models import UserProfile as User
-
+from .models import ProblemCategory
 
 class ProblemSerializer(serializers.ModelSerializer):
+    """"Simple problem serializer"""
     class Meta:
         model = Problem
         fields = "__all__"
 
 
 class UserSerializer(ModelSerializer):
+    """"Serializer for users"""
     class Meta:
         model = User
         fields = ("id", "password", "email")
 
 
 class SubmissionSerializer(serializers.ModelSerializer):
+    """"Serializer for submissions"""
     class Meta:
         model = Submission
         fields = (
@@ -28,3 +31,23 @@ class SubmissionSerializer(serializers.ModelSerializer):
             "created_at",
             "is_verified",
         )
+
+
+class ProblemCategorySerializer(serializers.ModelSerializer):
+    """"Serializer for problem categories"""
+    class Meta:
+        model = ProblemCategory
+        fields = ['name', 'description']
+
+
+class SpecifiedProblemSerializer(serializers.ModelSerializer):
+    """Serializer for specified problems"""
+    # Foreign field from category table
+    category=ProblemCategorySerializer(read_only=True)
+    submission_count = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = SpecifiedProblem
+        fields = ['id', 'category', 'type', 'style', 'submission_count']
+
+        

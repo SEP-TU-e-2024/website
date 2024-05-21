@@ -8,6 +8,7 @@ from rest_framework_simplejwt.views import (
 from .views.auth_view import AuthViewSet
 from .views.submit_view import SubmitViewSet
 from .views.views import RetrieveProblems, main
+from .views.problem_view import Problems
 
 # Routers are standard for viewsets
 api_router = DefaultRouter()
@@ -18,6 +19,7 @@ api_router.register(r"submit", SubmitViewSet, basename="submit")
 urlpatterns = [
     path("", main),
     path("problems", RetrieveProblems.as_view()),
+    path("problems/occurence_overview", Problems.as_view()),
     path("auth/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("activate/<uidb64>/<token>", AuthViewSet.activate, name="activate"),
