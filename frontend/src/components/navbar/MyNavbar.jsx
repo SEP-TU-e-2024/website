@@ -50,21 +50,21 @@ function MyNavbar() {
             </Nav>
                 
             {/* Navbar right aligned items */}
-            <Nav navbar className='ms-auto' pills>
+            <Nav navbar className='test' >
                 <NavItem  className='information-button'>
-                    <NavLink onClick={logout_user}>?</NavLink>
+                    <a onClick={logout_user}>?</a>
                 </NavItem>
                 {user ? (
                 <NavItem  className='login-logout-button'>
-                    <NavLink onClick={logout_user}>Logout</NavLink>
+                    <a onClick={logout_user} href=''>Logout</a>
                 </NavItem>
             ) : (
                 <NavItem  className='login-logout-button'>
-                    <NavLink active={routeStrings.LOGIN === location.pathname} href={routeStrings.LOGIN}>Login</NavLink>
+                    <a active={routeStrings.LOGIN === location.pathname} href={routeStrings.LOGIN}>Login</a>
                 </NavItem>
             )}
                 <NavItem className='register-button'>
-                    <NavLink active={routeStrings.REGISTER == location.pathname} href={routeStrings.REGISTER} >Registration</NavLink>
+                    <a active={routeStrings.REGISTER == location.pathname} href={routeStrings.REGISTER} >Registration</a>
                 </NavItem>
             </Nav>
         </Navbar>
