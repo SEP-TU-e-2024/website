@@ -11,8 +11,8 @@ import { useState, useEffect } from 'react';
  */
 function ProblemOccurenceTable({rows}) {
     const navigate = useNavigate();
-    let handleRowClick = ()=> {
-        navigate("/temporary");
+    let handleRowClick = (id)=> {
+        navigate("/problemoccurrence/" + id);
     }    
     
     // Robustness checks
@@ -41,7 +41,7 @@ function ProblemOccurenceTable({rows}) {
             <tbody>
                 {displayRows.map(row => (
                     // Hard coding to allow easier access to static values
-                    <tr key={row.id} onClick={handleRowClick}>
+                    <tr key={row.id} onClick={()=>handleRowClick(row.id)}>
                         <td key={"type"}>{row["type"]}</td>
                         <td key={"name"}>{row["category"]["name"]}</td>
                         <td key={"style"}>{row["style"]}</td>
