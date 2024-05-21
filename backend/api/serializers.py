@@ -3,9 +3,9 @@ from rest_framework.serializers import ModelSerializer
 
 from api.models import Problem
 
-from .models import Submission, SpecifiedProblem
+from .models import ProblemCategory, SpecifiedProblem, Submission
 from .models import UserProfile as User
-from .models import ProblemCategory
+
 
 class ProblemSerializer(serializers.ModelSerializer):
     """"Simple problem serializer"""
@@ -43,7 +43,7 @@ class ProblemCategorySerializer(serializers.ModelSerializer):
 class SpecifiedProblemSerializer(serializers.ModelSerializer):
     """Serializer for specified problems"""
     # Foreign field from category table
-    category=ProblemCategorySerializer(read_only=True)
+    category = ProblemCategorySerializer(read_only=True)
     submission_count = serializers.IntegerField(read_only=True)
 
     class Meta:

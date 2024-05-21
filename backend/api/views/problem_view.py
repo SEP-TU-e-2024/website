@@ -1,21 +1,20 @@
 # from django.shortcuts import render
 
-from django.http import HttpResponse
-from rest_framework import generics
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from django.db.models import Count
+from django.http import JsonResponse
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+
+from ..models import *
 from ..models import SpecifiedProblem
 from ..serializers import SpecifiedProblemSerializer
-from django.core.serializers import serialize
-from django.db.models import Count
-from ..models import *
-from django.http import JsonResponse
+
 
 class Problems(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):        
+    def get(self, request):
         """
         Serializes specified problems for the list of problem occurences
         """

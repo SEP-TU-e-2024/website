@@ -6,9 +6,9 @@ from rest_framework_simplejwt.views import (
 )
 
 from .views.auth_view import AuthViewSet
+from .views.problem_view import Problems
 from .views.submit_view import SubmitViewSet
 from .views.views import RetrieveProblems, main
-from .views.problem_view import Problems
 
 # Routers are standard for viewsets
 api_router = DefaultRouter()
