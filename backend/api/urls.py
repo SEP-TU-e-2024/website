@@ -19,7 +19,8 @@ api_router.register(r"submit", SubmitViewSet, basename="submit")
 urlpatterns = [
     path("", main),
     path("problems", RetrieveProblems.as_view()),
-    path("problems/occurence_overview", Problems.as_view()),
+    path("problems/occurrence_overview", Problems.as_view()),
+    #make a path here for the single problem occurrences
     path("auth/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("activate/<uidb64>/<token>", AuthViewSet.activate, name="activate"),
