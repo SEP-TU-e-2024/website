@@ -57,7 +57,7 @@ function ProblemOccurenceTable({rows}) {
  * @returns data, array
  */
 async function getRows() {
-    const response = await api.get('/problems/occurence_overview');
+    const response = await api.get('/problems/occurrence_overview');
     return response.data
 }
 
