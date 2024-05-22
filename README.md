@@ -8,6 +8,11 @@
 3. Create a `.env` file in the website folder.
 4. Add the following environment variables to the `.env` file:
 ``` properties
+## Azure Blob Storage
+
+AZURE_STORAGE_CONNECTION_STRING = 'connection_string'
+AZURE_STORAGE_CONTAINER_NAME = 'container_name'
+
 ## Backend 
 SECRET_KEY = "secret_key"
 DB_NAME = "benchlab"
@@ -15,10 +20,7 @@ DB_HOST = "localhost"
 DB_USER = "benchlabuser"
 DB_PASSWORD = "password"
 
-## Azure Blob Storage
 
-AZURE_STORAGE_CONNECTION_STRING = 'connection_string'
-AZURE_STORAGE_CONTAINER_NAME = 'container_name'
 
 DEBUG = "True"
 
