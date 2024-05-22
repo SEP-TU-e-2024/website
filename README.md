@@ -20,8 +20,6 @@ DB_HOST = "localhost"
 DB_USER = "benchlabuser"
 DB_PASSWORD = "password"
 
-
-
 DEBUG = "True"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -32,7 +30,7 @@ EMAIL_HOST_PASSWORD = "password"
 EMAIL_PORT = "587"
 EMAIL_USE_TLS = "True"
 
-FRONTEND_URL = http://localhost:5173/
+FRONTEND_URL = "http://localhost:5173/"
 
 ## Frontend 
 VITE_API_URL = "http://localhost:8000/api"
