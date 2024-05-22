@@ -16,6 +16,8 @@ import ProtectedLayout from "./components/routing/ProtectedLayout";
 import TokenAuthenticator from "./components/tokenauthenticator/TokenAuthenticator";
 import UnProtectedLayout from "./components/routing/UnprotectedLayout";
 
+import { getPOInfo } from './components/problemOccurenceOverview/ProblemOccurrenceOverviewPage';
+
 /**
  * This is the router object.
  * The authlayout gives all the other routes acces to the auth context that is needed to do the protected routing.
@@ -36,7 +38,7 @@ export const router = createBrowserRouter(
             path="/problemoccurrence/:poID" 
             element={<ProblemOccurrenceOverviewPage />} 
             loader={async ({ params }) => {
-              return "hi"; //TODO fetching logic here
+              return getPOInfo(params.poID); //TODO fetching logic here
             }} />
         </Route>
           
