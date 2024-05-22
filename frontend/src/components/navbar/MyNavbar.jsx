@@ -38,37 +38,44 @@ function MyNavbar() {
     
     
     return (
-        <Navbar expand={'md'} container='md' className='navbar'>
-            <NavbarBrand href='/'>
-                <img alt='logo' src='/src/assets/LOGO.svg' style={{width:120}} />
+        <Navbar expand="md" container="md" className="mynavbar">
+            <NavbarBrand href="/">
+                <img alt="logo" src="/src/assets/LOGO.svg" style={{ width: 120 }} />
             </NavbarBrand>
-            {/* Navbar left aligned items */}
-            <Nav navbar className='me-auto' pills>
-                <NavItem className='route-button'>
-                    <NavLink active={routeStrings.BESTKNOWNSOLUTIONS == location.pathname} href={routeStrings.BESTKNOWNSOLUTIONS}>Best Known Solutions</NavLink>
-                </NavItem>
-            </Nav>
-                
-            {/* Navbar right aligned items */}
-            <Nav navbar className='test' >
-                <NavItem  className='information-button'>
-                    <a onClick={logout_user}>?</a>
-                </NavItem>
-                {user ? (
-                <NavItem  className='login-logout-button'>
-                    <a onClick={logout_user} href=''>Logout</a>
-                </NavItem>
-            ) : (
-                <NavItem  className='login-logout-button'>
-                    <a href={routeStrings.LOGIN}>Login</a>
-                </NavItem>
-            )}
-                <NavItem className='register-button'>
-                    <a href={routeStrings.REGISTER} >Registration</a>
-                </NavItem>
-            </Nav>
+            <NavbarToggler onClick={toggle} />
+            <Collapse isOpen={isOpen} navbar>
+                <Nav navbar className="me-auto navbar-left">
+                    <NavItem className="route-button">
+                        <NavLink active={routeStrings.BESTKNOWNSOLUTIONS === location.pathname} href={routeStrings.BESTKNOWNSOLUTIONS}>
+                            Best Known Solutions
+                        </NavLink>
+                        <NavLink href={routeStrings.BESTKNOWNSOLUTIONS}>
+                           Testing tab
+                        </NavLink>
+                    </NavItem>
+                </Nav>
+                <Nav navbar className="ms-auto navbar-right d-flex flex-row">
+                    <NavItem className="information-button">
+                        <img src="/src/assets/question_mark.svg"/>
+                    </NavItem>
+                    {user ? (
+                        <NavItem className="login-logout-button">
+                            <a onClick={logout_user} href="">Logout</a>
+                        </NavItem>
+                    ) : (
+                        <>
+                        <NavItem className="login-logout-button">
+                            <a href={routeStrings.LOGIN}>Login</a>
+                        </NavItem>
+                        <NavItem className="register-button">
+                            <a href={routeStrings.REGISTER}>Registration</a>
+                        </NavItem>
+                        </>
+                    )}
+                </Nav>
+            </Collapse>
         </Navbar>
-    )
+    );
 }
 
 export default MyNavbar;

@@ -1,9 +1,9 @@
 @import '../../main.scss';
 
-.navbar {
+.mynavbar {
     // Long box shadow to make it soft
     background-color: $white;
-    box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
     color: $primary
 }
 
@@ -19,47 +19,46 @@
     text-decoration: underline;
 }
 
-.login-logout-button{
-    padding: 4% 15% 4% 15%;
-    background-color: $primary;
+.navbar-right{
+    a{
+        font-weight: bold;
+        text-decoration: none;
+        font-size: 1em;
+    }
 
-    // outline to make size equal to register button
-    outline: 3px solid $primary;
-    margin-right:10%;
+    li.information-button img{
+        width: 2em;
+    }
 }
 
-.login-logout-button a {
-    text-decoration: none;
-    font-weight: bold;
-    color: $white;
-    font-size: 1em;
+.navbar-left a{
+    margin-left:15px;
+}
+
+.nav-item {
+    display: flex;
+}
+
+.navbar-nav > li{
+    margin-left:10px;
+    margin-right:10px;
+}
+
+.login-logout-button{
+    background-color: $primary;
+    outline: 3px solid $primary; // outline to make size equal to register button
 }
 
 .register-button{
-    padding:4%;
-    margin-right: 15%;
     outline: 3px solid $secondary;
 }
 
+.login-logout-button a {
+    padding: 5px 50px 5px 50px;
+    color: $white;
+}
+
 .register-button a {
-    font-weight: bold;
-    text-decoration: none;
+    padding: 5px 20px 5px 20px;
     color: $secondary;
-    font-size: 1em;
-}
-
-.information-button{
-    padding: 0% 4% 0% 4%;
-    outline: 3px solid $primary;
-    border-radius: 50%; /* Make the button round */
-    font-size: 1em; /* Set the font size */
-    margin:auto;
-    margin-right:10%;
-    display: inline-flex; /* Use inline-flex for centering content */
-    align-items: center; /* Center content vertically */
-    justify-content: center; /* Center content horizontally */
-}
-
-.test{
-    width:15em;
 }
