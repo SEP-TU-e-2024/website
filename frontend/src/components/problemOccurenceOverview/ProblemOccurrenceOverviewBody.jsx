@@ -28,22 +28,22 @@ function ProblemOccurrenceOverviewBody() {
           {/* Used a normal ul instead of a reactstrap Nav component because reactstrap doesn't support underlined nav */}
           <ul id="" className="tab-selector">
             <li className="tab-selector-item">
-              <a className={currentTab == "1" ? "active tab-selector-link": "tab-selector-link"} active={currentTab == "1"} id="1" onClick={handleTabSwitch}>
+              <a className={currentTab == "1" ? "active tab-selector-link": "tab-selector-link"} /*active={currentTab == "1"}*/ id="1" onClick={handleTabSwitch}>
                 Overview
               </a>
             </li>
             <li className="tab-selector-item">
-              <a className={currentTab == "2" ? "active tab-selector-link": "tab-selector-link"} active={currentTab == "2"} id="2" onClick={handleTabSwitch}>
+              <a className={currentTab == "2" ? "active tab-selector-link": "tab-selector-link"} /*active={currentTab == "2"}*/ id="2" onClick={handleTabSwitch}>
                 Leaderboard
               </a>
             </li>
             <li className="tab-selector-item">
-              <a className={currentTab == "3" ? "active tab-selector-link": "tab-selector-link"} active={currentTab == "3"} id="3" onClick={handleTabSwitch}>
+              <a className={currentTab == "3" ? "active tab-selector-link": "tab-selector-link"} /*active={currentTab == "3"}*/ id="3" onClick={handleTabSwitch}>
                 Submission
               </a>
             </li>
             <li className="tab-selector-item">
-              <a className={currentTab == "4" ? "active tab-selector-link": "tab-selector-link"} active={currentTab == "4"} id="4" onClick={handleTabSwitch}>
+              <a className={currentTab == "4" ? "active tab-selector-link": "tab-selector-link"} /*active={currentTab == "4"}*/ id="4" onClick={handleTabSwitch}>
                 Problem instances
               </a>
             </li>
