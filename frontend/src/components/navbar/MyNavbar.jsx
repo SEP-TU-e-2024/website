@@ -29,7 +29,7 @@ function MyNavbar() {
     const routeStrings = {
         LEADERBOARD: '/leaderboard', 
         PROBLEM_INSTANCES: '/probleminstances',
-        PROBLEM_OCCURENCES: '/problemoccurences',
+        PROBLEM_OCCURENCES: '/problemoccurrence/1', //TODO change back to /problemoccurrences
         REGISTER: '/register',
         LOGIN: '/login',
         LOGOUT: '/logout',
