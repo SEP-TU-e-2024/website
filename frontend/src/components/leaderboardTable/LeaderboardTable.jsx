@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext, Component} from 'react'
 import {Pagination, PaginationItem, PaginationLink, Table, Container, Row, Col} from 'reactstrap'
+import './LeaderboardTable.scss'
     
 /**
  * Leaderboard table component.
@@ -25,19 +26,19 @@ function LeaderboardTable({columnNames, columnKeys, rows}) {
     
     return (
         <Container fluid className='justify-content-center'>
-            <Table striped responsive hover>
+            <Table className='leaderboard-table'>
                 <thead>
                     <tr>
                         {/* This column is always there */}
-                        <th>#</th>
+                        <th className='text-secondary border-0'>#</th>
                         
                         {/* If there are column names provided, render them */}
                         {!columnNames || columnNames.length <= 0 ? (
-                            <th>No column names where specified</th>
+                            <th className='border-0'>No column names where specified</th>
                         ) : (
                             columnNames.map(colName => (
                                 //maybe add a check somewhere that colname is a string
-                                <th>{colName}</th>
+                                <th className='text-primary border-0'>{colName}</th>
                             ))
                         )}
                     </tr>

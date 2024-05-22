@@ -1,0 +1,26 @@
+@import '/src/main.scss';
+
+$table-padding-left: 5em;
+
+.leaderboard-table {
+    border-collapse: separate;
+    border-spacing: 0 0.8em;
+    color: $primary;
+}
+
+.leaderboard-table tbody tr {
+    outline: 1px solid $gray-400;
+}
+
+// .leaderboard-table tbody td {
+//     padding: 0.5em;
+// }
+
+.leaderboard-table .left-col {
+    margin-left: $table-padding-left;
+}
+
+.leaderboard-table tbody tr td {
+    color: $primary;
+}
+// .leaderboard-table tbody th
