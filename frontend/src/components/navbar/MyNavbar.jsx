@@ -10,6 +10,7 @@ import {
 } from 'reactstrap'
 import { useLocation } from 'react-router-dom'
 import AuthContext from "../../context/AuthContext";
+import './navbar.scss';
 
 /**
  * Our custom navbar component.
@@ -27,9 +28,7 @@ function MyNavbar() {
     
     //TODO update this to work with dynamic paths (ie /leaderboard/PROBLEM_NAME/1)
     const routeStrings = {
-        LEADERBOARD: '/leaderboard', 
-        PROBLEM_INSTANCES: '/probleminstances',
-        PROBLEM_OCCURENCES: '/problemoccurences',
+        BESTKNOWNSOLUTIONS : '/bestknownsolutions',
         REGISTER: '/register',
         LOGIN: '/login',
         LOGOUT: '/logout',
@@ -39,48 +38,44 @@ function MyNavbar() {
     
     
     return (
-        <Navbar expand={'md'} /*fixed='top'*/ container='md' color='dark' dark>
-            <NavbarBrand href='/'>
-                <img alt='logo' src='/src/assets/react.svg' style={{height:40, width:40}} />
+        <Navbar expand="md" container="md" className="mynavbar">
+            <NavbarBrand href="/">
+                <img alt="logo" src="/src/assets/LOGO.svg" style={{ width: 120 }} />
             </NavbarBrand>
             <NavbarToggler onClick={toggle} />
             <Collapse isOpen={isOpen} navbar>
-                
-                {/* Navbar left aligned items */}
-                <Nav navbar className='me-auto' pills>
-                    <NavItem>
-                        <NavLink active={routeStrings.HOME == location.pathname || routeStrings.ROOT == location.pathname} href={routeStrings.HOME}>home</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink active={routeStrings.LEADERBOARD == location.pathname} href={routeStrings.LEADERBOARD}>Leaderboard</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink active={routeStrings.PROBLEM_INSTANCES == location.pathname} href={routeStrings.PROBLEM_INSTANCES}>Problem instances</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink active={routeStrings.PROBLEM_OCCURENCES == location.pathname} href={routeStrings.PROBLEM_OCCURENCES}>Problem occurences</NavLink>
+                <Nav navbar className="me-auto navbar-left">
+                    <NavItem className="route-button">
+                        <NavLink active={routeStrings.BESTKNOWNSOLUTIONS === location.pathname} href={routeStrings.BESTKNOWNSOLUTIONS}>
+                            Best Known Solutions
+                        </NavLink>
+                        <NavLink href={routeStrings.BESTKNOWNSOLUTIONS}>
+                           Testing tab
+                        </NavLink>
                     </NavItem>
                 </Nav>
-                    
-                {/* Navbar right aligned items */}
-                <Nav navbar className='ms-auto' pills>
-                    <NavItem>
-                        <NavLink active={routeStrings.REGISTER == location.pathname} href={routeStrings.REGISTER}>Registration</NavLink>
+                <Nav navbar className="ms-auto navbar-right d-flex flex-row">
+                    <NavItem className="information-button">
+                        <img src="/src/assets/question_mark.svg"/>
                     </NavItem>
                     {user ? (
-                    <NavItem>
-                        <NavLink onClick={logout_user}>Logout</NavLink>
-                    </NavItem>
-                ) : (
-                    <NavItem>
-                        <NavLink active={routeStrings.LOGIN === location.pathname} href={routeStrings.LOGIN}>Login</NavLink>
-                    </NavItem>
-                )}
+                        <NavItem className="login-logout-button">
+                            <a onClick={logout_user} href="">Logout</a>
+                        </NavItem>
+                    ) : (
+                        <>
+                        <NavItem className="login-logout-button">
+                            <a href={routeStrings.LOGIN}>Login</a>
+                        </NavItem>
+                        <NavItem className="register-button">
+                            <a href={routeStrings.REGISTER}>Registration</a>
+                        </NavItem>
+                        </>
+                    )}
                 </Nav>
-                
             </Collapse>
         </Navbar>
-    )
+    );
 }
 
 export default MyNavbar;

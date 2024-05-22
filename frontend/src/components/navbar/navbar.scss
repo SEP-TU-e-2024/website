@@ -1,0 +1,74 @@
+@import '../../main.scss';
+
+.mynavbar {
+    // Long box shadow to make it soft
+    background-color: $white;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    color: $primary
+}
+
+.route-button a{
+    // This is css 
+    color: $primary;
+    font-weight: bold;
+    font-size:1.2em;
+}
+
+.route-button a:hover{
+    // This is a hover styling
+    color: $primary;
+    text-decoration: underline;
+}
+
+.navbar-right{
+    // Right part of navbar
+    a{
+        font-weight: bold;
+        text-decoration: none;
+        font-size: 1em;
+    }
+
+    // Styling of question mark button
+    li.information-button img{
+        width: 2em;
+    }
+}
+
+// Margin for burger menu
+.navbar-left a{
+    margin-left:15px;
+}
+
+// Flex for left hand side
+.nav-item {
+    display: flex;
+}
+
+// Overriding default bootstrap
+.navbar-nav > li{
+    margin-left:10px;
+    margin-right:10px;
+}
+
+// Color of background and border
+.login-logout-button{
+    background-color: $primary;
+    outline: 3px solid $primary; // outline to make size equal to register button
+}
+
+// Color of outline
+.register-button{
+    outline: 3px solid $secondary;
+}
+
+// Padding of login button
+.login-logout-button a {
+    padding: 5px 50px 5px 50px;
+    color: $white;
+}
+
+// Padding of register button
+.register-button a {
+    padding: 5px 20px 5px 20px;
+    color: $secondary;
+}
