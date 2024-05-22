@@ -15,6 +15,11 @@ DB_HOST = "localhost"
 DB_USER = "benchlabuser"
 DB_PASSWORD = "password"
 
+## Azure Blob Storage
+
+AZURE_STORAGE_CONNECTION_STRING = 'connection_string'
+AZURE_STORAGE_CONTAINER_NAME = 'container_name'
+
 DEBUG = "True"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
