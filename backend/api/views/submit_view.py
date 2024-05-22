@@ -50,7 +50,6 @@ class SubmitViewSet(ViewSet):
 
         # Checks validity of submitted data
         serializer = SubmissionSerializer(data=request.data)
-        print(serializer)
         if not serializer.is_valid():
             for field, messages in serializer.errors.items():
                 return Response({"error": messages}, status=status.HTTP_400_BAD_REQUEST)
@@ -62,7 +61,6 @@ class SubmitViewSet(ViewSet):
             user, _ = User.objects.get_or_create(email=request.data["email"])
 
         submission = serializer.save()
-        print(submission.problem_id)
         submission.user = user
         submission.save()
 
