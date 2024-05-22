@@ -89,15 +89,17 @@ class ProblemCategory(models.Model):
 
     name = models.CharField(max_length=256) # For example TSP
     description = models.CharField(max_length=512) # Description of problem
-    simulator = models.ForeignKey(Simulator, on_delete=models.CASCADE, null=True)
-    validator = models.ForeignKey(Validator, on_delete=models.CASCADE, null=True)
+    simulator = models.ForeignKey(Simulator, on_delete=models.CASCADE, null=True, blank=True)
+    validator = models.ForeignKey(Validator, on_delete=models.CASCADE, null=True, blank=True)
 
 class SpecifiedProblem(models.Model):
     """Occurence of problem, i.e. with certain settings """
 
     category = models.ForeignKey(ProblemCategory, on_delete=models.CASCADE, null=True)
-    evualuation_settings = models.ForeignKey(EvaluationSetting, on_delete=models.CASCADE, null=True)
+    evualuation_settings = models.ForeignKey(EvaluationSetting, on_delete=models.CASCADE, null=True, blank=True)
     metrics = models.CharField(max_length=512) # Problem specific metrics to use
+    style = models.CharField(max_length=256, null=True)
+    type = models.CharField(max_length=256, null=True)
 
 class BenchmarkSet(models.Model):
     """Relational table between specified problems and their benchmark instances """
