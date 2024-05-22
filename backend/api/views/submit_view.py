@@ -25,6 +25,7 @@ class SubmitViewSet(ViewSet):
     """
     This class is responsible for handling all requests related to submitting a zip file.
     """
+
     logger = logging.getLogger(__name__)
 
     @action(detail=False, methods=["POST"])
@@ -38,15 +39,18 @@ class SubmitViewSet(ViewSet):
             )
 
         # Check file properties
-        if not (self.check_file_name(request_file) and
-                self.check_file_size(request_file) and
-                self.check_file_type(request_file)):
+        if not (
+            self.check_file_name(request_file)
+            and self.check_file_size(request_file)
+            and self.check_file_type(request_file)
+        ):
             return HttpResponse(
                 {"error": "Invalid file provided"}, status=status.HTTP_400_BAD_REQUEST
             )
 
         # Checks validity of submitted data
         serializer = SubmissionSerializer(data=request.data)
+        print(serializer)
         if not serializer.is_valid():
             for field, messages in serializer.errors.items():
                 return Response({"error": messages}, status=status.HTTP_400_BAD_REQUEST)
@@ -57,8 +61,8 @@ class SubmitViewSet(ViewSet):
         if user.is_anonymous:
             user, _ = User.objects.get_or_create(email=request.data["email"])
 
-        # Stores submission in database
         submission = serializer.save()
+        print(submission.problem_id)
         submission.user = user
         submission.save()
 
@@ -71,15 +75,17 @@ class SubmitViewSet(ViewSet):
             )
 
         # Verfies submission
-        return self.verify_submission(request, not request.user.is_anonymous, submission)
-        
+        return self.verify_submission(
+            request, not request.user.is_anonymous, submission
+        )
+
     def verify_submission(self, request, logged_in, submission):
         # Verifies submission if logged in
         if logged_in:
             submission.is_verified = True
             submission.save()
             return HttpResponse({}, status=status.HTTP_200_OK)
-        
+
         # User not logged in, hence sent verification email
         if not self.send_submission_email(request, submission):
             submission.delete()
@@ -93,8 +99,8 @@ class SubmitViewSet(ViewSet):
         """
         Checks file for valid type
         """
-        file_extension = file.name.split('.')[-1].lower()
-        if file_extension not in ['zip', 'rar', '7z']:
+        file_extension = file.name.split(".")[-1].lower()
+        if file_extension not in ["zip", "rar", "7z"]:
             return False
         return True
 
@@ -166,7 +172,9 @@ class SubmitViewSet(ViewSet):
             submission = Submission.objects.get(id=sid)
         except ObjectDoesNotExist:
             self.logger.warning("Could not locate user")
-            return HttpResponse({"User error" : "User not found."}, status=status.HTTP_400_BAD_REQUEST)
+            return HttpResponse(
+                {"User error": "User not found."}, status=status.HTTP_400_BAD_REQUEST
+            )
 
         # Checks token validity
         if submission is not None and submission_confirm_token.check_token(
@@ -176,7 +184,10 @@ class SubmitViewSet(ViewSet):
             submission.is_verified = True
             submission.save()
             return HttpResponse({}, status=status.HTTP_200_OK)
-        return HttpResponse({"Submission error" : "Submission not found"}, status=status.HTTP_400_BAD_REQUEST)
+        return HttpResponse(
+            {"Submission error": "Submission not found"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
     def save_to_blob_storage(self, file, submission_id):
         """Saves a file to Azure Blob Storage
@@ -196,7 +207,7 @@ class SubmitViewSet(ViewSet):
             )
             container_name = os.getenv("AZURE_STORAGE_CONTAINER_NAME")
 
-            file_extension = file.name.split('.')[-1].lower()
+            file_extension = file.name.split(".")[-1].lower()
             blob_client = blob_service_client.get_blob_client(
                 container=container_name, blob=f"{submission_id}.{file_extension}"
             )
