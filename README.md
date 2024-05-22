@@ -92,9 +92,9 @@ To change the settings or add features to ruff check the `ruff.toml` file. This 
 
 The following keybinds might be different on your machine:
 
-Pressing <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd> will allow you to use Ruff to format and fix the code. Keep in mind that Ruff is not able to fix all issues.
+Pressing <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>F</kbd> will allow you to use Ruff to format and fix the code. Keep in mind that Ruff is not able to fix all issues.
 
-Pressing <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>O</kbd> will use isort to sort the imports. 
+Pressing <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>O</kbd> will use isort to sort the imports. 
 
 ## Code quality analysis
 
