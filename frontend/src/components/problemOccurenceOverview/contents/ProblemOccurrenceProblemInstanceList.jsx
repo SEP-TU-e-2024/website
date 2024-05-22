@@ -7,7 +7,7 @@ import { Container, Row, Col } from "reactstrap";
 function ProblemOccurrenceProblemInstanceList() {
   return (
     <Container className="ps-0 pt-2">
-        <Row className="border">
+        <Row className="">
           <Col>
             <p>An interactive list of the included problem instances</p>
           </Col>

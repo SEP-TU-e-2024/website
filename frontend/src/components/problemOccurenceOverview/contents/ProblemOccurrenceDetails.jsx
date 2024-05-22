@@ -7,7 +7,7 @@ import { Container, Row, Col } from "reactstrap";
 function ProblemOccurrenceDetails() {
   return (
     <Container className="ps-0 pt-2">
-        <Row className="border">
+        <Row className="">
           <Col>
             <p>More details about the problem and the run settings</p>
           </Col>

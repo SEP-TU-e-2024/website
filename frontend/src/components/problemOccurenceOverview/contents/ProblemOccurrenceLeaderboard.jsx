@@ -7,7 +7,7 @@ import { Container, Row, Col } from "reactstrap";
 function ProblemOccurrenceLeaderboard() {
   return (
     <Container className="ps-0 pt-2">
-        <Row className="border">
+        <Row className="">
           <Col>
             <p>The leaderboard can go here.</p>
           </Col>
