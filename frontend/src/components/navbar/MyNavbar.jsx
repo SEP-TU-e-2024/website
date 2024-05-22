@@ -44,7 +44,7 @@ function MyNavbar() {
             </NavbarBrand>
             {/* Navbar left aligned items */}
             <Nav navbar className='me-auto' pills>
-                <NavItem>
+                <NavItem className='route-button'>
                     <NavLink active={routeStrings.BESTKNOWNSOLUTIONS == location.pathname} href={routeStrings.BESTKNOWNSOLUTIONS}>Best Known Solutions</NavLink>
                 </NavItem>
             </Nav>
@@ -60,11 +60,11 @@ function MyNavbar() {
                 </NavItem>
             ) : (
                 <NavItem  className='login-logout-button'>
-                    <a active={routeStrings.LOGIN === location.pathname} href={routeStrings.LOGIN}>Login</a>
+                    <a href={routeStrings.LOGIN}>Login</a>
                 </NavItem>
             )}
                 <NavItem className='register-button'>
-                    <a active={routeStrings.REGISTER == location.pathname} href={routeStrings.REGISTER} >Registration</a>
+                    <a href={routeStrings.REGISTER} >Registration</a>
                 </NavItem>
             </Nav>
         </Navbar>
