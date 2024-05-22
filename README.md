@@ -8,6 +8,11 @@
 3. Create a `.env` file in the website folder.
 4. Add the following environment variables to the `.env` file:
 ``` properties
+## Azure Blob Storage
+
+AZURE_STORAGE_CONNECTION_STRING = 'connection_string'
+AZURE_STORAGE_CONTAINER_NAME = 'container_name'
+
 ## Backend 
 SECRET_KEY = "secret_key"
 DB_NAME = "benchlab"
@@ -25,7 +30,7 @@ EMAIL_HOST_PASSWORD = "password"
 EMAIL_PORT = "587"
 EMAIL_USE_TLS = "True"
 
-FRONTEND_URL = http://localhost:5173/
+FRONTEND_URL = "http://localhost:5173/"
 
 ## Frontend 
 VITE_API_URL = "http://localhost:8000/api"

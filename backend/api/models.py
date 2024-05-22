@@ -17,22 +17,22 @@ class Problem(models.Model):
 class UserProfileManager(BaseUserManager):
     """Manager for user profiles"""
 
-    def create_user(self, email, name, password=None):
+    def create_user(self, email, password=None):
         """Create a new user profile"""
         if not email:
             raise ValueError("User must have an email address")
 
         email = self.normalize_email(email)
-        user = self.model(email=email, name=name)
+        user = self.model(email=email)
 
         user.set_password(password)
         user.save(using=self._db)
 
         return user
 
-    def create_superuser(self, email, name, password):
+    def create_superuser(self, email, password):
         """Create a new superuser profile"""
-        user = self.create_user(email, name, password)
+        user = self.create_user(email, password)
         user.is_superuser = True
         user.is_staff = True
         user.is_active = True
@@ -44,7 +44,7 @@ class UserProfileManager(BaseUserManager):
 
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     """Database model for users in the system"""
-    
+
     id = models.AutoField(primary_key=True)
     email = models.EmailField(max_length=255, unique=True, null=False)
     name = models.CharField(max_length=255, null=True, blank=True)
@@ -61,66 +61,84 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         """Return string representation of our user"""
         return self.email
 
+
 class EvaluationSetting(models.Model):
-    """Settings for a problem """
+    """Settings for a problem"""
 
     cpu = models.IntegerField()
     time_limit = models.FloatField()
+
 
 class StorageLocation(models.Model):
     """Storage path reference to locate file(s)"""
 
     filepath = models.CharField(max_length=256)
 
+
 class Simulator(StorageLocation):
     """Program that will evaluate solvers"""
+
     pass
+
 
 class Validator(StorageLocation):
     """Program that will evaluate solutions"""
+
     pass
+
 
 class BenchmarkInstance(StorageLocation):
-    """Single data instance for an optimization problem """
+    """Single data instance for an optimization problem"""
+
     pass
 
-class ProblemCategory(models.Model):
-    """Category of problem """
 
-    name = models.CharField(max_length=256) # For example TSP
-    description = models.CharField(max_length=512) # Description of problem
-    simulator = models.ForeignKey(Simulator, on_delete=models.CASCADE, null=True, blank=True)
-    validator = models.ForeignKey(Validator, on_delete=models.CASCADE, null=True, blank=True)
+class ProblemCategory(models.Model):
+    """Category of problem"""
+
+    name = models.CharField(max_length=256)  # For example TSP
+    description = models.CharField(max_length=512)  # Description of problem
+    simulator = models.ForeignKey(
+        Simulator, on_delete=models.CASCADE, null=True, blank=True
+    )
+    validator = models.ForeignKey(
+        Validator, on_delete=models.CASCADE, null=True, blank=True
+    )
+
 
 class SpecifiedProblem(models.Model):
-    """Occurence of problem, i.e. with certain settings """
+    """Occurence of problem, i.e. with certain settings"""
 
+    id = models.AutoField(primary_key=True)
     category = models.ForeignKey(ProblemCategory, on_delete=models.CASCADE, null=True)
-    evualuation_settings = models.ForeignKey(EvaluationSetting, on_delete=models.CASCADE, null=True, blank=True)
-    metrics = models.CharField(max_length=512) # Problem specific metrics to use
+    evualuation_settings = models.ForeignKey(
+        EvaluationSetting, on_delete=models.CASCADE, null=True, blank=True
+    )
+    metrics = models.CharField(max_length=512)  # Problem specific metrics to use
     style = models.CharField(max_length=256, null=True)
     type = models.CharField(max_length=256, null=True)
 
+
 class BenchmarkSet(models.Model):
-    """Relational table between specified problems and their benchmark instances """
+    """Relational table between specified problems and their benchmark instances"""
 
     problem = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE, null=True)
     instance = models.ForeignKey(BenchmarkInstance, on_delete=models.CASCADE, null=True)
 
+
 class Submission(models.Model):
     """Database model for submissions"""
 
-    # TODO Link with blob storage for getting
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
-    problem = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE, null=True)
+    problem_id = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE)
     submission_name = models.CharField(max_length=100, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_verified = models.BooleanField(default=False)
 
+
 class Result(models.Model):
-    """Table that stores result of a submission """
+    """Table that stores result of a submission"""
 
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
     metric = models.CharField(max_length=512)
-    score = models.DecimalField(decimal_places=2,max_digits=6)
-    
+    score = models.DecimalField(decimal_places=2, max_digits=6)
