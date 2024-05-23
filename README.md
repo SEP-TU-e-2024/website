@@ -8,6 +8,11 @@
 3. Create a `.env` file in the website folder.
 4. Add the following environment variables to the `.env` file:
 ``` properties
+## Azure Blob Storage
+
+AZURE_STORAGE_CONNECTION_STRING = 'connection_string'
+AZURE_STORAGE_CONTAINER_NAME = 'container_name'
+
 ## Backend 
 SECRET_KEY = "secret_key"
 DB_NAME = "benchlab"
@@ -25,7 +30,7 @@ EMAIL_HOST_PASSWORD = "password"
 EMAIL_PORT = "587"
 EMAIL_USE_TLS = "True"
 
-FRONTEND_URL = http://localhost:5173/
+FRONTEND_URL = "http://localhost:5173/"
 
 ## Frontend 
 VITE_API_URL = "http://localhost:8000/api"
@@ -87,9 +92,9 @@ To change the settings or add features to ruff check the `ruff.toml` file. This 
 
 The following keybinds might be different on your machine:
 
-Pressing <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd> will allow you to use Ruff to format and fix the code. Keep in mind that Ruff is not able to fix all issues.
+Pressing <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>F</kbd> will allow you to use Ruff to format and fix the code. Keep in mind that Ruff is not able to fix all issues.
 
-Pressing <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>O</kbd> will use isort to sort the imports. 
+Pressing <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>O</kbd> will use isort to sort the imports. 
 
 ## Code quality analysis
 
