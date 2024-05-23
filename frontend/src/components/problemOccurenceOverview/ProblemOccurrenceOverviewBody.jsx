@@ -10,7 +10,7 @@ import './ProblemOccurrrenceOverviewBody.scss';
  * A component of the body of a problem occurence overview page.
  * Contains tabs for different parts of the overview
  */
-function ProblemOccurrenceOverviewBody() {
+function ProblemOccurrenceOverviewBody({problemData}) {
   const [currentTab, setCurrentTab] = useState("1");
   
   //Handle the tab switch by setting the currentTab state to the id of the tab that is clicked
@@ -52,7 +52,7 @@ function ProblemOccurrenceOverviewBody() {
           {/* Actual content of the tabs */}
           <TabContent activeTab={currentTab}>
             <TabPane tabId="1">
-              <ProblemOccurrenceDescription />
+              <ProblemOccurrenceDescription problemData={problemData}/>
             </TabPane>
             <TabPane tabId="2">
               <ProblemOccurrenceLeaderboard />

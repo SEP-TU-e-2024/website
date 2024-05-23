@@ -8,14 +8,15 @@ import { useLoaderData } from "react-router-dom";
  * Page component for a problem occurence overview.
  */
 function ProblemOccurrenceOverviewPage() {
-  const POData = useLoaderData();
+  const POData = useLoaderData()[0];//it returns an array because we use the same endpoint as for the list of problem occurrences
   
   console.log(POData);
+  // console.log(POData.category);
   
   return (
     <div>
-      <ProblemOccurrenceOverviewHeader />
-      <ProblemOccurrenceOverviewBody />
+      <ProblemOccurrenceOverviewHeader problemData={POData}/>
+      <ProblemOccurrenceOverviewBody problemData={POData}/>
     </div>
   )
 };
