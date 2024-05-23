@@ -110,7 +110,7 @@ class SpecifiedProblem(models.Model):
     """Occurence of problem, i.e. with certain settings"""
 
     category = models.ForeignKey(ProblemCategory, on_delete=models.CASCADE, null=True)
-    evualuation_settings = models.ForeignKey(
+    evaluation_settings = models.ForeignKey(
         EvaluationSetting, on_delete=models.CASCADE, null=True, blank=True
     )
     metrics = models.CharField(max_length=512)  # Problem specific metrics to use

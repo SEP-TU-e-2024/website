@@ -20,11 +20,11 @@ class Problems(APIView):
         #implement a filter here in the request
         #
         # print(request.data['POId'])
-        
+         
         
         # Joining tables and adding field
         if 'POId' in request.data:
-            problems = SpecifiedProblem.objects.all().prefetch_related("category").annotate(submission_count=Count('submission')).filter(id=request.data['POId'])
+            problems = SpecifiedProblem.objects.all().prefetch_related("category").prefetch_related("evaluation_settings").annotate(submission_count=Count('submission')).filter(id=request.data['POId'])
         else:
             problems = SpecifiedProblem.objects.all().prefetch_related("category").annotate(submission_count=Count('submission'))
             
