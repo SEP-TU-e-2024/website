@@ -12,7 +12,12 @@ import './ProblemOccurrrenceOverviewBody.scss';
  * Page component for a problem occurence overview.
  */
 function ProblemOccurrenceOverviewPage() {
+  
   const problemData = useLoaderData()[0];//it returns an array because we use the same endpoint as for the list of problem occurrences
+  if (problemData == null) {
+    //somewhat janky error handling but there isn't really any other exception that is thrown somewhere
+    throw new Error("Problem with fetching the requested data from db");
+  }
   
   const [currentTab, setCurrentTab] = useState("1");
   
@@ -20,9 +25,6 @@ function ProblemOccurrenceOverviewPage() {
   function handleTabSwitch(e) {
     setCurrentTab(e.target.id);
   }
-  
-  console.log(problemData);
-  // console.log(POData.category);
   
   return (
     <div>
@@ -101,8 +103,8 @@ function ProblemOccurrenceOverviewPage() {
  * @returns response data
  */
 export async function getPOInfo(occurenceId) {
-  const response = await api.post('/problems/occurrence_overview', {POId : occurenceId}); 
-  return response.data;
+    const response = await api.post('/problems/occurrence_overview', {POId : occurenceId});
+    return response.data;
 }
 
 export default ProblemOccurrenceOverviewPage;
