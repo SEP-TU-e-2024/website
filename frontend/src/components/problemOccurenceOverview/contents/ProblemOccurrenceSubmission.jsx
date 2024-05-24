@@ -10,7 +10,6 @@ function ProblemOccurrenceSubmission() {
     <Container className="ps-0 pt-2">
         <Row className="">
           <Col>
-            <p>More details about the problem and the run settings</p>
             <Submit/>
           </Col>
         </Row>
