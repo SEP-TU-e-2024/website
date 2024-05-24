@@ -103,8 +103,18 @@ function ProblemOccurrenceOverviewPage() {
  * @returns response data
  */
 export async function getPOInfo(occurenceId) {
+  try {
     const response = await api.post('/problems/occurrence_overview', {POId : occurenceId});
     return response.data;
+  } catch(err) {
+    console.error(err);
+    if (err.response.status == 404) {
+      throw new Error("Error 404: problem occurrence was not found");
+    } else if (err.response.status == 401) {
+      throw new Error("Error 401: unauthorized to access this content");
+    }
+    else throw err;
+  }
 }
 
 export default ProblemOccurrenceOverviewPage;
