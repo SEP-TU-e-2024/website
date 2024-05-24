@@ -57,8 +57,19 @@ function ProblemOccurenceTable({rows}) {
  * @returns data, array
  */
 async function getRows() {
-    const response = await api.post('/problems/occurrence_overview', {});
-    return response.data
+    try {
+        const response = await api.post('/problems/occurrence_overview', {});
+        return response.data
+    } catch(err) {
+        if (err.response.status == 401) {
+            throw new Error("Error 401: unauthorized to acces this content");
+            //TODO maybe redirect here or something
+        } else if (err.response.status == 404) {
+            throw new Error("Error 404: no problem instances found in the database");
+        } else {
+            throw err;
+        }
+    }
 }
 
 /**
@@ -76,7 +87,7 @@ function HomePage() {
             setRows(data);
         } catch(error) {
             // TODO, proper handling
-            console.log(error)
+            console.error(error)
         }}
 
         fetchRows();
