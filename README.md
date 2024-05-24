@@ -90,6 +90,7 @@ Use the production branch to deploy the webapp.
 
 To get initial data in the database run `python manage.py loaddata XXXX_filename.json`.
 To remove all data from the database run `python manage.py flush` this will permanently delete all data from the database so be carefull with this.
+Note: the passwords for the currently seeded accounts are `admin`, `staff` and `user` respectively
 
 ### Making new seeder files
 
