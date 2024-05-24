@@ -1,7 +1,7 @@
 import {React, useState} from "react"
 import api from "../../api";
 import { useLoaderData } from "react-router-dom";
-import { Container, Row, Col } from 'reactstrap'
+import { Container, Row, Col, TabContent, TabPane } from 'reactstrap'
 import ProblemOccurrenceDescription from "./contents/ProblemOccurrenceDescription";
 import ProblemOccurrenceLeaderboard from "./contents/ProblemOccurrenceLeaderboard";
 import ProblemOccurrenceProblemInstanceList from "./contents/ProblemOccurrenceProblemInstanceList";
