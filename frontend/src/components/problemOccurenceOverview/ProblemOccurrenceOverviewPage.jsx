@@ -5,7 +5,7 @@ import { Container, Row, Col, TabContent, TabPane } from 'reactstrap'
 import ProblemOccurrenceDescription from "./contents/ProblemOccurrenceDescription";
 import ProblemOccurrenceLeaderboard from "./contents/ProblemOccurrenceLeaderboard";
 import ProblemOccurrenceProblemInstanceList from "./contents/ProblemOccurrenceProblemInstanceList";
-import ProblemOccurrenceDetails from "./contents/ProblemOccurrenceDetails";
+import ProblemOccurrenceSubmission from "./contents/ProblemOccurrenceSubmission";
 import './ProblemOccurrrenceOverviewBody.scss';
 
 /**
@@ -80,7 +80,7 @@ function ProblemOccurrenceOverviewPage() {
               <ProblemOccurrenceLeaderboard />
             </TabPane>
             <TabPane tabId="3">
-              <ProblemOccurrenceDetails />
+              <ProblemOccurrenceSubmission />
             </TabPane>
             <TabPane tabId="4">
               <ProblemOccurrenceProblemInstanceList />
