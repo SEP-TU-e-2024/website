@@ -111,7 +111,7 @@ class SpecifiedProblem(models.Model):
 
     id = models.AutoField(primary_key=True)
     category = models.ForeignKey(ProblemCategory, on_delete=models.CASCADE, null=True)
-    evualuation_settings = models.ForeignKey(
+    evaluation_settings = models.ForeignKey(
         EvaluationSetting, on_delete=models.CASCADE, null=True, blank=True
     )
     metrics = models.CharField(max_length=512)  # Problem specific metrics to use

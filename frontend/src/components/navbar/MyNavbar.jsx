@@ -38,6 +38,7 @@ function MyNavbar() {
     
     
     return (
+
         <Navbar expand="md" container="md" className="mynavbar">
             <NavbarBrand href="/">
                 <img alt="logo" src="/src/assets/LOGO.svg" style={{ width: 120 }} />
