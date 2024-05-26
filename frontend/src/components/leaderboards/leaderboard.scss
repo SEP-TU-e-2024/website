@@ -1,0 +1,69 @@
+@import '/src/main.scss';
+
+//the clickable cells for the different submissions
+.leaderboard-table tbody tr.view, .pi-table tbody tr.view {
+    outline: 1px solid $primary;
+}
+
+.leaderboard-table tbody td {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.leaderboard-table tr th {
+    // padding-left: 0.5em;
+    // padding-right: 0.5em;
+    text-align: left;
+    font-size: medium;
+    font-weight: normal;
+    // background-color: aqua;
+}
+
+.leaderboard-table thead th {
+    font-weight: $font-weight-semibold;
+}
+
+.leaderboard-table td:first-child, .leaderboard-table th:first-child, .pi-table th:first-child .pi-table td:first-child {
+    color: $secondary;
+    padding-left: 3em;
+}
+.leaderboard-table td:last-child, .leaderboard-table th:last-child, .pi-table th:last-child .pi-table td:last-child {
+    padding-right: 2em;
+}
+//overriding the lastchild styling for the rows that contain a collapse
+.leaderboard-table td.fold-container {
+    padding-right: 0;
+}
+.leaderboard-table, .pi-table {
+    // font-weight: normal;
+    // display: flex;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    border-collapse:separate; 
+    border-spacing: 0 0.8em;
+    color: $primary;
+}
+
+.leaderboard-table .download-cell {
+    text-align: center;
+}
+
+.fold-content {
+    // padding-left: 2em;
+    // padding-right: 2em;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.pi-table thead tr {
+    margin-top:0;
+}
+
+//the classes for toggling the collapses
+.leaderboard-table > tbody > tr.fold-closed {
+    display: none;
+}
+.leaderboard-table > tbody > tr.fold-open {
+    display: table-row;
+}

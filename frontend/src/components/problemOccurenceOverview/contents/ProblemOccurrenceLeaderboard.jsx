@@ -1,5 +1,6 @@
 import React from "react"
 import { Container, Row, Col } from "reactstrap";
+import TSPLeaderboard from "../../leaderboards/TSPLeaderboard";
 
 /**
  * A component that includes the leaderboard of a problem occurence.
@@ -9,7 +10,7 @@ function ProblemOccurrenceLeaderboard() {
     <Container className="ps-0 pt-2">
         <Row className="">
           <Col>
-            <p>The leaderboard can go here.</p>
+            <TSPLeaderboard />
           </Col>
         </Row>
     </Container>
