@@ -8,12 +8,14 @@ from rest_framework_simplejwt.views import (
 from .views.auth_view import AuthViewSet
 from .views.problem_view import Problems
 from .views.submit_view import SubmitViewSet
+from .views.results_view import ResultViewSet
 from .views.views import RetrieveProblems, main
 
 # Routers are standard for viewsets
 api_router = DefaultRouter()
 api_router.register(r"auth", AuthViewSet, basename="auth")
 api_router.register(r"submit", SubmitViewSet, basename="submit")
+api_router.register(r"result", ResultViewSet, basename="result")
 
 # Urlpatterns are default for normal views
 urlpatterns = [
@@ -33,7 +35,7 @@ urlpatterns = [
         "confirmSubmission/<sidb64>/<token>",
         SubmitViewSet.confirm_submission,
         name="confirmSubmission",
-    ),
+    )
 ]
 
 # Combining urls of routers and patterns
