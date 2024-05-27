@@ -52,6 +52,11 @@ export const AuthProvider = ({children}) => {
         e.preventDefault()
 
         // Checks if password is filled in correctly
+        if (e.target.email.value != e.target.confirm_email.value) {
+            alert("Emails not equal")
+            return
+        }
+
         if (e.target.password.value != e.target.confirm_password.value) {
             alert("Passwords not equal")
             return

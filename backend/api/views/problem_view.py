@@ -11,7 +11,7 @@ from ..models import SpecifiedProblem
 from ..serializers import SpecifiedProblemSerializer
 
 class Problems(APIView):
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
     def post(self, request):
         """

@@ -58,8 +58,6 @@ function ProblemOccurenceTable({rows}) {
  */
 async function getRows() {
     try {
-        const tokens = JSON.parse(localStorage.getItem('authTokens'));
-        console.log(tokens)
         const response = await api.post('/problems/occurrence_overview', {});
         return response.data
     } catch(err) {
