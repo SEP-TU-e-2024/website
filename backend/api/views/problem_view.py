@@ -20,7 +20,7 @@ class Problems(APIView):
         if 'POId' in request.data:
             problems = SpecifiedProblem.objects.all().prefetch_related("category").prefetch_related("evaluation_settings").annotate(submission_count=Count('submission')).filter(id=request.data['POId'])
             if len(problems) == 0:
-                #when there is no problem with the requested id, return a 404 response
+                # When there is no problem with the requested id, return a 404 response
                 return HttpResponseNotFound()
         else:
             problems = SpecifiedProblem.objects.all().prefetch_related("category").annotate(submission_count=Count('submission'))
