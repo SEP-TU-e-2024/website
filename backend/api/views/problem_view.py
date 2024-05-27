@@ -10,7 +10,6 @@ from ..serializers import SpecifiedProblemSerializer
 
 
 class Problems(APIView):
-    #permission_classes = [IsAuthenticated]
 
     def post(self, request):
         """
