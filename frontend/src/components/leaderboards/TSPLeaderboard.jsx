@@ -61,8 +61,8 @@ function TSPLeaderboard({rowLimit, showPagination}) {
                 <td>1</td>
                 <td>guicimodo</td>
                 <td>Test</td>
-                <td>1.00</td>
-                <td>15.00</td>
+                <td className="seconds">1.00</td>
+                <td>27-5-2024</td>
                 <td className="download-cell"><i className="bi-download" /></td>
                 <td className="download-cell"><i className="bi-download" /></td>
                 <td className="download-cell"><i className="bi-download" /></td>
@@ -85,7 +85,7 @@ function TSPLeaderboard({rowLimit, showPagination}) {
                       </thead>
                       <tbody>
                         <tr className="view">
-                          <td>fjdlsjfl</td>
+                          <td>A-n32-k5</td>
                           <td className="seconds">15</td>
                           <td>4</td>
                           <td>121</td>
