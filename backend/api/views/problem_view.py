@@ -1,14 +1,13 @@
 # from django.shortcuts import render
 
-import logging
 from django.db.models import Count
 from django.http import HttpResponseNotFound, JsonResponse
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
 from ..models import SpecifiedProblem
 from ..serializers import SpecifiedProblemSerializer
+
 
 class Problems(APIView):
     #permission_classes = [IsAuthenticated]
