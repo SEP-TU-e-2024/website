@@ -28,7 +28,8 @@
     justify-content: space-between;
 }
 
-.card{ 
+.problem_card{ 
+    position: relative;
     font-weight: bold;
     width:250px;
     margin:30px;
@@ -45,13 +46,21 @@
         margin-top:5px
     }
 
-    p {
+    .card_footer {
         text-align: right;
-        margin:5px;
+        position: absolute;
+        bottom: 0;
+        right:0;
+    }
+
+    .card_content {
+        height:300px;
+        margin-bottom:60px;
+        overflow-y: scroll;
     }
 }
 
-.card.Competition {
+.problem_card.Competition {
     color: $secondary;
 
     .card_title {
@@ -63,7 +72,7 @@
     }
 }
 
-.card.Scientific {
+.problem_card.Scientific {
     color: $primary;
 
     .card_title {
@@ -78,4 +87,29 @@
 .card_title {
     color: white;
     font-weight: bold;
+}
+
+/* Customizes the whole scrollbar */
+.card_content::-webkit-scrollbar {
+    width: 12px; /* Width of the scrollbar */
+    background: transparent; /* Make scrollbar background transparent */
+}
+
+/* Changes the thumb color on hover */
+.card_content::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Darker color on hover */
+}
+
+/* Fade in the scrollbar on hover */
+.card_content:hover::-webkit-scrollbar {
+    background: #f1f1f1; /* Color of the scrollbar track on hover */
+    transition: background 1s ease-in-out; /* Smooth transition for thumb background */
+}
+
+.card_content:hover::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Color of the track on hover */
+}
+
+.card_content:hover::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the thumb on hover */
 }

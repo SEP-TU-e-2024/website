@@ -24,7 +24,7 @@ function ProblemOccurenceOverview({rows}) {
         <div className='problem_container'>
             {rows.map(row => (
                 // Hard coding to allow easier access to static values
-                <div className={`card ${row["type"]}`} key={row.id} onClick={()=>handleRowClick(row.id)}>
+                <div className={`problem_card ${row["type"]}`} key={row.id} onClick={()=>handleRowClick(row.id)}>
                     <div className='card_title'> 
                         {row["type"]} 
                     </div>
@@ -36,9 +36,20 @@ function ProblemOccurenceOverview({rows}) {
                             <li>Sleepy Traveler</li>
                             <li>Lazy Traveler</li>
                             <li>Crippled Traveler</li>
+                            <li>Sleepy Traveler</li>
+                            <li>Lazy Traveler</li>
+                            <li>Crippled Traveler</li>
+                            <li>Sleepy Traveler</li>
+                            <li>Lazy Traveler</li>
+                            <li>Crippled Traveler</li>
+                            <li>Sleepy Traveler</li>
+                            <li>Lazy Traveler</li>
+                            <li>Crippled Traveler</li>
                         </ul>
                     </div>
-                    <p>1D 20H 40M</p>
+                    <div className='card_footer'>
+                        <p>1D 20H 40M</p>
+                    </div>
                     {/* 
                     Currently not used, TODO remove
                     {row["style"]}
