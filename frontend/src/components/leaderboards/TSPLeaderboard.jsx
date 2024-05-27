@@ -63,9 +63,9 @@ function TSPLeaderboard({rowLimit, showPagination}) {
                 <td>Test</td>
                 <td className="seconds">1.00</td>
                 <td>27-5-2024</td>
-                <td className="download-cell"><i className="bi-download" /></td>
-                <td className="download-cell"><i className="bi-download" /></td>
-                <td className="download-cell"><i className="bi-download" /></td>
+                <td className="download-cell"><i role="button" className="bi-download" /></td>
+                <td className="download-cell"><i role="button" className="bi-download" /></td>
+                <td className="download-cell"><i role="button" className="bi-download" /></td>
               </tr>
               
               <tr className="fold-open">
@@ -90,8 +90,8 @@ function TSPLeaderboard({rowLimit, showPagination}) {
                           <td>4</td>
                           <td>121</td>
                           <td>43</td>
-                          <td className="download-cell"><i className="bi-download"/></td>
-                          <td className="download-cell"><i className="bi-eye"/></td>
+                          <td className="download-cell"><i role="button" className="bi-download"/></td>
+                          <td className="download-cell"><i role="button" className="bi-eye"/></td>
                         </tr>
                       </tbody>
                     </table>
