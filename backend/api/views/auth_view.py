@@ -1,4 +1,3 @@
-# from django.shortcuts import render
 import logging
 import os
 from smtplib import SMTPException
