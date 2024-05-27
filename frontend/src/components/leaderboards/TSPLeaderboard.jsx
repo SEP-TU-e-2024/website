@@ -25,6 +25,41 @@ function TSPLeaderboard({rowLimit, showPagination}) {
     fetchRows();
   }, []);
   
+  //handle toggling the problem instances for a single submission
+  function handleToggleSubmissionRow() {
+    alert("Toggle row");
+  }
+  
+  //download submission handler
+  function handleDownloadSolverClick(e) {
+    e.stopPropagation();
+    alert("download solver");
+  }
+  
+  //download solutions handler
+  function handleDownloadSolutionsClick(e) {
+    e.stopPropagation();
+    alert("download solutions");
+  }
+  
+  //download scores handler
+  function handleDownloadScoresClick(e) {
+    e.stopPropagation();
+    alert("download scores");
+  }
+  
+  //download specific solution handler
+  function handleDownloadSingleSolutionClick(e) {
+    e.stopPropagation();
+    alert("download single solution");
+  }
+  
+  //visualize problem instance handler
+  function handleVisualizePiClick(e) {
+    e.stopPropagation();
+    alert("visualize");
+  }
+  
   return (
     <Container fluid className='justify-content-center'>
       <table className='leaderboard-table'>
@@ -57,18 +92,18 @@ function TSPLeaderboard({rowLimit, showPagination}) {
               </tr>
           </thead>
           <tbody>
-              <tr className="view">
+              <tr onClick={handleToggleSubmissionRow} id="submission-12345" className="view">
                 <td>1</td>
                 <td>guicimodo</td>
                 <td>Test</td>
                 <td className="seconds">1.00</td>
                 <td>27-5-2024</td>
-                <td className="download-cell"><i role="button" className="bi-download" /></td>
-                <td className="download-cell"><i role="button" className="bi-download" /></td>
-                <td className="download-cell"><i role="button" className="bi-download" /></td>
+                <td className="download-cell"><i role="button" onClick={handleDownloadSolverClick} className="bi-download" /></td>
+                <td className="download-cell"><i role="button" onClick={handleDownloadSolutionsClick} className="bi-download" /></td>
+                <td className="download-cell"><i role="button" onClick={handleDownloadScoresClick} className="bi-download" /></td>
               </tr>
               
-              <tr className="fold-open">
+              <tr id="probleminstances-1" className="fold-open">
                 <td colSpan="8" className="fold-container">
                   <div className="fold-content">
                     <table className="pi-table">
@@ -90,8 +125,8 @@ function TSPLeaderboard({rowLimit, showPagination}) {
                           <td>4</td>
                           <td>121</td>
                           <td>43</td>
-                          <td className="download-cell"><i role="button" className="bi-download"/></td>
-                          <td className="download-cell"><i role="button" className="bi-eye"/></td>
+                          <td className="download-cell"><i onClick={handleDownloadSingleSolutionClick} role="button" className="bi-download"/></td>
+                          <td className="download-cell"><i onClick={handleVisualizePiClick} role="button" className="bi-eye"/></td>
                         </tr>
                       </tbody>
                     </table>
