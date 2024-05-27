@@ -121,33 +121,40 @@ $nav-underline-link-active-color:   var(--#{$prefix}emphasis-color);
 // @import 'bootstrap/dist/css/bootstrap.min.css';
 @import "node_modules/bootstrap/scss/bootstrap";
 
-/* Nav underline */
-/* We override this class because the styling doesn't really fit with the ortec look and feel */
-.nav-underline {
-    // scss-docs-start nav-underline-css-vars
-    --#{$prefix}nav-underline-gap: #{$nav-underline-gap};
-    --#{$prefix}nav-underline-border-width: #{$nav-underline-border-width};
-    --#{$prefix}nav-underline-link-active-color: #{$nav-underline-link-active-color};
-    // scss-docs-end nav-underline-css-vars
+//format seconds to include an s after the number
+.seconds::after {
+  content: "s";
+}
+
+
+
+// /* Nav underline */
+// /* We override this class because the styling doesn't really fit with the ortec look and feel */
+// .nav-underline {
+//     // scss-docs-start nav-underline-css-vars
+//     --#{$prefix}nav-underline-gap: #{$nav-underline-gap};
+//     --#{$prefix}nav-underline-border-width: #{$nav-underline-border-width};
+//     --#{$prefix}nav-underline-link-active-color: #{$nav-underline-link-active-color};
+//     // scss-docs-end nav-underline-css-vars
   
-    gap: var(--#{$prefix}nav-underline-gap);
+//     gap: var(--#{$prefix}nav-underline-gap);
   
-    .nav-link {
-      padding-right: 0;
-      padding-left: 0;
-      border-bottom: var(--#{$prefix}nav-underline-border-width) solid transparent;
+//     .nav-link {
+//       padding-right: 0;
+//       padding-left: 0;
+//       border-bottom: var(--#{$prefix}nav-underline-border-width) solid transparent;
   
-      &:hover,
-      &:focus {
-        border-bottom-color: currentcolor;
-      }
-    }
+//       &:hover,
+//       &:focus {
+//         border-bottom-color: currentcolor;
+//       }
+//     }
   
-    //mostly changed this bit to match the ortec look and feel a bit better
-    .nav-link.active,
-    .show > .nav-link {
-      font-weight: $font-weight-medium;
-      color: var(--#{$prefix}nav-underline-link-active-color);
-      border-bottom-color: currentcolor;
-    }
-  }
+//     //mostly changed this bit to match the ortec look and feel a bit better
+//     .nav-link.active,
+//     .show > .nav-link {
+//       font-weight: $font-weight-medium;
+//       color: var(--#{$prefix}nav-underline-link-active-color);
+//       border-bottom-color: currentcolor;
+//     }
+//   }
