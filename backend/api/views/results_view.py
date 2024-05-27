@@ -1,18 +1,17 @@
 import logging
 
-from django.db.models import Count
-from django.http import HttpResponseNotFound, JsonResponse
+from django.http import HttpResponseNotFound
 from rest_framework import status
-from rest_framework.permissions import IsAdminUser
-from rest_framework.views import APIView
-from rest_framework.response import Response
-
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAdminUser
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from ..models import Results
 from ..serializers import ResultSerializer
 
-class Results(APIView):
+
+class ResultView(APIView):
     permission_classes = [IsAdminUser]
 
     logger = logging.getLogger(__name__)
@@ -35,13 +34,13 @@ class Results(APIView):
         Gets the evaluation results for a submission
         """
 
-        if not 'SubmissionId' in request.data:
+        if 'SubmissionId' not in request.data:
             return HttpResponseNotFound(content="No submission id found in request")
         
         results = Results.objects.all().filter(submission=request.data['SubmissionId'])
         if len(results) == 0:
-            return HttpResponseNotFound(content=f"Could not find results for specified 
-                                        submission id {request.data['SubmissionId']}")
+            return HttpResponseNotFound(content="Could not find results for specified" +
+                                        f"submission id {request.data['SubmissionId']}")
         
         # Results.objects.all().prefetch_related("submission")
 
