@@ -9,20 +9,19 @@ from rest_framework.response import Response
 
 from rest_framework.decorators import action
 
-from ..models import Results, SpecifiedProblem
-from ..serializers import ResultSerializer, SpecifiedProblemSerializer
+from ..models import Results
+from ..serializers import ResultSerializer
 
-class ResultViewSet(APIView):
+class Results(APIView):
     permission_classes = [IsAdminUser]
 
     logger = logging.getLogger(__name__)
 
-    @action(detail=False, methods=["POST"])
-    def save_evaluation_result(self, request):
+    def post(self, request):
         """
         Saves the evalution results for a submission
         """
-        
+
         # Checks validity of submitted data
         serializer = ResultSerializer(data=request.data, many=True)
         if not serializer.is_valid():
@@ -31,7 +30,7 @@ class ResultViewSet(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     @action(detail=False, methods=["GET"])
-    def get_evaluation_result(self, request):
+    def get(self, request):
         """
         Gets the evaluation results for a submission
         """
