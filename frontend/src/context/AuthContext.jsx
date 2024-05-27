@@ -51,22 +51,25 @@ export const AuthProvider = ({children}) => {
         // Prevents default form submission
         e.preventDefault()
 
-        // Checks if password is filled in correctly
+        // Checks if email is filled in correctly
         if (e.target.email.value != e.target.confirm_email.value) {
             alert("Emails not equal")
             return
         }
 
-        if (e.target.password.value != e.target.confirm_password.value) {
-            alert("Passwords not equal")
-            return
+        // Checks if password is filled in correctly
+        if (e.target.password && e.target.confirm_password) {
+            if (e.target.password.value != e.target.confirm_password.value) {
+                alert("Passwords not equal")
+                return
+            }
         }
         
         try {
             // Submits user data to API
             let response = await api.post('/auth/signup/', {
                 email: e.target.email.value,
-                password: e.target.password.value
+                password: e.target.password ? e.target.password.value : ""
             });
             
             // Receives submission status and notifies user adequately
