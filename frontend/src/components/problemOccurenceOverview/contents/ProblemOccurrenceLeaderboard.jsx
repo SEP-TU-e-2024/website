@@ -5,12 +5,12 @@ import TSPLeaderboard from "../../leaderboards/TSPLeaderboard";
 /**
  * A component that includes the leaderboard of a problem occurence.
  */
-function ProblemOccurrenceLeaderboard() {
+function ProblemOccurrenceLeaderboard({problemData}) {
   return (
     <Container className="ps-0 pt-2">
         <Row className="">
           <Col>
-            <TSPLeaderboard />
+            <TSPLeaderboard problemData={problemData}/>
           </Col>
         </Row>
     </Container>

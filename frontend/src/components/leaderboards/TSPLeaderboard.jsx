@@ -6,7 +6,7 @@ async function getRows() {
   return [];
 }
 
-function TSPLeaderboard({rowLimit, showPagination}) {
+function TSPLeaderboard({problemData, rowLimit, showPagination}) {
   //prefix strings for the id's of submission rows and collapsables
   const SUBMISSION_ID_PREFIX = "submission-";
   const PROBLEM_INSTANCES_ID_PREFIX = "problem-instances-";
@@ -28,6 +28,8 @@ function TSPLeaderboard({rowLimit, showPagination}) {
     
     fetchRows();
   }, []);
+  
+  const scoringMetrics = [problemData.metrics]; //TODO this will be a list later but the backend isn't updated yet
   
   //handle toggling the problem instances for a single submission
   function handleToggleSubmissionRow(e) {
@@ -82,7 +84,8 @@ function TSPLeaderboard({rowLimit, showPagination}) {
                   <th>Submission Name</th>
                   
                   {/* scoring metric columns */}
-                  <th>Walking Time</th>
+                  {/* <th>Walking Time</th> */}
+                  {scoringMetrics.map(scoringMetric => <th key={scoringMetric}>{scoringMetric}</th>)}
                   
                   {/* Other standard columns */}
                   <th>Submission Date</th>
@@ -108,6 +111,7 @@ function TSPLeaderboard({rowLimit, showPagination}) {
                 <td>guicimodo</td>
                 <td>Test</td>
                 <td className="seconds">1.00</td>
+                {/* <td className="seconds">1.00</td> */}
                 <td>27-5-2024</td>
                 <td className="download-cell"><i role="button" onClick={handleDownloadSolverClick} className="bi-download" /></td>
                 <td className="download-cell"><i role="button" onClick={handleDownloadSolutionsClick} className="bi-download" /></td>
@@ -135,7 +139,7 @@ function TSPLeaderboard({rowLimit, showPagination}) {
                           <td className="seconds">15</td>
                           <td>4</td>
                           <td>121</td>
-                          <td>43</td>
+                          <td>430</td>
                           <td className="download-cell"><i onClick={handleDownloadSingleSolutionClick} role="button" className="bi-download"/></td>
                           <td className="download-cell"><i onClick={handleVisualizePiClick} role="button" className="bi-eye"/></td>
                         </tr>
@@ -385,6 +389,22 @@ function TSPLeaderboard({rowLimit, showPagination}) {
     </Container>
   )
 };
+
+/**
+ * Component for a single row in the leaderboard
+ * 
+ * @param {data} param0 data prop
+ * @returns component for a single row in the leaderboard
+ */
+function leaderboardRow({data}) {
+  return (
+    <>
+      
+    </>
+  )
+};
+
+
 
 export default TSPLeaderboard;
 

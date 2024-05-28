@@ -79,7 +79,7 @@ function ProblemOccurrenceOverviewPage() {
               <ProblemOccurrenceDescription problemData={problemData}/>
             </TabPane>
             <TabPane tabId="2">
-              <ProblemOccurrenceLeaderboard />
+              <ProblemOccurrenceLeaderboard problemData={problemData}/>
             </TabPane>
             <TabPane tabId="3">
               <ProblemOccurrenceSubmission />

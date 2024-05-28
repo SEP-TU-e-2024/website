@@ -1,16 +1,32 @@
 @import '/src/main.scss';
 
 //the clickable cells for the different submissions
-.leaderboard-table tbody tr.view, .pi-table tbody tr.view {
+.leaderboard-table>tbody>tr.view, .pi-table>tbody>tr.view {
     outline: 1px solid $primary;
 }
 
-.leaderboard-table tbody td {
+.leaderboard-table>tbody>tr>* {
     padding-top: 0.5em;
     padding-bottom: 0.5em;
 }
 
-.leaderboard-table tr th {
+//give padding to any td or th element actually in .leaderboard-table
+.leaderboard-table>*>tr>* {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.pi-table>tbody>tr>* {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.pi-table>*>tr>* {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.leaderboard-table tr th, .pi-table tr th {
     // padding-left: 0.5em;
     // padding-right: 0.5em;
     text-align: left;
@@ -27,6 +43,7 @@
     color: $secondary;
     padding-left: 3em;
 }
+
 .leaderboard-table td:last-child, .leaderboard-table th:last-child, .pi-table th:last-child .pi-table td:last-child {
     padding-right: 2em;
 }
@@ -34,6 +51,7 @@
 .leaderboard-table td.fold-container {
     padding-right: 0;
 }
+
 .leaderboard-table, .pi-table {
     // font-weight: normal;
     // display: flex;
@@ -45,7 +63,7 @@
     color: $primary;
 }
 
-.leaderboard-table .download-cell {
+.leaderboard-table .download-cell, .pi-table .download-cell {
     text-align: center;
 }
 
@@ -56,28 +74,28 @@
     padding-bottom: 0;
 }
 
-.pi-table thead tr {
+.pi-table>thead>tr {
     margin-top:0;
 }
 
 
 //Controll the relative widths of the columns
-.pi-table > * > tr > *:nth-child(1) { width: 23%;} //instance name
-.pi-table > * > tr > *:nth-child(2) { width: 20%;} //walking time
-.pi-table > * > tr > *:nth-child(3) { width: 10%;} //N
-.pi-table > * > tr > *:nth-child(4) { width: 10%;} //K
-.pi-table > * > tr > *:nth-child(5) { width: 10%;} //Q
-.pi-table > * > tr > *:nth-child(6) { width: 13%;} //Download solution
-.pi-table > * > tr > *:nth-child(7) { width: 14%;} //Visualize
+// .pi-table > * > tr > *:nth-child(1) { width: 23%;} //instance name
+// .pi-table > * > tr > *:nth-child(2) { width: 20%;} //walking time
+// .pi-table > * > tr > *:nth-child(3) { width: 10%;} //N
+// .pi-table > * > tr > *:nth-child(4) { width: 10%;} //K
+// .pi-table > * > tr > *:nth-child(5) { width: 10%;} //Q
+// .pi-table > * > tr > *:nth-last-child(2) { width: 13%;} //Download solution
+// .pi-table > * > tr > *:nth-last-child(1) { width: 14%;} //Visualize
 
-.leaderboard-table > * > tr > *:nth-child(1) {Width: 12%} //rank
-.leaderboard-table > * > tr > *:nth-child(2) {Width: 13%} //user name
-.leaderboard-table > * > tr > *:nth-child(3) {Width: 17%} //submission name
-.leaderboard-table > * > tr > *:nth-child(4) {Width: 14%} //walking time
-.leaderboard-table > * > tr > *:nth-child(5) {Width: 14%} //submission date
-.leaderboard-table > * > tr > *:nth-child(6) {Width: 10%} //download solver
-.leaderboard-table > * > tr > *:nth-child(7) {Width: 10%} //download solutions
-.leaderboard-table > * > tr > *:nth-child(8) {Width: 10%} //download scores
+// .leaderboard-table > * > tr > *:nth-child(1) {Width: 12%} //rank
+// .leaderboard-table > * > tr > *:nth-child(2) {Width: 13%} //user name
+// .leaderboard-table > * > tr > *:nth-child(3) {Width: 17%} //submission name
+// .leaderboard-table > * > tr > *:nth-child(4) {Width: 14%} //walking time
+// .leaderboard-table > * > tr > *:nth-last-child(4) {Width: 14%} //submission date
+// .leaderboard-table > * > tr > *:nth-last-child(3) {Width: 10%} //download solver
+// .leaderboard-table > * > tr > *:nth-last-child(2) {Width: 10%} //download solutions
+// .leaderboard-table > * > tr > *:nth-last-child(1) {Width: 10%} //download scores
 
 //the classes for toggling the collapses
 .leaderboard-table > tbody > tr.fold-closed {
