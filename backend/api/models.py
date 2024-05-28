@@ -5,8 +5,6 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 
-# Create your models here.
-
 
 class Problem(models.Model):
     name = models.CharField(max_length=100)
@@ -106,7 +104,6 @@ class ProblemCategory(models.Model):
 class SpecifiedProblem(models.Model):
     """Specified problem, potentially with evaluation settings"""
 
-    id = models.AutoField(primary_key=True)
     category = models.ForeignKey(ProblemCategory, on_delete=models.CASCADE, null=True)
     evaluation_settings = models.ForeignKey(
         EvaluationSettings, on_delete=models.CASCADE, null=True, blank=True
@@ -127,12 +124,13 @@ class Submission(models.Model):
     """Database model for submissions"""
 
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
-    problem_id = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE)
-    submission_name = models.CharField(max_length=100, unique=True)
+    problem = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_verified = models.BooleanField(default=False)
 
-class Results(models.Model):
+
+class Result(models.Model):
     """Table that stores result of a submission"""
 
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
