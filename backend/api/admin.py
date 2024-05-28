@@ -6,7 +6,7 @@ from .models import (
     BenchmarkRelations,
     EvaluationSettings,
     ProblemCategory,
-    Results,
+    Result,
     Simulator,
     SpecifiedProblem,
     StorageLocation,
@@ -25,4 +25,4 @@ admin.site.register(BenchmarkInstance)
 admin.site.register(ProblemCategory)
 admin.site.register(SpecifiedProblem)
 admin.site.register(BenchmarkRelations)
-admin.site.register(Results)
+admin.site.register(Result)
