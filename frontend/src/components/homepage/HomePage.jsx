@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react';
  * @param {JSON} rows, data to render 
  * @returns HTML Table
  */
-function ProblemOccurenceTable({rows}) {
+function ProblemOccurenceOverview({rows}) {
     const navigate = useNavigate();
     let handleRowClick = (id)=> {
         navigate("/problemoccurrence/" + id);
@@ -20,36 +20,43 @@ function ProblemOccurenceTable({rows}) {
         return (<div>No data found</div>);
     }
 
-    // Can be used in the future for page numbers
-    const MAX_DISPLAYED_ROWS = rows.length;
-
-    // Sorting logic
-    const filterKey = "id";
-    let displayRows = rows.sort((a,b) => a[filterKey] > b[filterKey]); 
-    displayRows = displayRows.slice(0, MAX_DISPLAYED_ROWS);
-
     return (
-        <table className='problem-occurence-table'>
-            <thead>
-                <tr>
-                    <th>Type</th>
-                    <th>Problem Name</th>
-                    <th>Style</th>
-                    <th>Submissions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {displayRows.map(row => (
-                    // Hard coding to allow easier access to static values
-                    <tr key={row.id} onClick={()=>handleRowClick(row.id)}>
-                        <td key={"type"}>{row["type"]}</td>
-                        <td key={"name"}>{row["category"]["name"]}</td>
-                        <td key={"style"}>{row["style"]}</td>
-                        <td key={"submission_count"}>{row["submission_count"]}</td>
-                    </tr>
-                ))}
-            </tbody>
-        </table>
+        <div className='problem_container'>
+            {rows.map(row => (
+                // Hard coding to allow easier access to static values
+                <div className={`problem_card ${row["type"]}`} key={row.id} onClick={()=>handleRowClick(row.id)}>
+                    <div className='card_title'> 
+                        {row["type"]} 
+                    </div>
+                    <div className='card_content'>
+                        <h5>
+                            {row["category"]["name"]}
+                        </h5>
+                        <ul>
+                            <li>Sleepy Traveler</li>
+                            <li>Lazy Traveler</li>
+                            <li>Crippled Traveler</li>
+                            <li>Sleepy Traveler</li>
+                            <li>Lazy Traveler</li>
+                            <li>Crippled Traveler</li>
+                            <li>Sleepy Traveler</li>
+                            <li>Lazy Traveler</li>
+                            <li>Crippled Traveler</li>
+                            <li>Sleepy Traveler</li>
+                            <li>Lazy Traveler</li>
+                            <li>Crippled Traveler</li>
+                        </ul>
+                    </div>
+                    <div className='card_footer'>
+                        <p>1D 20H 40M</p>
+                    </div>
+                    {/* 
+                    Currently not used, TODO remove
+                    {row["style"]}
+                    {row["submission_count"]} */}
+                </div>
+            ))}
+        </div>
     )
 }
 /**
@@ -95,11 +102,27 @@ function HomePage() {
     }, []);
 
     return (
-        <div className='table-wrapper'>
-            <Container fluid className='justify-content-center'>
-                <ProblemOccurenceTable rows={rows}/>
-            </Container>
+        <div className='home_page'>  
+            <div>
+                <p>
+                    Benchlab is a tool Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla non augue dolor. 
+                    Aliquam at egestas quam, non varius metus. Nam sed risus vel dui tincidunt pulvinar. Proin auctor 
+                    magna vitae erat consectetur, at malesuada augue sodales. Nam et rutrum ante. Mauris et commodo sem. 
+                    Donec dapibus hendrerit enim, sit amet cursus magna suscipit ornare. Vivamus venenatis dui sit amet dolor 
+                    eleifend, sit amet lacinia velit hendrerit.
+                </p>
+            </div>
+            <div>
+                <h3> Problems </h3>
+                <hr></hr>
+            </div>
+            <div>
+                <Container fluid className='justify-content-center'>
+                    <ProblemOccurenceOverview rows={rows}/>
+                </Container>
+            </div>
         </div>
+        
         
     );
 };

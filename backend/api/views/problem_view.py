@@ -16,6 +16,7 @@ class Problems(APIView):
         Serializes specified problems for the list of problem occurences
         """
 
+
         # Joining tables and adding field
         if 'POId' in request.data:
             problems = SpecifiedProblem.objects.all().prefetch_related("category").prefetch_related("evaluation_settings").annotate(submission_count=Count('submission')).filter(id=request.data['POId'])
