@@ -5,7 +5,7 @@ from django.http import HttpResponseNotFound, JsonResponse
 from rest_framework import status
 from rest_framework.views import APIView
 
-from ..models import SpecifiedProblem, UserProfile
+from ..models import SpecifiedProblem
 from ..serializers import SpecifiedProblemSerializer
 
 
