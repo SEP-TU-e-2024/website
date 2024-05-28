@@ -5,9 +5,9 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from .requests.leaderboard import get_leaderboard
-from .requests.leaderboard_entry import get_leaderboard_entry
 from .views.auth_view import AuthViewSet
+from .views.leaderboard_entry_view import LeaderboardEntryView
+from .views.leaderboard_view import LeaderboardView
 from .views.problem_view import Problems
 from .views.submit_view import SubmitViewSet
 from .views.views import RetrieveProblems, main
@@ -28,12 +28,12 @@ urlpatterns = [
     path("activate/<uidb64>/<token>", AuthViewSet.activate, name="activate"),
     path(
         "leaderboard/<int:problem_id>",
-        get_leaderboard,
+        LeaderboardView.as_view(),
         name="leaderboard"
     ),
     path(
         "leaderboard_entry/<int:submission_id>",
-        get_leaderboard_entry,
+        LeaderboardEntryView.as_view(),
         name="leaderboardEntry"
     ),
     path(
