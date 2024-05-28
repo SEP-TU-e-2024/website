@@ -17,6 +17,7 @@ import TokenAuthenticator from "./components/tokenauthenticator/TokenAuthenticat
 import UnProtectedLayout from "./components/routing/UnprotectedLayout";
 
 import { getPOInfo } from './components/problemOccurenceOverview/ProblemOccurrenceOverviewPage';
+import { getLeaderboardData } from './components/leaderboardPage/LeaderboardPage';
 
 /**
  * This is the router object.
@@ -33,7 +34,11 @@ export const router = createBrowserRouter(
         <Route element={<ProtectedLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
-          <Route path="/leaderboard" element={<LeaderboardPage />} />
+          <Route path="/leaderboard/:problem_id" 
+            element={<LeaderboardPage />} 
+            loader={async ({ params }) => {
+              return getLeaderboardData(Number(params.problem_id));
+            }} />
           <Route 
             path="/problemoccurrence/:poID" 
             element={<ProblemOccurrenceOverviewPage />} 
