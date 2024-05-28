@@ -40,20 +40,28 @@ export const router = createBrowserRouter(
               return getLeaderboardData(Number(params.problem_id));
             }} />
           <Route 
-            path="/problemoccurrence/:poID" 
+            path="/problemoccurrence/:problem_id" 
             element={<ProblemOccurrenceOverviewPage />} 
             loader={async ({ params }) => {
-              return getPOInfo(params.poID); //TODO fetching logic here
+              return getPOInfo(params.problem_id); //TODO fetching logic here
             }} />
         </Route>
           
         {/* Non protected routes */}
         <Route element={<UnProtectedLayout />}>
+          <Route path="/" element={<HomePage />} />
           <Route path="/submit" element={<Submit />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
           {/* Basically an endpoint to save the auth tokens from email only login */}
           <Route path="/tokens" element={<TokenAuthenticator />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route 
+            path="/problemoccurrence/:problem_id" 
+            element={<ProblemOccurrenceOverviewPage />} 
+            loader={async ({ params }) => {
+              return getPOInfo(params.problem_id); //TODO fetching logic here
+            }} />
         </Route>
         
       </Route>
