@@ -5,6 +5,11 @@
     outline: 1px solid $primary;
 }
 
+//highlight the cells to show they are interactive
+.leaderboard-table>tbody>tr.view:hover, .pi-table>tbody>tr.view:hover {
+    background-color: $highlight;
+}
+
 .leaderboard-table>tbody>tr>* {
     padding-top: 0.5em;
     padding-bottom: 0.5em;
@@ -27,12 +32,9 @@
 }
 
 .leaderboard-table tr th, .pi-table tr th {
-    // padding-left: 0.5em;
-    // padding-right: 0.5em;
     text-align: left;
     font-size: medium;
     font-weight: normal;
-    // background-color: aqua;
 }
 
 .leaderboard-table>thead th, .pi-table>thead th {
@@ -50,11 +52,11 @@
 //overriding the lastchild styling for the rows that contain a collapse
 .leaderboard-table td.fold-container {
     padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .leaderboard-table, .pi-table {
-    // font-weight: normal;
-    // display: flex;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -68,8 +70,6 @@
 }
 
 .fold-content {
-    // padding-left: 2em;
-    // padding-right: 2em;
     padding-top: 0;
     padding-bottom: 0;
 }
@@ -77,25 +77,6 @@
 .pi-table>thead>tr {
     margin-top:0;
 }
-
-
-//Controll the relative widths of the columns
-// .pi-table > * > tr > *:nth-child(1) { width: 23%;} //instance name
-// .pi-table > * > tr > *:nth-child(2) { width: 20%;} //walking time
-// .pi-table > * > tr > *:nth-child(3) { width: 10%;} //N
-// .pi-table > * > tr > *:nth-child(4) { width: 10%;} //K
-// .pi-table > * > tr > *:nth-child(5) { width: 10%;} //Q
-// .pi-table > * > tr > *:nth-last-child(2) { width: 13%;} //Download solution
-// .pi-table > * > tr > *:nth-last-child(1) { width: 14%;} //Visualize
-
-// .leaderboard-table > * > tr > *:nth-child(1) {Width: 12%} //rank
-// .leaderboard-table > * > tr > *:nth-child(2) {Width: 13%} //user name
-// .leaderboard-table > * > tr > *:nth-child(3) {Width: 17%} //submission name
-// .leaderboard-table > * > tr > *:nth-child(4) {Width: 14%} //walking time
-// .leaderboard-table > * > tr > *:nth-last-child(4) {Width: 14%} //submission date
-// .leaderboard-table > * > tr > *:nth-last-child(3) {Width: 10%} //download solver
-// .leaderboard-table > * > tr > *:nth-last-child(2) {Width: 10%} //download solutions
-// .leaderboard-table > * > tr > *:nth-last-child(1) {Width: 10%} //download scores
 
 //the classes for toggling the collapses
 .leaderboard-table > tbody > tr.fold-closed {
