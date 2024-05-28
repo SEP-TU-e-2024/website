@@ -114,61 +114,61 @@ function LeaderboardRow({data}) {
   return (
     <>
       <tr onClick={handleToggleSubmissionRow} id={SUBMISSION_ID_PREFIX + data.id} className="view">
-                <td>{data.rank}</td>
-                <td>{data.userName}</td>
-                <td>{data.submissionName}</td>
-                
-                {/* TODO map metrics to columns */}
-                <td className="seconds">{data.metrics.walkingTime}</td>
-                
-                
-                {/* <td className="seconds">1.00</td> */}
-                <td>{data.submissionDate}</td>
-                <td className="download-cell"><i role="button" onClick={handleDownloadSolverClick} className="bi-download" /></td>
-                <td className="download-cell"><i role="button" onClick={handleDownloadSolutionsClick} className="bi-download" /></td>
-                <td className="download-cell"><i role="button" onClick={handleDownloadScoresClick} className="bi-download" /></td>
-              </tr>
-              
-              <tr id={PROBLEM_INSTANCES_ID_PREFIX + data.id} className="fold-closed">
-                <td colSpan="8" className="fold-container">
-                  <div className="fold-content">
-                    <table className="pi-table">
-                      <thead>
-                        <tr>
-                          {/* TODO: do this stuff once we know how the problem instances are done etc */}
-                          <th>Instance Name</th>
-                          <th>Walking Time</th>
-                          <th>N</th>
-                          <th>K</th>
-                          <th>Q</th>
-                          <th className="download-cell">Download<br/>Solution</th>
-                          <th className="download-cell">Visualize</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr className="view">
-                          <td>A-n32-k5</td>
-                          <td className="seconds">15</td>
-                          <td>4</td>
-                          <td>121</td>
-                          <td>430</td>
-                          <td className="download-cell"><i onClick={handleDownloadSingleSolutionClick} role="button" className="bi-download"/></td>
-                          <td className="download-cell"><i onClick={handleVisualizePiClick} role="button" className="bi-eye"/></td>
-                        </tr>
-                        <tr className="view">
-                          <td>A-n64-k3</td>
-                          <td className="seconds">5</td>
-                          <td>4</td>
-                          <td>121</td>
-                          <td>43</td>
-                          <td className="download-cell"><i onClick={handleDownloadSingleSolutionClick} role="button" className="bi-download"/></td>
-                          <td className="download-cell"><i onClick={handleVisualizePiClick} role="button" className="bi-eye"/></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </td>
-              </tr>
+        <td>{data.rank}</td>
+        <td>{data.userName}</td>
+        <td>{data.submissionName}</td>
+        
+        {/* TODO map metrics to columns */}
+        <td className="seconds">{data.metrics.walkingTime}</td>
+        
+        
+        {/* <td className="seconds">1.00</td> */}
+        <td>{data.submissionDate}</td>
+        <td className="download-cell"><i role="button" onClick={handleDownloadSolverClick} className="bi-download" /></td>
+        <td className="download-cell"><i role="button" onClick={handleDownloadSolutionsClick} className="bi-download" /></td>
+        <td className="download-cell"><i role="button" onClick={handleDownloadScoresClick} className="bi-download" /></td>
+      </tr>
+      
+      <tr id={PROBLEM_INSTANCES_ID_PREFIX + data.id} className="fold-closed">
+        <td colSpan="8" className="fold-container">
+          <div className="fold-content">
+            <table className="pi-table">
+              <thead>
+                <tr>
+                  {/* TODO: do this stuff once we know how the problem instances are done etc */}
+                  <th>Instance Name</th>
+                  <th>Walking Time</th>
+                  <th>N</th>
+                  <th>K</th>
+                  <th>Q</th>
+                  <th className="download-cell">Download<br/>Solution</th>
+                  <th className="download-cell">Visualize</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="view">
+                  <td>A-n32-k5</td>
+                  <td className="seconds">15</td>
+                  <td>4</td>
+                  <td>121</td>
+                  <td>430</td>
+                  <td className="download-cell"><i onClick={handleDownloadSingleSolutionClick} role="button" className="bi-download"/></td>
+                  <td className="download-cell"><i onClick={handleVisualizePiClick} role="button" className="bi-eye"/></td>
+                </tr>
+                <tr className="view">
+                  <td>A-n64-k3</td>
+                  <td className="seconds">5</td>
+                  <td>4</td>
+                  <td>121</td>
+                  <td>43</td>
+                  <td className="download-cell"><i onClick={handleDownloadSingleSolutionClick} role="button" className="bi-download"/></td>
+                  <td className="download-cell"><i onClick={handleVisualizePiClick} role="button" className="bi-eye"/></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </td>
+      </tr>
     </>
   )
 };
