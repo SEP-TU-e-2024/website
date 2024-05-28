@@ -64,6 +64,10 @@ class EvaluationSettings(models.Model):
 
     cpu = models.IntegerField()
     time_limit = models.FloatField()
+    
+    class Meta:
+        verbose_name = "evaluation settings"
+        verbose_name_plural = "evaluation settings"
 
 
 class StorageLocation(models.Model):
@@ -100,6 +104,10 @@ class ProblemCategory(models.Model):
         Validator, on_delete=models.CASCADE, null=True, blank=True
     )
 
+    class Meta:
+        verbose_name = "problem category"
+        verbose_name_plural = "problem categories"
+
 
 class SpecifiedProblem(models.Model):
     """Specified problem, potentially with evaluation settings"""
@@ -119,6 +127,10 @@ class BenchmarkRelations(models.Model):
     problem = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE, null=True)
     instance = models.ForeignKey(BenchmarkInstance, on_delete=models.CASCADE, null=True)
 
+    class Meta:
+        verbose_name = "benchmark relations"
+        verbose_name_plural = "benchmark relations"
+        
 
 class Submission(models.Model):
     """Database model for submissions"""
