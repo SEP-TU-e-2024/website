@@ -116,7 +116,7 @@ function HomePage() {
                 <h3> Problems </h3>
                 <hr></hr>
             </div>
-            <div className='table-wrapper'>
+            <div>
                 <Container fluid className='justify-content-center'>
                     <ProblemOccurenceOverview rows={rows}/>
                 </Container>
