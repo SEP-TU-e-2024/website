@@ -94,13 +94,13 @@ Note: the passwords for the currently seeded accounts are `admin`, `staff` and `
 
 ### Making new seeder files
 
-In my opinion, the most convenient way to make new seeder files is by creating new entries in the tables via the django admin panel (`localhost:8000/admin`) and then running the following command: `python manage.py dumpdata api --indent 4 --output=api/fixtures/XXXX_filename.json`. Here count up from previous highest number in the folder and maybe give the new file a somewhat descriptive name.
+A convenient way to make new seeder files is by creating new entries in the tables via the django admin panel (`localhost:8000/admin`) and then running the following command: `python manage.py dumpdata api --indent 4 --output=api/fixtures/XXXX_filename.json`. Here count up from previous highest number in the folder and maybe give the new file a somewhat descriptive name.
 
-You can also choose to write your own seeder files from scratch with json but that really seems like a hassle.
+You can also choose to write your own seeder files from scratch with json but that can be a bit of a hassle because you have to manually do all the foreign keys.
 
 ### Workflow for when you alter models (no important data in the db)
 
-NOTE: this is not yet a very streamlined workflow so if you find out stuff doesn't work or if you find a better way, please edit the file and send a message in the discord.
+NOTE: this is not yet a very streamlined workflow so if you find out stuff doesn't work or if you find a better way, please edit the file and make a pull request for it.
 When doing migrations, sometimes it's not necessary to change all the data, in those cases make a new fixture file after migrating so that the changes are reflected in the seeded data.
 If you do need to change data this can be a workflow:
 
