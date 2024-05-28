@@ -35,7 +35,6 @@ function RegisterForm() {
                         <input
                             name="username"
                             type="text"
-                            placeholder={""}
                             required
                         />
                     </div>
@@ -44,7 +43,6 @@ function RegisterForm() {
                         <input
                             name="email"
                             type="text"
-                            placeholder={""}
                             required
                         />
                     </div>
@@ -53,7 +51,6 @@ function RegisterForm() {
                         <input
                             name="confirm_email"
                             type="text"
-                            placeholder={""}
                             required
                         />
                     </div>
@@ -64,7 +61,6 @@ function RegisterForm() {
                             <input
                                 name="password"
                                 type="password"
-                                placeholder={""}
                             />
                         </div>
                         <div className='field_container'>
@@ -72,7 +68,6 @@ function RegisterForm() {
                             <input
                                 name="confirm_password"
                                 type="password"
-                                placeholder={""}
                             />
                         </div>
                         </>
