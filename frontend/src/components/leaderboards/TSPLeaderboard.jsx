@@ -74,15 +74,11 @@ function LeaderboardRow({data}) {
   
   //handle toggling the problem instances for a single submission
   function handleToggleSubmissionRow(e) {
-    
-    //extracting the id of the submission
-    const submissionId = e.currentTarget.id.substring(SUBMISSION_ID_PREFIX.length);
-    const foldContainer = document.getElementById(PROBLEM_INSTANCES_ID_PREFIX + submissionId);
+    const foldContainer = document.getElementById(PROBLEM_INSTANCES_ID_PREFIX + data.id);
     
     //toggle the display classes
     foldContainer.classList.toggle("fold-open");
     foldContainer.classList.toggle("fold-closed");
-    return false;
   }
   
   //download submission handler
@@ -133,7 +129,7 @@ function LeaderboardRow({data}) {
                 <td className="download-cell"><i role="button" onClick={handleDownloadScoresClick} className="bi-download" /></td>
               </tr>
               
-              <tr id={PROBLEM_INSTANCES_ID_PREFIX + "1"} className="fold-closed">
+              <tr id={PROBLEM_INSTANCES_ID_PREFIX + data.id} className="fold-closed">
                 <td colSpan="8" className="fold-container">
                   <div className="fold-content">
                     <table className="pi-table">
