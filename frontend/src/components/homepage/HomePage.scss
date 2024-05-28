@@ -1,24 +1,115 @@
 @import '../../main.scss';
 
-.table-wrapper{
-    margin-top: 5%;
-}
-
-.problem-occurence-table{
-    border-collapse:separate; 
-    border-spacing: 0 0.8em;
+.home_page {
     color: $primary;
+
+    p {
+        margin-top:8%;
+    }
+
+    h3 {
+        font-weight: bold;
+        margin-top:5%;
+        text-align: center;
+    }
+
+    hr {
+        margin:auto;
+        width:200px;
+        border: 3px solid $primary;
+        opacity: 1;
+    }
 }
 
-.problem-occurence-table tbody tr{
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.6); /* Adjust the values for the drop shadow as needed */
-    outline: 1px solid $primary;
+.problem_container{
+    margin-top: 2%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
 }
 
-.problem-occurence-table tbody td{
-    padding: 0.5em;
+.problem_card{ 
+    position: relative;
+    font-weight: bold;
+    width:250px;
+    margin:30px;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+
+    div{
+        padding: 8px 20px 8px 20px;
+    }
+
+    h5 {
+        font-weight: bold;
+        text-align: center;
+        height:4em;
+        margin-top:5px
+    }
+
+    .card_footer {
+        text-align: right;
+        position: absolute;
+        bottom: 0;
+        right:0;
+    }
+
+    .card_content {
+        height:300px;
+        margin-bottom:60px;
+        overflow-y: scroll;
+    }
 }
 
-.problem-occurence-table thead th {
-    padding-right: 5em;
+.problem_card.Competition {
+    color: $secondary;
+
+    .card_title {
+        background-color: $secondary;
+    }
+
+    h5 {
+        color:$secondary;
+    }
+}
+
+.problem_card.Scientific {
+    color: $primary;
+
+    .card_title {
+        background-color: $primary;
+    }
+
+    h5 {
+        color:$primary;
+    }
+}
+
+.card_title {
+    color: white;
+    font-weight: bold;
+}
+
+/* Customizes the whole scrollbar */
+.card_content::-webkit-scrollbar {
+    width: 12px; /* Width of the scrollbar */
+    background: transparent; /* Make scrollbar background transparent */
+}
+
+/* Changes the thumb color on hover */
+.card_content::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Darker color on hover */
+}
+
+/* Fade in the scrollbar on hover */
+.card_content:hover::-webkit-scrollbar {
+    background: #f1f1f1; /* Color of the scrollbar track on hover */
+    transition: background 1s ease-in-out; /* Smooth transition for thumb background */
+}
+
+.card_content:hover::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Color of the track on hover */
+}
+
+.card_content:hover::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the thumb on hover */
 }
