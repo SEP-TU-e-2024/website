@@ -62,10 +62,10 @@ async function getRows() {
         return response.data
     } catch(err) {
         if (err.response.status == 401) {
-            throw new Error("Error 401: unauthorized to acces this content");
+            throw new Error("Unauthorized to access this content");
             //TODO maybe redirect here or something
         } else if (err.response.status == 404) {
-            throw new Error("Error 404: no problem instances found in the database");
+            throw new Error("No problem instances found in the database");
         } else {
             throw err;
         }
@@ -87,6 +87,7 @@ function HomePage() {
             setRows(data);
         } catch(error) {
             // TODO, proper handling
+            alert(error.message)
             console.error(error)
         }}
 

@@ -3,5 +3,6 @@ Hi {{ user.username }}
 
 Please click on the link below to log in:
 
+<!--  Creates unique url including user id and encrypted token -->
 {{ protocol }}://{{ domain }}{% url 'loginEmail' uidb64=uid token=token%}
 {% endautoescape %}

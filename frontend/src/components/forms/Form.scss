@@ -1,0 +1,54 @@
+@import '../../main.scss';
+
+.login_page {
+    text-align: center;
+    color: $primary;
+
+    button {
+        background-color: $primary;
+    }
+}
+
+.register_page{
+    text-align: center;
+    color: $primary;
+
+    button {
+        background-color: $secondary;
+    }
+}
+
+.form_container{
+    display: inline-block;
+    margin-top:2%;
+
+    button {
+        border: none; /* Remove default border */
+        color: white; /* White text */
+        padding: 5px 0px; /* Padding */
+        font-size: 16px; /* Font size */
+        cursor: pointer; /* Pointer cursor on hover */
+        transition: background-color 0.3s ease;
+        width: 100%;
+        margin-top: 5%;
+    }
+}
+
+.form_container * {
+    margin:auto;
+    margin:3px;
+}
+
+.text_banner{
+    margin-top:50px;
+}
+
+.field_container *{
+    text-align: left;
+    width:300px;
+    font-weight: bold;
+}
+
+
+
+
