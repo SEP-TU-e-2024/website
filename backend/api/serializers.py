@@ -3,7 +3,7 @@ from rest_framework.serializers import ModelSerializer
 
 from api.models import Problem
 
-from .models import EvaluationSettings, ProblemCategory, SpecifiedProblem, Submission, Result
+from .models import EvaluationSettings, ProblemCategory, Result, SpecifiedProblem, Submission
 from .models import UserProfile as User
 
 
