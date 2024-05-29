@@ -10,6 +10,7 @@ import HomePage from './components/homepage/HomePage';
 import RegisterForm from "./components/forms/RegisterForm";
 import LeaderboardPage from './components/leaderboardPage/LeaderboardPage'
 import ProblemOccurrenceOverviewPage from './components/problemOccurenceOverview/ProblemOccurrenceOverviewPage';
+import MySubmissionsPage from "./components/mySubmissionsPage/MySubmissionsPage";
 import ErrorPage from "./components/errorPage/ErrorPage";
 import AuthLayout from "./components/routing/AuthLayout";
 import ProtectedLayout from "./components/routing/ProtectedLayout";
@@ -40,6 +41,7 @@ export const router = createBrowserRouter(
             loader={async ({ params }) => {
               return getPOInfo(params.poID); //TODO fetching logic here
             }} />
+          <Route path="/account" element={<MySubmissionsPage />} />
         </Route>
           
         {/* Non protected routes */}

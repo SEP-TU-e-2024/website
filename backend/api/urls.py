@@ -5,6 +5,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
+from .views.account_view import AccountView
 from .views.auth_view import AuthViewSet
 from .views.problem_view import Problems
 from .views.submit_view import SubmitViewSet
@@ -20,6 +21,7 @@ urlpatterns = [
     path("", main),
     path("problems", RetrieveProblems.as_view()),
     path("problems/occurrence_overview", Problems.as_view()),
+    path("account", AccountView.as_view()),
     #make a path here for the single problem occurrences
     path("auth/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
