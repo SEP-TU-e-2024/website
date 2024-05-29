@@ -152,8 +152,8 @@ export const AuthProvider = ({children}) => {
             if (error.response.status == 404) {
                 alert("Account with given email does not exists")
             }
-            if (error.response.status == 500) {
-                alert("Failed to send email");
+            else {
+                alert("Failed to send email")
             }
             
             console.error('Login error:', error.message);
