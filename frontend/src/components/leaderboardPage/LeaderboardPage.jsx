@@ -88,6 +88,7 @@ export async function getLeaderboardData(problemId) {
   if (typeof(problemId) != 'number') {
     throw new Error(`Error 400: Problem id for leaderboard data type ${typeof(problemId)} is not a number`);
   }
+  // Ensure that the number is a integer, which could be a valid problem id.
   problemId = problemId.toFixed(0)
 
   try {
