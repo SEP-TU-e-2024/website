@@ -35,7 +35,7 @@ function createLeaderboardRows(entries) {
   
   entries.forEach(entry => {
     // Parse the results json into the fields JSON
-    let fields = JSON.parse(entry.results);
+    let fields = entry.results;
 
     // Add rank that numbers the leaderboard entries
     fields['rank'] = entry.rank;

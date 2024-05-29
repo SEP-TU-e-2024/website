@@ -18,7 +18,7 @@ class Leaderboard():
     def rank_entries(self):
         # Rank the entries based on the scoring metric of the problem.
         # In the future we could extend this to sort on multiple metrics and sometimes reversed depending what problem specifies.
-        self.entries.sort(key=lambda entry: (json.loads((entry.results))['scoring_metric']))
+        self.entries.sort(key=lambda entry: entry.results['scoring_metric'])
 
         # Add the rank to each entry.
         rank = 1
