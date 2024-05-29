@@ -44,6 +44,14 @@ For the value of `EMAIL_HOST_PASSWORD`, ask someone who set up the repository al
 4. Run `yarn` (this will install all dependencies). **DO NOT USE NPM TO INSTALL DEPENDENCIES**.
 5. To start vite you can run `yarn vite`.
 
+### MySQL
+1. Install MySQL.
+2. Create a basic server.
+3. Open the created database and run `CREATE DATABASE benchlab;` (using `sudo mysql` on Linux).
+4. The run `CREATE USER 'benchlabuser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';`.
+5. Finally run `GRANT ALL PRIVILEGES ON benchlab.* TO 'benchlabuser'@'localhost';`.
+6. Adjust the .env file based on the properties defined above, in case you modified any values (e.g. the password).
+
 ### Backend
 1. Make sure you have **Python 3.12** installed. On Linux, this can be done with `sudo add-apt-repository ppa:deadsnakes/ppa`, followed by `sudo apt install python3.12 python3.12-venv python3.12-dev` (since you also need venv and the Python development headers).
 2. On Linux, you also need the following: `sudo apt install pkg-config default-libmysqlclient-dev build-essential` (used by mysqlclient).
@@ -56,14 +64,6 @@ For the value of `EMAIL_HOST_PASSWORD`, ask someone who set up the repository al
 8. Run migrations: `python manage.py makemigrations` and `python manage.py migrate`.
 9. Run seeder: `python manage.py loaddata XXXX_filename.json` where `XXXX_filename.json` is the file with the highest number in `backend/api/fixtures`.
 10. To start the server, use `python manage.py runserver`.
-
-### MySQL
-1. Install MySQL.
-2. Create a basic server.
-3. Open the created database and run `CREATE DATABASE benchlab;` (using `sudo mysql` on Linux).
-4. The run `CREATE USER 'benchlabuser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';`.
-5. Finally run `GRANT ALL PRIVILEGES ON benchlab.* TO 'benchlabuser'@'localhost';`.
-6. Adjust the .env file based on the properties defined above, in case you modified any values (e.g. the password).
 
 ### Folder Structure
 After following the steps above, the folder structure should look like this:
