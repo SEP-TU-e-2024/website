@@ -1,4 +1,3 @@
-# from django.shortcuts import render
 import logging
 import os
 from smtplib import SMTPException
@@ -49,10 +48,19 @@ class AuthViewSet(ViewSet):
                 return Response({"error": messages}, status=status.HTTP_400_BAD_REQUEST)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        # Setting user password and disabling user
+        # Creating and disabling user
         user = serializer.save()
-        user.set_password(request.data["password"])
         user.is_active = False
+
+        # Setting password
+        if "password" in request.data:
+            user.set_password(request.data["password"])
+
+        # Setting name
+        if "username" in request.data:
+            user.name = request.data["username"]
+        
+        # Save changes
         user.save()
 
         # Sending verification email
@@ -85,7 +93,7 @@ class AuthViewSet(ViewSet):
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
         except ObjectDoesNotExist:
-            return HttpResponse({"User error" : "User not found."}, status=status.HTTP_400_BAD_REQUEST)
+            return HttpResponse({"User error" : "User not found."}, status=status.HTTP_404_NOT_FOUND)
         
         # Checks token and sets user to active
         if user is not None and account_activation_token.check_token(user, token):
@@ -116,7 +124,7 @@ class AuthViewSet(ViewSet):
             # Gets user by email
             user = User.objects.get(email=request.data["email"])
         except ObjectDoesNotExist:
-            return HttpResponse({"User error" : "User not found."}, status=status.HTTP_400_BAD_REQUEST)
+            return HttpResponse({"User error" : "User not found."}, status=status.HTTP_404_NOT_FOUND)
             
         try:
             # Email setup

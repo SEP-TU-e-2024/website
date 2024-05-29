@@ -32,9 +32,18 @@ export const router = createBrowserRouter(
         
         {/* Protected routes */}
         <Route element={<ProtectedLayout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/home" element={<HomePage />} />
           <Route path="/leaderboard" element={<LeaderboardPage />} />
+        </Route>
+          
+        {/* Non protected routes */}
+        <Route element={<UnProtectedLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/submit" element={<Submit />} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<RegisterForm />} />
+          {/* Basically an endpoint to save the auth tokens from email only login */}
+          <Route path="/tokens" element={<TokenAuthenticator />} />
+          <Route path="/home" element={<HomePage />} />
           <Route 
             path="/problemoccurrence/:poID" 
             element={<ProblemOccurrenceOverviewPage />} 
@@ -42,15 +51,6 @@ export const router = createBrowserRouter(
               return getPOInfo(params.poID); //TODO fetching logic here
             }} />
           <Route path="/account" element={<MySubmissionsPage />} />
-        </Route>
-          
-        {/* Non protected routes */}
-        <Route element={<UnProtectedLayout />}>
-          <Route path="/submit" element={<Submit />} />
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/register" element={<RegisterForm />} />
-          {/* Basically an endpoint to save the auth tokens from email only login */}
-          <Route path="/tokens" element={<TokenAuthenticator />} />
         </Route>
         
       </Route>

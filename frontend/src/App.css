@@ -1,22 +1,29 @@
+/* Styling applied to everything*/
 #root {
   max-width: 1250px;
   margin: 0 auto;
   text-align: center;
 }
 
+/* Styling applied to logo*/
 .logo {
   height: 5em;
   padding: 1.25em;
   will-change: filter;
   transition: filter 300ms;
 }
+
+/* Styling applied to hovering of logo*/
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
+/* Styling applied to hovering of logo*/
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+/* Animation thing*/
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -26,12 +33,14 @@
   }
 }
 
+/* Animation things */
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
 }
 
+/* Small padding */
 .card {
   padding: 2em;
 }
