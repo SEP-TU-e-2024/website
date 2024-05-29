@@ -20,6 +20,9 @@ class LeaderboardEntry():
 
         # Serialize the json data
         self.results = json.dumps(results)
+        
+        # Add a rank, which is not known
+        self.rank = 0
 
 
 class LeaderboardEntrySerializer(serializers.Serializer):
@@ -32,3 +35,6 @@ class LeaderboardEntrySerializer(serializers.Serializer):
 
     # Dictionary specifying leaderboard column keys with entry values
     results = serializers.JSONField(read_only=True)
+
+    # Rank of the entry, which depends on other leaderboard entries
+    rank = serializers.IntegerField(read_only=True)

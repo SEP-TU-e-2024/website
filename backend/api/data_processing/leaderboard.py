@@ -13,11 +13,18 @@ class Leaderboard():
         self.problem = problem
         submissions = Submission.objects.all().filter(problem=problem)
         self.entries = [LeaderboardEntry(submission) for submission in submissions]
-        
-        # Sort the entries based on the scoring metric of the problem.
+        self.rank_entries()
+
+    def rank_entries(self):
+        # Rank the entries based on the scoring metric of the problem.
         # In the future we could extend this to sort on multiple metrics and sometimes reversed depending what problem specifies.
         self.entries.sort(key=lambda entry: (json.loads((entry.results))['scoring_metric']))
 
+        # Add the rank to each entry.
+        rank = 1
+        for entry in self.entries:
+            entry.rank = rank
+            rank += 1
 
 class LeaderboardSerializer(serializers.Serializer):
     """Serializer for leaderboard"""

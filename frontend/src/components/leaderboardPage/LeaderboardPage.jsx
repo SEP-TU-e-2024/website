@@ -31,15 +31,14 @@ function createColumnKeys(problem) {
  */
 function createLeaderboardRows(entries) {
   // Initialize required variables
-  let rank = 0;
   let rows = [];
-
+  
   entries.forEach(entry => {
     // Parse the results json into the fields JSON
     let fields = JSON.parse(entry.results);
 
     // Add rank that numbers the leaderboard entries
-    fields['rank'] = ++rank;
+    fields['rank'] = entry.rank;
 
     // Add additonal fields based on entry submission and user
     fields['submissionName'] = entry.submission.name;
