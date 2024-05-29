@@ -54,7 +54,8 @@ For the value of `EMAIL_HOST_PASSWORD`, ask someone who set up the repository al
 6. Run pip install -r requirements.txt (this will install all dependencies).
 7. Install the Ruff VSCode extension.
 8. Run migrations: `python manage.py makemigrations` and `python manage.py migrate`.
-8. To start the server, use `python manage.py runserver`.
+9. Run seeder: `python manage.py loaddata XXXX_filename.json` where `XXXX_filename.json` is the file with the highest number in `backend/api/fixtures`.
+10. To start the server, use `python manage.py runserver`.
 
 ### MySQL
 1. Install MySQL.
@@ -82,7 +83,32 @@ website/
 ```
 
 ## Deployment
+
 Use the production branch to deploy the webapp.
+
+## Database seeding
+
+To get initial data in the database run `python manage.py loaddata XXXX_filename.json`.
+To remove all data from the database run `python manage.py flush` this will permanently delete all data from the database so be carefull with this.
+Note: the passwords for the currently seeded accounts are `admin`, `staff` and `user` respectively
+
+### Making new seeder files
+
+A convenient way to make new seeder files is by creating new entries in the tables via the django admin panel (`localhost:8000/admin`) and then running the following command: `python manage.py dumpdata api --indent 4 --output=api/fixtures/XXXX_filename.json`. Here count up from previous highest number in the folder and maybe give the new file a somewhat descriptive name.
+
+You can also choose to write your own seeder files from scratch with json but that can be a bit of a hassle because you have to manually do all the foreign keys.
+
+### Workflow for when you alter models (no important data in the db)
+
+NOTE: this is not yet a very streamlined workflow so if you find out stuff doesn't work or if you find a better way, please edit the file and make a pull request for it.
+When doing migrations, sometimes it's not necessary to change all the data, in those cases make a new fixture file after migrating so that the changes are reflected in the seeded data.
+If you do need to change data this can be a workflow:
+
+- run `python manage.py makemigrations` to generate the migration files.
+- run `python manage.py migrate` to migrate the changes.
+- adapt the seeder files to reflect the new changes in the db.
+- run `python manage.py flush` to empty the database.
+- run `python manage.py loaddata XXXX_filename.json` to seed the db with the new data.
 
 ## Ruff
 
