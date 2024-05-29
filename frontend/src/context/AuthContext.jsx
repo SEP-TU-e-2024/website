@@ -69,7 +69,8 @@ export const AuthProvider = ({children}) => {
             // Submits user data to API
             let response = await api.post('/auth/signup/', {
                 email: e.target.email.value,
-                password: e.target.password ? e.target.password.value : ""
+                password: e.target.password ? e.target.password.value : "",
+                username: e.target.username ? e.target.username.value : ""
             });
             
             // Receives submission status and notifies user adequately
@@ -146,7 +147,13 @@ export const AuthProvider = ({children}) => {
             alert("Email sent succesfully")
         } catch(error) {
             // Handle errors
-            alert("Failed to send email");
+            if (error.response.status == 404) {
+                alert("Account with given email does not exists")
+            }
+            if (error.response.status == 500) {
+                alert("Failed to send email");
+            }
+            
             console.error('Login error:', error.message);
         }
     }
