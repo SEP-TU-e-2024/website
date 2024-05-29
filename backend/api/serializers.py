@@ -20,7 +20,7 @@ class UserSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("id", "password", "email")
+        fields = ("id", "email")
 
 
 class SubmissionSerializer(serializers.ModelSerializer):
