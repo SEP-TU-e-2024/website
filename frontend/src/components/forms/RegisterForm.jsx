@@ -31,11 +31,10 @@ function RegisterForm() {
             <div className='form_container'>    
                 <form onSubmit={register_user} method='post'>
                     <div className='field_container'>
-                        <p>Username</p>
+                        <p>Username (Optional)</p>
                         <input
                             name="username"
                             type="text"
-                            required
                         />
                     </div>
                     <div className='field_container'>

@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
@@ -7,6 +9,7 @@ from django.db import models
 
 
 class Problem(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -43,7 +46,7 @@ class UserProfileManager(BaseUserManager):
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     """Database model for users in the system"""
 
-    id = models.AutoField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(max_length=255, unique=True, null=False)
     name = models.CharField(max_length=255, null=True, blank=True)
     is_staff = models.BooleanField(default=False)
@@ -62,6 +65,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
 class EvaluationSettings(models.Model):
     """Settings for a problem"""
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     cpu = models.IntegerField()
     time_limit = models.FloatField()
     
@@ -73,6 +77,7 @@ class EvaluationSettings(models.Model):
 class StorageLocation(models.Model):
     """Storage path reference to locate file(s)"""
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     filepath = models.CharField(max_length=256)
 
 
@@ -95,6 +100,7 @@ class BenchmarkInstance(StorageLocation):
 class ProblemCategory(models.Model):
     """Category representing an optimization problem"""
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=256)  # For example TSP
     description = models.CharField(max_length=512)  # Description of problem
     simulator = models.ForeignKey(
@@ -112,6 +118,7 @@ class ProblemCategory(models.Model):
 class SpecifiedProblem(models.Model):
     """Specified problem, potentially with evaluation settings"""
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     category = models.ForeignKey(ProblemCategory, on_delete=models.CASCADE, null=True)
     evaluation_settings = models.ForeignKey(
         EvaluationSettings, on_delete=models.CASCADE, null=True, blank=True
@@ -124,6 +131,7 @@ class SpecifiedProblem(models.Model):
 class BenchmarkRelations(models.Model):
     """Relational table between specified problems and their benchmark instances"""
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     problem = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE, null=True)
     instance = models.ForeignKey(BenchmarkInstance, on_delete=models.CASCADE, null=True)
 
@@ -135,6 +143,7 @@ class BenchmarkRelations(models.Model):
 class Submission(models.Model):
     """Database model for submissions"""
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
     problem = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, unique=True)
@@ -145,6 +154,7 @@ class Submission(models.Model):
 class Result(models.Model):
     """Table that stores result of a submission"""
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
     metric = models.CharField(max_length=512)
     score = models.DecimalField(decimal_places=2, max_digits=6)
