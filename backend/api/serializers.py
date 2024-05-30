@@ -3,12 +3,12 @@ from rest_framework.serializers import ModelSerializer
 
 from api.models import Problem
 
-from .models import EvaluationSetting, ProblemCategory, SpecifiedProblem, Submission
+from .models import EvaluationSettings, ProblemCategory, Result, SpecifiedProblem, Submission
 from .models import UserProfile as User
 
 
 class ProblemSerializer(serializers.ModelSerializer):
-    """ "Simple problem serializer"""
+    """Simple problem serializer"""
 
     class Meta:
         model = Problem
@@ -16,11 +16,19 @@ class ProblemSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(ModelSerializer):
-    """ "Serializer for users"""
+    """Serializer for users"""
 
     class Meta:
         model = User
         fields = ("id", "email")
+
+
+class ProfileSerializer(ModelSerializer):
+    """Serializer for user profiles"""
+
+    class Meta:
+        model = User
+        fields = ("id", "email", "name")
 
 
 class SubmissionSerializer(serializers.ModelSerializer):
@@ -30,25 +38,26 @@ class SubmissionSerializer(serializers.ModelSerializer):
         model = Submission
         fields = (
             "id",
-            "problem_id",
-            "submission_name",
+            "problem",
+            "name",
             "created_at",
             "is_verified",
         )
 
 
 class ProblemCategorySerializer(serializers.ModelSerializer):
-    """ "Serializer for problem categories"""
+    """Serializer for problem categories"""
 
     class Meta:
         model = ProblemCategory
         fields = ['name', 'description']
-        
+
+
 class EvaluationSettingSerializer(serializers.ModelSerializer):
     """Serializer for evaluation settings"""
     
     class Meta:
-        model = EvaluationSetting
+        model = EvaluationSettings
         fields = ['cpu', 'time_limit']
 
 
@@ -63,3 +72,14 @@ class SpecifiedProblemSerializer(serializers.ModelSerializer):
     class Meta:
         model = SpecifiedProblem
         fields = ['id', 'category', 'type', 'style', 'evaluation_settings', 'metrics', 'submission_count']
+
+
+class ResultSerializer(serializers.ModelSerializer):
+    """Serializer for results"""
+    
+    submission = SubmissionSerializer(read_only=True)
+
+    class Meta:
+        model = Result
+        fields = ['submission', 'metric', 'score']
+    

@@ -17,6 +17,7 @@ import TokenAuthenticator from "./components/tokenauthenticator/TokenAuthenticat
 import UnProtectedLayout from "./components/routing/UnprotectedLayout";
 
 import { getPOInfo } from './components/problemOccurenceOverview/ProblemOccurrenceOverviewPage';
+import { getLeaderboardData } from './components/leaderboardPage/LeaderboardPage';
 
 /**
  * This is the router object.
@@ -31,7 +32,19 @@ export const router = createBrowserRouter(
         
         {/* Protected routes */}
         <Route element={<ProtectedLayout />}>
-          <Route path="/leaderboard" element={<LeaderboardPage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/leaderboard/:problem_id" 
+            element={<LeaderboardPage />} 
+            loader={async ({ params }) => {
+              return getLeaderboardData(Number(params.problem_id));
+            }} />
+          <Route 
+            path="/problemoccurrence/:problem_id" 
+            element={<ProblemOccurrenceOverviewPage />} 
+            loader={async ({ params }) => {
+              return getPOInfo(params.problem_id); //TODO fetching logic here
+            }} />
         </Route>
           
         {/* Non protected routes */}
@@ -44,10 +57,10 @@ export const router = createBrowserRouter(
           <Route path="/tokens" element={<TokenAuthenticator />} />
           <Route path="/home" element={<HomePage />} />
           <Route 
-            path="/problemoccurrence/:poID" 
+            path="/problemoccurrence/:problem_id" 
             element={<ProblemOccurrenceOverviewPage />} 
             loader={async ({ params }) => {
-              return getPOInfo(params.poID); //TODO fetching logic here
+              return getPOInfo(params.problem_id); //TODO fetching logic here
             }} />
         </Route>
         

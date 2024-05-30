@@ -6,6 +6,8 @@ from rest_framework_simplejwt.views import (
 )
 
 from .views.auth_view import AuthViewSet
+from .views.leaderboard_entry_view import LeaderboardEntryView
+from .views.leaderboard_view import LeaderboardView
 from .views.problem_view import Problems
 from .views.submit_view import SubmitViewSet
 from .views.views import RetrieveProblems, main
@@ -25,6 +27,16 @@ urlpatterns = [
     path("auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("activate/<uidb64>/<token>", AuthViewSet.activate, name="activate"),
     path(
+        "leaderboard/<int:problem_id>",
+        LeaderboardView.as_view(),
+        name="leaderboard"
+    ),
+    path(
+        "leaderboard_entry/<int:submission_id>",
+        LeaderboardEntryView.as_view(),
+        name="leaderboardEntry"
+    ),
+    path(
         "loginEmail/<uidb64>/<token>",
         AuthViewSet.login_through_email,
         name="loginEmail",
@@ -33,7 +45,7 @@ urlpatterns = [
         "confirmSubmission/<sidb64>/<token>",
         SubmitViewSet.confirm_submission,
         name="confirmSubmission",
-    ),
+    )
 ]
 
 # Combining urls of routers and patterns
