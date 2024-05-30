@@ -35,7 +35,7 @@ export const router = createBrowserRouter(
           <Route path="/leaderboard/:problem_id" 
             element={<LeaderboardPage />} 
             loader={async ({ params }) => {
-              return getLeaderboardData(Number(params.problem_id));
+              return getLeaderboardData(params.problem_id);
             }} />
         </Route>
           

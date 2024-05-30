@@ -10,7 +10,7 @@ from ..models import Submission
 class LeaderboardEntryView(APIView):
     """Leaderboard entry view as end point to get data from"""
 
-    def get(self, request, submission_id:int) -> JsonResponse:
+    def get(self, request, submission_id:str) -> JsonResponse:
         """Get request to retrieve a leaderboard entry for a submission id."""
 
         # Get the submission from the id
