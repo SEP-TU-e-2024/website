@@ -60,6 +60,7 @@ function createLeaderboardRows(entries) {
  */
 function LeaderboardPage() {  
   const leaderboardData = useLoaderData();
+  
   if (leaderboardData == null) {
     throw new Error("Problem with fetching the requested data from the database.");
   }
