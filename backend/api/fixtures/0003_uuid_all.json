@@ -45,7 +45,7 @@
     }
 },
 {
-    "model": "api.evaluationsetting",
+    "model": "api.evaluationsettings",
     "pk": "9f0dcdaa-6b33-4ed4-bdd9-a6d1b9852fbd",
     "fields": {
         "cpu": 4,
@@ -53,7 +53,7 @@
     }
 },
 {
-    "model": "api.evaluationsetting",
+    "model": "api.evaluationsettings",
     "pk": "a2f27c6d-1379-4a59-ab3f-5c3ef04dc086",
     "fields": {
         "cpu": 1,

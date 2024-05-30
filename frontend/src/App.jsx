@@ -33,7 +33,6 @@ export const router = createBrowserRouter(
         {/* Protected routes */}
         <Route element={<ProtectedLayout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/home" element={<HomePage />} />
           <Route path="/leaderboard/:problem_id" 
             element={<LeaderboardPage />} 
             loader={async ({ params }) => {
@@ -50,12 +49,12 @@ export const router = createBrowserRouter(
         {/* Non protected routes */}
         <Route element={<UnProtectedLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
           <Route path="/submit" element={<Submit />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
           {/* Basically an endpoint to save the auth tokens from email only login */}
           <Route path="/tokens" element={<TokenAuthenticator />} />
-          <Route path="/home" element={<HomePage />} />
           <Route 
             path="/problemoccurrence/:problem_id" 
             element={<ProblemOccurrenceOverviewPage />} 
