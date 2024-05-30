@@ -1,5 +1,3 @@
-import json
-
 from rest_framework import serializers
 
 from ..models import SpecifiedProblem, Submission
@@ -25,6 +23,7 @@ class Leaderboard():
         for entry in self.entries:
             entry.rank = rank
             rank += 1
+
 
 class LeaderboardSerializer(serializers.Serializer):
     """Serializer for leaderboard"""
