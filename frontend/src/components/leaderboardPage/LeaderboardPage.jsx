@@ -60,6 +60,7 @@ function createLeaderboardRows(entries) {
  */
 function LeaderboardPage() {  
   const leaderboardData = useLoaderData();
+  
   if (leaderboardData == null) {
     throw new Error("Problem with fetching the requested data from the database.");
   }
@@ -67,7 +68,7 @@ function LeaderboardPage() {
   return (
     <div>
       <div>
-        <h2 class='text-primary'>Leaderboard</h2>
+        <h2 className='text-primary'>Leaderboard</h2>
       </div>
       <div>
         <p>Here is a subtitle that can talk about the benchmark instance/set</p>
@@ -86,23 +87,11 @@ function LeaderboardPage() {
  * @returns response data
  */
 export async function getLeaderboardData(problemId) {
-  if (typeof(problemId) != 'number') {
-    throw new Error(`Error 400: Problem id for leaderboard data type ${typeof(problemId)} is not a number`);
-  }
-  // Ensure that the number is a integer, which could be a valid problem id.
-  problemId = problemId.toFixed(0)
-
   try {
     const response = await api.get(`/leaderboard/${problemId}`);
     return response.data;
   } catch(err) {
     console.error(err);
-    if (err.response.status == 404) {
-      throw new Error("Error 404: Leaderboard was not found");
-    } else if (err.response.status == 401) {
-      throw new Error("Error 401: Unauthorized to access this content");
-    }
-    else throw err;
   }
 }
 

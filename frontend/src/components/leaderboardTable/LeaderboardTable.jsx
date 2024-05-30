@@ -43,7 +43,7 @@ function LeaderboardTable({columnNames, columnKeys, rows}) {
                         <tr>
                             {/* the +1 is because there is always the rank column */}
                             <td colSpan={columnNames.length + 1} align='center'>
-                                <b>Oops no one here</b>
+                                <b>No leaderboard results</b>
                             </td>
                         </tr>
                     ) : (

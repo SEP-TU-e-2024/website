@@ -27,12 +27,12 @@ urlpatterns = [
     path("auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("activate/<uidb64>/<token>", AuthViewSet.activate, name="activate"),
     path(
-        "leaderboard/<int:problem_id>",
+        "leaderboard/<str:problem_id>",
         LeaderboardView.as_view(),
         name="leaderboard"
     ),
     path(
-        "leaderboard_entry/<int:submission_id>",
+        "leaderboard_entry/<str:submission_id>",
         LeaderboardEntryView.as_view(),
         name="leaderboardEntry"
     ),

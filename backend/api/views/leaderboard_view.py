@@ -10,7 +10,7 @@ from ..models import SpecifiedProblem
 class LeaderboardView(APIView):
     """Leaderboard view as end point to get data from"""
     
-    def get(self, request, problem_id:int) -> JsonResponse:
+    def get(self, request, problem_id:str) -> JsonResponse:
         """Get request to retrieve a leaderboard for a problem id."""
         
         # Get the problem from the id

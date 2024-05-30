@@ -32,18 +32,10 @@ export const router = createBrowserRouter(
         
         {/* Protected routes */}
         <Route element={<ProtectedLayout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/home" element={<HomePage />} />
           <Route path="/leaderboard/:problem_id" 
             element={<LeaderboardPage />} 
             loader={async ({ params }) => {
-              return getLeaderboardData(Number(params.problem_id));
-            }} />
-          <Route 
-            path="/problemoccurrence/:problem_id" 
-            element={<ProblemOccurrenceOverviewPage />} 
-            loader={async ({ params }) => {
-              return getPOInfo(params.problem_id); //TODO fetching logic here
+              return getLeaderboardData(params.problem_id);
             }} />
         </Route>
           
