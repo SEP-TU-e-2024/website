@@ -5,63 +5,55 @@ import './LeaderboardTable.scss'
 /**
  * Leaderboard table component.
  * 
- * @param {columnNames, columnKeys, rows} param0 a dict with column labels, column keys in the row list, and a list of rows
+ * @param {JSON} properties that should contain the following
+ * - list of columns each with a name and method to retreive data from an entry.
+ * - list of entries that contain data relevant to the leaderboard entry.
  * @returns component
  */
-function LeaderboardTable({columnNames, columnKeys, rows}) {
-    
-    //TODO move this to a settings file
-    const MAX_DISPLAYED_ROWS = rows.length;
+function LeaderboardTable({columns, entries}) {
+    if (columns.length == 0) {
+        console.error("Leaderboard table was created with zero columns");
+        return;
+    }
 
-    let displayRows = rows.slice(0, MAX_DISPLAYED_ROWS);
-    
-    //TODO add check for id in rows
-    const nrCols = 6;
-    //TODO throw error if size of a row doesn't match the number of columns
-    
     return (
         <Container fluid className='justify-content-center'>
             <Table className='leaderboard-table'>
+                {/* Add table header with single row of column names */}
                 <thead>
-                    <tr>
-                        {/* This column is always there */}
-                        <th className='text-secondary border-0'>#</th>
-                        
-                        {/* If there are column names provided, render them */}
-                        {!columnNames || columnNames.length <= 0 ? (
-                            <th className='border-0'>No column names where specified</th>
-                        ) : (
-                            columnNames.map(colName => (
-                                //maybe add a check somewhere that colname is a string
-                                <th className='text-primary border-0'>{colName}</th>
-                            ))
-                        )}
-                    </tr>
-                </thead>
-                <tbody>
-                    {!displayRows || displayRows.length <= 0 ? (
-                        <tr>
-                            {/* the +1 is because there is always the rank column */}
-                            <td colSpan={columnNames.length + 1} align='center'>
-                                <b>No leaderboard results</b>
-                            </td>
-                        </tr>
-                    ) : (
-                        displayRows.map(row => (
-                            <tr key={row[columnKeys.idKey]}>
-                                {!columnKeys.colKeys || columnKeys.colKeys.length <= 0 ? (
-                                    <td colSpan={columnNames.length + 1} align='center'>Error: no column keys</td>
-                                ) : (
-                                    columnKeys.colKeys.map(key => (
-                                        <td>{row[key]}</td>
-                                    ))
-                                )}
-                            </tr>
+                    <tr>{
+
+                        // Add column name for each column 
+                        columns.map(column => (
+                            <td key={column.name}>{column.name}</td>
                         ))
-                    )}
-                </tbody>
+
+                    }</tr>
+                </thead>
+
+                {/* Add table body with leaderboard entries */}
+                <tbody>{
+                    // Display message if no leaderboard entries exist
+                    entries.length==0 ? 
+                    <tr><td colSpan={columns.length} align='center'>
+                        No leaderboard entries
+                    </td></tr> :
+
+                    // Add existing leaderboard entries
+                    entries.map(entry => (
+                    
+                    // Add row for the leaderboard entry
+                    <tr key={entry.rank}>{
+
+                        // Add column data cell for the leaderboard entry 
+                        columns.map(column => (
+                            <td key={column.name}>{column.getData(entry)}</td>
+                        ))
+                    
+                    }</tr>
+                    
+                ))}</tbody>
             </Table>
-            
             {/* Possible code for a skeleton of a pagination if we want to add that */}
             {/* <Pagination className='d-flex justify-content-center'>
                 <PaginationItem disabled>
