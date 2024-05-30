@@ -34,9 +34,10 @@ function createLeaderboardRows(entries) {
   let rows = [];
   
   entries.forEach(entry => {
-    // Copy the results dict to the fields
-    let results = entry.results;
-    let fields = {results};
+    let fields = {};
+
+    // Add the results dict to the fields
+    Object.assign(fields, entry.results);
 
     // Add rank that numbers the leaderboard entries
     fields['rank'] = entry.rank;
