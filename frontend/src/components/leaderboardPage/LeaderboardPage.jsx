@@ -34,8 +34,9 @@ function createLeaderboardRows(entries) {
   let rows = [];
   
   entries.forEach(entry => {
-    // Parse the results json into the fields JSON
-    let fields = entry.results;
+    // Copy the results dict to the fields
+    let results = entry.results;
+    let fields = {results};
 
     // Add rank that numbers the leaderboard entries
     fields['rank'] = entry.rank;
