@@ -49,10 +49,10 @@ export const router = createBrowserRouter(
           <Route path="/tokens" element={<TokenAuthenticator />} />
           <Route path="/home" element={<HomePage />} />
           <Route 
-            path="/problemoccurrence/:problem_id" 
+            path="/problemoccurrence/:problem_category/:problem_occurence" 
             element={<ProblemOccurrenceOverviewPage />} 
             loader={async ({ params }) => {
-              return getPOInfo(params.problem_id); //TODO fetching logic here
+              return getPOInfo(params.problem_category, params.problem_occurence); //TODO fetching logic here
             }} />
         </Route>
         

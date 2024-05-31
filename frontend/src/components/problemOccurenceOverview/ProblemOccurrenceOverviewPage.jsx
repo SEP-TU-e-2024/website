@@ -104,10 +104,11 @@ function ProblemOccurrenceOverviewPage() {
  * Async function to fetch the problem occurrence data from the backend
  * @returns response data
  */
-export async function getPOInfo(occurenceId) {
+export async function getPOInfo(categoryID, problemOccurenceID) {
   try {
-    const response = await api.post('/problems/occurrence_overview', {POId : occurenceId});
-    return response.data;
+    const response = await api.post('/problems/occurrence_overview', {POId : problemOccurenceID, CId : categoryID});
+    console.log(problemOccurenceID)
+    return response.data; 
   } catch(err) {
     console.error(err);
     if (err.response.status == 404) {
