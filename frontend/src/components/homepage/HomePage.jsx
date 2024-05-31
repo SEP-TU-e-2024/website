@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
  */
 function ProblemOccurenceOverview({rows}) {
     const navigate = useNavigate();
+    
     let handleRowClick = (id)=> {
         navigate("/problemoccurrence/" + id);
     }    
@@ -19,6 +20,13 @@ function ProblemOccurenceOverview({rows}) {
     if (!rows || rows.length <= 0) {
         return (<div>No data found</div>);
     }
+ 
+    const problemOccurences = rows.map((problem_cat) => (
+            problem_cat['specified_problems'].map((problem_occurence)  => (
+                <li >{problem_occurence['name']}</li>
+            ))
+        )
+    );
 
     return (
         <div className='problem_container'>
@@ -30,23 +38,17 @@ function ProblemOccurenceOverview({rows}) {
                     </div>
                     <div className='card_content'>
                         <h5>
-                            {row["category"]["name"]}
+                            {row['name']}
                         </h5>
                         <ul>
-                            <li>Sleepy Traveler</li>
-                            <li>Lazy Traveler</li>
-                            <li>Crippled Traveler</li>
-                            <li>Sleepy Traveler</li>
-                            <li>Lazy Traveler</li>
-                            <li>Crippled Traveler</li>
-                            <li>Sleepy Traveler</li>
-                            <li>Lazy Traveler</li>
-                            <li>Crippled Traveler</li>
-                            <li>Sleepy Traveler</li>
-                            <li>Lazy Traveler</li>
-                            <li>Crippled Traveler</li>
+                           {row['specified_problems'].map(
+                                (problem) => (
+                                    <li onClick={() => handleRowClick(problem.id)} key={problem.id}>{problem['name']}</li>
+                                )
+                            )
+                            }
                         </ul>
-                    </div>
+                    </div> 
                     <div className='card_footer'>
                         <p>1D 20H 40M</p>
                     </div>

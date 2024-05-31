@@ -11,7 +11,7 @@ function ProblemOccurrenceDescription({problemData}) {
     <Container className="ps-0 pt-2">
         <Row className="">
           <Col>
-            <p>{problemData.category.description}</p>
+            <p>ZAZA</p>
           </Col>
         </Row>
     </Container>

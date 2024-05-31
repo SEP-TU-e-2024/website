@@ -22,7 +22,18 @@ admin.site.register(StorageLocation) # Storage table
 admin.site.register(Simulator) # Simulator table
 admin.site.register(Validator) # Validator table
 admin.site.register(BenchmarkInstance) # Instance table
-admin.site.register(ProblemCategory) # Category table
-admin.site.register(SpecifiedProblem) # Problem table
+# admin.site.register(ProblemCategory) # Category table  
+# admin.site.register(SpecifiedProblem) # Problem table
 admin.site.register(BenchmarkRelations) # Relation table
 admin.site.register(Result) # Result table
+
+class AdminSpecifiedProblem(admin.TabularInline):
+    model = SpecifiedProblem
+    extra = 1
+
+class AdminProblemCategory(admin.ModelAdmin):
+    inlines = [AdminSpecifiedProblem]
+    list_display = ('id', 'name', 'description', 'simulator', 'validator', 'style', 'type')
+
+admin.site.register(ProblemCategory, AdminProblemCategory)
+admin.site.register(SpecifiedProblem)

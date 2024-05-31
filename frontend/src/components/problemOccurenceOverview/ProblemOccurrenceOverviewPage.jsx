@@ -14,6 +14,7 @@ import './ProblemOccurrrenceOverviewBody.scss';
 function ProblemOccurrenceOverviewPage() {
   
   const problemData = useLoaderData()[0];//it returns an array because we use the same endpoint as for the list of problem occurrences
+  console.log(problemData)
   if (problemData == null) {
     //somewhat janky error handling but there isn't really any other exception that is thrown somewhere
     throw new Error("Problem with fetching the requested data from db");
@@ -25,17 +26,18 @@ function ProblemOccurrenceOverviewPage() {
   function handleTabSwitch(e) {
     setCurrentTab(e.target.id);
   }
-  
+
+  console.log(problemData.evaluation_settings.name)
   return (
     <div>
       <Container fluid className="bg-primary mt-4">
         <Row className="justify-content-center">
           <Col xs="2"></Col> {/* Intentionally empty col */}
           <Col className='text-light text-center py-5' xs="8">
-            <h1 className="fw-bold">{problemData.category.name}</h1>
+            <h1 className="fw-bold">Zaza2</h1>
           </Col>
           <Col xs="2" className="align-self-end text-end text-light fw-bold">
-            <Row><Col>1/day <i className="bi-cloud-upload" /></Col></Row>
+            <Row><Col>1/day<i className="bi-cloud-upload" /></Col></Row>
             <Row><Col>1d 20h 40m <i className="bi-clock" /></Col></Row>
           </Col> 
         </Row>

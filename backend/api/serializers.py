@@ -44,15 +44,6 @@ class SubmissionSerializer(serializers.ModelSerializer):
             "is_verified",
         )
 
-
-class ProblemCategorySerializer(serializers.ModelSerializer):
-    """Serializer for problem categories"""
-
-    class Meta:
-        model = ProblemCategory
-        fields = ['name', 'description']
-
-
 class EvaluationSettingSerializer(serializers.ModelSerializer):
     """Serializer for evaluation settings"""
     
@@ -60,19 +51,24 @@ class EvaluationSettingSerializer(serializers.ModelSerializer):
         model = EvaluationSettings
         fields = ['cpu', 'time_limit']
 
-
 class SpecifiedProblemSerializer(serializers.ModelSerializer):
     """Serializer for specified problems"""
 
     # Foreign field from category table
-    category = ProblemCategorySerializer(read_only=True)
     submission_count = serializers.IntegerField(read_only=True)
     evaluation_settings = EvaluationSettingSerializer(read_only=True)
 
     class Meta:
         model = SpecifiedProblem
-        fields = ['id', 'category', 'type', 'style', 'evaluation_settings', 'metrics', 'submission_count']
+        fields = ['id', 'name', 'evaluation_settings', 'metrics', 'submission_count']
 
+class ProblemCategorySerializer(serializers.ModelSerializer):
+    """Serializer for problem categories"""
+    specified_problems = SpecifiedProblemSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = ProblemCategory
+        fields = ['id', 'name', 'style', 'type', 'description', 'simulator', 'validator', 'specified_problems']
 
 class ResultSerializer(serializers.ModelSerializer):
     """Serializer for results"""
