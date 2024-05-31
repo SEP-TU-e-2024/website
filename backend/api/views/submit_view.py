@@ -51,7 +51,7 @@ class SubmitViewSet(ViewSet):
         serializer = SubmissionSerializer(data=request.data)
         if not serializer.is_valid():
             for field, message in serializer.errors.items():
-                print({"field": field, "error": message})
+                self.logger.error({"field": field, "error": message})
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         # Gets or creates user
         user = request.user
