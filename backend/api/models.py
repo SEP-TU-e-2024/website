@@ -151,3 +151,19 @@ class Result(models.Model):
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
     metric = models.CharField(max_length=512)
     score = models.DecimalField(decimal_places=2, max_digits=6)
+
+class Metric(models.Model):
+    """Table that stores a performance metric"""
+    
+    #these are the units for visual processing in the frontend
+    SUPPORTED_UNITS = {
+        "None" : "None",
+        "S" : "Seconds",
+        "Min" : "Minutes",
+        "H" : "Hours"
+    }
+    
+    code_name = models.CharField(primary_key=True, max_length=100)
+    display_name = models.CharField(max_length=150)
+    unit = models.CharField(max_length=4, choices=SUPPORTED_UNITS)
+    
