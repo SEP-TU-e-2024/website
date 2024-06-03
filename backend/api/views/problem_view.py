@@ -19,12 +19,12 @@ class Problems(APIView):
 
         # Joining tables and adding field
         if 'POId' in request.data:
-            problems = SpecifiedProblem.objects.all().prefetch_related("category").prefetch_related("evaluation_settings").annotate(submission_count=Count('submission')).filter(id=request.data['POId'])
+            problems = SpecifiedProblem.objects.all().prefetch_related("category").prefetch_related("evaluation_settings").prefetch_related("metrics").annotate(submission_count=Count('submission')).filter(id=request.data['POId'])
             if len(problems) == 0:
                 # When there is no problem with the requested id, return a 404 response
                 return HttpResponseNotFound()
         else:
-            problems = SpecifiedProblem.objects.all().prefetch_related("category").annotate(submission_count=Count('submission'))
+            problems = SpecifiedProblem.objects.all().prefetch_related("category").prefetch_related("metrics").annotate(submission_count=Count('submission'))
             
         # Serializes
         serializer = SpecifiedProblemSerializer(problems, many=True)
