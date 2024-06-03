@@ -60,7 +60,7 @@ class SpecifiedProblemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SpecifiedProblem
-        fields = ['id', 'name', 'evaluation_settings', 'metrics', 'submission_count']
+        fields = ['id', 'name', 'evaluation_settings', 'metrics', 'submission_count', 'category']
 
 class ProblemCategorySerializer(serializers.ModelSerializer):
     """Serializer for problem categories"""
@@ -69,6 +69,7 @@ class ProblemCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ProblemCategory
         fields = ['id', 'name', 'style', 'type', 'description', 'simulator', 'validator', 'specified_problems']
+
 
 class ResultSerializer(serializers.ModelSerializer):
     """Serializer for results"""

@@ -13,7 +13,7 @@ import './ProblemOccurrrenceOverviewBody.scss';
  */
 function ProblemOccurrenceOverviewPage() {
   
-  const problemData = useLoaderData()[0];//it returns an array because we use the same endpoint as for the list of problem occurrences
+  const problemData = useLoaderData();//it returns an array because we use the same endpoint as for the list of problem occurrences
   console.log(problemData)
   if (problemData == null) {
     //somewhat janky error handling but there isn't really any other exception that is thrown somewhere
@@ -27,14 +27,14 @@ function ProblemOccurrenceOverviewPage() {
     setCurrentTab(e.target.id);
   }
 
-  console.log(problemData.evaluation_settings.name)
+
   return (
     <div>
       <Container fluid className="bg-primary mt-4">
         <Row className="justify-content-center">
           <Col xs="2"></Col> {/* Intentionally empty col */}
           <Col className='text-light text-center py-5' xs="8">
-            <h1 className="fw-bold">Zaza2</h1>
+            <h1 className="fw-bold">{problemData.problem_name}</h1>
           </Col>
           <Col xs="2" className="align-self-end text-end text-light fw-bold">
             <Row><Col>1/day<i className="bi-cloud-upload" /></Col></Row>
@@ -43,7 +43,7 @@ function ProblemOccurrenceOverviewPage() {
         </Row>
         <Row className="align-items-center">
           <Col className='bg-white border-dark border text-dark text-center'>
-            <h5 className="fw-bold">{problemData.evaluation_settings.time_limit} second, {problemData.evaluation_settings.cpu} CPU variation</h5>
+            <h5 className="fw-bold">{problemData.name} :  {problemData.evaluation_settings.time_limit} second, {problemData.evaluation_settings.cpu} CPU variation</h5>
           </Col>
         </Row>
       </Container>
@@ -104,10 +104,10 @@ function ProblemOccurrenceOverviewPage() {
  * Async function to fetch the problem occurrence data from the backend
  * @returns response data
  */
-export async function getPOInfo(categoryID, problemOccurenceID) {
+export async function getPOInfo(problemOccurrenceID) {
   try {
-    const response = await api.post('/problems/occurrence_overview', {POId : problemOccurenceID, CId : categoryID});
-    console.log(problemOccurenceID)
+    const response = await api.get ('problems/problem_occurrence/'.concat(problemOccurrenceID));
+    console.log(problemOccurrenceID)
     return response.data; 
   } catch(err) {
     console.error(err);

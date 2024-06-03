@@ -8,6 +8,7 @@ from rest_framework_simplejwt.views import (
 from .views.auth_view import AuthViewSet
 from .views.leaderboard_entry_view import LeaderboardEntryView
 from .views.leaderboard_view import LeaderboardView
+from .views.problem_occurence_view import ProblemOccurrenceView
 from .views.problem_view import Problems
 from .views.submit_view import SubmitViewSet
 from .views.views import RetrieveProblems, main
@@ -22,10 +23,14 @@ urlpatterns = [
     path("", main),
     path("problems", RetrieveProblems.as_view()),
     path("problems/occurrence_overview", Problems.as_view()),
-    # Make a path here for the single problem occurrences
+    path(
+        "problems/problem_occurrence/<str:problem_id>",
+         ProblemOccurrenceView.as_view(),
+         name='ProblemOccurrence'
+        ),
     path("auth/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("activate/<uidb64>/<token>", AuthViewSet.activate, name="activate"),
+    path("  activate/<uidb64>/<token>", AuthViewSet.activate, name="activate"),
     path(
         "leaderboard/<str:problem_id>",
         LeaderboardView.as_view(),

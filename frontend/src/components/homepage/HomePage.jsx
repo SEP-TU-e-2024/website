@@ -21,6 +21,7 @@ function ProblemOccurenceOverview({rows}) {
         return (<div>No data found</div>);
     }
  
+    // Assemble a list of all specified problems per problem category
     const problemOccurences = rows.map((problem_cat) => (
             problem_cat['specified_problems'].map((problem_occurence)  => (
                 <li >{problem_occurence['name']}</li>
@@ -32,7 +33,7 @@ function ProblemOccurenceOverview({rows}) {
         <div className='problem_container'>
             {rows.map(row => (
                 // Hard coding to allow easier access to static values
-                <div className={`problem_card ${row["type"]}`} key={row.id} onClick={()=>handleRowClick(row.id)}>
+                <div className={`problem_card ${row["type"]}`} key={row.id}>
                     <div className='card_title'> 
                         {row["type"]} 
                     </div>
@@ -41,6 +42,7 @@ function ProblemOccurenceOverview({rows}) {
                             {row['name']}
                         </h5>
                         <ul>
+                            {/* Adding all specified problems for this problem category */}
                            {row['specified_problems'].map(
                                 (problem) => (
                                     <li onClick={() => handleRowClick(problem.id)} key={problem.id}>{problem['name']}</li>
@@ -52,10 +54,6 @@ function ProblemOccurenceOverview({rows}) {
                     <div className='card_footer'>
                         <p>1D 20H 40M</p>
                     </div>
-                    {/* 
-                    Currently not used, TODO remove
-                    {row["style"]}
-                    {row["submission_count"]} */}
                 </div>
             ))}
         </div>
