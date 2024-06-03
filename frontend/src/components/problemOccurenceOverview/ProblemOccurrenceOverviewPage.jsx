@@ -106,7 +106,7 @@ function ProblemOccurrenceOverviewPage() {
  */
 export async function getPOInfo(problemOccurrenceID) {
   try {
-    const response = await api.get ('problems/problem_occurrence/'.concat(problemOccurrenceID));
+    const response = await api.get(`problems/problem_occurrence/${problemOccurrenceID}`);
     console.log(problemOccurrenceID)
     return response.data; 
   } catch(err) {

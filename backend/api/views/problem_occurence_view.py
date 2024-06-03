@@ -1,4 +1,5 @@
 from django.http import HttpResponseNotFound, JsonResponse
+from requests import Response
 from rest_framework import status
 from rest_framework.views import APIView
 
@@ -10,7 +11,7 @@ class ProblemOccurrenceView(APIView):
 
     def get(self, request, problem_id:str):
         """
-        Given the ID of a specified problem, returns the attributes of that problem. Additionally, it returns the name and 
+        Given the ID of a specified problem, returns the attributes of that problem. Additionally, it returns the name and
         the description of the encapsulating category.
         """
 
@@ -18,7 +19,7 @@ class ProblemOccurrenceView(APIView):
         specified_problem = SpecifiedProblem.objects.all().filter(id=problem_id).select_related("category")
         #Check whether specified problem exists
         if not specified_problem.exists():
-            return HttpResponseNotFound()
+            return Response({}, status=status.HTTP_400_BAD_REQUEST)
         #Retrieve the associated category
         category_data = ProblemCategorySerializer(specified_problem.get().category).data
 
