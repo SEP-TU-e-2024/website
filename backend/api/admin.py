@@ -4,6 +4,7 @@ from .models import (
     BenchmarkInstance,
     BenchmarkSet,
     EvaluationSetting,
+    Metric,
     ProblemCategory,
     Result,
     Simulator,
@@ -26,3 +27,4 @@ admin.site.register(ProblemCategory) # Category table
 admin.site.register(SpecifiedProblem) # Problem table
 admin.site.register(BenchmarkSet) # Set table
 admin.site.register(Result) # Result table
+admin.site.register(Metric) # Metric table
