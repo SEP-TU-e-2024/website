@@ -1,4 +1,4 @@
-from django.http import HttpResponseNotFound, JsonResponse
+from django.http import JsonResponse
 from requests import Response
 from rest_framework import status
 from rest_framework.views import APIView
