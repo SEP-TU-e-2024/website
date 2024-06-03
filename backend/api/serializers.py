@@ -3,7 +3,7 @@ from rest_framework.serializers import ModelSerializer
 
 from api.models import Problem
 
-from .models import EvaluationSetting, ProblemCategory, SpecifiedProblem, Submission
+from .models import EvaluationSetting, Metric, ProblemCategory, SpecifiedProblem, Submission
 from .models import UserProfile as User
 
 
@@ -51,6 +51,12 @@ class EvaluationSettingSerializer(serializers.ModelSerializer):
         model = EvaluationSetting
         fields = ['cpu', 'time_limit']
 
+class MetricSerializer(serializers.ModelSerializer):
+    """Serializer for the specified problems"""
+    
+    class Meta:
+        model = Metric
+        fields = ['code_name', 'display_name', 'unit']
 
 class SpecifiedProblemSerializer(serializers.ModelSerializer):
     """Serializer for specified problems"""
@@ -59,6 +65,8 @@ class SpecifiedProblemSerializer(serializers.ModelSerializer):
     category = ProblemCategorySerializer(read_only=True)
     submission_count = serializers.IntegerField(read_only=True)
     evaluation_settings = EvaluationSettingSerializer(read_only=True)
+    metrics = MetricSerializer(read_only=True, many=True)
+    
 
     class Meta:
         model = SpecifiedProblem
