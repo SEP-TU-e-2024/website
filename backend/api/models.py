@@ -7,8 +7,6 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 
-# Create your models here.
-
 
 class Problem(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -112,6 +110,22 @@ class ProblemCategory(models.Model):
     )
 
 
+class Metric(models.Model):
+    """Table that stores a performance metric"""
+    
+    #these are the units for visual processing in the frontend
+    SUPPORTED_UNITS = {
+        "None" : "None",
+        "S" : "Seconds",
+        "Min" : "Minutes",
+        "H" : "Hours"
+    }
+    
+    code_name = models.CharField(primary_key=True, max_length=100)
+    display_name = models.CharField(max_length=150)
+    unit = models.CharField(max_length=4, choices=SUPPORTED_UNITS)
+    
+    
 class SpecifiedProblem(models.Model):
     """Occurence of problem, i.e. with certain settings"""
 
@@ -120,7 +134,7 @@ class SpecifiedProblem(models.Model):
     evaluation_settings = models.ForeignKey(
         EvaluationSetting, on_delete=models.CASCADE, null=True, blank=True
     )
-    metrics = models.CharField(max_length=512)  # Problem specific metrics to use
+    metrics = models.ManyToManyField(Metric)  # Problem specific metrics to use
     style = models.CharField(max_length=256, null=True)
     type = models.CharField(max_length=256, null=True)
 
@@ -142,28 +156,12 @@ class Submission(models.Model):
     submission_name = models.CharField(max_length=100, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_verified = models.BooleanField(default=False)
-
-
+    
+    
 class Result(models.Model):
     """Table that stores result of a submission"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
-    metric = models.CharField(max_length=512)
+    metric = models.ManyToManyField(Metric)
     score = models.DecimalField(decimal_places=2, max_digits=6)
-
-class Metric(models.Model):
-    """Table that stores a performance metric"""
-    
-    #these are the units for visual processing in the frontend
-    SUPPORTED_UNITS = {
-        "None" : "None",
-        "S" : "Seconds",
-        "Min" : "Minutes",
-        "H" : "Hours"
-    }
-    
-    code_name = models.CharField(primary_key=True, max_length=100)
-    display_name = models.CharField(max_length=150)
-    unit = models.CharField(max_length=4, choices=SUPPORTED_UNITS)
-    
