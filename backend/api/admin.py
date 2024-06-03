@@ -22,7 +22,7 @@ admin.site.register(StorageLocation) # Storage table
 admin.site.register(Simulator) # Simulator table
 admin.site.register(Validator) # Validator table
 admin.site.register(BenchmarkInstance) # Instance table
-# admin.site.register(ProblemCategory) # Category table  
+# admin.site.register(ProblemCategory) # Category table
 # admin.site.register(SpecifiedProblem) # Problem table
 admin.site.register(BenchmarkRelations) # Relation table
 admin.site.register(Result) # Result table
