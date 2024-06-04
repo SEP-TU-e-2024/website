@@ -100,11 +100,26 @@ class BenchmarkInstance(StorageLocation):
     pass
 
 
+class SpecifiedProblem(models.Model):
+    """Specified problem, potentially with evaluation settings"""
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=256, default='unnamed')
+    evaluation_settings = models.ForeignKey(
+        EvaluationSettings, on_delete=models.CASCADE, null=True, blank=True
+    )
+    metrics = models.CharField(max_length=512)  # Problem specific metrics to use
+    category = models.ForeignKey(
+        'ProblemCategory', on_delete=models.CASCADE, null=True, blank=True, related_name='specified_problems'
+    )
+    
 class ProblemCategory(models.Model):
     """Category representing an optimization problem"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=256)  # For example TSP
+    style = models.CharField(max_length=256, null=True)
+    type = models.CharField(max_length=256, null=True)
     description = models.CharField(max_length=512)  # Description of problem
     simulator = models.ForeignKey(
         Simulator, on_delete=models.CASCADE, null=True, blank=True
@@ -113,23 +128,10 @@ class ProblemCategory(models.Model):
         Validator, on_delete=models.CASCADE, null=True, blank=True
     )
 
+
     class Meta:
         verbose_name = "problem category"
         verbose_name_plural = "problem categories"
-
-
-class SpecifiedProblem(models.Model):
-    """Specified problem, potentially with evaluation settings"""
-
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    category = models.ForeignKey(ProblemCategory, on_delete=models.CASCADE, null=True)
-    evaluation_settings = models.ForeignKey(
-        EvaluationSettings, on_delete=models.CASCADE, null=True, blank=True
-    )
-    metrics = models.CharField(max_length=512)  # Problem specific metrics to use
-    style = models.CharField(max_length=256, null=True)
-    type = models.CharField(max_length=256, null=True)
-
 
 class BenchmarkRelations(models.Model):
     """Relational table between specified problems and their benchmark instances"""
