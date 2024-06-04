@@ -96,8 +96,8 @@ class Validator(StorageLocation):
 
 class BenchmarkInstance(StorageLocation):
     """Single data instance for an optimization problem"""
-
-    pass
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    file_path = models.CharField(max_length=256)
 
 
 class SpecifiedProblem(models.Model):
@@ -161,6 +161,7 @@ class Result(models.Model):
     """Table that stores result of a submission"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    benchmark_instance = models.ForeignKey(BenchmarkInstance, on_delete=models.CASCADE)
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
     metric = models.CharField(max_length=512)
-    score = models.DecimalField(decimal_places=2, max_digits=6)
+    value = models.DecimalField(decimal_places=2, max_digits=6)

@@ -4,6 +4,7 @@ from rest_framework.serializers import ModelSerializer
 from api.models import Problem
 
 from .models import (
+    BenchmarkInstance,
     EvaluationSettings,
     ProblemCategory,
     Result,
@@ -77,11 +78,19 @@ class ProblemCategorySerializer(serializers.ModelSerializer):
         model = ProblemCategory
         fields = ['id', 'name', 'style', 'type', 'description', 'simulator', 'validator', 'specified_problems']
 
+class BenchmarkInstanceSerializer(serializers.ModelSerializer):
+    """Serializer for Benchmark Instances"""
+
+    class Meta:
+        model = BenchmarkInstance
+        fields = ['id', 'file_path']
+
 class ResultSerializer(serializers.ModelSerializer):
     """Serializer for results"""
-
+    
     submission = SubmissionSerializer(read_only=True)
+    benchmark_instance = BenchmarkInstance(read_only=True)
 
     class Meta:
         model = Result
-        fields = ["submission", "metric", "score"]
+        fields = ["id", "benchmark_instance", "submission", "metric", "value"]
