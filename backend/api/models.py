@@ -160,8 +160,8 @@ class Submission(models.Model):
     
 class Result(models.Model):
     """Table that stores result of a submission"""
-
+    
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
-    metric = models.ManyToManyField(Metric)
+    metric = models.ForeignKey(Metric, on_delete=models.CASCADE, default="runTime")
     score = models.DecimalField(decimal_places=2, max_digits=6)
