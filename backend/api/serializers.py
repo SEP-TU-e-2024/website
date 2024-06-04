@@ -3,7 +3,13 @@ from rest_framework.serializers import ModelSerializer
 
 from api.models import Problem
 
-from .models import EvaluationSettings, ProblemCategory, Result, SpecifiedProblem, Submission
+from .models import (
+    EvaluationSettings,
+    ProblemCategory,
+    Result,
+    SpecifiedProblem,
+    Submission,
+)
 from .models import UserProfile as User
 
 
@@ -38,18 +44,19 @@ class SubmissionSerializer(serializers.ModelSerializer):
         model = Submission
         fields = (
             "id",
-            "problem",
-            "name",
+            "problem_id",
+            "submission_name",
             "created_at",
             "is_verified",
+            "is_downloadable",
         )
 
 class EvaluationSettingSerializer(serializers.ModelSerializer):
     """Serializer for evaluation settings"""
-    
+
     class Meta:
         model = EvaluationSettings
-        fields = ['cpu', 'time_limit']
+        fields = ["cpu", "time_limit"]
 
 class SpecifiedProblemSerializer(serializers.ModelSerializer):
     """Serializer for specified problems"""
@@ -70,13 +77,11 @@ class ProblemCategorySerializer(serializers.ModelSerializer):
         model = ProblemCategory
         fields = ['id', 'name', 'style', 'type', 'description', 'simulator', 'validator', 'specified_problems']
 
-
 class ResultSerializer(serializers.ModelSerializer):
     """Serializer for results"""
-    
+
     submission = SubmissionSerializer(read_only=True)
 
     class Meta:
         model = Result
-        fields = ['submission', 'metric', 'score']
-    
+        fields = ["submission", "metric", "score"]
