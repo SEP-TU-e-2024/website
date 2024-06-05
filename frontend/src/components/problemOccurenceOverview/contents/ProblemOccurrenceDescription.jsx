@@ -1,6 +1,7 @@
 import React from "react"
 import { Container, Row, Col } from "reactstrap";
 import Submit from '../../submit/Submit';
+import Leaderboard from "../../leaderboards/Leaderboard";
 
 /**
  * A component for the description/overview of a single problem occurence. 
