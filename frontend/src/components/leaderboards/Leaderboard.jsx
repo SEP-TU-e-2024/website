@@ -1,25 +1,93 @@
 import {React, useEffect, useState} from "react"
 import { Container } from "reactstrap";
 import './Leaderboard.scss'
+import MetricColumn from './MetricColumn'
+import LeaderboardColumn from './LeaderboardColumn'
+import api from "../../api";
+/**
+ * Async function to fetch the leaderboard data from the backend
+ * @returns response data
+ */
+async function getLeaderboardData(problemId) {
+  try {
+    const response = await api.get(`/leaderboard/${problemId}`);
+    return response.data;
+  } catch(err) {
+    console.error(err);
+  }
+}
 
-async function getRows() {
-  return [
-    { id:"1", rank:"1", userName:"John Doe", submissionName:"Foo Bar", metrics: {walkingTime:"1"}, submissionDate:"28-5-2024"},
-    { id:"2", rank:"2", userName:"Jain Doe", submissionName:"Boe Bar", metrics: {walkingTime:"15"}, submissionDate:"28-5-2024"},
-    { id:"3", rank:"3", userName:"John Smith", submissionName:"Foo Broom", metrics: {walkingTime:"0.3"}, submissionDate:"28-5-2024"}
-  ];
+//download submission handler
+function handleDownloadSolverClick(e) {
+  e.stopPropagation();
+  alert("download solver");
+}
+
+//download solutions handler
+function handleDownloadSolutionsClick(e) {
+  e.stopPropagation();
+  alert("download solutions");
+}
+
+//download scores handler
+function handleDownloadScoresClick(e) {
+  e.stopPropagation();
+  alert("download scores");
+}
+
+/**
+ * Create the leaderboard columns for a problem
+ * 
+ * @param {JSON} problem to create leaderboard columns for
+ * @returns {List} columns that were created for the specified problem
+ */
+function createColumns(problem) {
+  let columns = [];
+  columns.push(new LeaderboardColumn("#", 
+    (entry) => { return entry.rank }));
+
+  // TODO replace hard coded scorign metric array with that from problem.
+  let problem_scoring_metrics = [{key:'scoring_metric', label:'Scoring metric', unit:'s'}]
+  
+  // Loop over scoring metrics of the problem to add them as columns.
+  problem_scoring_metrics.forEach((scoring_metric) => {
+    columns.push(new MetricColumn(scoring_metric));
+  });
+
+  columns.push(new LeaderboardColumn("Submission name", 
+    (entry) => { return entry.submission.submission_name }));
+  columns.push(new LeaderboardColumn("Submitted by", 
+    (entry) => { return entry.submitter.name }));
+  columns.push(new LeaderboardColumn("Submitted date", 
+    (entry) => { return entry.submission.created_at }));
+  columns.push(new LeaderboardColumn("Download Solver", 
+    (entry) => { return <i role="button" onClick={entry.submission.is_downloadable ? handleDownloadSolverClick : null} className={entry.submission.is_downloadable ? "bi-download" : "bi-download disabled"} />}));
+  columns.push(new LeaderboardColumn("Download Solutions", 
+    (entry) => { return <i role="button" onClick={handleDownloadSolutionsClick} className="bi-download" />}));
+  columns.push(new LeaderboardColumn("Download Scores", 
+    (entry) => { return <i role="button" onClick={handleDownloadScoresClick} className="bi-download" />}));
+
+  // TODO replace hard coded metric array with that from problem.
+  let problem_metrics = []
+
+  // Loop over metrics of the problem to add them as columns.
+  problem_metrics.forEach((metric) => {
+    columns.push(new MetricColumn(metric));
+  });
+  
+  return columns;
 }
 
 function Leaderboard({problemData, rowLimit, showPagination}) {
-  const [rows, setRows] = useState([]);
+  const [entries, setEntries] = useState([]);
   
   //data fetching code
   useEffect(() => {
     
     const fetchRows = async () => {
       try {
-        const data = await getRows();
-        setRows(data);
+        const data = await getLeaderboardData(problemData.id);
+        setEntries(data.entries);
       } catch(err) {
         console.error(err);
         //TODO proper error handling
@@ -29,33 +97,35 @@ function Leaderboard({problemData, rowLimit, showPagination}) {
     fetchRows();
   }, []);
   
-  const scoringMetrics = [problemData.metrics]; //TODO this will be a list later but the backend isn't updated yet
+  const columns = createColumns(problemData);
+  
   
   return (
     <Container fluid className='justify-content-center'>
       <table className='leaderboard-table'>
           <thead>
-              <tr>
-                  {/* These columns are always there */}
-                  <th>Rank</th>
-                  <th>User Name</th>
-                  <th>Submission Name</th>
-                  
-                  {/* scoring metric columns */}
-                  {scoringMetrics.map(scoringMetric => <th key={scoringMetric}>{scoringMetric}</th>)}
-                  
-                  {/* Other standard columns */}
-                  <th>Submission Date</th>
-                  <th className="download-cell">Download<br/>Solver</th>
-                  <th className="download-cell">Download<br/>Solutions</th>
-                  <th className="download-cell">Download<br/>Scores</th>
-              </tr>
+            <tr>{
+
+              // Add column name for each column 
+              columns.map(column => (
+                <th key={column.name}>{column.getHeader()}</th>
+              ))
+
+            }</tr>
           </thead>
-          <tbody>
+          <tbody>{
+            // Display message if no leaderboard entries exist
+            entries.length==0 ? 
+            <tr><td colSpan={columns.length} align='center'>
+                No leaderboard entries
+            </td></tr> :
+
+            // Add existing leaderboard entries
+            entries.map(entry => (
+              <LeaderboardRow columns={columns} entry={entry} key={entry.rank}/>
+            ))}
             
-            {rows.map(row => <LeaderboardRow data={row} key={row.id} />)}
-              
-          </tbody>
+          </tbody>  
       </table>
     </Container>
   )
@@ -67,40 +137,20 @@ function Leaderboard({problemData, rowLimit, showPagination}) {
  * @param {data} param0 data prop
  * @returns component for a single row in the leaderboard
  */
-function LeaderboardRow({data}) {
+function LeaderboardRow({columns, entry}) {
   //prefix strings for the id's of submission rows and collapsables
   const SUBMISSION_ID_PREFIX = "submission-";
   const PROBLEM_INSTANCES_ID_PREFIX = "problem-instances-";
   
-  const CAN_DOWNLOAD = false; //TODO actually get this from the database later
-  
   //handle toggling the problem instances for a single submission
   function handleToggleSubmissionRow(e) {
-    const foldContainer = document.getElementById(PROBLEM_INSTANCES_ID_PREFIX + data.id);
+    const foldContainer = document.getElementById(PROBLEM_INSTANCES_ID_PREFIX + entry.id);
     
     //toggle the display classes
     foldContainer.classList.toggle("fold-open");
     foldContainer.classList.toggle("fold-closed");
   }
-  
-  //download submission handler
-  function handleDownloadSolverClick(e) {
-    e.stopPropagation();
-    alert("download solver");
-  }
-  
-  //download solutions handler
-  function handleDownloadSolutionsClick(e) {
-    e.stopPropagation();
-    alert("download solutions");
-  }
-  
-  //download scores handler
-  function handleDownloadScoresClick(e) {
-    e.stopPropagation();
-    alert("download scores");
-  }
-  
+
   //download specific solution handler
   function handleDownloadSingleSolutionClick(e) {
     e.stopPropagation();
@@ -115,23 +165,14 @@ function LeaderboardRow({data}) {
   
   return (
     <>
-      <tr onClick={handleToggleSubmissionRow} id={SUBMISSION_ID_PREFIX + data.id} className="view">
-        <td>{data.rank}</td>
-        <td>{data.userName}</td>
-        <td>{data.submissionName}</td>
-        
-        {/* TODO map metrics to columns */}
-        <td className="seconds">{data.metrics.walkingTime}</td>
-        
-        
-        {/* <td className="seconds">1.00</td> */}
-        <td>{data.submissionDate}</td>
-        <td className="download-cell"><i role="button" onClick={CAN_DOWNLOAD ? handleDownloadSolverClick : null} className={CAN_DOWNLOAD ? "bi-download" : "bi-download disabled"} /></td>
-        <td className="download-cell"><i role="button" onClick={handleDownloadSolutionsClick} className="bi-download" /></td>
-        <td className="download-cell"><i role="button" onClick={handleDownloadScoresClick} className="bi-download" /></td>
+      <tr onClick={handleToggleSubmissionRow} id={SUBMISSION_ID_PREFIX + entry.id} className="view">
+        {/* // Add column data cell for the leaderboard entry  */}
+        {columns.map(column => (
+            <td key={column.name}>{column.getData(entry)}</td>
+        ))}        
       </tr>
       
-      <tr id={PROBLEM_INSTANCES_ID_PREFIX + data.id} className="fold-closed">
+      <tr id={PROBLEM_INSTANCES_ID_PREFIX + entry.id} className="fold-closed">
         <td colSpan="8" className="fold-container">
           <div className="fold-content">
             <table className="pi-table">
