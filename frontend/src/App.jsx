@@ -32,11 +32,6 @@ export const router = createBrowserRouter(
         
         {/* Protected routes */}
         <Route element={<ProtectedLayout />}>
-          <Route path="/leaderboard/:problem_id" 
-            element={<LeaderboardPage />} 
-            loader={async ({ params }) => {
-              return getLeaderboardData(params.problem_id);
-            }} />
         </Route>
           
         {/* Non protected routes */}
