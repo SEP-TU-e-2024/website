@@ -1,5 +1,6 @@
 import pandas as pd
 import json
+import re
 
 from processUnderstand import *
 from processSimian import *
@@ -9,6 +10,7 @@ METRICS_FILE = "metrics.csv"
 SIMIAN_FILE = "simian-out.txt"
 DEPENDENCIES_FILE = "matrix.csv"
 CONFIG_FILE = ".github/metrics_config.json"
+EXCLUDED_FILES = [".html", ".css", "__init__.py", "tests.py", r"^\d{4}_.*$"]
 
 # Colors
 AQUA = '\033[94;1m'
@@ -66,6 +68,8 @@ def nice_print(dictionary):
 
 def main():
     df = pd.read_csv(METRICS_FILE)
+    for illegal in EXCLUDED_FILES:
+        df = df.drop(df[df.Name.map(lambda n : None != re.search(illegal, n.lower()))].index)
     categories = {c:df.loc[df.Kind == c].dropna(axis=1) for c in df.Kind.unique()}
 
     with open(CONFIG_FILE, 'r') as f:

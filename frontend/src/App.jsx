@@ -8,7 +8,6 @@ import LoginForm from "./components/forms/LoginForm";
 import Submit from "./components/submit/Submit";
 import HomePage from './components/homepage/HomePage';
 import RegisterForm from "./components/forms/RegisterForm";
-import LeaderboardPage from './components/leaderboardPage/LeaderboardPage'
 import ProblemOccurrenceOverviewPage from './components/problemOccurenceOverview/ProblemOccurrenceOverviewPage';
 import ErrorPage from "./components/errorPage/ErrorPage";
 import AuthLayout from "./components/routing/AuthLayout";
@@ -31,7 +30,6 @@ export const router = createBrowserRouter(
         
         {/* Protected routes */}
         <Route element={<ProtectedLayout />}>
-          <Route path="/leaderboard" element={<LeaderboardPage />} />
         </Route>
           
         {/* Non protected routes */}
@@ -44,10 +42,10 @@ export const router = createBrowserRouter(
           <Route path="/tokens" element={<TokenAuthenticator />} />
           <Route path="/home" element={<HomePage />} />
           <Route 
-            path="/problemoccurrence/:poID" 
+            path="/problemoccurrence/:problem_occurence" 
             element={<ProblemOccurrenceOverviewPage />} 
             loader={async ({ params }) => {
-              return getPOInfo(params.poID); //TODO fetching logic here
+              return getPOInfo(params.problem_occurence); //TODO fetching logic here
             }} />
         </Route>
         

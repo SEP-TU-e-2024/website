@@ -45,17 +45,19 @@
     }
 },
 {
-    "model": "api.evaluationsetting",
+    "model": "api.evaluationsettings",
     "pk": "9f0dcdaa-6b33-4ed4-bdd9-a6d1b9852fbd",
     "fields": {
+        "name":"Freaky Traveler",
         "cpu": 4,
         "time_limit": 1.0
     }
 },
 {
-    "model": "api.evaluationsetting",
+    "model": "api.evaluationsettings",
     "pk": "a2f27c6d-1379-4a59-ab3f-5c3ef04dc086",
     "fields": {
+        "name": "Sleepy Traveler",
         "cpu": 1,
         "time_limit": 60.0
     }
