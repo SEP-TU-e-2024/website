@@ -6,6 +6,7 @@ from ..serializers import ProblemSerializer
 
 
 # Create your views here.
+# Is this file still relevant?
 def main(request):
     return HttpResponse("Hello, world!")
 
