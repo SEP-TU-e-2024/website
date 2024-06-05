@@ -10,7 +10,7 @@ METRICS_FILE = "metrics.csv"
 SIMIAN_FILE = "simian-out.txt"
 DEPENDENCIES_FILE = "matrix.csv"
 CONFIG_FILE = ".github/metrics_config.json"
-EXCLUDED_FILES = [".html", ".css", "migrations", "__init__.py", r"^\d{4}_.*$"]
+EXCLUDED_FILES = [".html", ".css", "migrations", "__init__.py", "tests.py", r"^\d{4}_.*$"]
 
 # Colors
 AQUA = '\033[94;1m'
