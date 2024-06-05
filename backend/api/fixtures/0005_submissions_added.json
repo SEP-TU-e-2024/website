@@ -1,0 +1,283 @@
+[
+{
+    "model": "api.userprofile",
+    "pk": "2902bfa0-027d-42f7-8e90-e310fbab1e2d",
+    "fields": {
+        "last_login": "2024-06-05T10:45:14.272Z",
+        "email": "admin@email.com",
+        "name": "Admin",
+        "is_staff": true,
+        "is_superuser": true,
+        "is_active": true,
+        "password": "pbkdf2_sha256$720000$SSHkcEd683wkQOrbXt7NBo$42HI+8gWcwH3HUtcsXNcqkSJs5GfL2aTi+o4uAwm8y8=",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "api.userprofile",
+    "pk": "8da465ad-74d4-4fda-b700-32fb69e4962c",
+    "fields": {
+        "last_login": null,
+        "email": "staff@email.com",
+        "name": "Staff",
+        "is_staff": true,
+        "is_superuser": false,
+        "is_active": false,
+        "password": "pbkdf2_sha256$720000$hinEKwTleHF9TJ0FdVAwrW$VrPznBlVuvyNKyUCCyZl55LW3RRi+sdC4UhsRB0Jj/o=",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "api.userprofile",
+    "pk": "b99fa5a6-e961-48f6-b03d-d598b3557322",
+    "fields": {
+        "last_login": null,
+        "email": "user@email.com",
+        "name": "User",
+        "is_staff": false,
+        "is_superuser": false,
+        "is_active": false,
+        "password": "pbkdf2_sha256$720000$wmPLr5v2Pu84CnZ3bDizLR$ohPw8fCiKedOTevyfKq7tBDrti7LLXcV6t4MatzKxpU=",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "api.userprofile",
+    "pk": "f93cd48d-709a-403c-9f0f-f806be6f4ea7",
+    "fields": {
+        "last_login": "2024-05-31T12:39:23.383Z",
+        "email": "r@a.com",
+        "name": null,
+        "is_staff": true,
+        "is_superuser": true,
+        "is_active": true,
+        "password": "pbkdf2_sha256$720000$Uyaqq2LvmLfx51kR0rxV4Y$Y8CZzHOhmJMqVqCdssGiNhTyB1/1tnAUQ/SSwy+bVS4=",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "api.evaluationsettings",
+    "pk": "3d7f760b-37ba-48bf-abf7-f9b4a571167a",
+    "fields": {
+        "cpu": 1,
+        "time_limit": 60.0
+    }
+},
+{
+    "model": "api.evaluationsettings",
+    "pk": "43193426-64a9-491f-8031-19b4ca3c0d3d",
+    "fields": {
+        "cpu": 1,
+        "time_limit": 600.0
+    }
+},
+{
+    "model": "api.evaluationsettings",
+    "pk": "57c33a85-955c-4b6c-ae2d-5700aec4881d",
+    "fields": {
+        "cpu": 1,
+        "time_limit": 10.0
+    }
+},
+{
+    "model": "api.evaluationsettings",
+    "pk": "6287bf16-8f4f-43b7-a860-327396f7ea2d",
+    "fields": {
+        "cpu": 8,
+        "time_limit": 60.0
+    }
+},
+{
+    "model": "api.evaluationsettings",
+    "pk": "b19aaa69-11aa-4393-bf65-03b485dc831b",
+    "fields": {
+        "cpu": 1,
+        "time_limit": 600.0
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "60a2f71c-2562-487f-9e0d-04c97023e703",
+    "fields": {
+        "filepath": "a/b/c"
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "e30d6d82-77d7-416d-a8d6-ce7f73e47531",
+    "fields": {
+        "filepath": "a/b/c"
+    }
+},
+{
+    "model": "api.simulator",
+    "pk": "60a2f71c-2562-487f-9e0d-04c97023e703",
+    "fields": {}
+},
+{
+    "model": "api.validator",
+    "pk": "e30d6d82-77d7-416d-a8d6-ce7f73e47531",
+    "fields": {}
+},
+{
+    "model": "api.specifiedproblem",
+    "pk": "20d67233-522c-462b-9b30-8f00e4d226a2",
+    "fields": {
+        "name": "Parallel",
+        "evaluation_settings": "6287bf16-8f4f-43b7-a860-327396f7ea2d",
+        "metrics": "?",
+        "category": "d78ee6ae-e85f-4f24-81ec-4be3c0990880"
+    }
+},
+{
+    "model": "api.specifiedproblem",
+    "pk": "22220377-394c-4f3d-9910-68cf8ebf6943",
+    "fields": {
+        "name": "Speed",
+        "evaluation_settings": "3d7f760b-37ba-48bf-abf7-f9b4a571167a",
+        "metrics": "Distance",
+        "category": "ca7e2e03-93ca-4221-a45f-d82045095f68"
+    }
+},
+{
+    "model": "api.specifiedproblem",
+    "pk": "316d6994-35a4-42ec-8151-bf14fcf74a72",
+    "fields": {
+        "name": "Large Scale",
+        "evaluation_settings": "b19aaa69-11aa-4393-bf65-03b485dc831b",
+        "metrics": "?",
+        "category": "d78ee6ae-e85f-4f24-81ec-4be3c0990880"
+    }
+},
+{
+    "model": "api.specifiedproblem",
+    "pk": "34ad34da-cd73-42a7-9e41-24abad4271c7",
+    "fields": {
+        "name": "Small Scale",
+        "evaluation_settings": "57c33a85-955c-4b6c-ae2d-5700aec4881d",
+        "metrics": "Distance",
+        "category": "ca7e2e03-93ca-4221-a45f-d82045095f68"
+    }
+},
+{
+    "model": "api.specifiedproblem",
+    "pk": "406f529d-27bd-4aec-b5d1-b0c2cd58ece8",
+    "fields": {
+        "name": "Quality",
+        "evaluation_settings": "43193426-64a9-491f-8031-19b4ca3c0d3d",
+        "metrics": "Distance",
+        "category": "ca7e2e03-93ca-4221-a45f-d82045095f68"
+    }
+},
+{
+    "model": "api.specifiedproblem",
+    "pk": "6d6f4b2d-192b-4e75-9062-9a842b19d271",
+    "fields": {
+        "name": "Speed",
+        "evaluation_settings": "3d7f760b-37ba-48bf-abf7-f9b4a571167a",
+        "metrics": "?",
+        "category": "d78ee6ae-e85f-4f24-81ec-4be3c0990880"
+    }
+},
+{
+    "model": "api.specifiedproblem",
+    "pk": "de9df45a-b2f4-4326-a9d3-df37e540980a",
+    "fields": {
+        "name": "Quality",
+        "evaluation_settings": "43193426-64a9-491f-8031-19b4ca3c0d3d",
+        "metrics": "?",
+        "category": "d78ee6ae-e85f-4f24-81ec-4be3c0990880"
+    }
+},
+{
+    "model": "api.problemcategory",
+    "pk": "ca7e2e03-93ca-4221-a45f-d82045095f68",
+    "fields": {
+        "name": "VRPTW",
+        "style": "Dynamic",
+        "type": "Competition",
+        "description": "The Capacitated Vehicle Routing Problem (CVRP) is a logistics optimization challenge where a fleet of vehicles with limited capacity must efficiently serve a set of customers while minimizing transportation costs. Each vehicle starts and ends its route at a central depot, visiting customers to fulfill their demands without exceeding the vehicle's capacity. The objective is to minimize total travel distance or time while ensuring that all customers are served. CVRP finds applications in various industries su",
+        "simulator": "60a2f71c-2562-487f-9e0d-04c97023e703",
+        "validator": "e30d6d82-77d7-416d-a8d6-ce7f73e47531"
+    }
+},
+{
+    "model": "api.problemcategory",
+    "pk": "d78ee6ae-e85f-4f24-81ec-4be3c0990880",
+    "fields": {
+        "name": "CVRP",
+        "style": "Dynamic",
+        "type": "Scientific",
+        "description": "The Vehicle Routing Problem with Time Windows (VRPTW) is an optimization challenge in logistics. It involves planning optimal routes for a fleet of vehicles to serve a set of customers within specified time windows, while minimizing costs such as travel distance or time. The goal is to efficiently allocate resources to meet customer demand while adhering to various constraints like vehicle capacity and time restrictions.",
+        "simulator": "60a2f71c-2562-487f-9e0d-04c97023e703",
+        "validator": "e30d6d82-77d7-416d-a8d6-ce7f73e47531"
+    }
+},
+{
+    "model": "api.submission",
+    "pk": "06d3688c-c1ef-4948-bb1c-52a3d072a4ae",
+    "fields": {
+        "user": "8da465ad-74d4-4fda-b700-32fb69e4962c",
+        "problem_id": "22220377-394c-4f3d-9910-68cf8ebf6943",
+        "submission_name": "Your text here",
+        "created_at": "2024-06-05T10:45:56.138Z",
+        "is_verified": true,
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.submission",
+    "pk": "1e677adc-ea52-4453-9ac1-f1a9d916031b",
+    "fields": {
+        "user": "b99fa5a6-e961-48f6-b03d-d598b3557322",
+        "problem_id": "22220377-394c-4f3d-9910-68cf8ebf6943",
+        "submission_name": "example",
+        "created_at": "2024-06-05T10:45:43.711Z",
+        "is_verified": true,
+        "is_downloadable": true
+    }
+},
+{
+    "model": "api.submission",
+    "pk": "f80a4c8b-0b15-418d-846b-8a44467154b9",
+    "fields": {
+        "user": "2902bfa0-027d-42f7-8e90-e310fbab1e2d",
+        "problem_id": "22220377-394c-4f3d-9910-68cf8ebf6943",
+        "submission_name": "pyvrp",
+        "created_at": "2024-06-05T10:46:07.431Z",
+        "is_verified": true,
+        "is_downloadable": true
+    }
+},
+{
+    "model": "api.result",
+    "pk": "14112b54-94a7-4cbf-8711-a036054ce800",
+    "fields": {
+        "submission": "1e677adc-ea52-4453-9ac1-f1a9d916031b",
+        "metric": "scoring_metric",
+        "score": "3.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "2c1885af-1694-41d5-aee9-69a9240d7618",
+    "fields": {
+        "submission": "06d3688c-c1ef-4948-bb1c-52a3d072a4ae",
+        "metric": "scoring_metric",
+        "score": "1.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "7756824a-9ca4-46f6-96a1-58eb00da2d4f",
+    "fields": {
+        "submission": "f80a4c8b-0b15-418d-846b-8a44467154b9",
+        "metric": "scoring_metric",
+        "score": "10.00"
+    }
+}
+]
