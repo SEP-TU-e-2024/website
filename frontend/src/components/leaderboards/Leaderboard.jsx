@@ -87,7 +87,8 @@ function Leaderboard({problemData, rowLimit, showPagination}) {
     const fetchRows = async () => {
       try {
         const data = await getLeaderboardData(problemData.id);
-        setEntries(data.entries);
+        //TODO do this limiting in the backend later (not now because of time constraints)
+        setEntries(rowLimit ? data.entries.slice(0, rowLimit) : data.entries);
       } catch(err) {
         console.error(err);
         //TODO proper error handling
@@ -104,7 +105,6 @@ function Leaderboard({problemData, rowLimit, showPagination}) {
       <p className="text-danger">Error: no column names found</p>
     )
   }
-  
   
   return (
     <Container fluid className='justify-content-center'>

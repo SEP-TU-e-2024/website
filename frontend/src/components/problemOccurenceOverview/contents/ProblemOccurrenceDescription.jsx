@@ -13,6 +13,7 @@ function ProblemOccurrenceDescription({problemData}) {
         <Row className="">
           <Col>
             <p>{problemData.description}</p>
+            <Leaderboard problemData={problemData} rowLimit={5}/>
           </Col>
         </Row>
     </Container>
