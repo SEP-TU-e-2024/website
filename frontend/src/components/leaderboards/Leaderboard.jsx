@@ -98,6 +98,12 @@ function Leaderboard({problemData, rowLimit, showPagination}) {
   }, []);
   
   const columns = createColumns(problemData);
+  if (columns.length == 0) {
+    console.error("Error: createcolumns didn't find any columns to create");
+    return (
+      <p className="text-danger">Error: no column names found</p>
+    )
+  }
   
   
   return (
@@ -116,7 +122,7 @@ function Leaderboard({problemData, rowLimit, showPagination}) {
           <tbody>{
             // Display message if no leaderboard entries exist
             entries.length==0 ? 
-            <tr><td colSpan={columns.length} align='center'>
+            <tr><td colSpan={columns.length} align='center' className="text-danger">
                 No leaderboard entries
             </td></tr> :
 
