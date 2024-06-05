@@ -52,7 +52,7 @@ jobs:
 
             - name: simian check
               run: |
-                java -jar .github/simian-4.0.0.jar {balanceParentheses=true, failOnDuplication=true, ignoreCharacterCase=true, ignoreCurlyBraces=true, ignoreIdentifierCase=true, ignoreModifiers=true, ignoreStringCase=true, threshold=6} -excludes="**.html" -excludes="**.css" -excludes="/backend/api/fixtures/**" -excludes="backend/api/migrations/**" "backend/api/**" "backend/backend/**" "frontend/src/**" >> simian-out.txt || true
+                java -jar .github/simian-4.0.0.jar {balanceParentheses=true, failOnDuplication=true, ignoreCharacterCase=true, ignoreCurlyBraces=true, ignoreIdentifierCase=true, ignoreModifiers=true, ignoreStringCase=true, threshold=6} -excludes="**.html" -excludes="**.css" -excludes="**.json" -excludes="backend/api/migrations/**" "backend/api/**" "backend/backend/**" "frontend/src/**" >> simian-out.txt || true
 
             - name: show understand general metrics
               run: |
