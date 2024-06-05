@@ -80,7 +80,7 @@ function createColumns(problem) {
   });
 
   columns.push(new Column("Submission name", 
-    (entry) => { return entry.submission.name }));
+    (entry) => { return entry.submission.submission_name }));
   columns.push(new Column("Submitted by", 
     (entry) => { return entry.submitter.name }));
   columns.push(new Column("Submitted date", 
