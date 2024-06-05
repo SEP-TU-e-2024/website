@@ -31,7 +31,6 @@ class SubmitViewSet(ViewSet):
     @action(detail=False, methods=["POST"])
     def upload_submission(self, request):
         request_file = request.FILES["file"]
-
         # Check if file exists
         if not request_file:
             return HttpResponse(
@@ -51,10 +50,9 @@ class SubmitViewSet(ViewSet):
         # Checks validity of submitted data
         serializer = SubmissionSerializer(data=request.data)
         if not serializer.is_valid():
-            for field, messages in serializer.errors.items():
-                return Response({"error": messages}, status=status.HTTP_400_BAD_REQUEST)
+            for field, message in serializer.errors.items():
+                self.logger.error({"field": field, "error": message})
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
         # Gets or creates user
         user = request.user
         if user.is_anonymous:

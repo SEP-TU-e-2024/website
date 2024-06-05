@@ -1,5 +1,3 @@
-# from django.shortcuts import render
-
 from django.http import HttpResponse
 from rest_framework import generics
 
@@ -8,6 +6,7 @@ from ..serializers import ProblemSerializer
 
 
 # Create your views here.
+# Is this file still relevant?
 def main(request):
     return HttpResponse("Hello, world!")
 

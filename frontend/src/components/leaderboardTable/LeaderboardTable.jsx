@@ -12,15 +12,10 @@ function LeaderboardTable({columnNames, columnKeys, rows}) {
     
     //TODO move this to a settings file
     const MAX_DISPLAYED_ROWS = rows.length;
-    
-    //sorting logic
-    //TODO maybe this is not the most optimal place to sort but I don't really know where to do it better
-    let displayRows = rows.sort((a,b) => a[columnKeys.colKeys[0]] > b[columnKeys.colKeys[0]]); 
-    
-    displayRows = displayRows.slice(0, MAX_DISPLAYED_ROWS);
+
+    let displayRows = rows.slice(0, MAX_DISPLAYED_ROWS);
     
     //TODO add check for id in rows
-    //TODO add check/sorting of the rows
     const nrCols = 6;
     //TODO throw error if size of a row doesn't match the number of columns
     
@@ -48,7 +43,7 @@ function LeaderboardTable({columnNames, columnKeys, rows}) {
                         <tr>
                             {/* the +1 is because there is always the rank column */}
                             <td colSpan={columnNames.length + 1} align='center'>
-                                <b>Oops no one here</b>
+                                <b>No leaderboard results</b>
                             </td>
                         </tr>
                     ) : (

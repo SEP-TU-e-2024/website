@@ -1,10 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
 from .models import (
     BenchmarkInstance,
-    BenchmarkSet,
-    EvaluationSetting,
+    BenchmarkRelations,
+    EvaluationSettings,
     ProblemCategory,
     Result,
     Simulator,
@@ -15,14 +14,26 @@ from .models import (
     Validator,
 )
 
-admin.site.register(UserProfile)
-admin.site.register(Submission)
-admin.site.register(EvaluationSetting)
-admin.site.register(StorageLocation)
-admin.site.register(Simulator)
-admin.site.register(Validator)
-admin.site.register(BenchmarkInstance)
-admin.site.register(ProblemCategory)
+# If a model should be administrated through an admin panel register them here.
+admin.site.register(UserProfile) # User table
+admin.site.register(Submission) # Submission table
+admin.site.register(EvaluationSettings) # Evaluation table
+admin.site.register(StorageLocation) # Storage table
+admin.site.register(Simulator) # Simulator table
+admin.site.register(Validator) # Validator table
+admin.site.register(BenchmarkInstance) # Instance table
+# admin.site.register(ProblemCategory) # Category table
+# admin.site.register(SpecifiedProblem) # Problem table
+admin.site.register(BenchmarkRelations) # Relation table
+admin.site.register(Result) # Result table
+
+class AdminSpecifiedProblem(admin.TabularInline):
+    model = SpecifiedProblem
+    extra = 1
+
+class AdminProblemCategory(admin.ModelAdmin):
+    inlines = [AdminSpecifiedProblem]
+    list_display = ('id', 'name', 'description', 'simulator', 'validator', 'style', 'type')
+
+admin.site.register(ProblemCategory, AdminProblemCategory)
 admin.site.register(SpecifiedProblem)
-admin.site.register(BenchmarkSet)
-admin.site.register(Result)

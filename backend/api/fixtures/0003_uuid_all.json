@@ -1,0 +1,155 @@
+[
+{
+    "model": "api.userprofile",
+    "pk": "2902bfa0-027d-42f7-8e90-e310fbab1e2d",
+    "fields": {
+        "last_login": "2024-05-24T14:11:44.190Z",
+        "email": "admin@email.com",
+        "name": "Admin",
+        "is_staff": true,
+        "is_superuser": true,
+        "is_active": true,
+        "password": "pbkdf2_sha256$720000$SSHkcEd683wkQOrbXt7NBo$42HI+8gWcwH3HUtcsXNcqkSJs5GfL2aTi+o4uAwm8y8=",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "api.userprofile",
+    "pk": "8da465ad-74d4-4fda-b700-32fb69e4962c",
+    "fields": {
+        "last_login": null,
+        "email": "staff@email.com",
+        "name": "Staff",
+        "is_staff": true,
+        "is_superuser": false,
+        "is_active": false,
+        "password": "pbkdf2_sha256$720000$hinEKwTleHF9TJ0FdVAwrW$VrPznBlVuvyNKyUCCyZl55LW3RRi+sdC4UhsRB0Jj/o=",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "api.userprofile",
+    "pk": "b99fa5a6-e961-48f6-b03d-d598b3557322",
+    "fields": {
+        "last_login": null,
+        "email": "user@email.com",
+        "name": "User",
+        "is_staff": false,
+        "is_superuser": false,
+        "is_active": false,
+        "password": "pbkdf2_sha256$720000$wmPLr5v2Pu84CnZ3bDizLR$ohPw8fCiKedOTevyfKq7tBDrti7LLXcV6t4MatzKxpU=",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "api.evaluationsettings",
+    "pk": "9f0dcdaa-6b33-4ed4-bdd9-a6d1b9852fbd",
+    "fields": {
+        "name":"Freaky Traveler",
+        "cpu": 4,
+        "time_limit": 1.0
+    }
+},
+{
+    "model": "api.evaluationsettings",
+    "pk": "a2f27c6d-1379-4a59-ab3f-5c3ef04dc086",
+    "fields": {
+        "name": "Sleepy Traveler",
+        "cpu": 1,
+        "time_limit": 60.0
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "1f1e52e3-4f2e-4897-82d3-5b996dbe6dc0",
+    "fields": {
+        "filepath": "/"
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "451ae0cd-4caa-4131-a939-a651af0285e3",
+    "fields": {
+        "filepath": "/"
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "4b1bcfda-361a-4864-b57f-37365ec5ac0f",
+    "fields": {
+        "filepath": "/"
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "8164fdc6-3dbe-41cd-8567-c974f29156b9",
+    "fields": {
+        "filepath": "/"
+    }
+},
+{
+    "model": "api.simulator",
+    "pk": "4b1bcfda-361a-4864-b57f-37365ec5ac0f",
+    "fields": {}
+},
+{
+    "model": "api.simulator",
+    "pk": "8164fdc6-3dbe-41cd-8567-c974f29156b9",
+    "fields": {}
+},
+{
+    "model": "api.validator",
+    "pk": "1f1e52e3-4f2e-4897-82d3-5b996dbe6dc0",
+    "fields": {}
+},
+{
+    "model": "api.validator",
+    "pk": "451ae0cd-4caa-4131-a939-a651af0285e3",
+    "fields": {}
+},
+{
+    "model": "api.problemcategory",
+    "pk": "2e12749a-e862-45d8-a620-24b332edfbe6",
+    "fields": {
+        "name": "Travelling Salesman Problem",
+        "description": "A classic graph problem where you have to find the shortest tour between a set of cities",
+        "simulator": "4b1bcfda-361a-4864-b57f-37365ec5ac0f",
+        "validator": "1f1e52e3-4f2e-4897-82d3-5b996dbe6dc0"
+    }
+},
+{
+    "model": "api.problemcategory",
+    "pk": "871f06db-b47f-4a16-9c9c-76fae9470f38",
+    "fields": {
+        "name": "Dynamic vehicle routing problem",
+        "description": "The problem of routing cars between a dynamic set of destinations or something like that",
+        "simulator": "8164fdc6-3dbe-41cd-8567-c974f29156b9",
+        "validator": "451ae0cd-4caa-4131-a939-a651af0285e3"
+    }
+},
+{
+    "model": "api.specifiedproblem",
+    "pk": "4c9bcd7b-9796-4c21-a648-849d97a03509",
+    "fields": {
+        "category": "2e12749a-e862-45d8-a620-24b332edfbe6",
+        "evaluation_settings": "9f0dcdaa-6b33-4ed4-bdd9-a6d1b9852fbd",
+        "metrics": "Speed, Efficiency",
+        "style": "Dynamic",
+        "type": "Scientific"
+    }
+},
+{
+    "model": "api.specifiedproblem",
+    "pk": "8c0db3fd-817f-478b-bae5-4f7d3f924f52",
+    "fields": {
+        "category": "871f06db-b47f-4a16-9c9c-76fae9470f38",
+        "evaluation_settings": "a2f27c6d-1379-4a59-ab3f-5c3ef04dc086",
+        "metrics": "Shortest path",
+        "style": "Static",
+        "type": "Competition"
+    }
+}
+]

@@ -9,8 +9,9 @@ import { useState, useEffect } from 'react';
  * @param {JSON} rows, data to render 
  * @returns HTML Table
  */
-function ProblemOccurenceTable({rows}) {
+function ProblemOccurenceOverview({rows}) {
     const navigate = useNavigate();
+    
     let handleRowClick = (id)=> {
         navigate("/problemoccurrence/" + id);
     }    
@@ -19,37 +20,43 @@ function ProblemOccurenceTable({rows}) {
     if (!rows || rows.length <= 0) {
         return (<div>No data found</div>);
     }
-
-    // Can be used in the future for page numbers
-    const MAX_DISPLAYED_ROWS = rows.length;
-
-    // Sorting logic
-    const filterKey = "id";
-    let displayRows = rows.sort((a,b) => a[filterKey] > b[filterKey]); 
-    displayRows = displayRows.slice(0, MAX_DISPLAYED_ROWS);
+ 
+    // Assemble a list of all specified problems per problem category
+    const problemOccurences = rows.map((problem_cat) => (
+            problem_cat['specified_problems'].map((problem_occurence)  => (
+                <li >{problem_occurence['name']}</li>
+            ))
+        )
+    );
 
     return (
-        <table className='problem-occurence-table'>
-            <thead>
-                <tr>
-                    <th>Type</th>
-                    <th>Problem Name</th>
-                    <th>Style</th>
-                    <th>Submissions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {displayRows.map(row => (
-                    // Hard coding to allow easier access to static values
-                    <tr key={row.id} onClick={()=>handleRowClick(row.id)}>
-                        <td key={"type"}>{row["type"]}</td>
-                        <td key={"name"}>{row["category"]["name"]}</td>
-                        <td key={"style"}>{row["style"]}</td>
-                        <td key={"submission_count"}>{row["submission_count"]}</td>
-                    </tr>
-                ))}
-            </tbody>
-        </table>
+        <div className='problem_container'>
+            {rows.map(row => (
+                // Hard coding to allow easier access to static values
+                <div className={`problem_card ${row["type"]}`} key={row.id}>
+                    <div className='card_title'> 
+                        {row["type"]} 
+                    </div>
+                    <div className='card_content'>
+                        <h5>
+                            {row['name']}
+                        </h5>
+                        <ul>
+                            {/* Adding all specified problems for this problem category */}
+                           {row['specified_problems'].map(
+                                (problem) => (
+                                    <li onClick={() => handleRowClick(problem.id)} key={problem.id}>{problem['name']}</li>
+                                )
+                            )
+                            }
+                        </ul>
+                    </div> 
+                    <div className='card_footer'>
+                        <p>1D 20H 40M</p>
+                    </div>
+                </div>
+            ))}
+        </div>
     )
 }
 /**
@@ -62,10 +69,10 @@ async function getRows() {
         return response.data
     } catch(err) {
         if (err.response.status == 401) {
-            throw new Error("Error 401: unauthorized to acces this content");
+            throw new Error("Unauthorized to access this content");
             //TODO maybe redirect here or something
         } else if (err.response.status == 404) {
-            throw new Error("Error 404: no problem instances found in the database");
+            throw new Error("No problem instances found in the database");
         } else {
             throw err;
         }
@@ -87,6 +94,7 @@ function HomePage() {
             setRows(data);
         } catch(error) {
             // TODO, proper handling
+            alert(error.message)
             console.error(error)
         }}
 
@@ -94,11 +102,27 @@ function HomePage() {
     }, []);
 
     return (
-        <div className='table-wrapper'>
-            <Container fluid className='justify-content-center'>
-                <ProblemOccurenceTable rows={rows}/>
-            </Container>
+        <div className='home_page'>  
+            <div>
+                <p>
+                    Benchlab is a tool Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla non augue dolor. 
+                    Aliquam at egestas quam, non varius metus. Nam sed risus vel dui tincidunt pulvinar. Proin auctor 
+                    magna vitae erat consectetur, at malesuada augue sodales. Nam et rutrum ante. Mauris et commodo sem. 
+                    Donec dapibus hendrerit enim, sit amet cursus magna suscipit ornare. Vivamus venenatis dui sit amet dolor 
+                    eleifend, sit amet lacinia velit hendrerit.
+                </p>
+            </div>
+            <div>
+                <h3> Problems </h3>
+                <hr></hr>
+            </div>
+            <div>
+                <Container fluid className='justify-content-center'>
+                    <ProblemOccurenceOverview rows={rows}/>
+                </Container>
+            </div>
         </div>
+        
         
     );
 };
