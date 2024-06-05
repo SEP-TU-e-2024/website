@@ -10,7 +10,7 @@ async function getRows() {
   ];
 }
 
-function TSPLeaderboard({problemData, rowLimit, showPagination}) {
+function Leaderboard({problemData, rowLimit, showPagination}) {
   const [rows, setRows] = useState([]);
   
   //data fetching code
@@ -175,4 +175,4 @@ function LeaderboardRow({data}) {
 
 
 
-export default TSPLeaderboard;
+export default Leaderboard;
