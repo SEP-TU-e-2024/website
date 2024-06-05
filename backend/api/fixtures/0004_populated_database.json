@@ -1,1 +1,175 @@
-[{"model": "admin.logentry", "pk": 1, "fields": {"action_time": "2024-05-31T12:39:56.221Z", "user": "f93cd48d-709a-403c-9f0f-f806be6f4ea7", "content_type": 10, "object_id": "60a2f71c-2562-487f-9e0d-04c97023e703", "object_repr": "Simulator object (60a2f71c-2562-487f-9e0d-04c97023e703)", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 2, "fields": {"action_time": "2024-05-31T12:39:59.284Z", "user": "f93cd48d-709a-403c-9f0f-f806be6f4ea7", "content_type": 11, "object_id": "e30d6d82-77d7-416d-a8d6-ce7f73e47531", "object_repr": "Validator object (e30d6d82-77d7-416d-a8d6-ce7f73e47531)", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 3, "fields": {"action_time": "2024-05-31T12:40:19.971Z", "user": "f93cd48d-709a-403c-9f0f-f806be6f4ea7", "content_type": 8, "object_id": "3d7f760b-37ba-48bf-abf7-f9b4a571167a", "object_repr": "EvaluationSettings object (3d7f760b-37ba-48bf-abf7-f9b4a571167a)", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 4, "fields": {"action_time": "2024-05-31T12:40:29.440Z", "user": "f93cd48d-709a-403c-9f0f-f806be6f4ea7", "content_type": 14, "object_id": "d78ee6ae-e85f-4f24-81ec-4be3c0990880", "object_repr": "ProblemCategory object (d78ee6ae-e85f-4f24-81ec-4be3c0990880)", "action_flag": 1, "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"specified problem\", \"object\": \"SpecifiedProblem object (6d6f4b2d-192b-4e75-9062-9a842b19d271)\"}}]"}}, {"model": "admin.logentry", "pk": 5, "fields": {"action_time": "2024-05-31T12:40:41.282Z", "user": "f93cd48d-709a-403c-9f0f-f806be6f4ea7", "content_type": 14, "object_id": "d78ee6ae-e85f-4f24-81ec-4be3c0990880", "object_repr": "ProblemCategory object (d78ee6ae-e85f-4f24-81ec-4be3c0990880)", "action_flag": 2, "change_message": "[]"}}, {"model": "admin.logentry", "pk": 6, "fields": {"action_time": "2024-05-31T13:00:59.637Z", "user": "f93cd48d-709a-403c-9f0f-f806be6f4ea7", "content_type": 14, "object_id": "d78ee6ae-e85f-4f24-81ec-4be3c0990880", "object_repr": "ProblemCategory object (d78ee6ae-e85f-4f24-81ec-4be3c0990880)", "action_flag": 2, "change_message": "[{\"added\": {\"name\": \"specified problem\", \"object\": \"SpecifiedProblem object (de9df45a-b2f4-4326-a9d3-df37e540980a)\"}}]"}}, {"model": "admin.logentry", "pk": 7, "fields": {"action_time": "2024-05-31T13:52:36.655Z", "user": "f93cd48d-709a-403c-9f0f-f806be6f4ea7", "content_type": 14, "object_id": "d78ee6ae-e85f-4f24-81ec-4be3c0990880", "object_repr": "ProblemCategory object (d78ee6ae-e85f-4f24-81ec-4be3c0990880)", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Style\"]}}]"}}, {"model": "admin.logentry", "pk": 8, "fields": {"action_time": "2024-05-31T13:52:49.410Z", "user": "f93cd48d-709a-403c-9f0f-f806be6f4ea7", "content_type": 14, "object_id": "d78ee6ae-e85f-4f24-81ec-4be3c0990880", "object_repr": "ProblemCategory object (d78ee6ae-e85f-4f24-81ec-4be3c0990880)", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Type\"]}}]"}}, {"model": "admin.logentry", "pk": 9, "fields": {"action_time": "2024-05-31T14:00:24.755Z", "user": "f93cd48d-709a-403c-9f0f-f806be6f4ea7", "content_type": 8, "object_id": "3d7f760b-37ba-48bf-abf7-f9b4a571167a", "object_repr": "EvaluationSettings object (3d7f760b-37ba-48bf-abf7-f9b4a571167a)", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Time limit\"]}}]"}}, {"model": "admin.logentry", "pk": 10, "fields": {"action_time": "2024-05-31T14:00:41.471Z", "user": "f93cd48d-709a-403c-9f0f-f806be6f4ea7", "content_type": 8, "object_id": "43193426-64a9-491f-8031-19b4ca3c0d3d", "object_repr": "EvaluationSettings object (43193426-64a9-491f-8031-19b4ca3c0d3d)", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 11, "fields": {"action_time": "2024-05-31T14:00:54.746Z", "user": "f93cd48d-709a-403c-9f0f-f806be6f4ea7", "content_type": 8, "object_id": "6287bf16-8f4f-43b7-a860-327396f7ea2d", "object_repr": "EvaluationSettings object (6287bf16-8f4f-43b7-a860-327396f7ea2d)", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 12, "fields": {"action_time": "2024-05-31T14:01:11.911Z", "user": "f93cd48d-709a-403c-9f0f-f806be6f4ea7", "content_type": 8, "object_id": "b19aaa69-11aa-4393-bf65-03b485dc831b", "object_repr": "EvaluationSettings object (b19aaa69-11aa-4393-bf65-03b485dc831b)", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 13, "fields": {"action_time": "2024-05-31T14:01:41.357Z", "user": "f93cd48d-709a-403c-9f0f-f806be6f4ea7", "content_type": 14, "object_id": "d78ee6ae-e85f-4f24-81ec-4be3c0990880", "object_repr": "ProblemCategory object (d78ee6ae-e85f-4f24-81ec-4be3c0990880)", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Name\", \"Description\"]}}, {\"added\": {\"name\": \"specified problem\", \"object\": \"SpecifiedProblem object (20d67233-522c-462b-9b30-8f00e4d226a2)\"}}, {\"added\": {\"name\": \"specified problem\", \"object\": \"SpecifiedProblem object (316d6994-35a4-42ec-8151-bf14fcf74a72)\"}}, {\"changed\": {\"name\": \"specified problem\", \"object\": \"SpecifiedProblem object (6d6f4b2d-192b-4e75-9062-9a842b19d271)\", \"fields\": [\"Name\", \"Metrics\"]}}, {\"changed\": {\"name\": \"specified problem\", \"object\": \"SpecifiedProblem object (de9df45a-b2f4-4326-a9d3-df37e540980a)\", \"fields\": [\"Name\", \"Evaluation settings\", \"Metrics\"]}}]"}}, {"model": "admin.logentry", "pk": 14, "fields": {"action_time": "2024-05-31T14:10:30.688Z", "user": "f93cd48d-709a-403c-9f0f-f806be6f4ea7", "content_type": 8, "object_id": "57c33a85-955c-4b6c-ae2d-5700aec4881d", "object_repr": "EvaluationSettings object (57c33a85-955c-4b6c-ae2d-5700aec4881d)", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 15, "fields": {"action_time": "2024-05-31T14:10:55.957Z", "user": "f93cd48d-709a-403c-9f0f-f806be6f4ea7", "content_type": 8, "object_id": "43193426-64a9-491f-8031-19b4ca3c0d3d", "object_repr": "EvaluationSettings object (43193426-64a9-491f-8031-19b4ca3c0d3d)", "action_flag": 2, "change_message": "[]"}}, {"model": "admin.logentry", "pk": 16, "fields": {"action_time": "2024-05-31T14:11:07.679Z", "user": "f93cd48d-709a-403c-9f0f-f806be6f4ea7", "content_type": 14, "object_id": "ca7e2e03-93ca-4221-a45f-d82045095f68", "object_repr": "ProblemCategory object (ca7e2e03-93ca-4221-a45f-d82045095f68)", "action_flag": 1, "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"specified problem\", \"object\": \"SpecifiedProblem object (34ad34da-cd73-42a7-9e41-24abad4271c7)\"}}, {\"added\": {\"name\": \"specified problem\", \"object\": \"SpecifiedProblem object (22220377-394c-4f3d-9910-68cf8ebf6943)\"}}, {\"added\": {\"name\": \"specified problem\", \"object\": \"SpecifiedProblem object (406f529d-27bd-4aec-b5d1-b0c2cd58ece8)\"}}]"}}, {"model": "admin.logentry", "pk": 17, "fields": {"action_time": "2024-06-03T13:06:23.190Z", "user": "f93cd48d-709a-403c-9f0f-f806be6f4ea7", "content_type": 14, "object_id": "d78ee6ae-e85f-4f24-81ec-4be3c0990880", "object_repr": "ProblemCategory object (d78ee6ae-e85f-4f24-81ec-4be3c0990880)", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Description\"]}}]"}}, {"model": "admin.logentry", "pk": 18, "fields": {"action_time": "2024-06-03T13:07:31.505Z", "user": "f93cd48d-709a-403c-9f0f-f806be6f4ea7", "content_type": 14, "object_id": "ca7e2e03-93ca-4221-a45f-d82045095f68", "object_repr": "ProblemCategory object (ca7e2e03-93ca-4221-a45f-d82045095f68)", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Description\"]}}]"}}, {"model": "auth.permission", "pk": 1, "fields": {"name": "Can add log entry", "content_type": 1, "codename": "add_logentry"}}, {"model": "auth.permission", "pk": 2, "fields": {"name": "Can change log entry", "content_type": 1, "codename": "change_logentry"}}, {"model": "auth.permission", "pk": 3, "fields": {"name": "Can delete log entry", "content_type": 1, "codename": "delete_logentry"}}, {"model": "auth.permission", "pk": 4, "fields": {"name": "Can view log entry", "content_type": 1, "codename": "view_logentry"}}, {"model": "auth.permission", "pk": 5, "fields": {"name": "Can add permission", "content_type": 2, "codename": "add_permission"}}, {"model": "auth.permission", "pk": 6, "fields": {"name": "Can change permission", "content_type": 2, "codename": "change_permission"}}, {"model": "auth.permission", "pk": 7, "fields": {"name": "Can delete permission", "content_type": 2, "codename": "delete_permission"}}, {"model": "auth.permission", "pk": 8, "fields": {"name": "Can view permission", "content_type": 2, "codename": "view_permission"}}, {"model": "auth.permission", "pk": 9, "fields": {"name": "Can add group", "content_type": 3, "codename": "add_group"}}, {"model": "auth.permission", "pk": 10, "fields": {"name": "Can change group", "content_type": 3, "codename": "change_group"}}, {"model": "auth.permission", "pk": 11, "fields": {"name": "Can delete group", "content_type": 3, "codename": "delete_group"}}, {"model": "auth.permission", "pk": 12, "fields": {"name": "Can view group", "content_type": 3, "codename": "view_group"}}, {"model": "auth.permission", "pk": 13, "fields": {"name": "Can add content type", "content_type": 4, "codename": "add_contenttype"}}, {"model": "auth.permission", "pk": 14, "fields": {"name": "Can change content type", "content_type": 4, "codename": "change_contenttype"}}, {"model": "auth.permission", "pk": 15, "fields": {"name": "Can delete content type", "content_type": 4, "codename": "delete_contenttype"}}, {"model": "auth.permission", "pk": 16, "fields": {"name": "Can view content type", "content_type": 4, "codename": "view_contenttype"}}, {"model": "auth.permission", "pk": 17, "fields": {"name": "Can add session", "content_type": 5, "codename": "add_session"}}, {"model": "auth.permission", "pk": 18, "fields": {"name": "Can change session", "content_type": 5, "codename": "change_session"}}, {"model": "auth.permission", "pk": 19, "fields": {"name": "Can delete session", "content_type": 5, "codename": "delete_session"}}, {"model": "auth.permission", "pk": 20, "fields": {"name": "Can view session", "content_type": 5, "codename": "view_session"}}, {"model": "auth.permission", "pk": 21, "fields": {"name": "Can add problem", "content_type": 6, "codename": "add_problem"}}, {"model": "auth.permission", "pk": 22, "fields": {"name": "Can change problem", "content_type": 6, "codename": "change_problem"}}, {"model": "auth.permission", "pk": 23, "fields": {"name": "Can delete problem", "content_type": 6, "codename": "delete_problem"}}, {"model": "auth.permission", "pk": 24, "fields": {"name": "Can view problem", "content_type": 6, "codename": "view_problem"}}, {"model": "auth.permission", "pk": 25, "fields": {"name": "Can add user profile", "content_type": 7, "codename": "add_userprofile"}}, {"model": "auth.permission", "pk": 26, "fields": {"name": "Can change user profile", "content_type": 7, "codename": "change_userprofile"}}, {"model": "auth.permission", "pk": 27, "fields": {"name": "Can delete user profile", "content_type": 7, "codename": "delete_userprofile"}}, {"model": "auth.permission", "pk": 28, "fields": {"name": "Can view user profile", "content_type": 7, "codename": "view_userprofile"}}, {"model": "auth.permission", "pk": 29, "fields": {"name": "Can add evaluation settings", "content_type": 8, "codename": "add_evaluationsettings"}}, {"model": "auth.permission", "pk": 30, "fields": {"name": "Can change evaluation settings", "content_type": 8, "codename": "change_evaluationsettings"}}, {"model": "auth.permission", "pk": 31, "fields": {"name": "Can delete evaluation settings", "content_type": 8, "codename": "delete_evaluationsettings"}}, {"model": "auth.permission", "pk": 32, "fields": {"name": "Can view evaluation settings", "content_type": 8, "codename": "view_evaluationsettings"}}, {"model": "auth.permission", "pk": 33, "fields": {"name": "Can add storage location", "content_type": 9, "codename": "add_storagelocation"}}, {"model": "auth.permission", "pk": 34, "fields": {"name": "Can change storage location", "content_type": 9, "codename": "change_storagelocation"}}, {"model": "auth.permission", "pk": 35, "fields": {"name": "Can delete storage location", "content_type": 9, "codename": "delete_storagelocation"}}, {"model": "auth.permission", "pk": 36, "fields": {"name": "Can view storage location", "content_type": 9, "codename": "view_storagelocation"}}, {"model": "auth.permission", "pk": 37, "fields": {"name": "Can add simulator", "content_type": 10, "codename": "add_simulator"}}, {"model": "auth.permission", "pk": 38, "fields": {"name": "Can change simulator", "content_type": 10, "codename": "change_simulator"}}, {"model": "auth.permission", "pk": 39, "fields": {"name": "Can delete simulator", "content_type": 10, "codename": "delete_simulator"}}, {"model": "auth.permission", "pk": 40, "fields": {"name": "Can view simulator", "content_type": 10, "codename": "view_simulator"}}, {"model": "auth.permission", "pk": 41, "fields": {"name": "Can add validator", "content_type": 11, "codename": "add_validator"}}, {"model": "auth.permission", "pk": 42, "fields": {"name": "Can change validator", "content_type": 11, "codename": "change_validator"}}, {"model": "auth.permission", "pk": 43, "fields": {"name": "Can delete validator", "content_type": 11, "codename": "delete_validator"}}, {"model": "auth.permission", "pk": 44, "fields": {"name": "Can view validator", "content_type": 11, "codename": "view_validator"}}, {"model": "auth.permission", "pk": 45, "fields": {"name": "Can add benchmark instance", "content_type": 12, "codename": "add_benchmarkinstance"}}, {"model": "auth.permission", "pk": 46, "fields": {"name": "Can change benchmark instance", "content_type": 12, "codename": "change_benchmarkinstance"}}, {"model": "auth.permission", "pk": 47, "fields": {"name": "Can delete benchmark instance", "content_type": 12, "codename": "delete_benchmarkinstance"}}, {"model": "auth.permission", "pk": 48, "fields": {"name": "Can view benchmark instance", "content_type": 12, "codename": "view_benchmarkinstance"}}, {"model": "auth.permission", "pk": 49, "fields": {"name": "Can add specified problem", "content_type": 13, "codename": "add_specifiedproblem"}}, {"model": "auth.permission", "pk": 50, "fields": {"name": "Can change specified problem", "content_type": 13, "codename": "change_specifiedproblem"}}, {"model": "auth.permission", "pk": 51, "fields": {"name": "Can delete specified problem", "content_type": 13, "codename": "delete_specifiedproblem"}}, {"model": "auth.permission", "pk": 52, "fields": {"name": "Can view specified problem", "content_type": 13, "codename": "view_specifiedproblem"}}, {"model": "auth.permission", "pk": 53, "fields": {"name": "Can add problem category", "content_type": 14, "codename": "add_problemcategory"}}, {"model": "auth.permission", "pk": 54, "fields": {"name": "Can change problem category", "content_type": 14, "codename": "change_problemcategory"}}, {"model": "auth.permission", "pk": 55, "fields": {"name": "Can delete problem category", "content_type": 14, "codename": "delete_problemcategory"}}, {"model": "auth.permission", "pk": 56, "fields": {"name": "Can view problem category", "content_type": 14, "codename": "view_problemcategory"}}, {"model": "auth.permission", "pk": 57, "fields": {"name": "Can add benchmark relations", "content_type": 15, "codename": "add_benchmarkrelations"}}, {"model": "auth.permission", "pk": 58, "fields": {"name": "Can change benchmark relations", "content_type": 15, "codename": "change_benchmarkrelations"}}, {"model": "auth.permission", "pk": 59, "fields": {"name": "Can delete benchmark relations", "content_type": 15, "codename": "delete_benchmarkrelations"}}, {"model": "auth.permission", "pk": 60, "fields": {"name": "Can view benchmark relations", "content_type": 15, "codename": "view_benchmarkrelations"}}, {"model": "auth.permission", "pk": 61, "fields": {"name": "Can add submission", "content_type": 16, "codename": "add_submission"}}, {"model": "auth.permission", "pk": 62, "fields": {"name": "Can change submission", "content_type": 16, "codename": "change_submission"}}, {"model": "auth.permission", "pk": 63, "fields": {"name": "Can delete submission", "content_type": 16, "codename": "delete_submission"}}, {"model": "auth.permission", "pk": 64, "fields": {"name": "Can view submission", "content_type": 16, "codename": "view_submission"}}, {"model": "auth.permission", "pk": 65, "fields": {"name": "Can add result", "content_type": 17, "codename": "add_result"}}, {"model": "auth.permission", "pk": 66, "fields": {"name": "Can change result", "content_type": 17, "codename": "change_result"}}, {"model": "auth.permission", "pk": 67, "fields": {"name": "Can delete result", "content_type": 17, "codename": "delete_result"}}, {"model": "auth.permission", "pk": 68, "fields": {"name": "Can view result", "content_type": 17, "codename": "view_result"}}, {"model": "contenttypes.contenttype", "pk": 1, "fields": {"app_label": "admin", "model": "logentry"}}, {"model": "contenttypes.contenttype", "pk": 2, "fields": {"app_label": "auth", "model": "permission"}}, {"model": "contenttypes.contenttype", "pk": 3, "fields": {"app_label": "auth", "model": "group"}}, {"model": "contenttypes.contenttype", "pk": 4, "fields": {"app_label": "contenttypes", "model": "contenttype"}}, {"model": "contenttypes.contenttype", "pk": 5, "fields": {"app_label": "sessions", "model": "session"}}, {"model": "contenttypes.contenttype", "pk": 6, "fields": {"app_label": "api", "model": "problem"}}, {"model": "contenttypes.contenttype", "pk": 7, "fields": {"app_label": "api", "model": "userprofile"}}, {"model": "contenttypes.contenttype", "pk": 8, "fields": {"app_label": "api", "model": "evaluationsettings"}}, {"model": "contenttypes.contenttype", "pk": 9, "fields": {"app_label": "api", "model": "storagelocation"}}, {"model": "contenttypes.contenttype", "pk": 10, "fields": {"app_label": "api", "model": "simulator"}}, {"model": "contenttypes.contenttype", "pk": 11, "fields": {"app_label": "api", "model": "validator"}}, {"model": "contenttypes.contenttype", "pk": 12, "fields": {"app_label": "api", "model": "benchmarkinstance"}}, {"model": "contenttypes.contenttype", "pk": 13, "fields": {"app_label": "api", "model": "specifiedproblem"}}, {"model": "contenttypes.contenttype", "pk": 14, "fields": {"app_label": "api", "model": "problemcategory"}}, {"model": "contenttypes.contenttype", "pk": 15, "fields": {"app_label": "api", "model": "benchmarkrelations"}}, {"model": "contenttypes.contenttype", "pk": 16, "fields": {"app_label": "api", "model": "submission"}}, {"model": "contenttypes.contenttype", "pk": 17, "fields": {"app_label": "api", "model": "result"}}, {"model": "sessions.session", "pk": "a99eiky2vfo58pla7209r4rvrockgxra", "fields": {"session_data": ".eJxVjDkOwjAQRe_iGlsTO94o6TlDNJ4ZExYlUpYKcXcSKQWUX--9_1YdrkvfrbNM3Z3VWdXsiNvEOkJG3YIjnStUXROEIqG2glGdfrOC9JRhb_mBw200NA7LdC9mV8xBZ3MdWV6Xw_076HHut7qRKjHH7G20BbZlKUgjHhhA0CJjQ-AFvVDy4AIl66qEwgglWNeqzxdJMEH4:1sD1XX:h0B5stNsa3O07OE3Rx4SbMyoAnBC_sdbZipIZp3PKzc", "expire_date": "2024-06-14T12:39:23.388Z"}}, {"model": "api.userprofile", "pk": "f93cd48d-709a-403c-9f0f-f806be6f4ea7", "fields": {"last_login": "2024-05-31T12:39:23.383Z", "email": "r@a.com", "name": null, "is_staff": true, "is_superuser": true, "is_active": true, "password": "pbkdf2_sha256$720000$Uyaqq2LvmLfx51kR0rxV4Y$Y8CZzHOhmJMqVqCdssGiNhTyB1/1tnAUQ/SSwy+bVS4=", "groups": [], "user_permissions": []}}, {"model": "api.evaluationsettings", "pk": "3d7f760b-37ba-48bf-abf7-f9b4a571167a", "fields": {"cpu": 1, "time_limit": 60.0}}, {"model": "api.evaluationsettings", "pk": "43193426-64a9-491f-8031-19b4ca3c0d3d", "fields": {"cpu": 1, "time_limit": 600.0}}, {"model": "api.evaluationsettings", "pk": "57c33a85-955c-4b6c-ae2d-5700aec4881d", "fields": {"cpu": 1, "time_limit": 10.0}}, {"model": "api.evaluationsettings", "pk": "6287bf16-8f4f-43b7-a860-327396f7ea2d", "fields": {"cpu": 8, "time_limit": 60.0}}, {"model": "api.evaluationsettings", "pk": "b19aaa69-11aa-4393-bf65-03b485dc831b", "fields": {"cpu": 1, "time_limit": 600.0}}, {"model": "api.storagelocation", "pk": "60a2f71c-2562-487f-9e0d-04c97023e703", "fields": {"filepath": "a/b/c"}}, {"model": "api.storagelocation", "pk": "e30d6d82-77d7-416d-a8d6-ce7f73e47531", "fields": {"filepath": "a/b/c"}}, {"model": "api.simulator", "pk": "60a2f71c-2562-487f-9e0d-04c97023e703", "fields": {}}, {"model": "api.validator", "pk": "e30d6d82-77d7-416d-a8d6-ce7f73e47531", "fields": {}}, {"model": "api.specifiedproblem", "pk": "20d67233-522c-462b-9b30-8f00e4d226a2", "fields": {"name": "Parallel", "evaluation_settings": "6287bf16-8f4f-43b7-a860-327396f7ea2d", "metrics": "?", "category": "d78ee6ae-e85f-4f24-81ec-4be3c0990880"}}, {"model": "api.specifiedproblem", "pk": "22220377-394c-4f3d-9910-68cf8ebf6943", "fields": {"name": "Speed", "evaluation_settings": "3d7f760b-37ba-48bf-abf7-f9b4a571167a", "metrics": "Distance", "category": "ca7e2e03-93ca-4221-a45f-d82045095f68"}}, {"model": "api.specifiedproblem", "pk": "316d6994-35a4-42ec-8151-bf14fcf74a72", "fields": {"name": "Large Scale", "evaluation_settings": "b19aaa69-11aa-4393-bf65-03b485dc831b", "metrics": "?", "category": "d78ee6ae-e85f-4f24-81ec-4be3c0990880"}}, {"model": "api.specifiedproblem", "pk": "34ad34da-cd73-42a7-9e41-24abad4271c7", "fields": {"name": "Small Scale", "evaluation_settings": "57c33a85-955c-4b6c-ae2d-5700aec4881d", "metrics": "Distance", "category": "ca7e2e03-93ca-4221-a45f-d82045095f68"}}, {"model": "api.specifiedproblem", "pk": "406f529d-27bd-4aec-b5d1-b0c2cd58ece8", "fields": {"name": "Quality", "evaluation_settings": "43193426-64a9-491f-8031-19b4ca3c0d3d", "metrics": "Distance", "category": "ca7e2e03-93ca-4221-a45f-d82045095f68"}}, {"model": "api.specifiedproblem", "pk": "6d6f4b2d-192b-4e75-9062-9a842b19d271", "fields": {"name": "Speed", "evaluation_settings": "3d7f760b-37ba-48bf-abf7-f9b4a571167a", "metrics": "?", "category": "d78ee6ae-e85f-4f24-81ec-4be3c0990880"}}, {"model": "api.specifiedproblem", "pk": "de9df45a-b2f4-4326-a9d3-df37e540980a", "fields": {"name": "Quality", "evaluation_settings": "43193426-64a9-491f-8031-19b4ca3c0d3d", "metrics": "?", "category": "d78ee6ae-e85f-4f24-81ec-4be3c0990880"}}, {"model": "api.problemcategory", "pk": "ca7e2e03-93ca-4221-a45f-d82045095f68", "fields": {"name": "VRPTW", "style": "Dynamic", "type": "Competition", "description": "The Capacitated Vehicle Routing Problem (CVRP) is a logistics optimization challenge where a fleet of vehicles with limited capacity must efficiently serve a set of customers while minimizing transportation costs. Each vehicle starts and ends its route at a central depot, visiting customers to fulfill their demands without exceeding the vehicle's capacity. The objective is to minimize total travel distance or time while ensuring that all customers are served. CVRP finds applications in various industries su", "simulator": "60a2f71c-2562-487f-9e0d-04c97023e703", "validator": "e30d6d82-77d7-416d-a8d6-ce7f73e47531"}}, {"model": "api.problemcategory", "pk": "d78ee6ae-e85f-4f24-81ec-4be3c0990880", "fields": {"name": "CVRP", "style": "Dynamic", "type": "Scientific", "description": "The Vehicle Routing Problem with Time Windows (VRPTW) is an optimization challenge in logistics. It involves planning optimal routes for a fleet of vehicles to serve a set of customers within specified time windows, while minimizing costs such as travel distance or time. The goal is to efficiently allocate resources to meet customer demand while adhering to various constraints like vehicle capacity and time restrictions.", "simulator": "60a2f71c-2562-487f-9e0d-04c97023e703", "validator": "e30d6d82-77d7-416d-a8d6-ce7f73e47531"}}]
+[
+    {
+        "model": "api.userprofile",
+        "pk": "f93cd48d-709a-403c-9f0f-f806be6f4ea7",
+        "fields": {
+            "last_login": "2024-05-31T12:39:23.383Z",
+            "email": "r@a.com",
+            "name": null,
+            "is_staff": true,
+            "is_superuser": true,
+            "is_active": true,
+            "password": "pbkdf2_sha256$720000$Uyaqq2LvmLfx51kR0rxV4Y$Y8CZzHOhmJMqVqCdssGiNhTyB1/1tnAUQ/SSwy+bVS4=",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "api.evaluationsettings",
+        "pk": "3d7f760b-37ba-48bf-abf7-f9b4a571167a",
+        "fields": {
+            "cpu": 1,
+            "time_limit": 60.0
+        }
+    },
+    {
+        "model": "api.evaluationsettings",
+        "pk": "43193426-64a9-491f-8031-19b4ca3c0d3d",
+        "fields": {
+            "cpu": 1,
+            "time_limit": 600.0
+        }
+    },
+    {
+        "model": "api.evaluationsettings",
+        "pk": "57c33a85-955c-4b6c-ae2d-5700aec4881d",
+        "fields": {
+            "cpu": 1,
+            "time_limit": 10.0
+        }
+    },
+    {
+        "model": "api.evaluationsettings",
+        "pk": "6287bf16-8f4f-43b7-a860-327396f7ea2d",
+        "fields": {
+            "cpu": 8,
+            "time_limit": 60.0
+        }
+    },
+    {
+        "model": "api.evaluationsettings",
+        "pk": "b19aaa69-11aa-4393-bf65-03b485dc831b",
+        "fields": {
+            "cpu": 1,
+            "time_limit": 600.0
+        }
+    },
+    {
+        "model": "api.storagelocation",
+        "pk": "60a2f71c-2562-487f-9e0d-04c97023e703",
+        "fields": {
+            "filepath": "a/b/c"
+        }
+    },
+    {
+        "model": "api.storagelocation",
+        "pk": "e30d6d82-77d7-416d-a8d6-ce7f73e47531",
+        "fields": {
+            "filepath": "a/b/c"
+        }
+    },
+    {
+        "model": "api.simulator",
+        "pk": "60a2f71c-2562-487f-9e0d-04c97023e703",
+        "fields": {}
+    },
+    {
+        "model": "api.validator",
+        "pk": "e30d6d82-77d7-416d-a8d6-ce7f73e47531",
+        "fields": {}
+    },
+    {
+        "model": "api.specifiedproblem",
+        "pk": "20d67233-522c-462b-9b30-8f00e4d226a2",
+        "fields": {
+            "name": "Parallel",
+            "evaluation_settings": "6287bf16-8f4f-43b7-a860-327396f7ea2d",
+            "metrics": "?",
+            "category": "d78ee6ae-e85f-4f24-81ec-4be3c0990880"
+        }
+    },
+    {
+        "model": "api.specifiedproblem",
+        "pk": "22220377-394c-4f3d-9910-68cf8ebf6943",
+        "fields": {
+            "name": "Speed",
+            "evaluation_settings": "3d7f760b-37ba-48bf-abf7-f9b4a571167a",
+            "metrics": "Distance",
+            "category": "ca7e2e03-93ca-4221-a45f-d82045095f68"
+        }
+    },
+    {
+        "model": "api.specifiedproblem",
+        "pk": "316d6994-35a4-42ec-8151-bf14fcf74a72",
+        "fields": {
+            "name": "Large Scale",
+            "evaluation_settings": "b19aaa69-11aa-4393-bf65-03b485dc831b",
+            "metrics": "?",
+            "category": "d78ee6ae-e85f-4f24-81ec-4be3c0990880"
+        }
+    },
+    {
+        "model": "api.specifiedproblem",
+        "pk": "34ad34da-cd73-42a7-9e41-24abad4271c7",
+        "fields": {
+            "name": "Small Scale",
+            "evaluation_settings": "57c33a85-955c-4b6c-ae2d-5700aec4881d",
+            "metrics": "Distance",
+            "category": "ca7e2e03-93ca-4221-a45f-d82045095f68"
+        }
+    },
+    {
+        "model": "api.specifiedproblem",
+        "pk": "406f529d-27bd-4aec-b5d1-b0c2cd58ece8",
+        "fields": {
+            "name": "Quality",
+            "evaluation_settings": "43193426-64a9-491f-8031-19b4ca3c0d3d",
+            "metrics": "Distance",
+            "category": "ca7e2e03-93ca-4221-a45f-d82045095f68"
+        }
+    },
+    {
+        "model": "api.specifiedproblem",
+        "pk": "6d6f4b2d-192b-4e75-9062-9a842b19d271",
+        "fields": {
+            "name": "Speed",
+            "evaluation_settings": "3d7f760b-37ba-48bf-abf7-f9b4a571167a",
+            "metrics": "?",
+            "category": "d78ee6ae-e85f-4f24-81ec-4be3c0990880"
+        }
+    },
+    {
+        "model": "api.specifiedproblem",
+        "pk": "de9df45a-b2f4-4326-a9d3-df37e540980a",
+        "fields": {
+            "name": "Quality",
+            "evaluation_settings": "43193426-64a9-491f-8031-19b4ca3c0d3d",
+            "metrics": "?",
+            "category": "d78ee6ae-e85f-4f24-81ec-4be3c0990880"
+        }
+    },
+    {
+        "model": "api.problemcategory",
+        "pk": "ca7e2e03-93ca-4221-a45f-d82045095f68",
+        "fields": {
+            "name": "VRPTW",
+            "style": "Dynamic",
+            "type": "Competition",
+            "description": "The Capacitated Vehicle Routing Problem (CVRP) is a logistics optimization challenge where a fleet of vehicles with limited capacity must efficiently serve a set of customers while minimizing transportation costs. Each vehicle starts and ends its route at a central depot, visiting customers to fulfill their demands without exceeding the vehicle's capacity. The objective is to minimize total travel distance or time while ensuring that all customers are served. CVRP finds applications in various industries su",
+            "simulator": "60a2f71c-2562-487f-9e0d-04c97023e703",
+            "validator": "e30d6d82-77d7-416d-a8d6-ce7f73e47531"
+        }
+    },
+    {
+        "model": "api.problemcategory",
+        "pk": "d78ee6ae-e85f-4f24-81ec-4be3c0990880",
+        "fields": {
+            "name": "CVRP",
+            "style": "Dynamic",
+            "type": "Scientific",
+            "description": "The Vehicle Routing Problem with Time Windows (VRPTW) is an optimization challenge in logistics. It involves planning optimal routes for a fleet of vehicles to serve a set of customers within specified time windows, while minimizing costs such as travel distance or time. The goal is to efficiently allocate resources to meet customer demand while adhering to various constraints like vehicle capacity and time restrictions.",
+            "simulator": "60a2f71c-2562-487f-9e0d-04c97023e703",
+            "validator": "e30d6d82-77d7-416d-a8d6-ce7f73e47531"
+        }
+    }
+]
