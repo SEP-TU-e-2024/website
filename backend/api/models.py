@@ -63,12 +63,16 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 
-class EvaluationSetting(models.Model):
+class EvaluationSettings(models.Model):
     """Settings for a problem"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     cpu = models.IntegerField()
     time_limit = models.FloatField()
+
+    class Meta:
+        verbose_name = "evaluation settings"
+        verbose_name_plural = "evaluation settings"
 
 
 class StorageLocation(models.Model):
@@ -95,21 +99,6 @@ class BenchmarkInstance(StorageLocation):
 
     pass
 
-
-class ProblemCategory(models.Model):
-    """Category of problem"""
-
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=256)  # For example TSP
-    description = models.CharField(max_length=512)  # Description of problem
-    simulator = models.ForeignKey(
-        Simulator, on_delete=models.CASCADE, null=True, blank=True
-    )
-    validator = models.ForeignKey(
-        Validator, on_delete=models.CASCADE, null=True, blank=True
-    )
-
-
 class Metric(models.Model):
     """Table that stores a performance metric"""
     
@@ -125,26 +114,45 @@ class Metric(models.Model):
     display_name = models.CharField(max_length=150)
     unit = models.CharField(max_length=4, choices=SUPPORTED_UNITS)
     
-    
 class SpecifiedProblem(models.Model):
-    """Occurence of problem, i.e. with certain settings"""
+    """Specified problem, potentially with evaluation settings"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    category = models.ForeignKey(ProblemCategory, on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=256, default='unnamed')
     evaluation_settings = models.ForeignKey(
-        EvaluationSetting, on_delete=models.CASCADE, null=True, blank=True
+        EvaluationSettings, on_delete=models.CASCADE, null=True, blank=True
     )
     metrics = models.ManyToManyField(Metric)  # Problem specific metrics to use
+    category = models.ForeignKey(
+        'ProblemCategory', on_delete=models.CASCADE, null=True, blank=True, related_name='specified_problems'
+    )
+    
+class ProblemCategory(models.Model):
+    """Category representing an optimization problem"""
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=256)  # For example TSP
     style = models.CharField(max_length=256, null=True)
     type = models.CharField(max_length=256, null=True)
+    description = models.CharField(max_length=512)  # Description of problem
+    simulator = models.ForeignKey(
+        Simulator, on_delete=models.CASCADE, null=True, blank=True
+    )
+    validator = models.ForeignKey(
+        Validator, on_delete=models.CASCADE, null=True, blank=True
+    )
 
 
-class BenchmarkSet(models.Model):
+class BenchmarkRelations(models.Model):
     """Relational table between specified problems and their benchmark instances"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     problem = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE, null=True)
     instance = models.ForeignKey(BenchmarkInstance, on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        verbose_name = "benchmark relations"
+        verbose_name_plural = "benchmark relations"
 
 
 class Submission(models.Model):
@@ -156,8 +164,9 @@ class Submission(models.Model):
     submission_name = models.CharField(max_length=100, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_verified = models.BooleanField(default=False)
-    
-    
+    is_downloadable = models.BooleanField(default=False)
+
+
 class Result(models.Model):
     """Table that stores result of a submission"""
     

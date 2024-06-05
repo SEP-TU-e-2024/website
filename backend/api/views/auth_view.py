@@ -25,6 +25,7 @@ class AuthViewSet(ViewSet):
     """
     This class is responsible for handling all request related to authenticating an user.
     """
+
     logger = logging.getLogger(__name__)
 
     @action(detail=False, methods=["POST"])
@@ -44,14 +45,23 @@ class AuthViewSet(ViewSet):
         # Converts JSON data into python object and checks validaty
         serializer = UserSerializer(data=request.data)
         if not serializer.is_valid():
-            for field, messages in serializer.errors.items():
-                return Response({"error": messages}, status=status.HTTP_400_BAD_REQUEST)
+            for field, message in serializer.errors.items():
+                self.logger.error({"field": field, "error": message})
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        # Setting user password and disabling user
+        # Creating and disabling user
         user = serializer.save()
-        user.set_password(request.data["password"])
         user.is_active = False
+
+        # Setting password
+        if "password" in request.data:
+            user.set_password(request.data["password"])
+
+        # Setting name
+        if "username" in request.data:
+            user.name = request.data["username"]
+
+        # Save changes
         user.save()
 
         # Sending verification email
@@ -84,8 +94,10 @@ class AuthViewSet(ViewSet):
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
         except ObjectDoesNotExist:
-            return HttpResponse({"User error" : "User not found."}, status=status.HTTP_400_BAD_REQUEST)
-        
+            return HttpResponse(
+                {"User error": "User not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
         # Checks token and sets user to active
         if user is not None and account_activation_token.check_token(user, token):
             token = RefreshToken.for_user(user)
@@ -95,7 +107,9 @@ class AuthViewSet(ViewSet):
             }
             redirect_url = f"{os.getenv('FRONTEND_URL')}tokens/?refresh_token={response_data['refresh_token']}&access_token={response_data['access_token']}"
             return redirect(redirect_url)
-        return HttpResponse({"User error" : "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)
+        return HttpResponse(
+            {"User error": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST
+        )
 
     @action(detail=False, methods=["POST"])
     def send_login_email(self, request):
@@ -115,8 +129,10 @@ class AuthViewSet(ViewSet):
             # Gets user by email
             user = User.objects.get(email=request.data["email"])
         except ObjectDoesNotExist:
-            return HttpResponse({"User error" : "User not found."}, status=status.HTTP_400_BAD_REQUEST)
-            
+            return HttpResponse(
+                {"User error": "User not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
         try:
             # Email setup
             mail_subject = "Login into your account."
@@ -139,7 +155,10 @@ class AuthViewSet(ViewSet):
             email.send()
         except SMTPException:
             self.logger.warning("Failed to send email", exc_info=1)
-            return HttpResponse({"Email erorr" : "Failed to send email"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return HttpResponse(
+                {"Email erorr": "Failed to send email"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
         return HttpResponse({}, status=status.HTTP_200_OK)
 
     def send_activate_email(self, request, user):
@@ -200,7 +219,9 @@ class AuthViewSet(ViewSet):
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
         except ObjectDoesNotExist:
-            return HttpResponse({"User error" : "User not found."}, status=status.HTTP_400_BAD_REQUEST)
+            return HttpResponse(
+                {"User error": "User not found."}, status=status.HTTP_400_BAD_REQUEST
+            )
 
         # Checks token and sets user to active
         if user is not None and account_activation_token.check_token(user, token):
@@ -208,6 +229,6 @@ class AuthViewSet(ViewSet):
             user.save()
             # Redirects to login
             return redirect(f'{os.getenv("FRONTEND_URL")}login')
-        return HttpResponse({"User error" : "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)
-
-        
+        return HttpResponse(
+            {"User error": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST
+        )
