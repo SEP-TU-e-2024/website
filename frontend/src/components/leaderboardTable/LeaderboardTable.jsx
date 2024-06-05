@@ -25,7 +25,7 @@ function LeaderboardTable({columns, entries}) {
 
                         // Add column name for each column 
                         columns.map(column => (
-                            <td key={column.name}>{column.name}</td>
+                            <th className='text-primary border-0' key={column.name}>{column.name}</th>
                         ))
 
                     }</tr>
