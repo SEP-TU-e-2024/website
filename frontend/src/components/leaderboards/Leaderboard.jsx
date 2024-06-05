@@ -61,7 +61,7 @@ function createColumns(problem) {
   columns.push(new LeaderboardColumn("Submitted by", 
     (entry) => { return entry.submitter.name }));
   columns.push(new LeaderboardColumn("Submitted date", 
-    (entry) => { return entry.submission.created_at }));
+    (entry) => { return entry.submission.created_at.slice(0,10) })); //the slice is to format the date
   columns.push(new LeaderboardColumn("Download Solver", 
     (entry) => { return <i role="button" onClick={entry.submission.is_downloadable ? handleDownloadSolverClick : null} className={entry.submission.is_downloadable ? "bi-download" : "bi-download disabled"} />}));
   columns.push(new LeaderboardColumn("Download Solutions", 
