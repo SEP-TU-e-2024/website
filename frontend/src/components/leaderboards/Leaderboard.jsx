@@ -138,13 +138,13 @@ function Leaderboard({problemData, rowLimit, showPagination}) {
 };
 
 /**
- * Component for a single row in the leaderboard
  * 
- * @param {data} param0 data prop
- * @returns component for a single row in the leaderboard
+ * @param {Array} columns the columns of the leaderboard
+ * @param {JSON} entry a single entry in the leaderboard
+ * @returns 
  */
 function LeaderboardRow({columns, entry}) {
-  //prefix strings for the id's of submission rows and collapsables
+  //prefix strings for the id's of submission entries and collapsables
   const SUBMISSION_ID_PREFIX = "submission-";
   const PROBLEM_INSTANCES_ID_PREFIX = "problem-instances-";
   
