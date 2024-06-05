@@ -15,6 +15,7 @@ import AuthLayout from "./components/routing/AuthLayout";
 import ProtectedLayout from "./components/routing/ProtectedLayout";
 import TokenAuthenticator from "./components/tokenauthenticator/TokenAuthenticator";
 import UnProtectedLayout from "./components/routing/UnprotectedLayout";
+import ResultsPage from "./components/results/ResultsPage"
 
 import { getPOInfo } from './components/problemOccurenceOverview/ProblemOccurrenceOverviewPage';
 import { getLeaderboardData } from './components/leaderboardPage/LeaderboardPage';

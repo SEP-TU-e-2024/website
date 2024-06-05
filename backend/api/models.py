@@ -96,9 +96,7 @@ class Validator(StorageLocation):
 
 class BenchmarkInstance(StorageLocation):
     """Single data instance for an optimization problem"""
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    file_path = models.CharField(max_length=256)
-
+    pass
 
 class SpecifiedProblem(models.Model):
     """Specified problem, potentially with evaluation settings"""

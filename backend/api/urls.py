@@ -10,6 +10,7 @@ from .views.leaderboard_entry_view import LeaderboardEntryView
 from .views.leaderboard_view import LeaderboardView
 from .views.problem_occurence_view import ProblemOccurrenceView
 from .views.problem_view import Problems
+from .views.result_view import ResultView
 from .views.submit_view import SubmitViewSet
 from .views.views import RetrieveProblems, main
 
@@ -28,6 +29,8 @@ urlpatterns = [
          ProblemOccurrenceView.as_view(),
          name='ProblemOccurrence'
         ),
+    path("result/<str:result_id>", ResultView.as_view()),
+    path("result/", ResultView.as_view()),
     path("auth/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("activate/<uidb64>/<token>", AuthViewSet.activate, name="activate"),

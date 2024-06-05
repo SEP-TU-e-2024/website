@@ -83,13 +83,13 @@ class BenchmarkInstanceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BenchmarkInstance
-        fields = ['id', 'file_path']
+        fields = "__all__"
 
 class ResultSerializer(serializers.ModelSerializer):
     """Serializer for results"""
     
     submission = SubmissionSerializer(read_only=True)
-    benchmark_instance = BenchmarkInstance(read_only=True)
+    benchmark_instance = BenchmarkInstanceSerializer(read_only=True)
 
     class Meta:
         model = Result

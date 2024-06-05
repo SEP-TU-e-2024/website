@@ -1,20 +1,5 @@
 [
 	{
-		"model": "api.userprofile",
-		"pk": "f93cd48d-709a-403c-9f0f-f806be6f4ea7",
-		"fields": {
-			"last_login": "2024-05-31T12:39:23.383Z",
-			"email": "r@a.com",
-			"name": null,
-			"is_staff": true,
-			"is_superuser": true,
-			"is_active": true,
-			"password": "pbkdf2_sha256$720000$Uyaqq2LvmLfx51kR0rxV4Y$Y8CZzHOhmJMqVqCdssGiNhTyB1/1tnAUQ/SSwy+bVS4=",
-			"groups": [],
-			"user_permissions": []
-		}
-	},
-	{
 		"model": "api.evaluationsettings",
 		"pk": "3d7f760b-37ba-48bf-abf7-f9b4a571167a",
 		"fields": {
