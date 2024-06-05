@@ -4,6 +4,8 @@ import './Leaderboard.scss'
 import MetricColumn from './MetricColumn'
 import LeaderboardColumn from './LeaderboardColumn'
 import api from "../../api";
+import {v4 as uuidv4} from 'uuid';
+
 /**
  * Async function to fetch the leaderboard data from the backend
  * @returns response data
@@ -78,8 +80,18 @@ function createColumns(problem) {
   return columns;
 }
 
+/**
+ * Leaderboard component.
+ * 
+ * @param {JSON} problemData the problem data 
+ * @param {int} rowLimit the limit to the amount of displayed rows 
+ * @param {bool} showPagination whether to show a pagination component (not implemented yet)
+ * 
+ * @returns the component
+ */
 function Leaderboard({problemData, rowLimit, showPagination}) {
   const [entries, setEntries] = useState([]);
+  const uuidPrefix = uuidv4();
   
   //data fetching code
   useEffect(() => {
@@ -128,7 +140,7 @@ function Leaderboard({problemData, rowLimit, showPagination}) {
 
             // Add existing leaderboard entries
             entries.map(entry => (
-              <LeaderboardRow columns={columns} entry={entry} key={entry.rank}/>
+              <LeaderboardRow columns={columns} entry={entry} key={entry.rank} parentPrefix={uuidPrefix}/>
             ))}
             
           </tbody>  
@@ -143,14 +155,16 @@ function Leaderboard({problemData, rowLimit, showPagination}) {
  * @param {JSON} entry a single entry in the leaderboard
  * @returns 
  */
-function LeaderboardRow({columns, entry}) {
+function LeaderboardRow({columns, entry, parentPrefix}) {
   //prefix strings for the id's of submission entries and collapsables
   const SUBMISSION_ID_PREFIX = "submission-";
-  const PROBLEM_INSTANCES_ID_PREFIX = "problem-instances-";
+  const PROBLEM_INSTANCES_ID_PREFIX = "problem-instances-" + parentPrefix + "-";
+  
+  console.log(entry);
   
   //handle toggling the problem instances for a single submission
   function handleToggleSubmissionRow(e) {
-    const foldContainer = document.getElementById(PROBLEM_INSTANCES_ID_PREFIX + entry.id);
+    const foldContainer = document.getElementById(PROBLEM_INSTANCES_ID_PREFIX + entry.submission.id);
     
     //toggle the display classes
     foldContainer.classList.toggle("fold-open");
@@ -171,14 +185,14 @@ function LeaderboardRow({columns, entry}) {
   
   return (
     <>
-      <tr onClick={handleToggleSubmissionRow} id={SUBMISSION_ID_PREFIX + entry.id} className="view">
+      <tr onClick={handleToggleSubmissionRow} id={SUBMISSION_ID_PREFIX + entry.submission.id} className="view">
         {/* // Add column data cell for the leaderboard entry  */}
         {columns.map(column => (
             <td key={column.name}>{column.getData(entry)}</td>
         ))}        
       </tr>
       
-      <tr id={PROBLEM_INSTANCES_ID_PREFIX + entry.id} className="fold-closed">
+      <tr id={PROBLEM_INSTANCES_ID_PREFIX + entry.submission.id} className="fold-closed">
         <td colSpan="8" className="fold-container">
           <div className="fold-content">
             <table className="pi-table">
