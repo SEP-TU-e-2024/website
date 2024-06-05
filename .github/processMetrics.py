@@ -9,6 +9,7 @@ METRICS_FILE = "metrics.csv"
 SIMIAN_FILE = "simian-out.txt"
 DEPENDENCIES_FILE = "matrix.csv"
 CONFIG_FILE = ".github/metrics_config.json"
+EXCLUDED_FILES = [".html", ".css", "migrations"]
 
 # Colors
 AQUA = '\033[94;1m'
@@ -66,6 +67,8 @@ def nice_print(dictionary):
 
 def main():
     df = pd.read_csv(METRICS_FILE)
+    for illegal in EXCLUDED_FILES:
+        df.drop(df[illegal in df.Name.lower()].index)
     categories = {c:df.loc[df.Kind == c].dropna(axis=1) for c in df.Kind.unique()}
 
     with open(CONFIG_FILE, 'r') as f:
