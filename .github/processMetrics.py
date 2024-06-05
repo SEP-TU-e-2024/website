@@ -68,7 +68,7 @@ def nice_print(dictionary):
 def main():
     df = pd.read_csv(METRICS_FILE)
     for illegal in EXCLUDED_FILES:
-        df.drop(df[df.Name.map(lambda n : illegal in n)].index)
+        df = df.drop(df[df.Name.map(lambda n : illegal in n.lower())].index)
     categories = {c:df.loc[df.Kind == c].dropna(axis=1) for c in df.Kind.unique()}
 
     with open(CONFIG_FILE, 'r') as f:
