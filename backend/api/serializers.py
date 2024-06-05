@@ -3,7 +3,13 @@ from rest_framework.serializers import ModelSerializer
 
 from api.models import Problem
 
-from .models import EvaluationSettings, ProblemCategory, Result, SpecifiedProblem, Submission
+from .models import (
+    EvaluationSettings,
+    ProblemCategory,
+    Result,
+    SpecifiedProblem,
+    Submission,
+)
 from .models import UserProfile as User
 
 
@@ -38,48 +44,44 @@ class SubmissionSerializer(serializers.ModelSerializer):
         model = Submission
         fields = (
             "id",
-            "problem",
-            "name",
+            "problem_id",
+            "submission_name",
             "created_at",
             "is_verified",
+            "is_downloadable",
         )
-
-
-class ProblemCategorySerializer(serializers.ModelSerializer):
-    """Serializer for problem categories"""
-
-    class Meta:
-        model = ProblemCategory
-        fields = ['name', 'description']
-
 
 class EvaluationSettingSerializer(serializers.ModelSerializer):
     """Serializer for evaluation settings"""
-    
+
     class Meta:
         model = EvaluationSettings
-        fields = ['cpu', 'time_limit']
-
+        fields = ["cpu", "time_limit"]
 
 class SpecifiedProblemSerializer(serializers.ModelSerializer):
     """Serializer for specified problems"""
 
     # Foreign field from category table
-    category = ProblemCategorySerializer(read_only=True)
     submission_count = serializers.IntegerField(read_only=True)
     evaluation_settings = EvaluationSettingSerializer(read_only=True)
 
     class Meta:
         model = SpecifiedProblem
-        fields = ['id', 'category', 'type', 'style', 'evaluation_settings', 'metrics', 'submission_count']
+        fields = ['id', 'name', 'evaluation_settings', 'metrics', 'submission_count', 'category']
 
+class ProblemCategorySerializer(serializers.ModelSerializer):
+    """Serializer for problem categories"""
+    specified_problems = SpecifiedProblemSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = ProblemCategory
+        fields = ['id', 'name', 'style', 'type', 'description', 'simulator', 'validator', 'specified_problems']
 
 class ResultSerializer(serializers.ModelSerializer):
     """Serializer for results"""
-    
+
     submission = SubmissionSerializer(read_only=True)
 
     class Meta:
         model = Result
-        fields = ['submission', 'metric', 'score']
-    
+        fields = ["submission", "metric", "score"]
