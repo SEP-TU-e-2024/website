@@ -19,7 +19,8 @@
     "react-dnd": "^16.0.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.0",
-    "reactstrap": "^9.2.2"
+    "reactstrap": "^9.2.2",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

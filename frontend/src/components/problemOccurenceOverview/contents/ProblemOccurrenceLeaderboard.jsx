@@ -1,15 +1,16 @@
 import React from "react"
 import { Container, Row, Col } from "reactstrap";
+import Leaderboard from "../../leaderboards/Leaderboard";
 
 /**
  * A component that includes the leaderboard of a problem occurence.
  */
-function ProblemOccurrenceLeaderboard() {
+function ProblemOccurrenceLeaderboard({problemData}) {
   return (
     <Container className="ps-0 pt-2">
         <Row className="">
           <Col>
-            <p>The leaderboard can go here.</p>
+            <Leaderboard problemData={problemData}/>
           </Col>
         </Row>
     </Container>
