@@ -1,6 +1,6 @@
 import {React, useEffect, useState} from "react"
 import { Container } from "reactstrap";
-import './leaderboard.scss'
+import './Leaderboard.scss'
 
 async function getRows() {
   return [
@@ -72,6 +72,8 @@ function LeaderboardRow({data}) {
   const SUBMISSION_ID_PREFIX = "submission-";
   const PROBLEM_INSTANCES_ID_PREFIX = "problem-instances-";
   
+  const CAN_DOWNLOAD = false; //TODO actually get this from the database later
+  
   //handle toggling the problem instances for a single submission
   function handleToggleSubmissionRow(e) {
     const foldContainer = document.getElementById(PROBLEM_INSTANCES_ID_PREFIX + data.id);
@@ -124,7 +126,7 @@ function LeaderboardRow({data}) {
         
         {/* <td className="seconds">1.00</td> */}
         <td>{data.submissionDate}</td>
-        <td className="download-cell"><i role="button" onClick={handleDownloadSolverClick} className="bi-download" /></td>
+        <td className="download-cell"><i role="button" onClick={CAN_DOWNLOAD ? handleDownloadSolverClick : null} className={CAN_DOWNLOAD ? "bi-download" : "bi-download disabled"} /></td>
         <td className="download-cell"><i role="button" onClick={handleDownloadSolutionsClick} className="bi-download" /></td>
         <td className="download-cell"><i role="button" onClick={handleDownloadScoresClick} className="bi-download" /></td>
       </tr>

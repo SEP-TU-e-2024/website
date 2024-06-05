@@ -85,3 +85,8 @@
 .leaderboard-table > tbody > tr.fold-open {
     display: table-row;
 }
+
+i.disabled {
+    color: $gray-500;
+    cursor:not-allowed;
+}
