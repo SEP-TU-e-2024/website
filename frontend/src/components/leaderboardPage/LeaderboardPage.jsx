@@ -3,56 +3,98 @@ import { useLoaderData } from "react-router-dom";
 import LeaderboardTable from '../leaderboardTable/LeaderboardTable';
 import api from '../../api';
 
-
-/**
- * Create column names based on the specified problem
- * @param {JSON} problem from leaderboard object
- * @returns Array of column names to display on a leaderboard
- */
-function createColumnNames(problem) {
-  // TODO crate column names based on problems (scoring) metrics
-  return ["Submission name", "Submitted by", "Submission date", "Scoring Metric"];
-}
-
-/**
- * Create column keys based on the specified problem
- * @param {JSON} problem from leaderboard object
- * @returns Array of column keys to display on a leaderboard
- */
-function createColumnKeys(problem) {
-  // TODO crate column keys based on problems (scoring) metrics
-  return {idKey: "rank", colKeys: ["rank", "submissionName", "submittedBy", "submissionDate", "scoring_metric"]};
-}
-
-/**
- * Create the leaderboard rows for the specified entries
- * @param {JSON} entries from a leaderboard object
- * @returns Array of rows that can be displayed on a leaderboard
- */
-function createLeaderboardRows(entries) {
-  // Initialize required variables
-  let rows = [];
+class Column {
+  /** Column name that can be used as key or header display */
+  #name;
   
-  entries.forEach(entry => {
-    let fields = {};
+  /** Private method to get cell data for the column from an entry */
+  #getDataFromEntry;
 
-    // Add the results dict to the fields
-    Object.assign(fields, entry.results);
+  /**
+   * Construct column for a leaderboard
+   * 
+   * @param {string} name of column that is unique and displayable
+   * @param {function(JSON)} getDataFromEntry function to get cell data from an entry
+   */
+  constructor(name, getDataFromEntry) {
+    this.#name = name;
+    this.#getDataFromEntry = getDataFromEntry;
+  }
 
-    // Add rank that numbers the leaderboard entries
-    fields['rank'] = entry.rank;
+  /**
+   * Get column data from the specified entry data
+   * 
+   * @param {JSON} entry data to retrieve column data from
+   * @return {*} data to display in the column entry cell
+   */
+  getData(entry) {
+    return this.#getDataFromEntry(entry);
+  }
 
-    // Add additonal fields based on entry submission and user
-    fields['submissionName'] = entry.submission.name;
-    fields['submittedBy'] = entry.submitter.name;
-    fields['submissionDate'] = entry.submission.created_at;
+  /**
+   * Get the name of the column
+   * 
+   * @return {string} Name of the column
+   */
+  get name() {
+    return this.#name;
+  }
+}
 
-    // Combine all fields in the rows array
-    rows.push(fields);
+class MetricColumn extends Column {
+  // TODO remove when metric model has been added:
+  // Assuming metric JSON has format {key:'scoring_metric', label:'Scoring metric', unit:'s'}
+
+  /**
+   * Construct column for a metric.
+   * 
+   * @param {JSON} metric to create column for.
+   */
+  constructor(metric) {
+    // Construct the column based on the metric values
+    super(metric.label, (entry) => {
+
+      // Format the data of the scoring metric with score and unit
+      return `${entry.results[metric.key]} ${metric.unit}`
+    })
+  }
+}
+
+/**
+ * Create the leaderboard columns for a problem
+ * 
+ * @param {JSON} problem to create leaderboard columns for
+ * @returns {List} columns that were created for the specified problem
+ */
+function createColumns(problem) {
+  let columns = [];
+  columns.push(new Column("#", 
+    (entry) => { return entry.rank }));
+
+  // TODO replace hard coded scorign metric array with that from problem.
+  let problem_scoring_metrics = [{key:'scoring_metric', label:'Scoring metric', unit:'s'}]
+  
+  // Loop over scoring metrics of the problem to add them as columns.
+  problem_scoring_metrics.forEach((scoring_metric) => {
+    columns.push(new MetricColumn(scoring_metric));
   });
 
-  // Return the rows array that has been created
-  return rows;
+  columns.push(new Column("Submission name", 
+    (entry) => { return entry.submission.submission_name }));
+  columns.push(new Column("Submitted by", 
+    (entry) => { return entry.submitter.name }));
+  columns.push(new Column("Submitted date", 
+    (entry) => { return entry.submission.created_at }));
+
+  // TODO replace hard coded metric array with that from problem.
+  let problem_metrics = []
+
+  // Loop over metrics of the problem to add them as columns.
+  problem_metrics.forEach((metric) => {
+    columns.push(new MetricColumn(metric));
+  });
+  
+  return columns;
 }
 
 /**
@@ -73,10 +115,9 @@ function LeaderboardPage() {
       <div>
         <p>Here is a subtitle that can talk about the benchmark instance/set</p>
       </div>
-      <LeaderboardTable 
-        columnNames={createColumnNames(leaderboardData.problem)} 
-        columnKeys={createColumnKeys(leaderboardData.problem)} 
-        rows={createLeaderboardRows(leaderboardData.entries)} 
+      <LeaderboardTable
+        columns={createColumns(leaderboardData.problem)}
+        entries={leaderboardData.entries}
       />
     </div>
   );
