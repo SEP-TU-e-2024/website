@@ -8,7 +8,6 @@ import LoginForm from "./components/forms/LoginForm";
 import Submit from "./components/submit/Submit";
 import HomePage from './components/homepage/HomePage';
 import RegisterForm from "./components/forms/RegisterForm";
-import LeaderboardPage from './components/leaderboardPage/LeaderboardPage'
 import ProblemOccurrenceOverviewPage from './components/problemOccurenceOverview/ProblemOccurrenceOverviewPage';
 import ErrorPage from "./components/errorPage/ErrorPage";
 import AuthLayout from "./components/routing/AuthLayout";
@@ -17,7 +16,6 @@ import TokenAuthenticator from "./components/tokenauthenticator/TokenAuthenticat
 import UnProtectedLayout from "./components/routing/UnprotectedLayout";
 
 import { getPOInfo } from './components/problemOccurenceOverview/ProblemOccurrenceOverviewPage';
-import { getLeaderboardData } from './components/leaderboardPage/LeaderboardPage';
 
 /**
  * This is the router object.
@@ -32,11 +30,6 @@ export const router = createBrowserRouter(
         
         {/* Protected routes */}
         <Route element={<ProtectedLayout />}>
-          <Route path="/leaderboard/:problem_id" 
-            element={<LeaderboardPage />} 
-            loader={async ({ params }) => {
-              return getLeaderboardData(params.problem_id);
-            }} />
         </Route>
           
         {/* Non protected routes */}
