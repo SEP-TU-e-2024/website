@@ -1,8 +1,6 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from api.models import Problem
-
 from .models import (
     EvaluationSettings,
     ProblemCategory,
@@ -11,14 +9,6 @@ from .models import (
     Submission,
 )
 from .models import UserProfile as User
-
-
-class ProblemSerializer(serializers.ModelSerializer):
-    """Simple problem serializer"""
-
-    class Meta:
-        model = Problem
-        fields = "__all__"
 
 
 class UserSerializer(ModelSerializer):
@@ -44,8 +34,8 @@ class SubmissionSerializer(serializers.ModelSerializer):
         model = Submission
         fields = (
             "id",
-            "problem_id",
-            "submission_name",
+            "problem",
+            "submission",
             "created_at",
             "is_verified",
             "is_downloadable",

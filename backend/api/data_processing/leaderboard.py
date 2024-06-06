@@ -9,7 +9,7 @@ class Leaderboard():
     """Class to create a leaderboard for a specified problem"""
     def __init__(self, problem:SpecifiedProblem):
         self.problem = problem
-        submissions = Submission.objects.all().filter(problem_id=problem)
+        submissions = Submission.objects.all().filter(problem=problem)
         self.entries = [LeaderboardEntry(submission) for submission in submissions]
         self.rank_entries()
 

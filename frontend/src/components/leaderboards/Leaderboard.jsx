@@ -57,7 +57,7 @@ function createColumns(problem) {
   });
 
   columns.push(new LeaderboardColumn("Submission name", 
-    (entry) => { return entry.submission.submission_name }));
+    (entry) => { return entry.submission.name }));
   columns.push(new LeaderboardColumn("Submitted by", 
     (entry) => { return entry.submitter.name }));
   columns.push(new LeaderboardColumn("Submitted date", 

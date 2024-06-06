@@ -8,13 +8,6 @@ from django.contrib.auth.models import (
 from django.db import models
 
 
-class Problem(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-
-
 class UserProfileManager(BaseUserManager):
     """Manager for user profiles"""
 
@@ -108,41 +101,39 @@ class SpecifiedProblem(models.Model):
     evaluation_settings = models.ForeignKey(
         EvaluationSettings, on_delete=models.CASCADE, null=True, blank=True
     )
+    benchmark_instances = models.ManyToManyField(BenchmarkInstance)
     metrics = models.CharField(max_length=512)  # Problem specific metrics to use
     category = models.ForeignKey(
         'ProblemCategory', on_delete=models.CASCADE, null=True, blank=True, related_name='specified_problems'
     )
-    
+
+
 class ProblemCategory(models.Model):
     """Category representing an optimization problem"""
 
+    class Style(models.IntegerChoices):
+        COMPETITION = 0, 'Competition'
+        SCIENTIFIC = 1, 'Scientific'
+
+    class Type(models.IntegerChoices):
+        STATIC = 0, 'Static'
+        DYANAMIC = 1, 'Dynamic'
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=256)  # For example TSP
-    style = models.CharField(max_length=256, null=True)
-    type = models.CharField(max_length=256, null=True)
+    style = models.IntegerField(choices=Style.choices, null=True)
+    type = models.IntegerField(choices=Type.choices, null=True)
     description = models.CharField(max_length=512)  # Description of problem
     simulator = models.ForeignKey(
-        Simulator, on_delete=models.CASCADE, null=True, blank=True
+        Simulator, on_delete=models.SET_NULL, null=True, blank=True
     )
     validator = models.ForeignKey(
-        Validator, on_delete=models.CASCADE, null=True, blank=True
+        Validator, on_delete=models.SET_NULL, null=True, blank=True
     )
-
 
     class Meta:
         verbose_name = "problem category"
         verbose_name_plural = "problem categories"
-
-class BenchmarkRelations(models.Model):
-    """Relational table between specified problems and their benchmark instances"""
-
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    problem = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE, null=True)
-    instance = models.ForeignKey(BenchmarkInstance, on_delete=models.CASCADE, null=True)
-
-    class Meta:
-        verbose_name = "benchmark relations"
-        verbose_name_plural = "benchmark relations"
 
 
 class Submission(models.Model):
@@ -150,11 +141,30 @@ class Submission(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
-    problem_id = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE)
-    submission_name = models.CharField(max_length=100, unique=True)
+    problem = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_verified = models.BooleanField(default=False)
     is_downloadable = models.BooleanField(default=False)
+
+
+class Metric(models.Model):
+    """Table that stores the metrics known to the platform"""
+
+    class Unit(models.TextChoices):
+        NONE = 'none', ''
+        SECONDS = 's', 'Seconds'
+        MINUTES = 'm', 'Minutes'
+        HOURS = 'h', 'Hours'
+
+    class Order(models.IntegerChoices):
+        COST = 0, "Cost"
+        REWARD = 1, "Reward"
+    
+    name = models.CharField(primary_key=True, max_length=64, unique=True)
+    label = models.CharField(max_length=128)
+    unit = models.CharField(max_length=4, choices=Unit.choices)
+    order = models.CharField(max_length=4, choices=Order.choices)
 
 
 class Result(models.Model):
@@ -162,5 +172,6 @@ class Result(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
-    metric = models.CharField(max_length=512)
+    benchmark_instance = models.ForeignKey(BenchmarkInstance, on_delete=models.CASCADE)
+    metric = models.ForeignKey(Metric, on_delete=models.CASCADE)
     score = models.DecimalField(decimal_places=2, max_digits=6)

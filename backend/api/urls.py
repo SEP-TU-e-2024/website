@@ -11,7 +11,6 @@ from .views.leaderboard_view import LeaderboardView
 from .views.problem_occurence_view import ProblemOccurrenceView
 from .views.problem_view import Problems
 from .views.submit_view import SubmitViewSet
-from .views.views import RetrieveProblems, main
 
 # Routers are standard for viewsets
 api_router = DefaultRouter()
@@ -20,8 +19,6 @@ api_router.register(r"submit", SubmitViewSet, basename="submit")
 
 # Urlpatterns are default for normal views
 urlpatterns = [
-    path("", main),
-    path("problems", RetrieveProblems.as_view()),
     path("problems/occurrence_overview", Problems.as_view()),
     path(
         "problems/problem_occurrence/<str:problem_id>",
