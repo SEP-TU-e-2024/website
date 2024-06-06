@@ -2,10 +2,10 @@ from django.contrib import admin
 
 from .models import (
     BenchmarkInstance,
-    BenchmarkRelations,
     EvaluationSettings,
     ProblemCategory,
     Result,
+    Metric,
     Simulator,
     SpecifiedProblem,
     StorageLocation,
@@ -24,8 +24,8 @@ admin.site.register(Validator) # Validator table
 admin.site.register(BenchmarkInstance) # Instance table
 # admin.site.register(ProblemCategory) # Category table
 # admin.site.register(SpecifiedProblem) # Problem table
-admin.site.register(BenchmarkRelations) # Relation table
 admin.site.register(Result) # Result table
+admin.site.register(Metric) # Metric table
 
 class AdminSpecifiedProblem(admin.TabularInline):
     model = SpecifiedProblem

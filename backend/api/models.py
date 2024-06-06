@@ -111,7 +111,6 @@ class Metric(models.Model):
     unit = models.CharField(max_length=4, choices=Unit.choices)
     order = models.CharField(max_length=4, choices=Order.choices)
 
-
 class ProblemCategory(models.Model):
     """Category representing an optimization problem"""
 
@@ -150,6 +149,7 @@ class SpecifiedProblem(models.Model):
         null=True, blank=True,
         # Replaces auto reference name of <model>_set.
         # (So can now be referenced by category.specified_problems)
+        # Reference also used by problem category serializer.
         related_name='specified_problems'
     )
     evaluation_settings = models.ForeignKey(
@@ -158,7 +158,7 @@ class SpecifiedProblem(models.Model):
     )
     benchmark_instances = models.ManyToManyField(BenchmarkInstance)
     metrics = models.ManyToManyField(Metric)  # Problem specific metrics to use
-    scoring_metrics = models.ManyToManyField(Metric)
+    scoring_metrics = models.ManyToManyField(Metric, related_name='specifiedproblem_ranking_set')
 
 
 class Submission(models.Model):
@@ -178,6 +178,6 @@ class Result(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
-    benchmark_instance = models.ForeignKey(BenchmarkInstance, on_delete=models.CASCADE)
+    benchmark_instance = models.ForeignKey(BenchmarkInstance, on_delete=models.CASCADE, null=True)
     metric = models.ForeignKey(Metric, on_delete=models.CASCADE)
     score = models.DecimalField(decimal_places=2, max_digits=6)
