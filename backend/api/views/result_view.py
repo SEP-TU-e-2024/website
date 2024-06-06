@@ -10,17 +10,18 @@ from ..serializers import ResultSerializer
 class ResultView(APIView):
 
     def get(self, request, result_id:str):
-        print('talla')
+        """Given the id of a result object, retrieve its associated attributes"""
+
+        #Retrieve the result
         result = Result.objects.all().filter(id=result_id)
 
+        #Check if the result is found
         if not result.exists():
-            print('jalla')
+            #If not, throw an error
             return Response({}, status=status.HTTP_400_BAD_REQUEST)
         
+        #Serialize the data
         result_data = ResultSerializer(result, many=True).data[0]
 
+        #Return it in a JSON Response
         return JsonResponse(result_data, safe=False, status=status.HTTP_200_OK)
-    
-    def post(self, request):
-        return JsonResponse("asd", safe=False, status=status.HTTP_200_OK)
-
