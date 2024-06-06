@@ -93,19 +93,23 @@ class BenchmarkInstance(StorageLocation):
     pass
 
 
-class SpecifiedProblem(models.Model):
-    """Specified problem, potentially with evaluation settings"""
+class Metric(models.Model):
+    """Table that stores the metrics known to the platform"""
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=256, default='unnamed')
-    evaluation_settings = models.ForeignKey(
-        EvaluationSettings, on_delete=models.CASCADE, null=True, blank=True
-    )
-    benchmark_instances = models.ManyToManyField(BenchmarkInstance)
-    metrics = models.CharField(max_length=512)  # Problem specific metrics to use
-    category = models.ForeignKey(
-        'ProblemCategory', on_delete=models.CASCADE, null=True, blank=True, related_name='specified_problems'
-    )
+    class Unit(models.TextChoices):
+        NONE = 'none', ''
+        SECONDS = 's', 'Seconds'
+        MINUTES = 'm', 'Minutes'
+        HOURS = 'h', 'Hours'
+
+    class Order(models.IntegerChoices):
+        COST = 0, "Cost"
+        REWARD = 1, "Reward"
+    
+    name = models.CharField(primary_key=True, max_length=64, unique=True)
+    label = models.CharField(max_length=128)
+    unit = models.CharField(max_length=4, choices=Unit.choices)
+    order = models.CharField(max_length=4, choices=Order.choices)
 
 
 class ProblemCategory(models.Model):
@@ -136,6 +140,27 @@ class ProblemCategory(models.Model):
         verbose_name_plural = "problem categories"
 
 
+class SpecifiedProblem(models.Model):
+    """Specified problem, potentially with evaluation settings"""
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=256, default='unnamed')
+    category = models.ForeignKey(
+        ProblemCategory, on_delete=models.CASCADE,
+        null=True, blank=True,
+        # Replaces auto reference name of <model>_set.
+        # (So can now be referenced by category.specified_problems)
+        related_name='specified_problems'
+    )
+    evaluation_settings = models.ForeignKey(
+        EvaluationSettings, on_delete=models.CASCADE,
+        null=True, blank=True
+    )
+    benchmark_instances = models.ManyToManyField(BenchmarkInstance)
+    metrics = models.ManyToManyField(Metric)  # Problem specific metrics to use
+    scoring_metrics = models.ManyToManyField(Metric)
+
+
 class Submission(models.Model):
     """Database model for submissions"""
 
@@ -146,25 +171,6 @@ class Submission(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     is_verified = models.BooleanField(default=False)
     is_downloadable = models.BooleanField(default=False)
-
-
-class Metric(models.Model):
-    """Table that stores the metrics known to the platform"""
-
-    class Unit(models.TextChoices):
-        NONE = 'none', ''
-        SECONDS = 's', 'Seconds'
-        MINUTES = 'm', 'Minutes'
-        HOURS = 'h', 'Hours'
-
-    class Order(models.IntegerChoices):
-        COST = 0, "Cost"
-        REWARD = 1, "Reward"
-    
-    name = models.CharField(primary_key=True, max_length=64, unique=True)
-    label = models.CharField(max_length=128)
-    unit = models.CharField(max_length=4, choices=Unit.choices)
-    order = models.CharField(max_length=4, choices=Order.choices)
 
 
 class Result(models.Model):

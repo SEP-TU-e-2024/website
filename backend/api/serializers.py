@@ -16,7 +16,7 @@ class UserSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("id", "email")
+        fields = ["id", "email"]
 
 
 class ProfileSerializer(ModelSerializer):
@@ -24,7 +24,7 @@ class ProfileSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("id", "email", "name")
+        fields = ["id", "email", "name"]
 
 
 class SubmissionSerializer(serializers.ModelSerializer):
@@ -32,14 +32,9 @@ class SubmissionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Submission
-        fields = (
-            "id",
-            "problem",
-            "submission",
-            "created_at",
-            "is_verified",
-            "is_downloadable",
-        )
+        fields = ["id", "name", "user", "problem",
+                  "created_at", "is_verified", "is_downloadable"]
+
 
 class EvaluationSettingSerializer(serializers.ModelSerializer):
     """Serializer for evaluation settings"""
@@ -48,16 +43,18 @@ class EvaluationSettingSerializer(serializers.ModelSerializer):
         model = EvaluationSettings
         fields = ["cpu", "time_limit"]
 
+
 class SpecifiedProblemSerializer(serializers.ModelSerializer):
     """Serializer for specified problems"""
 
-    # Foreign field from category table
     submission_count = serializers.IntegerField(read_only=True)
     evaluation_settings = EvaluationSettingSerializer(read_only=True)
 
     class Meta:
         model = SpecifiedProblem
-        fields = ['id', 'name', 'evaluation_settings', 'metrics', 'submission_count', 'category']
+        fields = ['id', 'name', 'category', 'evaluation_settings', 'benchmark_instances',
+                  'metrics', 'scoring_ metircs', 'submission_count']
+
 
 class ProblemCategorySerializer(serializers.ModelSerializer):
     """Serializer for problem categories"""
@@ -65,7 +62,9 @@ class ProblemCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProblemCategory
-        fields = ['id', 'name', 'style', 'type', 'description', 'simulator', 'validator', 'specified_problems']
+        fields = ['id', 'name', 'style', 'type', 'description',
+                  'simulator', 'validator', 'specified_problems']
+
 
 class ResultSerializer(serializers.ModelSerializer):
     """Serializer for results"""
