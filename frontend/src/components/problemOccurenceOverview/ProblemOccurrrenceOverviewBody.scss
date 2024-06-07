@@ -14,6 +14,7 @@
     // $padding-y: 0.25em;
     display: block;
     padding-right: 1em;
+    padding-left: 1em;
     padding-bottom: 0.25em;
     padding-top: 0.5em;
     
@@ -21,6 +22,10 @@
     font-size: large;
     font-weight: $font-weight-semibold;
     color: $primary;
+}
+
+.tab-selector-link:hover:not(.active) {
+    background-color: $gray-200;
 }
 
 .tab-selector-item .active {
