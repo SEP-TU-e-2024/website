@@ -108,8 +108,9 @@ class Metric(models.Model):
     
     name = models.CharField(primary_key=True, max_length=64, unique=True)
     label = models.CharField(max_length=128)
-    unit = models.CharField(max_length=4, choices=Unit.choices)
-    order = models.CharField(max_length=4, choices=Order.choices)
+    unit = models.CharField(max_length=4, choices=Unit.choices, default=Unit.NONE)
+    order = models.IntegerField(choices=Order.choices, default=Order.COST)
+
 
 class ProblemCategory(models.Model):
     """Category representing an optimization problem"""
@@ -124,9 +125,9 @@ class ProblemCategory(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=256)  # For example TSP
-    style = models.IntegerField(choices=Style.choices, null=True)
-    type = models.IntegerField(choices=Type.choices, null=True)
-    description = models.CharField(max_length=512)  # Description of problem
+    style = models.IntegerField(choices=Style.choices, default=Style.SCIENTIFIC)
+    type = models.IntegerField(choices=Type.choices, default=Type.STATIC)
+    description = models.CharField(max_length=2048)  # Description of problem
     simulator = models.ForeignKey(
         Simulator, on_delete=models.SET_NULL, null=True, blank=True
     )
@@ -157,8 +158,9 @@ class SpecifiedProblem(models.Model):
         null=True, blank=True
     )
     benchmark_instances = models.ManyToManyField(BenchmarkInstance)
-    metrics = models.ManyToManyField(Metric)  # Problem specific metrics to use
-    scoring_metrics = models.ManyToManyField(Metric, related_name='specifiedproblem_ranking_set')
+    # Use + at end to disable reverse relation https://www.webforefront.com/django/setuprelationshipsdjangomodels.html
+    metrics = models.ManyToManyField(Metric, related_name='problem_metrics+')
+    scoring_metrics = models.ManyToManyField(Metric, related_name='problem_scoring_metrics+') #
 
 
 class Submission(models.Model):
@@ -167,7 +169,7 @@ class Submission(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
     problem = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=256, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_verified = models.BooleanField(default=False)
     is_downloadable = models.BooleanField(default=False)
