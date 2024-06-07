@@ -201,7 +201,7 @@ class SubmitViewSet(ViewSet):
             blob_service_client = BlobServiceClient.from_connection_string(
                 str(connection_string)
             )
-            container_name = os.getenv("AZURE_STORAGE_CONTAINER_NAME")
+            container_name = os.getenv("AZURE_STORAGE_SUBMISSIONS_CONTAINER_NAME")
 
             file_extension = file.name.split(".")[-1].lower()
             blob_client = blob_service_client.get_blob_client(
