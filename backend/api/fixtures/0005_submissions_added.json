@@ -100,30 +100,6 @@
     }
 },
 {
-    "model": "api.storagelocation",
-    "pk": "60a2f71c-2562-487f-9e0d-04c97023e703",
-    "fields": {
-        "filepath": "a/b/c"
-    }
-},
-{
-    "model": "api.storagelocation",
-    "pk": "e30d6d82-77d7-416d-a8d6-ce7f73e47531",
-    "fields": {
-        "filepath": "a/b/c"
-    }
-},
-{
-    "model": "api.simulator",
-    "pk": "60a2f71c-2562-487f-9e0d-04c97023e703",
-    "fields": {}
-},
-{
-    "model": "api.validator",
-    "pk": "e30d6d82-77d7-416d-a8d6-ce7f73e47531",
-    "fields": {}
-},
-{
     "model": "api.specifiedproblem",
     "pk": "20d67233-522c-462b-9b30-8f00e4d226a2",
     "fields": {

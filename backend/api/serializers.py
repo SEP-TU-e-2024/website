@@ -38,7 +38,7 @@ class ProfileSerializer(ModelSerializer):
         fields = ("id", "email", "name")
 
 
-class StorageLocationSerializer(serializers.Serializer):
+class StorageLocationSerializer(serializers.ModelSerializer):
     """Serializer for storage locations"""
 
     class Meta:
