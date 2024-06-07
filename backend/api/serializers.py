@@ -13,7 +13,6 @@ from .models import (
 )
 from .models import UserProfile as User
 
-
 class ProblemSerializer(serializers.ModelSerializer):
     """Simple problem serializer"""
 
@@ -41,6 +40,7 @@ class ProfileSerializer(ModelSerializer):
 class StorageLocationSerializer(serializers.ModelSerializer):
     """Serializer for storage locations"""
 
+    # Base fields for all children
     class Meta:
         model = StorageLocation
         fields = ["filepath"]
@@ -49,6 +49,7 @@ class StorageLocationSerializer(serializers.ModelSerializer):
 class SubmissionSerializer(StorageLocationSerializer):
     """ "Serializer for submissions"""
 
+    # Adds fields of storagelocation as direct fields of submissions
     class Meta(StorageLocationSerializer.Meta):
         model = Submission
         fields = StorageLocationSerializer.Meta.fields + [
@@ -91,6 +92,7 @@ class SpecifiedProblemSerializer(serializers.ModelSerializer):
 class ProblemCategorySerializer(serializers.ModelSerializer):
     """Serializer for problem categories"""
 
+    # Foreign key field
     specified_problems = SpecifiedProblemSerializer(many=True, read_only=True)
 
     class Meta:
@@ -110,6 +112,7 @@ class ProblemCategorySerializer(serializers.ModelSerializer):
 class ResultSerializer(serializers.ModelSerializer):
     """Serializer for results"""
 
+    # Foreign key field
     submission = SubmissionSerializer(read_only=True)
 
     class Meta:
