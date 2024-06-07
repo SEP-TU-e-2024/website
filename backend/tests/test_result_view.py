@@ -1,6 +1,12 @@
 import json
 
-from api.models import BenchmarkInstance, EvaluationSettings, ProblemCategory, Result, SpecifiedProblem
+from api.models import (
+    BenchmarkInstance,
+    EvaluationSettings,
+    ProblemCategory,
+    Result,
+    SpecifiedProblem,
+)
 from rest_framework.test import APITestCase
 
 

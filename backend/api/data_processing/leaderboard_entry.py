@@ -14,7 +14,7 @@ class LeaderboardEntry():
         # Convert the results into a JSON string
         self.results = dict()
         for result in Result.objects.all().filter(submission=submission):
-            self.results[result.metric] = float(result.score)
+            self.results[result.metric] = float(result.value)
         
         # Add a rank, which is not known
         self.rank = 0
