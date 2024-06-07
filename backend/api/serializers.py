@@ -43,7 +43,7 @@ class StorageLocationSerializer(serializers.Serializer):
 
     class Meta:
         model = StorageLocation
-        fields = "filepath"
+        fields = ["filepath"]
 
 
 class SubmissionSerializer(StorageLocationSerializer):

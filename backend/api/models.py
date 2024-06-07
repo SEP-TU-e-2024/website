@@ -79,7 +79,7 @@ class StorageLocation(models.Model):
     """Storage path reference to locate file(s)"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    filepath = models.CharField(max_length=256)
+    filepath = models.CharField(max_length=256, null=True, blank=True)
 
 
 class Simulator(StorageLocation):
