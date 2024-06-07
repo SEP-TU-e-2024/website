@@ -9,6 +9,7 @@ from .models import (
     Result,
     SpecifiedProblem,
     Submission,
+    StorageLocation,
 )
 from .models import UserProfile as User
 
@@ -37,19 +38,28 @@ class ProfileSerializer(ModelSerializer):
         fields = ("id", "email", "name")
 
 
-class SubmissionSerializer(serializers.ModelSerializer):
-    """ "Serializer for submissions"""
+class StorageLocationSerializer(serializers.Serializer):
+    """Serializer for storage locations"""
 
     class Meta:
+        model = StorageLocation
+        fields = "filepath"
+
+
+class SubmissionSerializer(StorageLocationSerializer):
+    """ "Serializer for submissions"""
+
+    class Meta(StorageLocationSerializer.Meta):
         model = Submission
-        fields = (
+        fields = StorageLocationSerializer.Meta.fields + [
             "id",
             "problem_id",
             "submission_name",
             "created_at",
             "is_verified",
             "is_downloadable",
-        )
+        ]
+
 
 class EvaluationSettingSerializer(serializers.ModelSerializer):
     """Serializer for evaluation settings"""
@@ -57,6 +67,7 @@ class EvaluationSettingSerializer(serializers.ModelSerializer):
     class Meta:
         model = EvaluationSettings
         fields = ["cpu", "time_limit"]
+
 
 class SpecifiedProblemSerializer(serializers.ModelSerializer):
     """Serializer for specified problems"""
@@ -67,15 +78,34 @@ class SpecifiedProblemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SpecifiedProblem
-        fields = ['id', 'name', 'evaluation_settings', 'metrics', 'submission_count', 'category']
+        fields = [
+            "id",
+            "name",
+            "evaluation_settings",
+            "metrics",
+            "submission_count",
+            "category",
+        ]
+
 
 class ProblemCategorySerializer(serializers.ModelSerializer):
     """Serializer for problem categories"""
+
     specified_problems = SpecifiedProblemSerializer(many=True, read_only=True)
 
     class Meta:
         model = ProblemCategory
-        fields = ['id', 'name', 'style', 'type', 'description', 'simulator', 'validator', 'specified_problems']
+        fields = [
+            "id",
+            "name",
+            "style",
+            "type",
+            "description",
+            "simulator",
+            "validator",
+            "specified_problems",
+        ]
+
 
 class ResultSerializer(serializers.ModelSerializer):
     """Serializer for results"""

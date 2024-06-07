@@ -6,7 +6,7 @@ from rest_framework_simplejwt.views import (
 )
 
 from .views.auth_view import AuthViewSet
-from .views.download_problem_view import DownloadProblemViewSet
+from .views.download_from_blob_view import DownloadFromBlobViewSet
 from .views.leaderboard_entry_view import LeaderboardEntryView
 from .views.leaderboard_view import LeaderboardView
 from .views.problem_occurence_view import ProblemOccurrenceView
@@ -19,7 +19,7 @@ api_router = DefaultRouter()
 api_router.register(r"auth", AuthViewSet, basename="auth")
 api_router.register(r"submit", SubmitViewSet, basename="submit")
 api_router.register(
-    r"download_problem", DownloadProblemViewSet, basename="download_problem"
+    r"download_from_blob", DownloadFromBlobViewSet, basename="download_from_blob"
 )
 
 # Urlpatterns are default for normal views

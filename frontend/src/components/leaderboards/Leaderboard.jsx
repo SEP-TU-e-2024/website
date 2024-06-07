@@ -1,10 +1,12 @@
-import {React, useEffect, useState} from "react"
+// leaderboard.jsx
+
+import React, { useEffect, useState } from "react";
 import { Container } from "reactstrap";
-import './Leaderboard.scss'
-import MetricColumn from './MetricColumn'
-import LeaderboardColumn from './LeaderboardColumn'
+import './Leaderboard.scss';
+import MetricColumn from './MetricColumn';
+import LeaderboardColumn from './LeaderboardColumn';
 import api from "../../api";
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Async function to fetch the leaderboard data from the backend
@@ -14,24 +16,43 @@ async function getLeaderboardData(problemId) {
   try {
     const response = await api.get(`/leaderboard/${problemId}`);
     return response.data;
-  } catch(err) {
+  } catch (err) {
     console.error(err);
   }
 }
 
-//download submission handler
-function handleDownloadSolverClick(e) {
-  e.stopPropagation();
-  alert("download solver");
+// Helper function to download file
+function downloadFile(blob, filename) {
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 }
 
-//download solutions handler
+// Download submission handler
+async function handleDownloadSolverClick(e, filepath) {
+  e.stopPropagation();
+  try {
+    console.log(filepath)
+    const containerString = import.meta.env.VITE_AZURE_STORAGE_SUBMISSIONS_CONTAINER_NAME
+    console.log("Hello", containerString)
+    const response = await api.post('/download_from_blob/download_file/', {container: containerString, filepath: filepath });
+    //const filename = filePath.split('/').pop(); // Extract filename from the path
+    //downloadFile(new Blob([response.data]), filename);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// Download solutions handler
 function handleDownloadSolutionsClick(e) {
   e.stopPropagation();
   alert("download solutions");
 }
 
-//download scores handler
+// Download scores handler
 function handleDownloadScoresClick(e) {
   e.stopPropagation();
   alert("download scores");
@@ -48,7 +69,7 @@ function createColumns(problem) {
   columns.push(new LeaderboardColumn("#", 
     (entry) => { return entry.rank }));
 
-  // TODO replace hard coded scorign metric array with that from problem.
+  // TODO replace hard coded scoring metric array with that from problem.
   let problem_scoring_metrics = [{key:'scoring_metric', label:'Scoring metric', unit:'s'}]
   
   // Loop over scoring metrics of the problem to add them as columns.
@@ -63,7 +84,16 @@ function createColumns(problem) {
   columns.push(new LeaderboardColumn("Submitted date", 
     (entry) => { return entry.submission.created_at.slice(0,10) })); //the slice is to format the date
   columns.push(new LeaderboardColumn("Download Solver", 
-    (entry) => { return <i role="button" onClick={entry.submission.is_downloadable ? handleDownloadSolverClick : null} className={entry.submission.is_downloadable ? "bi-download" : "bi-download disabled"} />}));
+    (entry) => { 
+      return (
+        <i 
+          role="button" 
+          onClick={entry.submission.is_downloadable ? (e) => handleDownloadSolverClick(e, entry) : null} 
+          className={entry.submission.is_downloadable ? "bi-download" : "bi-download disabled"} 
+        />
+      )
+    }
+  ));
   columns.push(new LeaderboardColumn("Download Solutions", 
     (entry) => { return <i role="button" onClick={handleDownloadSolutionsClick} className="bi-download" />}));
   columns.push(new LeaderboardColumn("Download Scores", 
@@ -93,7 +123,7 @@ function Leaderboard({problemData, rowLimit, showPagination}) {
   const [entries, setEntries] = useState([]);
   const uuidPrefix = uuidv4();
   
-  //data fetching code
+  // Data fetching code
   useEffect(() => {
     
     const fetchRows = async () => {
@@ -101,7 +131,7 @@ function Leaderboard({problemData, rowLimit, showPagination}) {
         const data = await getLeaderboardData(problemData.id);
         //TODO do this limiting in the backend later (not now because of time constraints)
         setEntries(rowLimit ? data.entries.slice(0, rowLimit) : data.entries);
-      } catch(err) {
+      } catch (err) {
         console.error(err);
         //TODO proper error handling
       }
@@ -111,43 +141,41 @@ function Leaderboard({problemData, rowLimit, showPagination}) {
   }, []);
   
   const columns = createColumns(problemData);
-  if (columns.length == 0) {
-    console.error("Error: createcolumns didn't find any columns to create");
+  if (columns.length === 0) {
+    console.error("Error: createColumns didn't find any columns to create");
     return (
       <p className="text-danger">Error: no column names found</p>
-    )
+    );
   }
   
   return (
     <Container fluid className='justify-content-center'>
       <table className='leaderboard-table'>
-          <thead>
-            <tr>{
+        <thead>
+          <tr>{
+            // Add column name for each column 
+            columns.map(column => (
+              <th key={column.name}>{column.getHeader()}</th>
+            ))
+          }</tr>
+        </thead>
+        <tbody>{
+          // Display message if no leaderboard entries exist
+          entries.length === 0 ? 
+          <tr><td colSpan={columns.length} align='center' className="text-danger">
+              No leaderboard entries
+          </td></tr> :
 
-              // Add column name for each column 
-              columns.map(column => (
-                <th key={column.name}>{column.getHeader()}</th>
-              ))
-
-            }</tr>
-          </thead>
-          <tbody>{
-            // Display message if no leaderboard entries exist
-            entries.length==0 ? 
-            <tr><td colSpan={columns.length} align='center' className="text-danger">
-                No leaderboard entries
-            </td></tr> :
-
-            // Add existing leaderboard entries
-            entries.map(entry => (
-              <LeaderboardRow columns={columns} entry={entry} key={entry.rank} parentPrefix={uuidPrefix}/>
-            ))}
-            
-          </tbody>  
+          // Add existing leaderboard entries
+          entries.map(entry => (
+            <LeaderboardRow columns={columns} entry={entry} key={entry.rank} parentPrefix={uuidPrefix}/>
+          ))
+        }
+        </tbody>  
       </table>
     </Container>
-  )
-};
+  );
+}
 
 /**
  * 
@@ -156,28 +184,26 @@ function Leaderboard({problemData, rowLimit, showPagination}) {
  * @returns 
  */
 function LeaderboardRow({columns, entry, parentPrefix}) {
-  //prefix strings for the id's of submission entries and collapsables
+  // Prefix strings for the id's of submission entries and collapsables
   const SUBMISSION_ID_PREFIX = "submission-";
   const PROBLEM_INSTANCES_ID_PREFIX = "problem-instances-" + parentPrefix + "-";
   
-  console.log(entry);
-  
-  //handle toggling the problem instances for a single submission
+  // Handle toggling the problem instances for a single submission
   function handleToggleSubmissionRow(e) {
     const foldContainer = document.getElementById(PROBLEM_INSTANCES_ID_PREFIX + entry.submission.id);
     
-    //toggle the display classes
+    // Toggle the display classes
     foldContainer.classList.toggle("fold-open");
     foldContainer.classList.toggle("fold-closed");
   }
 
-  //download specific solution handler
+  // Download specific solution handler
   function handleDownloadSingleSolutionClick(e) {
     e.stopPropagation();
     alert("download single solution");
   }
   
-  //visualize problem instance handler
+  // Visualize problem instance handler
   function handleVisualizePiClick(e) {
     e.stopPropagation();
     alert("visualize");

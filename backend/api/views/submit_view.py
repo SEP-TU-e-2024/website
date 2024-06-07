@@ -60,6 +60,7 @@ class SubmitViewSet(ViewSet):
 
         submission = serializer.save()
         submission.user = user
+        submission.filepath = submission.id + "." + request_file.name.split(".")[-1]
         submission.save()
 
         # Stores file in blob storage

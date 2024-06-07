@@ -104,15 +104,20 @@ class SpecifiedProblem(models.Model):
     """Specified problem, potentially with evaluation settings"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=256, default='unnamed')
+    name = models.CharField(max_length=256, default="unnamed")
     evaluation_settings = models.ForeignKey(
         EvaluationSettings, on_delete=models.CASCADE, null=True, blank=True
     )
     metrics = models.CharField(max_length=512)  # Problem specific metrics to use
     category = models.ForeignKey(
-        'ProblemCategory', on_delete=models.CASCADE, null=True, blank=True, related_name='specified_problems'
+        "ProblemCategory",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="specified_problems",
     )
-    
+
+
 class ProblemCategory(models.Model):
     """Category representing an optimization problem"""
 
@@ -128,10 +133,10 @@ class ProblemCategory(models.Model):
         Validator, on_delete=models.CASCADE, null=True, blank=True
     )
 
-
     class Meta:
         verbose_name = "problem category"
         verbose_name_plural = "problem categories"
+
 
 class BenchmarkRelations(models.Model):
     """Relational table between specified problems and their benchmark instances"""
@@ -145,10 +150,9 @@ class BenchmarkRelations(models.Model):
         verbose_name_plural = "benchmark relations"
 
 
-class Submission(models.Model):
+class Submission(StorageLocation):
     """Database model for submissions"""
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
     problem_id = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE)
     submission_name = models.CharField(max_length=100, unique=True)
