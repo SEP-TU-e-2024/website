@@ -19,7 +19,7 @@ api_router = DefaultRouter()
 api_router.register(r"auth", AuthViewSet, basename="auth")
 api_router.register(r"submit", SubmitViewSet, basename="submit")
 api_router.register(
-    r"download_from_blob", DownloadFromBlobViewSet, basename="download_from_blob"
+    r"download", DownloadFromBlobViewSet, basename="download"
 )
 
 # Urlpatterns are default for normal views

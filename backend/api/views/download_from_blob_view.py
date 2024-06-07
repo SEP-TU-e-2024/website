@@ -18,14 +18,17 @@ class DownloadFromBlobViewSet(ViewSet):
 
     logger = logging.getLogger(__name__)
 
-    # TODO make this generic to download everything from the blob storage, rename file + url
-    @action(detail=False, methods=["POST"])
-    def download_file(self, request):
-        try:
-            # Get container and filepath
-            container = request.data["container"]
-            file_path = request.data["filepath"]
+    @action(detail=False, methods=["GET"])
+    def download_solver(self, request):
+        """ Download function for submission solvers """
 
+        return self.download_file(request.GET.get('filepath'), os.getenv("AZURE_STORAGE_CONTAINER_SUBMISSION"))
+
+
+    def download_file(self, file_path, container):
+        """ Generic download function for files from blob storage """
+        
+        try:
             # Setup connection
             connection_string = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
             blob_service_client = BlobServiceClient.from_connection_string(
@@ -47,4 +50,4 @@ class DownloadFromBlobViewSet(ViewSet):
             return response
         except Exception as e:
             self.logger.error(f"An error occurred: {str(e)}")
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "File download failed"}, status=status.HTTP_400_BAD_REQUEST)

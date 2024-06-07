@@ -45,11 +45,10 @@ function downloadBlob(response) {
 // Download submission handler
 async function handleDownloadSolverClick(filepath) {
   try {
-    const containerString = import.meta.env.VITE_AZURE_STORAGE_CONTAINER_NAME
-    const response = await api.post('/download_from_blob/download_file/', 
-      {container: containerString, filepath: filepath }, 
-      {responseType: 'blob' }
-    );
+    const response = await api.get('/download/download_solver/', {
+      params: { filepath: filepath },
+      responseType: 'blob'
+    });
 
     // Create a Blob from the response data
     downloadBlob(response)
