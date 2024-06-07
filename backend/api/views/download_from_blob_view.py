@@ -41,8 +41,9 @@ class DownloadFromBlobViewSet(ViewSet):
             response = HttpResponse(
                 download_stream.readall(), content_type="application/octet-stream", status=200
             )
-            response["Content-Disposition"] = "attachment; filename={file_path}"
-            
+            response["Content-Disposition"] = (
+                f"attachment; filename={os.path.basename(file_path)}"
+            )
             return response
         except Exception as e:
             self.logger.error(f"An error occurred: {str(e)}")
