@@ -22,22 +22,24 @@ class DownloadFromBlobViewSet(ViewSet):
     @action(detail=False, methods=["POST"])
     def download_file(self, request):
         try:
+            # Get container and filepath
             container = request.data["container"]
             file_path = request.data["filepath"]
+
+            # Setup connection
             connection_string = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
             blob_service_client = BlobServiceClient.from_connection_string(
                 str(connection_string)
             )
-
-            # add .zip to the file_path
             blob_client = blob_service_client.get_blob_client(
                 container=container, blob=file_path
             )
+
             download_stream = blob_client.download_blob()
 
             # Return the file content
             response = HttpResponse(
-                download_stream.readall(), content_type="application/octet-stream"
+                download_stream.readall(), content_type="application/octet-stream", status=200
             )
             response["Content-Disposition"] = (
                 f"attachment; filename={os.path.basename(file_path)}"

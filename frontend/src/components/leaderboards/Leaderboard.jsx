@@ -21,14 +21,25 @@ async function getLeaderboardData(problemId) {
   }
 }
 
-// Helper function to download file
-function downloadFile(blob, filename) {
+function downloadBlob(response) {
+  // Create blob
+  const fileBlob = new Blob([response.data], { type: response.headers['content-type'] });
+  const blobUrl = URL.createObjectURL(fileBlob);
+
+  // Extract filename from response headers or use a default name
+  const contentDisposition = response.headers['Content-Disposition'];
+  let filename = 'submission.zip';
+
+  // Create a temporary anchor element to trigger the download
   const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
+  link.href = blobUrl;
   link.download = filename;
   document.body.appendChild(link);
   link.click();
-  document.body.removeChild(link);
+
+  // Clean up and revoke the object URL
+  URL.revokeObjectURL(blobUrl);
+  link.remove();
 }
 
 // Download submission handler
@@ -36,9 +47,13 @@ async function handleDownloadSolverClick(e, filepath) {
   e.stopPropagation();
   try {
     const containerString = import.meta.env.VITE_AZURE_STORAGE_CONTAINER_NAME
-    const response = await api.post('/download_from_blob/download_file/', {container: containerString, filepath: filepath });
-    //const filename = filePath.split('/').pop(); // Extract filename from the path
-    //downloadFile(new Blob([response.data]), filename);
+    const response = await api.post('/download_from_blob/download_file/', 
+      {container: containerString, filepath: filepath }, 
+      {responseType: 'blob' }
+    );
+
+    // Create a Blob from the response data
+    downloadBlob(response)
   } catch (err) {
     console.error(err);
   }
