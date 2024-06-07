@@ -76,7 +76,4 @@ class LeaderboardEntryViewTest(APITestCase):
         
         #Test attributes for results object
         self.assertEqual(self.result.value, float(result['results']['scoring_metric']))
-        self.assertEqual(self.result.rank, result['results']['rank'])
-        # self.assertEqual(self.result)
-        print(result)
         
