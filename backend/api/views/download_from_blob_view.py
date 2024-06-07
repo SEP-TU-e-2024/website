@@ -2,13 +2,13 @@
 
 import logging
 import os
+
 from azure.storage.blob import BlobServiceClient
+from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
-from django.http import FileResponse, HttpResponse
-from api.models import SpecifiedProblem
 
 
 class DownloadFromBlobViewSet(ViewSet):

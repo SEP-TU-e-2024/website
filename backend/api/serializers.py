@@ -8,8 +8,8 @@ from .models import (
     ProblemCategory,
     Result,
     SpecifiedProblem,
-    Submission,
     StorageLocation,
+    Submission,
 )
 from .models import UserProfile as User
 
