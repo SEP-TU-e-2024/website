@@ -14,7 +14,7 @@ from api.models import (
 from rest_framework.test import APITestCase
 
 
-class LeaderboardViewTest(APITestCase):
+class LeaderboardEntryViewTest(APITestCase):
     def setUp(self):
         #Set up a test category
         self.cat = ProblemCategory.objects.create(
@@ -43,43 +43,40 @@ class LeaderboardViewTest(APITestCase):
             password='jolanda'
         )
 
-        #Add 100 random submissions
-        self.submissions = []
-        self.results = []
-        for i in range(100):
-            #Create the submission
-            self.submissions += [Submission.objects.create(
-                problem_id=self.problem,
-                submission_name=f'test submission {i}',
-            )]
-            
-            #Create a result for that submission
-            self.results += [Result.objects.create(
-                metric='scoring_metric',
-                #Randomly generate value
-                value=random.randint(0,100),
-                benchmark_instance=self.benchmark,
-                submission=self.submissions[i]
-            )]
+        #Create the submission
+        self.submission = Submission.objects.create(
+            problem_id=self.problem,
+            submission_name='test submission',
+        )
+
+        #Create a result for that submission
+        self.result = Result.objects.create(
+            metric='scoring_metric',
+            #Randomly generate value
+            value=random.randint(0,100),
+            benchmark_instance=self.benchmark,
+            submission=self.submission
+        )
+
+        #Create LeaderboardEntry for testing purposes
+        self.entries = LeaderboardEntry(self.submission)
 
 
-
-    def test_leaderboard(self):
+    def test_leaderboard_entry(self):
         #Send a request to the api endpoint
-        resp = self.client.get('/api/leaderboard/' + str(self.problem.id))
+        resp = self.client.get('/api/leaderboard_entry/' + str(self.submission.id))
 
         # unpack the json object
         result = json.loads(resp.content.decode())
         
-        #check whether leaderboard is sorted
-        prev = -1
-        for score in result['entries']:
-            #Get the current entry score
-            current = float(score['results']['scoring_metric'])
-            #Compare previous entry to next entry (in order of the list), throw error if not ascending
-            self.assertGreaterEqual(current, prev, 'LeaderboardEntry not sorted!')
-            #Update pointer to previous entry
-            prev = current
+        #Test attributes for submission
+        self.assertEqual(str(self.submission.id), result['submission']['id'])
+        self.assertEqual(str(self.problem.id), result['submission']['problem_id'])
+        self.assertEqual(self.submission.submission_name, result['submission']['submission_name'])
         
+        #Test attributes for results object
+        self.assertEqual(self.result.value, float(result['results']['scoring_metric']))
+        self.assertEqual(self.result.rank, result['results']['rank'])
+        # self.assertEqual(self.result)
+        print(result)
         
-        #TODO: Add more unit tests when metrics are properly defined
