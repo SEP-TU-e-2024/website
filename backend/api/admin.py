@@ -3,9 +3,10 @@ from django.contrib import admin
 from .models import (
     BenchmarkInstance,
     EvaluationSettings,
-    ProblemCategory,
-    Result,
     Metric,
+    ProblemCategory,
+    ProblemMetric,
+    Result,
     Simulator,
     SpecifiedProblem,
     StorageLocation,
@@ -26,6 +27,7 @@ admin.site.register(BenchmarkInstance) # Instance table
 # admin.site.register(SpecifiedProblem) # Problem table
 admin.site.register(Result) # Result table
 admin.site.register(Metric) # Metric table
+admin.site.register(ProblemMetric) # Instance table
 
 class AdminSpecifiedProblem(admin.TabularInline):
     model = SpecifiedProblem

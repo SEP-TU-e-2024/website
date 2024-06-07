@@ -3,7 +3,9 @@ from rest_framework.serializers import ModelSerializer
 
 from .models import (
     EvaluationSettings,
+    Metric,
     ProblemCategory,
+    ProblemMetric,
     Result,
     SpecifiedProblem,
     Submission,
@@ -43,6 +45,14 @@ class EvaluationSettingSerializer(serializers.ModelSerializer):
         model = EvaluationSettings
         fields = ["cpu", "time_limit"]
 
+        
+class MetricSerializer(serializers.ModelSerializer):
+    """"""
+
+    class Meta:
+        model = Metric
+        fields = ['name', 'label', 'unit', 'order']
+
 
 class SpecifiedProblemSerializer(serializers.ModelSerializer):
     """Serializer for specified problems"""
@@ -52,8 +62,19 @@ class SpecifiedProblemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SpecifiedProblem
-        fields = ['id', 'name', 'category', 'evaluation_settings', 'benchmark_instances',
-                  'metrics', 'scoring_ metircs', 'submission_count']
+        fields = ['id', 'name', 'category', 'evaluation_settings',
+                  'benchmark_instances', 'metrics', 'submission_count']
+
+
+class ProblemMetricSerializer(serializers.ModelSerializer):
+    """"""
+
+    metric = MetricSerializer(many=True, read_only=True)
+    problem = SpecifiedProblemSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = ProblemMetric
+        fields = ['metric', 'problem', 'position', 'scoring_metric']
 
 
 class ProblemCategorySerializer(serializers.ModelSerializer):

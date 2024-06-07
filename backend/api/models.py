@@ -127,7 +127,7 @@ class ProblemCategory(models.Model):
     name = models.CharField(max_length=256)  # For example TSP
     style = models.IntegerField(choices=Style.choices, default=Style.SCIENTIFIC)
     type = models.IntegerField(choices=Type.choices, default=Type.STATIC)
-    description = models.CharField(max_length=2048)  # Description of problem
+    description = models.TextField(max_length=2048)  # Description of problem
     simulator = models.ForeignKey(
         Simulator, on_delete=models.SET_NULL, null=True, blank=True
     )
@@ -158,9 +158,16 @@ class SpecifiedProblem(models.Model):
         null=True, blank=True
     )
     benchmark_instances = models.ManyToManyField(BenchmarkInstance)
-    # Use + at end to disable reverse relation https://www.webforefront.com/django/setuprelationshipsdjangomodels.html
-    metrics = models.ManyToManyField(Metric, related_name='problem_metrics+')
-    scoring_metrics = models.ManyToManyField(Metric, related_name='problem_scoring_metrics+') #
+    metrics = models.ManyToManyField(Metric, related_name='specified_problems', through='ProblemMetric')
+
+
+class ProblemMetric(models.Model):
+    """Relation table between metrics and specified problems"""
+
+    problem = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE)
+    metric = models.ForeignKey(Metric, on_delete=models.CASCADE)
+    position = models.IntegerField()
+    scoring_metric = models.BooleanField()
 
 
 class Submission(models.Model):
