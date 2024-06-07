@@ -48,13 +48,7 @@ function createColumns(problem) {
   columns.push(new LeaderboardColumn("#", 
     (entry) => { return entry.rank }));
 
-  // TODO replace hard coded scorign metric array with that from problem.
-  let problem_scoring_metrics = [{key:'scoring_metric', label:'Scoring metric', unit:'s'}]
-  
-  // Loop over scoring metrics of the problem to add them as columns.
-  problem_scoring_metrics.forEach((scoring_metric) => {
-    columns.push(new MetricColumn(scoring_metric));
-  });
+  columns.push(new MetricColumn(problem.scoring_metric));
 
   columns.push(new LeaderboardColumn("Submission name", 
     (entry) => { return entry.submission.name }));
@@ -69,12 +63,10 @@ function createColumns(problem) {
   columns.push(new LeaderboardColumn("Download Scores", 
     (entry) => { return <i role="button" onClick={handleDownloadScoresClick} className="bi-download" />}));
 
-  // TODO replace hard coded metric array with that from problem.
-  let problem_metrics = []
-
-  // Loop over metrics of the problem to add them as columns.
-  problem_metrics.forEach((metric) => {
-    columns.push(new MetricColumn(metric));
+  problem.metrics.forEach((metric) => {
+    if (metric != problem.scoring_metric) {
+      columns.push(new MetricColumn(metric));
+    }
   });
   
   return columns;

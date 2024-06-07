@@ -158,16 +158,8 @@ class SpecifiedProblem(models.Model):
         null=True, blank=True
     )
     benchmark_instances = models.ManyToManyField(BenchmarkInstance)
-    metrics = models.ManyToManyField(Metric, related_name='specified_problems', through='ProblemMetric')
-
-
-class ProblemMetric(models.Model):
-    """Relation table between metrics and specified problems"""
-
-    problem = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE)
-    metric = models.ForeignKey(Metric, on_delete=models.CASCADE)
-    position = models.IntegerField()
-    scoring_metric = models.BooleanField()
+    metrics = models.ManyToManyField(Metric)
+    scoring_metric = models.ForeignKey(Metric, default="run_time", on_delete=models.PROTECT, related_name='specifiedproblem_ranking_set')
 
 
 class Submission(models.Model):
@@ -176,7 +168,7 @@ class Submission(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
     problem = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE)
-    name = models.CharField(max_length=256, unique=True)
+    name = models.CharField(max_length=256, unique=True, default='unnamed')
     created_at = models.DateTimeField(auto_now_add=True)
     is_verified = models.BooleanField(default=False)
     is_downloadable = models.BooleanField(default=False)

@@ -5,7 +5,6 @@ from .models import (
     EvaluationSettings,
     Metric,
     ProblemCategory,
-    ProblemMetric,
     Result,
     Simulator,
     SpecifiedProblem,
@@ -27,7 +26,6 @@ admin.site.register(BenchmarkInstance) # Instance table
 # admin.site.register(SpecifiedProblem) # Problem table
 admin.site.register(Result) # Result table
 admin.site.register(Metric) # Metric table
-admin.site.register(ProblemMetric) # Instance table
 
 class AdminSpecifiedProblem(admin.TabularInline):
     model = SpecifiedProblem

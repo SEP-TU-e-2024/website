@@ -5,7 +5,6 @@ from .models import (
     EvaluationSettings,
     Metric,
     ProblemCategory,
-    ProblemMetric,
     Result,
     SpecifiedProblem,
     Submission,
@@ -63,18 +62,7 @@ class SpecifiedProblemSerializer(serializers.ModelSerializer):
     class Meta:
         model = SpecifiedProblem
         fields = ['id', 'name', 'category', 'evaluation_settings',
-                  'benchmark_instances', 'metrics', 'submission_count']
-
-
-class ProblemMetricSerializer(serializers.ModelSerializer):
-    """"""
-
-    metric = MetricSerializer(many=True, read_only=True)
-    problem = SpecifiedProblemSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = ProblemMetric
-        fields = ['metric', 'problem', 'position', 'scoring_metric']
+                  'benchmark_instances', 'metrics', 'scoring_metric', 'submission_count']
 
 
 class ProblemCategorySerializer(serializers.ModelSerializer):
