@@ -35,9 +35,7 @@ function downloadFile(blob, filename) {
 async function handleDownloadSolverClick(e, filepath) {
   e.stopPropagation();
   try {
-    console.log(filepath)
     const containerString = import.meta.env.VITE_AZURE_STORAGE_CONTAINER_NAME
-    console.log("Hello", containerString)
     const response = await api.post('/download_from_blob/download_file/', {container: containerString, filepath: filepath });
     //const filename = filePath.split('/').pop(); // Extract filename from the path
     //downloadFile(new Blob([response.data]), filename);

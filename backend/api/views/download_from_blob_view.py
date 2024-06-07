@@ -30,8 +30,6 @@ class DownloadFromBlobViewSet(ViewSet):
             )
 
             # add .zip to the file_path
-            file_path = file_path
-            print("File path" + str(file_path))
             blob_client = blob_service_client.get_blob_client(
                 container=container, blob=file_path
             )
