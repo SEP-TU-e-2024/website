@@ -43,8 +43,7 @@ function downloadBlob(response) {
 }
 
 // Download submission handler
-async function handleDownloadSolverClick(e, filepath) {
-  e.stopPropagation();
+async function handleDownloadSolverClick(filepath) {
   try {
     const containerString = import.meta.env.VITE_AZURE_STORAGE_CONTAINER_NAME
     const response = await api.post('/download_from_blob/download_file/', 
@@ -101,7 +100,7 @@ function createColumns(problem) {
       return (
         <i 
           role="button" 
-          onClick={entry.submission.is_downloadable ? (e) => handleDownloadSolverClick(e, entry.submission.filepath) : null} 
+          onClick={entry.submission.is_downloadable ? () => handleDownloadSolverClick(entry.submission.filepath) : null} 
           className={entry.submission.is_downloadable ? "bi-download" : "bi-download disabled"} 
         />
       )
