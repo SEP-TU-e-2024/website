@@ -66,7 +66,7 @@ describe("Protected layout", () => {
         const logoutButton = screen.getByText("Logout");
         // Simulate click of logout button
         await userEvent.click(logoutButton);
-        expect(mockMemberContextData.logout_user).toHaveBeenCalled();
+        expect(mockMemberContextData.logout_user).toHaveBeenCalledOnce();
     });
 
     it("should navigate a guest to login", () => {
