@@ -45,6 +45,7 @@ function handleDownloadScoresClick(e) {
  */
 function createColumns(problem) {
   let columns = [];
+
   columns.push(new LeaderboardColumn("#", 
     (entry) => { return entry.rank }));
 
@@ -64,7 +65,7 @@ function createColumns(problem) {
     (entry) => { return <i role="button" onClick={handleDownloadScoresClick} className="bi-download" />}));
 
   problem.metrics.forEach((metric) => {
-    if (metric != problem.scoring_metric) {
+    if (metric.name != problem.scoring_metric.name) {
       columns.push(new MetricColumn(metric));
     }
   });
@@ -101,7 +102,7 @@ function Leaderboard({problemData, rowLimit, showPagination}) {
     
     fetchRows();
   }, []);
-  
+
   const columns = createColumns(problemData);
   if (columns.length == 0) {
     console.error("Error: createcolumns didn't find any columns to create");
@@ -151,8 +152,6 @@ function LeaderboardRow({columns, entry, parentPrefix}) {
   //prefix strings for the id's of submission entries and collapsables
   const SUBMISSION_ID_PREFIX = "submission-";
   const PROBLEM_INSTANCES_ID_PREFIX = "problem-instances-" + parentPrefix + "-";
-  
-  console.log(entry);
   
   //handle toggling the problem instances for a single submission
   function handleToggleSubmissionRow(e) {

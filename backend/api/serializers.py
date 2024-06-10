@@ -58,6 +58,8 @@ class SpecifiedProblemSerializer(serializers.ModelSerializer):
 
     submission_count = serializers.IntegerField(read_only=True)
     evaluation_settings = EvaluationSettingSerializer(read_only=True)
+    metrics = MetricSerializer(many=True, read_only=True)
+    scoring_metric = MetricSerializer(read_only=True)
 
     class Meta:
         model = SpecifiedProblem
@@ -73,13 +75,3 @@ class ProblemCategorySerializer(serializers.ModelSerializer):
         model = ProblemCategory
         fields = ['id', 'name', 'style', 'type', 'description',
                   'simulator', 'validator', 'specified_problems']
-
-
-class ResultSerializer(serializers.ModelSerializer):
-    """Serializer for results"""
-
-    submission = SubmissionSerializer(read_only=True)
-
-    class Meta:
-        model = Result
-        fields = ["submission", "metric", "score"]

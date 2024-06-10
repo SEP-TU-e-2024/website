@@ -20,7 +20,7 @@ class Leaderboard():
         unranked_entries = set()
 
         for entry in self.entries:
-            if self.problem.scoring_metric not in entry.results.keys():
+            if self.problem.scoring_metric.name not in entry.results.keys():
                 unranked_entries.add(entry)
                 break
 
@@ -28,7 +28,7 @@ class Leaderboard():
             self.entries.remove(unranked_entry)
             self.unranked_entries.append(unranked_entry)
 
-        self.entries.sort(key=lambda entry: entry.results[self.problem.scoring_metric],
+        self.entries.sort(key=lambda entry: entry.results[self.problem.scoring_metric.name],
                             reverse=( self.problem.scoring_metric.order == Metric.Order.COST))
 
         # Add the rank to each entry.

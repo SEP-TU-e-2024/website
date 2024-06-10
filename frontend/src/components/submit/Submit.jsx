@@ -56,8 +56,8 @@ function Submit() {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('submission_name', e.target.submission_name.value);
-      formData.append('problem_id', window.location.pathname.split('/').pop());
+      formData.append('name', e.target.submission_name.value);
+      formData.append('problem', window.location.pathname.split('/').pop());
       e.target.email ? formData.append('email', e.target.email.value) : formData.append('email', "useremailhere@mail.com");
       formData.append('is_downloadable', isDownloadable);
       

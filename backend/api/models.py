@@ -97,9 +97,9 @@ class Metric(models.Model):
     """Table that stores the metrics known to the platform"""
 
     class Unit(models.TextChoices):
-        NONE = 'none', ''
+        NONE = '', 'None'
         SECONDS = 's', 'Seconds'
-        MINUTES = 'm', 'Minutes'
+        MINUTES = 'min', 'Minutes'
         HOURS = 'h', 'Hours'
 
     class Order(models.IntegerChoices):
@@ -108,7 +108,7 @@ class Metric(models.Model):
     
     name = models.CharField(primary_key=True, max_length=64, unique=True)
     label = models.CharField(max_length=128)
-    unit = models.CharField(max_length=4, choices=Unit.choices, default=Unit.NONE)
+    unit = models.CharField(max_length=4, choices=Unit.choices, default=Unit.NONE, blank=True)
     order = models.IntegerField(choices=Order.choices, default=Order.COST)
 
 
