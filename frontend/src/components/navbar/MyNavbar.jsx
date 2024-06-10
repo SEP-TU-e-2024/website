@@ -41,7 +41,7 @@ function MyNavbar() {
     return (
 
         <Navbar expand="md" container="md" className="mynavbar">
-            <NavbarBrand href="/">
+            <NavbarBrand onClick={() => {navigate(routeStrings.ROOT)}} href="">
                 <img alt="logo" src="/src/assets/LOGO.svg" style={{ width: 120 }} />
             </NavbarBrand>
             <NavbarToggler onClick={toggle} />

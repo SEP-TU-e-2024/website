@@ -38,7 +38,7 @@ describe("Unprotected layout", () => {
         window.location.assign('/');
     });
     
-    it("should contain registration button", () => {
+    it("should show a guest the registration button", () => {
         render(
             // Wrapped in BrowserRouter because it uses routing functions
             <BrowserRouter>
@@ -85,6 +85,18 @@ describe("Unprotected layout", () => {
             </BrowserRouter>
         );
         expect(window.location.pathname).not.toContain("/login");
+    });
+    
+    it("should show a guest the login button", () => {
+        render(
+            // Wrapped in BrowserRouter because it uses routing functions
+            <BrowserRouter>
+                {/* Mock the AuthContext that it uses to handle user data */}
+                <AuthContext.Provider value={mockGuestContextData}>
+                    <UnprotectedLayout/>
+                </AuthContext.Provider>
+            </BrowserRouter>
+        );
         const loginButton = screen.getByText("Login");
         expect(loginButton).toBeInTheDocument();
     });
@@ -119,5 +131,23 @@ describe("Unprotected layout", () => {
         await userEvent.click(logoutButton);
         // Check whether logout_user has been called
         expect(mockMemberContextData.logout_user).toHaveBeenCalledOnce();
+    });
+    
+    it("should redirect to home page when logo is clicked", async () => {
+        window.location.assign("/login");
+        render(
+            // Wrapped in BrowserRouter because it uses routing functions
+            <BrowserRouter>
+                {/* Mock the AuthContext that it uses to handle user data */}
+                <AuthContext.Provider value={mockMemberContextData}>
+                    <UnprotectedLayout/>
+                </AuthContext.Provider>
+            </BrowserRouter>
+        );
+        // Find logo in the navbar
+        const logo = screen.getByAltText("logo");
+        // Simulate click of the logo
+        await userEvent.click(logo);
+        expect(window.location.pathname).toBe("/");
     });
 })
