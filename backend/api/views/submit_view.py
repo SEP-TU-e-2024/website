@@ -15,6 +15,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
+from backend.evaluator import evaluate_submission
+
 from ..models import Submission
 from ..models import UserProfile as User
 from ..serializers import SubmissionSerializer
@@ -80,6 +82,9 @@ class SubmitViewSet(ViewSet):
         if logged_in:
             submission.is_verified = True
             submission.save()
+
+            evaluate_submission(submission)
+
             return HttpResponse({}, status=status.HTTP_200_OK)
 
         # User not logged in, hence sent verification email
@@ -179,6 +184,9 @@ class SubmitViewSet(ViewSet):
             # Puts submission to verified
             submission.is_verified = True
             submission.save()
+
+            evaluate_submission(submission)
+
             return HttpResponse({}, status=status.HTTP_200_OK)
         return HttpResponse(
             {"Submission error": "Submission not found"},
