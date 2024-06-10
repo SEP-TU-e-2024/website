@@ -97,12 +97,14 @@ class Metric(models.Model):
     """Table that stores the metrics known to the platform"""
 
     class Unit(models.TextChoices):
+        """Unit of the metric"""
         NONE = '', 'None'
         SECONDS = 's', 'Seconds'
         MINUTES = 'min', 'Minutes'
         HOURS = 'h', 'Hours'
 
     class Order(models.IntegerChoices):
+        """Enum type to describe ranking order function of the metric"""
         COST = 0, "Cost"
         REWARD = 1, "Reward"
     
@@ -116,10 +118,12 @@ class ProblemCategory(models.Model):
     """Category representing an optimization problem"""
 
     class Style(models.IntegerChoices):
+        """Enum type to describe the style of the problem category"""
         COMPETITION = 0, 'Competition'
         SCIENTIFIC = 1, 'Scientific'
 
     class Type(models.IntegerChoices):
+        """Enum type to describe the type of the problem category"""
         STATIC = 0, 'Static'
         DYANAMIC = 1, 'Dynamic'
 
