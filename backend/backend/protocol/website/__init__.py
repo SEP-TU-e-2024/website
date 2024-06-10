@@ -1,5 +1,5 @@
 """
-This module contains the parts of the protocol used by the judge.
+This module contains the parts of the protocol used by the website.
 """
 
 from .commands import Commands

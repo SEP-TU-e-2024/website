@@ -58,23 +58,23 @@ def establish_judge_connection(sock: socket.socket):
     protocol = WebsiteProtocol(connection)
 
     try:
-        # The first command is the first command that should be sent. It tests if the runner is connected correctly.
+        # The first command is the first command that should be sent. It tests if the judge is connected correctly.
         protocol.send_command(Commands.CHECK, block=True)
 
-        # TODO: Run until the runner or the judge closes the connection
+        # TODO: Run until the judge or the website closes the connection
         while True:
             pass
 
     except socket.timeout:
-        logger.error("Runner timed out.")
+        logger.error("Judge timed out.")
 
     except ValueError as e:
-        logger.error(f"Runner sent invalid init message. {e}")
+        logger.error(f"Judge sent invalid init message. {e}")
 
     except OSError as e:
         if e.errno == errno.ENOTCONN:
             disconnected = True
-            logger.error("Runner disconnected.")
+            logger.error("Judge disconnected.")
 
     except Exception as e:
         logger.error(f"Unexpected error occured: {e}")

@@ -1,5 +1,5 @@
 """
-This module includes classes and code related to the Judge <-> Runner protocol.
+This module includes classes and code related to the Website <-> Judge protocol.
 """
 
 from .connection import Connection

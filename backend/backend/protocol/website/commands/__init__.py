@@ -1,7 +1,7 @@
 """
-This module contains the judge commands.
+This module contains the website commands.
 """
 
-from .judge_commands import Commands
+from .website_commands import Commands
 
 __all__ = ["Commands"]

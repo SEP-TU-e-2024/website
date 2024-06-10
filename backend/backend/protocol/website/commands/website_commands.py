@@ -10,9 +10,10 @@ from .start_command import StartCommand
 
 class Commands(Enum):
     """
-    This class contains all the commands that the runner can execute.
+    This class contains all the commands that the website can execute.
     """
 
+    # TODO
     START = StartCommand()
     """
     Start a container on the runner.

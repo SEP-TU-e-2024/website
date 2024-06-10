@@ -1,5 +1,5 @@
 """
-This module contains the JudgeProtocol class.
+This module contains the WebsiteProtocol class.
 """
 
 import logging
@@ -9,12 +9,12 @@ from queue import Queue
 from .. import Connection, Protocol
 from .commands import Commands
 
-logger = logging.getLogger("protocol.judge")
+logger = logging.getLogger("protocol.website")
 
 
 class WebsiteProtocol(Protocol):
     """
-    The protocol class used by the judge server.
+    The protocol class used by the website server.
     """
 
     connection: Connection
@@ -32,7 +32,7 @@ class WebsiteProtocol(Protocol):
 
     def _receiver(self):
         """
-        Receives and handles responses from the runner.
+        Receives and handles responses from the judge.
         """
 
         while True:
@@ -41,14 +41,14 @@ class WebsiteProtocol(Protocol):
             with self.queue_dict_lock:
                 if message_id not in self.queue_dict:
                     logger.error(
-                        f"Received response from {self.connection.ip}:{self.connection.port} with unknown message id: {message_id}"
+                        f"Received response from judge with unknown message id: {message_id}"
                     )
                     continue
                 self.queue_dict[message_id].put(response)
 
     def send_command(self, command: Commands, block: bool = False, **kwargs):
         """
-        Sends a given command with the given arguments to the runner specifed in the connection.
+        Sends a given command with the given arguments to the judge.
         """
 
         if block:
@@ -61,7 +61,7 @@ class WebsiteProtocol(Protocol):
 
     def _send_command(self, command: Commands, **kwargs):
         """
-        Send command to the runner and wait for the response.
+        Send command to the judge and wait for the response.
         """
 
         try:
@@ -74,7 +74,7 @@ class WebsiteProtocol(Protocol):
 
             Protocol.send(self.connection, message)
             logger.info(
-                f"Sent command {command.name} with args {kwargs} to the runner located at {self.connection.ip}:{self.connection.port}."
+                f"Sent command {command.name} with args {kwargs} to the judge"
             )
             response = queue.get()
 
@@ -82,7 +82,7 @@ class WebsiteProtocol(Protocol):
 
         except Exception:
             logger.error(
-                f"Error occured while trying to execute a command for the runner located at {self.connection.ip}:{self.connection.port}.",
+                "Error occured while trying to execute a command for the judge",
                 exc_info=1,
             )
 
@@ -92,7 +92,7 @@ class WebsiteProtocol(Protocol):
 
     def _receive_response(self) -> tuple[str, dict]:
         """
-        Receives a response from the runner.
+        Receives a response from the judge.
         """
 
         message = Protocol.receive(self.connection)

@@ -10,6 +10,6 @@ class Command(ABC):
     @abstractmethod
     def response(response: dict):
         """
-        Handles the response from the runner.
+        Handles the response from the judge.
         """
         pass

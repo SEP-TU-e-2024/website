@@ -86,6 +86,6 @@ if __name__ == "__main__":
     try:
         protocol_handler.start()
     except KeyboardInterrupt:
-        logger.info("Shutting down the runner server...")
+        logger.info("Shutting down the judge connection...")
         protocol_handler.stop()
         exit(0)

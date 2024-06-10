@@ -1,5 +1,5 @@
 """
-This module containes the protocol used for communication between the judge server and the runner.
+This module containes the protocol used for communication between the website server and the judge.
 """
 
 import json
