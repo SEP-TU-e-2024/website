@@ -11,24 +11,19 @@ class Leaderboard:
     def __init__(self, problem: SpecifiedProblem):
         self.problem = problem
         submissions = Submission.objects.all().filter(problem=problem)
-        self.entries = [LeaderboardEntry(submission) for submission in submissions]
-        self.unranked_entries = []
+        entries = [LeaderboardEntry(submission) for submission in submissions]
+
+        def is_rankable_entry(entry):
+            return self.problem.scoring_metric.name in entry.results.keys()
+        
+        self.entries = list(filter(lambda entry: is_rankable_entry(entry), entries))
+        self.unranked_entries = list(filter(lambda entry: not is_rankable_entry(entry), entries))
+        
         self.rank_entries()
 
     def rank_entries(self):
-        # Rank the entries based on the scoring metric of the problem.
-        # In the future we could extend this to sort on multiple metrics and sometimes reversed depending what problem specifies.
-        unranked_entries = set()
-
-        for entry in self.entries:
-            if self.problem.scoring_metric.name not in entry.results.keys():
-                unranked_entries.add(entry)
-                break
-
-        for unranked_entry in unranked_entries:
-            self.entries.remove(unranked_entry)
-            self.unranked_entries.append(unranked_entry)
-
+        """Rank the entries based on the scoring metrics"""
+        
         self.entries.sort(key=lambda entry: entry.results[self.problem.scoring_metric.name],
                             reverse=( self.problem.scoring_metric.order == Metric.Order.REWARD))
 
