@@ -1,8 +1,3 @@
 """
-This module contains the parts of the protocol used by the judge.
+This module contains the parts of the protocol used by the website.
 """
-
-from .commands import Commands
-from .judge_protocol import JudgeProtocol
-
-__all__ = ["JudgeProtocol", "Commands"]

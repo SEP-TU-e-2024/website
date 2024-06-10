@@ -11,5 +11,5 @@ class StartCommand(Command):
     """
 
     @staticmethod
-    def response(response: dict):
-        pass
+    def execute(args: dict):
+        return {"status": "ok"}

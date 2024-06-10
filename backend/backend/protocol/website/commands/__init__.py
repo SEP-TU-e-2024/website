@@ -1,7 +1,7 @@
 """
-This module contains the commands for the runner.
+This module contains the judge commands.
 """
 
-from .runner_commands import Commands
+from .judge_commands import Commands
 
 __all__ = ["Commands"]

@@ -1,7 +1,3 @@
-"""
-This module contains the Command class.
-"""
-
 from abc import ABC, abstractmethod
 
 
@@ -12,8 +8,8 @@ class Command(ABC):
 
     @staticmethod
     @abstractmethod
-    def execute(args: dict) -> dict:
+    def response(response: dict):
         """
-        Executes the command. It is recommended to call this in a separate thread.
+        Handles the response from the runner.
         """
         pass

@@ -1,5 +1,5 @@
 """
-This module contains the judge commands.
+This module contains the commands for the runner.
 """
 
 from .judge_commands import Commands

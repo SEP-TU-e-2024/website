@@ -1,20 +1,19 @@
 """
-This module containes the RunnerProtocol class.
+This module containes the WebsiteProtocol class.
 """
 
 import logging
 
-from protocol import Connection, Protocol
+from . import Connection, Protocol
+from .judge.commands import Commands
+from .judge.commands.command import Command
 
-from .commands import Commands
-from .commands.command import Command
-
-logger = logging.getLogger("protocol.runner")
+logger = logging.getLogger("judge")
 
 
-class RunnerProtocol(Protocol):
+class JudgeProtocol(Protocol):
     """
-    The protocol class used by the runners.
+    The protocol class used by the website.
     """
 
     connection: Connection

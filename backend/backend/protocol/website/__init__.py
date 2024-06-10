@@ -1,7 +1,8 @@
 """
-This module contains the parts of the protocol used by the runner.
+This module contains the parts of the protocol used by the judge.
 """
 
-from .runner_protocol import RunnerProtocol
+from .commands import Commands
+from .website_protocol import WebsiteProtocol
 
-__all__ = ["RunnerProtocol"]
+__all__ = ["WebsiteProtocol", "Commands"]

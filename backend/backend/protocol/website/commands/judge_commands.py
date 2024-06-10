@@ -10,7 +10,7 @@ from .start_command import StartCommand
 
 class Commands(Enum):
     """
-    Enum that contains all the available commands for the runner.
+    This class contains all the commands that the runner can execute.
     """
 
     START = StartCommand()
@@ -20,5 +20,5 @@ class Commands(Enum):
 
     CHECK = CheckCommand()
     """
-    Checks the status of the runner.
+    Check the status of the runner.
     """

@@ -6,14 +6,13 @@ import logging
 import threading
 from queue import Queue
 
-from protocol import Connection, Protocol
-
+from .. import Connection, Protocol
 from .commands import Commands
 
 logger = logging.getLogger("protocol.judge")
 
 
-class JudgeProtocol(Protocol):
+class WebsiteProtocol(Protocol):
     """
     The protocol class used by the judge server.
     """

@@ -7,7 +7,7 @@ import logging
 
 from .connection import Connection
 
-logger = logging.getChild("protocol")
+logger = logging.getLogger("protocol")
 
 
 class Protocol:
