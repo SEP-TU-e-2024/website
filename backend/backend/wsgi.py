@@ -11,8 +11,11 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
+from backend.evaluator import initiate_protocol
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
 
-application = get_wsgi_application()
+# Start the protocol
+initiate_protocol()
 
-# TODO: start protocol
+application = get_wsgi_application()
