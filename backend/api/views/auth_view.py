@@ -5,7 +5,6 @@ from smtplib import SMTPException
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMessage
-from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
@@ -159,7 +158,7 @@ class AuthViewSet(ViewSet):
                 "Email error: Failed to send email",
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
-        return HttpResponse({}, status=status.HTTP_200_OK)
+        return Response({}, status=status.HTTP_200_OK)
 
     def send_activate_email(self, request, user):
         """Sends activation email
