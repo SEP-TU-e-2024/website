@@ -12,6 +12,8 @@ class Leaderboard:
         self.problem = problem
         submissions = Submission.objects.all().filter(problem_id=problem)
         self.entries = [LeaderboardEntry(submission) for submission in submissions]
+        # TODO: filter out not-evaluated entries
+        self.entries = [entry for entry in self.entries if 'scoring_metric' in entry.results]
         self.rank_entries()
 
     def rank_entries(self):
