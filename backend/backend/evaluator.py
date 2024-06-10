@@ -14,19 +14,23 @@ logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 
+# Specify the host and port for the judge server
 HOST = "localhost"
 PORT = 30000
 
 
 def evaluate_submission(submission: Submission):
+    """Evaluate the submission"""
     print(f"Submission made: {submission}, {SubmissionSerializer(submission).data}")
 
 def initiate_protocol():
+    """Initiate the connection protocol"""
     logger.info("Starting listening TCP socket")
 
     # Initiate the listening TCP socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) # allows immediate re-bind of port after release (nice for development)
+    # allows immediate re-bind of port after release (nice for development)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock.bind((HOST, PORT))
     sock.listen(1)
 
@@ -37,6 +41,7 @@ def initiate_protocol():
     logger.info(f"Judge server started on {HOST}:{PORT}.")
 
 def establish_judge_connection(sock: socket.socket):
+    """Establishes a judge connection for the specified socket"""
     # TODO: allow for re-connection after disconnect
 
     logger.info("Waiting for Judge connection")
