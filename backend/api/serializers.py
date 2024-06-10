@@ -5,7 +5,6 @@ from .models import (
     EvaluationSettings,
     Metric,
     ProblemCategory,
-    Result,
     SpecifiedProblem,
     StorageLocation,
     Submission,
@@ -64,7 +63,7 @@ class EvaluationSettingSerializer(serializers.ModelSerializer):
 
         
 class MetricSerializer(serializers.ModelSerializer):
-    """"""
+    """Serializer for metric"""
 
     class Meta:
         model = Metric
@@ -74,7 +73,10 @@ class MetricSerializer(serializers.ModelSerializer):
 class SpecifiedProblemSerializer(serializers.ModelSerializer):
     """Serializer for specified problems"""
 
+    # Add additional field for the submission count
     submission_count = serializers.IntegerField(read_only=True)
+
+    # Add additional serialization depth to the fields
     evaluation_settings = EvaluationSettingSerializer(read_only=True)
     metrics = MetricSerializer(many=True, read_only=True)
     scoring_metric = MetricSerializer(read_only=True)
