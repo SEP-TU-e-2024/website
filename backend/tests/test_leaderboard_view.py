@@ -1,7 +1,6 @@
 import json
 import random
 
-from api.data_processing.leaderboard_entry import LeaderboardEntry
 from api.models import (
     BenchmarkInstance,
     EvaluationSettings,

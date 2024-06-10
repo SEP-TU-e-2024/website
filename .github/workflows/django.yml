@@ -8,12 +8,27 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
       matrix:
         python-version: [3.12]
+
+    services:
+      mysql:
+        image: mysql:8
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: testdb
+          MYSQL_USER: testuser
+          MYSQL_PASSWORD: testpassword
+          MYSQL_ROOT_PASSWORD: rootpassword
+        options: >-
+          --health-cmd "mysqladmin ping --silent"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
     - uses: actions/checkout@v4
@@ -27,7 +42,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install coverage
         pip install -r requirements.txt
+    - name: Wait for MySQL
+      run: |
+        until mysqladmin ping -h localhost -u testuser --password=testpassword --silent; do
+          echo "Waiting for MySQL..."
+          sleep 1
+        done
     - name: Run Tests
+      env:
+        DATABASE_URL: mysql://testuser:testpassword@localhost:3306/testdb
       run: |
         cd backend
         coverage run --source='.' manage.py test myapp

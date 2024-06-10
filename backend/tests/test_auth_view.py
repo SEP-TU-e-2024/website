@@ -69,6 +69,7 @@ class TestAuthView(TestCase):
                 'password':'123'
             }
     
-        self.auth.signup(req)
+        resp = self.auth.signup(req)
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
 
 
