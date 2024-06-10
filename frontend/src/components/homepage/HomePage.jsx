@@ -92,7 +92,6 @@ function HomePage() {
         const fetchRows = async () => {
         try {
             const data = await getRows();
-            console.log(data);
             setRows(data);
         } catch(error) {
             // TODO, proper handling
