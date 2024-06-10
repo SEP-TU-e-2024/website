@@ -14,7 +14,7 @@ class MetricColumn extends LeaderboardColumn {
         super(metric.label, (entry) => {
 
         // Format the data of the scoring metric with score and unit
-        return `${entry.results[metric.key]} ${metric.unit}`
+        return `${entry.results[metric.name]}${metric.unit}`
         })
     }
 }

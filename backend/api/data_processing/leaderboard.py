@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ..models import SpecifiedProblem, Submission
+from ..models import Metric, SpecifiedProblem, Submission
 from ..serializers import SpecifiedProblemSerializer
 from .leaderboard_entry import LeaderboardEntry, LeaderboardEntrySerializer
 
@@ -10,16 +10,22 @@ class Leaderboard:
 
     def __init__(self, problem: SpecifiedProblem):
         self.problem = problem
-        submissions = Submission.objects.all().filter(problem_id=problem)
-        self.entries = [LeaderboardEntry(submission) for submission in submissions]
-        # TODO: filter out not-evaluated entries
-        self.entries = [entry for entry in self.entries if 'scoring_metric' in entry.results]
+        submissions = Submission.objects.all().filter(problem=problem)
+        entries = [LeaderboardEntry(submission) for submission in submissions]
+
+        def is_rankable_entry(entry):
+            return self.problem.scoring_metric.name in entry.results.keys()
+        
+        self.entries = list(filter(lambda entry: is_rankable_entry(entry), entries))
+        self.unranked_entries = list(filter(lambda entry: not is_rankable_entry(entry), entries))
+        
         self.rank_entries()
 
     def rank_entries(self):
-        # Rank the entries based on the scoring metric of the problem.
-        # In the future we could extend this to sort on multiple metrics and sometimes reversed depending what problem specifies.
-        self.entries.sort(key=lambda entry: entry.results["scoring_metric"])
+        """Rank the entries based on the scoring metrics"""
+        
+        self.entries.sort(key=lambda entry: entry.results[self.problem.scoring_metric.name],
+                            reverse=( self.problem.scoring_metric.order == Metric.Order.REWARD))
 
         # Add the rank to each entry.
         rank = 1

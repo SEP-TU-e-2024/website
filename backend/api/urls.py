@@ -12,7 +12,6 @@ from .views.leaderboard_view import LeaderboardView
 from .views.problem_occurence_view import ProblemOccurrenceView
 from .views.problem_view import Problems
 from .views.submit_view import SubmitViewSet
-from .views.views import RetrieveProblems, main
 
 # Routers are standard for viewsets
 api_router = DefaultRouter()
@@ -24,8 +23,6 @@ api_router.register(
 
 # Urlpatterns are default for normal views
 urlpatterns = [
-    path("", main),
-    path("problems", RetrieveProblems.as_view()),
     path("problems/occurrence_overview", Problems.as_view()),
     path(
         "problems/problem_occurrence/<str:problem_id>",
@@ -42,14 +39,14 @@ urlpatterns = [
         name="leaderboardEntry",
     ),
     path(
-        "loginEmail/<uidb64>/<token>",
+        "login/<uidb64>/<token>",
         AuthViewSet.login_through_email,
-        name="loginEmail",
+        name="login",
     ),
     path(
-        "confirmSubmission/<sidb64>/<token>",
+        "confirm_submission/<sidb64>/<token>",
         SubmitViewSet.confirm_submission,
-        name="confirmSubmission",
+        name="confirm_submission",
     ),
 ]
 

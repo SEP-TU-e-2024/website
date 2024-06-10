@@ -6,12 +6,11 @@ from azure.storage.blob import BlobServiceClient
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMessage
-from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework import status
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
@@ -82,8 +81,7 @@ class SubmitViewSet(ViewSet):
         # Verifies submission if logged in
         if logged_in:
             self.evaluate_submission(submission)
-
-            return HttpResponse({}, status=status.HTTP_200_OK)
+            return Response({}, status=status.HTTP_200_OK)
 
         # User not logged in, hence sent verification email
         if not self.send_submission_email(request, submission):
@@ -153,6 +151,7 @@ class SubmitViewSet(ViewSet):
         )
         return email.send()
 
+    @api_view(('GET',))
     def confirm_submission(self, sidb64, token):
         """Activates submission in backend
 
@@ -179,9 +178,9 @@ class SubmitViewSet(ViewSet):
         if submission is not None and submission_confirm_token.check_token(
             submission, token
         ):
+            # Puts submission to verified
             self.evaluate_submission(submission)
-
-            return HttpResponse({}, status=status.HTTP_200_OK)
+            return Response({"Succesfull": "Succesfull"}, status=status.HTTP_200_OK)
         return Response(
             {"Submission error": "Submission not found"},
             status=status.HTTP_400_BAD_REQUEST,
