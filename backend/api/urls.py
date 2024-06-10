@@ -39,14 +39,14 @@ urlpatterns = [
         name="leaderboardEntry",
     ),
     path(
-        "loginEmail/<uidb64>/<token>",
+        "login/<uidb64>/<token>",
         AuthViewSet.login_through_email,
-        name="loginEmail",
+        name="login",
     ),
     path(
-        "confirmSubmission/<sidb64>/<token>",
+        "confirm_submission/<sidb64>/<token>",
         SubmitViewSet.confirm_submission,
-        name="confirmSubmission",
+        name="confirm_submission",
     ),
 ]
 

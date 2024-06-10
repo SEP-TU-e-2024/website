@@ -9,6 +9,8 @@ from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from rest_framework.decorators import api_view, renderer_classes
+from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -150,6 +152,7 @@ class SubmitViewSet(ViewSet):
         )
         return email.send()
 
+    @api_view(('GET',))
     def confirm_submission(self, sidb64, token):
         """Activates submission in backend
 
@@ -179,7 +182,7 @@ class SubmitViewSet(ViewSet):
             # Puts submission to verified
             submission.is_verified = True
             submission.save()
-            return Response({}, status=status.HTTP_200_OK)
+            return Response({"Succesfull": "Succesfull"}, status=status.HTTP_200_OK)
         return Response(
             {"Submission error": "Submission not found"},
             status=status.HTTP_400_BAD_REQUEST,
