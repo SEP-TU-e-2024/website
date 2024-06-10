@@ -7,7 +7,7 @@ import Leaderboard from "../../leaderboards/Leaderboard";
  */
 function ProblemOccurrenceLeaderboard({problemData}) {
   return (
-    <Container className="ps-0 pt-2">
+    <Container fluid className="ps-0 pt-2">
         <Row className="">
           <Col>
             <Leaderboard problemData={problemData}/>

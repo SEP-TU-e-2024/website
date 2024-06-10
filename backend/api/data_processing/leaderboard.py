@@ -5,9 +5,10 @@ from ..serializers import SpecifiedProblemSerializer
 from .leaderboard_entry import LeaderboardEntry, LeaderboardEntrySerializer
 
 
-class Leaderboard():
+class Leaderboard:
     """Class to create a leaderboard for a specified problem"""
-    def __init__(self, problem:SpecifiedProblem):
+
+    def __init__(self, problem: SpecifiedProblem):
         self.problem = problem
         submissions = Submission.objects.all().filter(problem=problem)
         self.entries = [LeaderboardEntry(submission) for submission in submissions]

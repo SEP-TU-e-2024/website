@@ -11,7 +11,7 @@
 ## Azure Blob Storage
 
 AZURE_STORAGE_CONNECTION_STRING = 'connection_string'
-AZURE_STORAGE_CONTAINER_NAME = 'container_name'
+AZURE_STORAGE_CONTAINER_SUBMISSION = 'container_name'
 
 ## Backend 
 SECRET_KEY = "secret_key"

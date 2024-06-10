@@ -72,7 +72,7 @@ class StorageLocation(models.Model):
     """Storage path reference to locate file(s)"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    filepath = models.CharField(max_length=256)
+    filepath = models.CharField(max_length=256, null=True, blank=True)
 
 
 class Simulator(StorageLocation):
@@ -146,11 +146,10 @@ class SpecifiedProblem(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=256, default='unnamed')
     category = models.ForeignKey(
-        ProblemCategory, on_delete=models.CASCADE,
-        null=True, blank=True,
-        # Replaces auto reference name of <model>_set.
-        # (So can now be referenced by category.specified_problems)
-        # Reference also used by problem category serializer.
+        ProblemCategory,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
         related_name='specified_problems'
     )
     evaluation_settings = models.ForeignKey(
@@ -162,10 +161,9 @@ class SpecifiedProblem(models.Model):
     scoring_metric = models.ForeignKey(Metric, default="run_time", on_delete=models.PROTECT, related_name='specifiedproblem_ranking_set')
 
 
-class Submission(models.Model):
+class Submission(StorageLocation):
     """Database model for submissions"""
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
     problem = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE)
     name = models.CharField(max_length=256, unique=True, default='unnamed')

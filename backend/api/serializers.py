@@ -7,6 +7,7 @@ from .models import (
     ProblemCategory,
     Result,
     SpecifiedProblem,
+    StorageLocation,
     Submission,
 )
 from .models import UserProfile as User
@@ -28,13 +29,30 @@ class ProfileSerializer(ModelSerializer):
         fields = ["id", "email", "name"]
 
 
-class SubmissionSerializer(serializers.ModelSerializer):
+class StorageLocationSerializer(serializers.ModelSerializer):
+    """Serializer for storage locations"""
+
+    # Base fields for all children
+    class Meta:
+        model = StorageLocation
+        fields = ["filepath"]
+
+
+class SubmissionSerializer(StorageLocationSerializer):
     """ "Serializer for submissions"""
 
-    class Meta:
+    # Adds fields of storagelocation as direct fields of submissions
+    class Meta(StorageLocationSerializer.Meta):
         model = Submission
-        fields = ["id", "name", "user", "problem",
-                  "created_at", "is_verified", "is_downloadable"]
+        fields = StorageLocationSerializer.Meta.fields + [
+            "id",
+            "name",
+            "user",
+            "problem",
+            "created_at",
+            "is_verified",
+            "is_downloadable",
+        ]
 
 
 class EvaluationSettingSerializer(serializers.ModelSerializer):
@@ -63,15 +81,33 @@ class SpecifiedProblemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SpecifiedProblem
-        fields = ['id', 'name', 'category', 'evaluation_settings',
-                  'benchmark_instances', 'metrics', 'scoring_metric', 'submission_count']
+        fields = [
+            "id",
+            "name",
+            "category",
+            "benchmark_instances",
+            "evaluation_settings",
+            "metrics",
+            "scoring_metric",
+            "submission_count",
+        ]
 
 
 class ProblemCategorySerializer(serializers.ModelSerializer):
     """Serializer for problem categories"""
+
+    # Foreign key field
     specified_problems = SpecifiedProblemSerializer(many=True, read_only=True)
 
     class Meta:
         model = ProblemCategory
-        fields = ['id', 'name', 'style', 'type', 'description',
-                  'simulator', 'validator', 'specified_problems']
+        fields = [
+            "id",
+            "name",
+            "style",
+            "type",
+            "description",
+            "simulator",
+            "validator",
+            "specified_problems",
+        ]
