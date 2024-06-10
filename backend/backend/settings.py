@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     "api.apps.ApiConfig",
     "rest_framework",
     "corsheaders",
-	"django_extensions"
+    "django_extensions"
 ]
 
 # TODO: CHANGE THIS IN PRODUCTION
