@@ -80,12 +80,10 @@ def main():
     with open(SIMIAN_FILE, 'r') as f:
         duplications, total_lines, num_files = parse_output(f)
 
-    with open(DEPENDENCIES_FILE, 'r') as f:
-        matrix = process_file(f)
+    percentages_dependencies = compute_percentages_dependencies(DEPENDENCIES_FILE, num_files)
 
     percentages_understand, violatingFiles_understand = compute_percentages_understand(categories, config_understand)
     percentages_simian = compute_percentages_simian(duplications, total_lines)
-    percentages_dependencies = compute_percentages_dependencies(matrix, num_files)
 
     percentages = {**percentages_understand, **percentages_simian, **percentages_dependencies}
     ranks = compute_ranks(percentages, config_combined)
