@@ -30,7 +30,7 @@ class Leaderboard:
             self.unranked_entries.append(unranked_entry)
 
         self.entries.sort(key=lambda entry: entry.results[self.problem.scoring_metric.name],
-                            reverse=( self.problem.scoring_metric.order == Metric.Order.COST))
+                            reverse=( self.problem.scoring_metric.order == Metric.Order.REWARD))
 
         # Add the rank to each entry.
         rank = 1
