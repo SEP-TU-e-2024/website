@@ -14,6 +14,8 @@ from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
+from backend.evaluator import evaluate_submission
+
 from ..models import Submission
 from ..models import UserProfile as User
 from ..serializers import SubmissionSerializer
@@ -78,8 +80,7 @@ class SubmitViewSet(ViewSet):
     def verify_submission(self, request, logged_in, submission):
         # Verifies submission if logged in
         if logged_in:
-            submission.is_verified = True
-            submission.save()
+            self.evaluate_submission(submission)
             return Response({}, status=status.HTTP_200_OK)
 
         # User not logged in, hence sent verification email
@@ -178,8 +179,7 @@ class SubmitViewSet(ViewSet):
             submission, token
         ):
             # Puts submission to verified
-            submission.is_verified = True
-            submission.save()
+            self.evaluate_submission(submission)
             return Response({"Succesfull": "Succesfull"}, status=status.HTTP_200_OK)
         return Response(
             {"Submission error": "Submission not found"},
@@ -217,3 +217,8 @@ class SubmitViewSet(ViewSet):
         except Exception:
             self.logger.warning("File failed to upload", exc_info=1)
             return False
+
+    def evaluate_submission(self, submission: Submission):
+        submission.is_verified = True
+        submission.save()
+        evaluate_submission(submission)
