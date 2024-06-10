@@ -20,15 +20,6 @@ PORT = 30000
 
 def evaluate_submission(submission: Submission):
     print(f"Submission made: {submission}, {SubmissionSerializer(submission).data}")
-    # {
-    #     "id":"ef071ba8-34a7-4019-94d3-9015d7179db6",
-    #     "problem_id":UUID("22220377-394c-4f3d-9910-68cf8ebf6943"),
-    #     "submission_name":"abcdefgh",
-    #     "created_at":"2024-06-10T07:58:19.203057Z",
-    #     "is_verified":true,
-    #     "is_downloadable":false
-    # }
-
 
 def initiate_protocol():
     logger.info("Starting listening TCP socket")
