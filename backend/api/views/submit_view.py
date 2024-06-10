@@ -35,7 +35,7 @@ class SubmitViewSet(ViewSet):
         request_file = request.FILES["file"]
         # Check if file exists
         if not request_file:
-            return HttpResponse(
+            return Response(
                 {"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -45,7 +45,7 @@ class SubmitViewSet(ViewSet):
             and self.check_file_size(request_file)
             and self.check_file_type(request_file)
         ):
-            return HttpResponse(
+            return Response(
                 {"error": "Invalid file provided"}, status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -62,12 +62,13 @@ class SubmitViewSet(ViewSet):
 
         submission = serializer.save()
         submission.user = user
+        submission.filepath = str(submission.id) + "." + request_file.name.split(".")[-1]
         submission.save()
 
         # Stores file in blob storage
         if not self.save_to_blob_storage(request_file, submission.id):
             submission.delete()
-            return HttpResponse(
+            return Response(
                 {"error": "An error occurred during file upload"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
@@ -90,11 +91,11 @@ class SubmitViewSet(ViewSet):
         # User not logged in, hence sent verification email
         if not self.send_submission_email(request, submission):
             submission.delete()
-            return HttpResponse(
+            return Response(
                 {"error": "An error occurred during sending of verification email"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
-        return HttpResponse({}, status=status.HTTP_200_OK)
+        return Response({}, status=status.HTTP_200_OK)
 
     def check_file_type(self, file):
         """
@@ -173,7 +174,7 @@ class SubmitViewSet(ViewSet):
             submission = Submission.objects.get(id=sid)
         except ObjectDoesNotExist:
             self.logger.warning("Could not locate user")
-            return HttpResponse(
+            return Response(
                 {"User error": "User not found."}, status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -188,7 +189,7 @@ class SubmitViewSet(ViewSet):
             evaluate_submission(submission)
 
             return HttpResponse({}, status=status.HTTP_200_OK)
-        return HttpResponse(
+        return Response(
             {"Submission error": "Submission not found"},
             status=status.HTTP_400_BAD_REQUEST,
         )
@@ -209,7 +210,7 @@ class SubmitViewSet(ViewSet):
             blob_service_client = BlobServiceClient.from_connection_string(
                 str(connection_string)
             )
-            container_name = os.getenv("AZURE_STORAGE_CONTAINER_NAME")
+            container_name = os.getenv("AZURE_STORAGE_CONTAINER_SUBMISSION")
 
             file_extension = file.name.split(".")[-1].lower()
             blob_client = blob_service_client.get_blob_client(
