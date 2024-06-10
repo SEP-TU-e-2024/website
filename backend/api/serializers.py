@@ -5,7 +5,6 @@ from .models import (
     EvaluationSettings,
     Metric,
     ProblemCategory,
-    Result,
     SpecifiedProblem,
     StorageLocation,
     Submission,
