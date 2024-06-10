@@ -95,7 +95,7 @@ class AuthViewSet(ViewSet):
             user = User.objects.get(pk=uid)
         except ObjectDoesNotExist:
             return HttpResponse(
-                {"User error": "User not found."}, status=status.HTTP_404_NOT_FOUND
+                "User error: Invalid UUID", status=status.HTTP_404_NOT_FOUND
             )
 
         # Checks token and sets user to active
@@ -108,7 +108,7 @@ class AuthViewSet(ViewSet):
             redirect_url = f"{os.getenv('FRONTEND_URL')}tokens/?refresh_token={response_data['refresh_token']}&access_token={response_data['access_token']}"
             return redirect(redirect_url)
         return HttpResponse(
-            {"User error": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST
+            "User error: Invalid Token", status=status.HTTP_400_BAD_REQUEST
         )
 
     @action(detail=False, methods=["POST"])
@@ -130,7 +130,7 @@ class AuthViewSet(ViewSet):
             user = User.objects.get(email=request.data["email"])
         except ObjectDoesNotExist:
             return HttpResponse(
-                {"User error": "User not found."}, status=status.HTTP_404_NOT_FOUND
+                "User error: User not found", status=status.HTTP_404_NOT_FOUND
             )
 
         try:
@@ -156,7 +156,7 @@ class AuthViewSet(ViewSet):
         except SMTPException:
             self.logger.warning("Failed to send email", exc_info=1)
             return HttpResponse(
-                {"Email erorr": "Failed to send email"},
+                "Email error: Failed to send email",
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
         return HttpResponse({}, status=status.HTTP_200_OK)
@@ -220,7 +220,7 @@ class AuthViewSet(ViewSet):
             user = User.objects.get(pk=uid)
         except ObjectDoesNotExist:
             return HttpResponse(
-                {"User error": "User not found."}, status=status.HTTP_400_BAD_REQUEST
+                "User error: User not found", status=status.HTTP_400_BAD_REQUEST
             )
 
         # Checks token and sets user to active
@@ -230,5 +230,5 @@ class AuthViewSet(ViewSet):
             # Redirects to login
             return redirect(f'{os.getenv("FRONTEND_URL")}login')
         return HttpResponse(
-            {"User error": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST
+            "User error: Invalid Token", status=status.HTTP_400_BAD_REQUEST
         )
