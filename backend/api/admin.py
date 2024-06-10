@@ -8,7 +8,6 @@ from .models import (
     Result,
     Simulator,
     SpecifiedProblem,
-    StorageLocation,
     Submission,
     UserProfile,
     Validator,
