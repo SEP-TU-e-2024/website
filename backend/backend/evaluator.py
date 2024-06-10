@@ -29,37 +29,28 @@ def evaluate_submission(submission: Submission):
     #     "is_downloadable":false
     # }
 
-def initiate_protocol():
-    print("protocol starting")
-    logger.info("abcdef")
 
+def initiate_protocol():
+    logger.info("Starting listening TCP socket")
+
+    # Initiate the listening TCP socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) # allows immediate re-bind of port after release (nice for development)
     sock.bind((HOST, PORT))
     sock.listen(1000)
 
-    try:
-        logger.info(f"Judge server started on {HOST}:{PORT}.")
+    # Wait for an incoming connection from the judge on another thread
+    thread = threading.Thread(target=establish_judge_connection, args=(sock,), daemon=True)
+    thread.start()
 
-        while True:
-            client_socket, addr = sock.accept()
+    logger.info(f"Judge server started on {HOST}:{PORT}.")
 
-            logger.info(f"Incoming connection from {addr[0]} on port {addr[1]}.")
-            thread = threading.Thread(
-                target=_handle_connections, args=(client_socket, addr), daemon=True
-            )
-            thread.start()
-    except KeyboardInterrupt:
-        logger.info("Shutting down the judge server...")
-        sock.shutdown(socket.SHUT_RDWR)
-        sock.close()
-        exit(0)
+def establish_judge_connection(sock: socket.socket):
+    # TODO: allow for re-connection after disconnect
 
-
-def _handle_connections(client_socket: socket.socket, addr: tuple[str, int]):
-    """
-    Sends commands to the runners.
-    """
+    logger.info("Waiting for Judge connection")
+    client_socket, addr = sock.accept()
+    logger.info(f"Accepted Judge connection from {addr}")
 
     ip, port = addr
     connection = Connection(ip, port, client_socket, threading.Lock())
@@ -75,15 +66,15 @@ def _handle_connections(client_socket: socket.socket, addr: tuple[str, int]):
             pass
 
     except socket.timeout:
-        logger.error(f"Runner with IP {ip} on port {port} timed out.")
+        logger.error("Runner timed out.")
 
     except ValueError as e:
-        logger.error(f"Runner with IP {ip} on port {port} sent invalid init message. {e}")
+        logger.error(f"Runner sent invalid init message. {e}")
 
     except OSError as e:
         if e.errno == errno.ENOTCONN:
             disconnected = True
-            logger.error(f"Runner with IP {ip} on port {port} disconnected.")
+            logger.error("Runner disconnected.")
 
     except Exception as e:
         logger.error(f"Unexpected error occured: {e}")
