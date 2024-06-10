@@ -37,7 +37,7 @@ def initiate_protocol():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) # allows immediate re-bind of port after release (nice for development)
     sock.bind((HOST, PORT))
-    sock.listen(1000)
+    sock.listen(1)
 
     # Wait for an incoming connection from the judge on another thread
     thread = threading.Thread(target=establish_judge_connection, args=(sock,), daemon=True)
