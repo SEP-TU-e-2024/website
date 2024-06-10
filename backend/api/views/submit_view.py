@@ -6,7 +6,6 @@ from azure.storage.blob import BlobServiceClient
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMessage
-from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
@@ -81,7 +80,7 @@ class SubmitViewSet(ViewSet):
         if logged_in:
             submission.is_verified = True
             submission.save()
-            return HttpResponse({}, status=status.HTTP_200_OK)
+            return Response({}, status=status.HTTP_200_OK)
 
         # User not logged in, hence sent verification email
         if not self.send_submission_email(request, submission):
@@ -180,7 +179,7 @@ class SubmitViewSet(ViewSet):
             # Puts submission to verified
             submission.is_verified = True
             submission.save()
-            return HttpResponse({}, status=status.HTTP_200_OK)
+            return Response({}, status=status.HTTP_200_OK)
         return Response(
             {"Submission error": "Submission not found"},
             status=status.HTTP_400_BAD_REQUEST,

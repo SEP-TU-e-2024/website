@@ -12,9 +12,8 @@ import './ProblemOccurrrenceOverviewBody.scss';
  * Page component for a problem occurence overview.
  */
 function ProblemOccurrenceOverviewPage() {
-  
   const problemData = useLoaderData();//it returns an array because we use the same endpoint as for the list of problem occurrences
-  console.log(problemData)
+  
   if (problemData == null) {
     //somewhat janky error handling but there isn't really any other exception that is thrown somewhere
     throw new Error("Problem with fetching the requested data from db");
@@ -107,7 +106,6 @@ function ProblemOccurrenceOverviewPage() {
 export async function getPOInfo(problemOccurrenceID) {
   try {
     const response = await api.get(`problems/problem_occurrence/${problemOccurrenceID}`);
-    console.log(problemOccurrenceID)
     return response.data; 
   } catch(err) {
     console.error(err);
