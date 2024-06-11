@@ -1,27 +1,53 @@
 import errno
 import logging
+import os
 import socket
 import threading
+import uuid
+from queue import Queue
 
 from api.models import Submission
-from api.serializers import SubmissionSerializer
+from azure.storage.blob import BlobServiceClient
 
 from .protocol import Connection
 from .protocol.website import Commands, WebsiteProtocol
 
 logger = logging.getLogger("evaluator")
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
 
 # Specify the host and port for the judge server
 HOST = "localhost"
 PORT = 30000
 
+evaluation_queue: Queue = Queue()
 
-def evaluate_submission(submission: Submission):
-    """Evaluate the submission"""
-    print(f"Submission made: {submission}, {SubmissionSerializer(submission).data}")
+def queue_evaluate_submission(submission: Submission):
+    evaluation_queue.put(submission)
+
+def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
+    """
+    Evaluate the submission, waits for the result.
+    """
+    print(f"Sending submission for evaluation: {submission.id}")
+
+    connection_string = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
+    blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+    container_name = os.getenv("AZURE_STORAGE_CONTAINER_SUBMISSION")
+
+    blob_client = blob_service_client.get_blob_client(
+        container=container_name, blob=submission.filepath
+    )
+
+    if not blob_client.exists():
+        raise ValueError("File does not exist")
+
+    protocol.send_command(Commands.START,
+                          cpus=1,
+                          memory=10,
+                          gpus=0,
+                          machine_type="Standard_B1s",
+                          submission_type="code",
+                          source_url=blob_client.url)
+
 
 def initiate_protocol():
     """Initiate the connection protocol"""
@@ -54,12 +80,19 @@ def establish_judge_connection(sock: socket.socket):
     protocol = WebsiteProtocol(connection)
 
     try:
-        # The first command is the first command that should be sent. It tests if the judge is connected correctly.
-        protocol.send_command(Commands.CHECK, block=True)
+        # TODO TP: testing purposes, remove
+        submission_id = uuid.UUID("6d28f80e-d531-4c51-90f8-b0a76b768f20")
+        submission = Submission.objects.get(id=submission_id)
 
-        # TODO: Run until the judge or the website closes the connection
+        queue_evaluate_submission(submission)
+
+        # Wait for submissions in the queue to be evaluated
         while True:
-            pass
+            submission = evaluation_queue.get()
+            try:
+                evaluate_submission(protocol, submission)
+            except Exception:
+                logger.error(f"Error evaluating submission with ID {submission.id}", exc_info=1)
 
     except socket.timeout:
         logger.error("Judge timed out.")

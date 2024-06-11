@@ -14,7 +14,7 @@ from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
-from backend.evaluator import evaluate_submission
+from backend.evaluator import queue_evaluate_submission
 
 from ..models import Submission
 from ..models import UserProfile as User
@@ -221,4 +221,4 @@ class SubmitViewSet(ViewSet):
     def evaluate_submission(self, submission: Submission):
         submission.is_verified = True
         submission.save()
-        evaluate_submission(submission)
+        queue_evaluate_submission(submission)
