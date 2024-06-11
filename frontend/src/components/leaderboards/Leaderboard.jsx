@@ -189,7 +189,7 @@ function Leaderboard({problemData, rowLimit, showPagination}) {
 // Create download specific solution click handler
 function getDownloadSingleSolutionOnClickHandler(submission, instance_entry) {
   return function onClickHandler(event) {
-    e.stopPropagation();
+    event.stopPropagation();
     alert("download single solution");
   }
 }
@@ -197,7 +197,7 @@ function getDownloadSingleSolutionOnClickHandler(submission, instance_entry) {
 // Create visualize problem instance click handler
 function getHandleVisualizePiOnClickHandler(submission, instance_entry) {
   return function onClickHandler(event) {
-    e.stopPropagation();
+    event.stopPropagation();
     alert("visualize");
   }
 }
