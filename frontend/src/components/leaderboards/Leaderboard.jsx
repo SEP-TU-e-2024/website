@@ -92,11 +92,11 @@ function createColumns(problem) {
   columns.push(new LeaderboardColumn("Download Solver", 
     (entry) => { 
       return (
-        <i 
+        <div className="download-cell"><i 
           role="button" 
           onClick={entry.submission.is_downloadable ? () => handleDownloadSolverClick(entry.submission.filepath) : null} 
           className={entry.submission.is_downloadable ? "bi-download" : "bi-download disabled"} 
-        />
+        /></div>
       )
     },
     <div className="download-cell">Download Solver</div>
