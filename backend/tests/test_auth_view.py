@@ -44,7 +44,7 @@ class TestAuthView(TestCase):
         #Extract token and uid from the mail that was sent by the signup method
         link_index = mail.outbox[0].body.find('http://testserver/api/activate/')
         uid, token = mail.outbox[0].body[link_index:].strip().split('/')[-2:]
-  
+        print(token)
         #Decode the uid
         uid_decoded = force_str(urlsafe_base64_decode(uid))
         #Get the user object from storage

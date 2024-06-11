@@ -4,7 +4,6 @@ from django.core import mail
 from django.test import RequestFactory
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
-from rest_framework import status
 from rest_framework.test import APITestCase
 
 
@@ -36,7 +35,7 @@ class ConfirmSubmissionTest(APITestCase):
         )
 
         #Instantiate SubmitView for testing
-        self.view = SubmitViewSet() 
+        self.view = SubmitViewSet()
         #Request Factory to make mock request
         rf = RequestFactory()
 
@@ -61,6 +60,7 @@ class ConfirmSubmissionTest(APITestCase):
             submission_sid,
             'Submission verification email verifies wrong submission!'
         )
+        print(token)
         #TODO: Make this work
         # resp = self.client.get(f'/api/confirm_submission/{submission_sid}/{token}')
         # self.assertEqual(
