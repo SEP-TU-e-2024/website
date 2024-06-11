@@ -16,7 +16,9 @@ class LeaderboardInstanceEntry:
         
         # Get the results for the specified submission
         for result in Result.objects.filter(submission=submission, benchmark_instance=benchmark_instance):
-            
+            if (submission.is_verified and result.metric.name in self.results):
+                print(f"metric {result.metric.name} is duplicate in results of " +
+                      f"submission {submission.name} for instance {benchmark_instance.id}")
             # Add the result to the instance dictionary
             self.results[result.metric.name] = float(result.score)
 

@@ -16,15 +16,18 @@ class LeaderboardEntry:
         # Create list of leaderboard instance entries.
         self.instance_entries = [LeaderboardInstanceEntry(submission, benchmark_instance)
                                  for benchmark_instance in problem.benchmark_instances.all()]
-
-        # Get the results for the submission
-        submission_results = Result.objects.filter(submission=submission)
-
+        
         # Compute the aggerate results for the submission and each metric of the problem.
         self.results = dict()
         for metric in problem.metrics.all():
-            scores = [scores['score'] for scores in submission_results.filter(metric=metric).values('score')]
-            self.results[metric.name] = sum(scores) / len(scores)
+            scores = [instance.results[metric.name] for instance in self.instance_entries
+                      if metric.name in instance.results]
+            
+            if len(scores) == len(self.instance_entries):
+                self.results[metric.name] = sum(scores) / len(scores)
+            elif (submission.is_verified):
+                print(f"metric {metric.name} is missing results of " +
+                      f"submission {submission.name} for {len(self.instance_entries) - len(scores)} instance(s)")
 
         # Add a rank, which is not known
         self.rank = 0
