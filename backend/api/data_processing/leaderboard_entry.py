@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ..models import Result, SpecifiedProblem, Submission
+from ..models import SpecifiedProblem, Submission
 from ..serializers import ProfileSerializer, SubmissionSerializer
 from .leaderboard_instance_entry import LeaderboardInstanceEntry, LeaderboardInstanceEntrySerializer
 
