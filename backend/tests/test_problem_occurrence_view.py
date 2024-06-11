@@ -1,6 +1,6 @@
 import json
 
-from api.models import EvaluationSettings, ProblemCategory, SpecifiedProblem
+from api.models import EvaluationSettings, Metric, ProblemCategory, SpecifiedProblem
 from rest_framework.test import APITestCase
 
 
@@ -9,17 +9,19 @@ class ProblemOccurenceViewTest(APITestCase):
         #Set up a test category
         self.cat = ProblemCategory.objects.create(
             name='TestCategory',
-            style='TestStyle',
-            type='TestType',
+            style=1,
+            type=1,
             description='TestDescription'
         )
         #Set up a test evaluation settings
         self.eval = EvaluationSettings.objects.create(cpu=1,time_limit=1)
+        #Set up metric
+        self.metric = Metric.objects.create()
         #Set up a test specified problem
         self.problem = SpecifiedProblem.objects.create(
             name='TestProblem',
             evaluation_settings=self.eval,
-            metrics='Test1, Test2',
+            metrics=self.metric,
             category=self.cat
         )
 

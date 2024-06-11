@@ -10,7 +10,7 @@ class ProblemOccurenceViewTest(APITestCase):
         #Set up a test category
         cat = ProblemCategory.objects.create(
             name='TestCategory',
-            style='TestStyle',
+            style=1,
             type='TestType',
             description='TestDescription'
         )
@@ -33,7 +33,7 @@ class ProblemOccurenceViewTest(APITestCase):
         #unpack the json object, get the first category
         category = json.loads(resp.content.decode())[0]
         self.assertEqual(category['name'], 'TestCategory')
-        self.assertEqual(category["style"], 'TestStyle')
+        self.assertEqual(category["style"], 1)
         self.assertEqual(category['type'], 'TestType')
         self.assertEqual(category['description'], 'TestDescription')
 
