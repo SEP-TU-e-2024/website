@@ -12,4 +12,4 @@ class StartCommand(Command):
 
     @staticmethod
     def response(response: dict):
-        pass
+        print(f"Got START response: {response}")
