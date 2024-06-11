@@ -98,12 +98,17 @@ function createColumns(problem) {
           className={entry.submission.is_downloadable ? "bi-download" : "bi-download disabled"} 
         />
       )
-    }
+    },
+    <div className="download-cell">Download Solver</div>
   ));
   columns.push(new LeaderboardColumn("Download Solutions", 
-    (entry) => { return <i role="button" onClick={handleDownloadSolutionsClick} className="bi-download" />}));
+    (entry) => { return <div className="download-cell"><i role="button" onClick={handleDownloadSolutionsClick} className="bi-download" /></div> },
+    <div className="download-cell">Download Solutions</div>
+  ));
   columns.push(new LeaderboardColumn("Download Scores", 
-    (entry) => { return <i role="button" onClick={handleDownloadScoresClick} className="bi-download" />}));
+    (entry) => { return <div className="download-cell"><i role="button" onClick={handleDownloadScoresClick} className="bi-download" /></div> },
+    <div className="download-cell">Download Scores</div>
+  ));
 
   problem.metrics.forEach((metric) => {
     if (metric.name != problem.scoring_metric.name) {
@@ -144,6 +149,8 @@ function Leaderboard({problemData, rowLimit, showPagination}) {
     fetchRows();
   }, []);
 
+  console.log(entries);
+
   const columns = createColumns(problemData);
   if (columns.length === 0) {
     console.error("Error: createColumns didn't find any columns to create");
@@ -172,7 +179,7 @@ function Leaderboard({problemData, rowLimit, showPagination}) {
 
           // Add existing leaderboard entries
           entries.map(entry => (
-            <LeaderboardRow columns={columns} entry={entry} key={entry.rank} parentPrefix={uuidPrefix}/>
+            <LeaderboardRow columns={columns} entry={entry} problem={problemData} key={entry.rank} parentPrefix={uuidPrefix}/>
           ))
         }
         </tbody>  
@@ -181,13 +188,60 @@ function Leaderboard({problemData, rowLimit, showPagination}) {
   );
 }
 
+// Create download specific solution click handler
+function getDownloadSingleSolutionOnClickHandler(submission, instance_entry) {
+  return function onClickHandler(event) {
+    e.stopPropagation();
+    alert("download single solution");
+  }
+}
+
+// Create visualize problem instance click handler
+function getHandleVisualizePiOnClickHandler(submission, instance_entry) {
+  return function onClickHandler(event) {
+    e.stopPropagation();
+    alert("visualize");
+  }
+}
+
+/**
+ * Create the instance columns for a leaderboard entry
+ * 
+ * @param {JSON} problem to create instance columns for
+ * @param {JSON} submission to create instance columns for
+ * @returns {List} instance columns that were created for the specified problem
+ */
+function createInstanceColumns(problem, submission) {
+  let columns = [];
+
+  columns.push(new MetricColumn(problem.scoring_metric));
+  
+  problem.metrics.forEach((metric) => {
+    if (metric.name != problem.scoring_metric.name) {
+      columns.push(new MetricColumn(metric));
+    }
+  });
+
+  columns.push(new LeaderboardColumn("Download solution", 
+    (entry) => { return <div className="download-cell"><i onClick={getDownloadSingleSolutionOnClickHandler(submission, entry)} role="button" className="bi-download"/></div> }, 
+    <div className="download-cell">Download<br/>Solution</div>
+  ));
+  columns.push(new LeaderboardColumn("Visualize", 
+    (entry) => { return <div className="download-cell"><i onClick={getHandleVisualizePiOnClickHandler(submission, entry)} role="button" className="bi-eye"/></div> },
+    <div className="download-cell">Visualize</div>
+  ));
+  
+  return columns;
+}
+
 /**
  * 
  * @param {Array} columns the columns of the leaderboard
  * @param {JSON} entry a single entry in the leaderboard
+ * @param {JSON} problem of the leaderboard
  * @returns 
  */
-function LeaderboardRow({columns, entry, parentPrefix}) {
+function LeaderboardRow({columns, entry, problem, parentPrefix}) {
   // Prefix strings for the id's of submission entries and collapsables
   const SUBMISSION_ID_PREFIX = "submission-";
   const PROBLEM_INSTANCES_ID_PREFIX = "problem-instances-" + parentPrefix + "-";
@@ -201,16 +255,12 @@ function LeaderboardRow({columns, entry, parentPrefix}) {
     foldContainer.classList.toggle("fold-closed");
   }
 
-  // Download specific solution handler
-  function handleDownloadSingleSolutionClick(e) {
-    e.stopPropagation();
-    alert("download single solution");
-  }
-  
-  // Visualize problem instance handler
-  function handleVisualizePiClick(e) {
-    e.stopPropagation();
-    alert("visualize");
+  const instance_columns = createInstanceColumns(problem, entry.submission);
+  if (instance_columns.length === 0) {
+    console.error("Error: createInstanceColumns didn't find any columns to create");
+    return (
+      <p className="text-danger">Error: no column names found</p>
+    );
   }
   
   return (
@@ -227,37 +277,29 @@ function LeaderboardRow({columns, entry, parentPrefix}) {
           <div className="fold-content">
             <table className="pi-table">
               <thead>
-                <tr>
-                  {/* TODO: do this stuff once we know how the problem instances are done etc */}
-                  <th>Instance Name</th>
-                  <th>Walking Time</th>
-                  <th>N</th>
-                  <th>K</th>
-                  <th>Q</th>
-                  <th className="download-cell">Download<br/>Solution</th>
-                  <th className="download-cell">Visualize</th>
-                </tr>
+                <tr>{
+                  // Add column name for each column 
+                  instance_columns.map(column => (
+                    <th key={column.name}>{column.getHeader()}</th>
+                  ))
+                }</tr>
               </thead>
-              <tbody>
-                <tr className="view">
-                  <td>A-n32-k5</td>
-                  <td className="seconds">15</td>
-                  <td>4</td>
-                  <td>121</td>
-                  <td>430</td>
-                  <td className="download-cell"><i onClick={handleDownloadSingleSolutionClick} role="button" className="bi-download"/></td>
-                  <td className="download-cell"><i onClick={handleVisualizePiClick} role="button" className="bi-eye"/></td>
-                </tr>
-                <tr className="view">
-                  <td>A-n64-k3</td>
-                  <td className="seconds">5</td>
-                  <td>4</td>
-                  <td>121</td>
-                  <td>43</td>
-                  <td className="download-cell"><i onClick={handleDownloadSingleSolutionClick} role="button" className="bi-download"/></td>
-                  <td className="download-cell"><i onClick={handleVisualizePiClick} role="button" className="bi-eye"/></td>
-                </tr>
-              </tbody>
+              <tbody>{
+                // Display message if no leaderboard entries exist
+                entry.instance_entries.length === 0 ?
+                <tr><td colSpan={instance_columns.length} align='center' className="text-danger">
+                  No instances available.
+                </td></tr>
+                :
+                entry.instance_entries.map(instance_entry => (
+                  <tr key={instance_entry.id} className="view">{
+                    // Add column data for each instance column
+                    instance_columns.map(column => (
+                      <th key={column.name}>{column.getData(instance_entry)}</th>
+                    ))
+                  }</tr>
+                ))
+              }</tbody>  
             </table>
           </div>
         </td>
@@ -265,7 +307,4 @@ function LeaderboardRow({columns, entry, parentPrefix}) {
     </>
   )
 };
-
-
-
 export default Leaderboard;

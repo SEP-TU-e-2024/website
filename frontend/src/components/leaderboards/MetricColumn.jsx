@@ -1,9 +1,6 @@
 import LeaderboardColumn from './LeaderboardColumn'
 
 class MetricColumn extends LeaderboardColumn {
-    // TODO remove when metric model has been added:
-    // Assuming metric JSON has format {key:'scoring_metric', label:'Scoring metric', unit:'s'}
-
     /**
      * Construct column for a metric.
      * 

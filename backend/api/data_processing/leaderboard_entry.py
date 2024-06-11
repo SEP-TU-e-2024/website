@@ -1,42 +1,30 @@
 from rest_framework import serializers
 
-from ..models import Result, Submission
+from ..models import Result, SpecifiedProblem, Submission
 from ..serializers import ProfileSerializer, SubmissionSerializer
+from .leaderboard_instance_entry import LeaderboardInstanceEntry, LeaderboardInstanceEntrySerializer
 
 
 class LeaderboardEntry:
     """Class to create a leaderboard entry for a submission"""
 
-    def __init__(self, submission: Submission):
+    def __init__(self, problem: SpecifiedProblem, submission: Submission):
         # Save the submission and submission user
         self.submission = submission
         self.submitter = submission.user
 
-        # Create instance and result dictionary to store the results for all instances
-        self.instances = dict()
-        results = dict()
-        
-        # Get the results for the specified submission
-        for result in Result.objects.all().filter(submission=submission):
-            # Create a dictionary in the instances for the benchmark instance key
-            instance_key = result.benchmark_instance.id
-            if (instance_key not in self.instances):
-                self.instances[instance_key] = dict()
-            
-            # Add the result to the instance dictionary
-            self.instances[instance_key][result.metric.name] = float(result.score)
+        # Create list of leaderboard instance entries.
+        self.instance_entries = [LeaderboardInstanceEntry(submission, benchmark_instance)
+                                 for benchmark_instance in problem.benchmark_instances.all()]
 
-            # Add metric result to a scores list
-            if (result.metric.name not in results):
-                results[result.metric.name] = []
+        # Get the results for the submission
+        submission_results = Result.objects.filter(submission=submission)
 
-            results[result.metric.name].append(float(result.score))
-
-        # Compute aggerate results for the entry.
+        # Compute the aggerate results for the submission and each metric of the problem.
         self.results = dict()
-        for metric in results.keys():
-            scores = results[metric]
-            self.results[metric] = sum(scores) / len(scores)
+        for metric in problem.metrics.all():
+            scores = [scores['score'] for scores in submission_results.filter(metric=metric).values('score')]
+            self.results[metric.name] = sum(scores) / len(scores)
 
         # Add a rank, which is not known
         self.rank = 0
@@ -54,10 +42,8 @@ class LeaderboardEntrySerializer(serializers.Serializer):
     # Dictionary specifying leaderboard column keys with entry values
     results = serializers.DictField(read_only=True, child=serializers.FloatField())
 
-    # Dictionary specifying the instances for this leaderboard entry
-    instances = serializers.DictField(read_only=True,
-        child=serializers.DictField(
-            child=serializers.FloatField(), read_only=True))
+    # Dictionary specifying the benchmark instances for this leaderboard entry
+    instance_entries = LeaderboardInstanceEntrySerializer(read_only=True, many=True)
 
     # Rank of the entry, which depends on other leaderboard entries
     rank = serializers.IntegerField(read_only=True)
