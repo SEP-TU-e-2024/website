@@ -149,8 +149,6 @@ function Leaderboard({problemData, rowLimit, showPagination}) {
     fetchRows();
   }, []);
 
-  console.log(entries);
-
   const columns = createColumns(problemData);
   if (columns.length === 0) {
     console.error("Error: createColumns didn't find any columns to create");
@@ -292,7 +290,7 @@ function LeaderboardRow({columns, entry, problem, parentPrefix}) {
                 </td></tr>
                 :
                 entry.instance_entries.map(instance_entry => (
-                  <tr key={instance_entry.id} className="view">{
+                  <tr key={instance_entry.benchmark_instance.id} className="view">{
                     // Add column data for each instance column
                     instance_columns.map(column => (
                       <th key={column.name}>{column.getData(instance_entry)}</th>
