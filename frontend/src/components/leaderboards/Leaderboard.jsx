@@ -79,7 +79,7 @@ function createColumns(problem) {
   let columns = [];
 
   columns.push(new LeaderboardColumn("#", 
-    (entry) => { return entry.rank }));
+    (entry) => { return entry.rank == 0 ? '~' : entry.rank }));
 
   columns.push(new MetricColumn(problem.scoring_metric));
 
@@ -130,24 +130,27 @@ function createColumns(problem) {
  */
 function Leaderboard({problemData, rowLimit, showPagination}) {
   const [entries, setEntries] = useState([]);
+  
   const uuidPrefix = uuidv4();
   
   // Data fetching code
   useEffect(() => {
     
-    const fetchRows = async () => {
+    const fetchLeaderboardData = async () => {
       try {
         const data = await getLeaderboardData(problemData.id);
         //TODO do this limiting in the backend later (not now because of time constraints)
-        setEntries(rowLimit ? data.entries.slice(0, rowLimit) : data.entries);
+        const entries = data.entries.concat(data.unranked_entries)
+        setEntries(rowLimit ? entries.slice(0, rowLimit) : entries);
       } catch (err) {
         console.error(err);
-        //TODO proper error handling
       }
+      //TODO proper error handling
     }
-    
-    fetchRows();
+    fetchLeaderboardData();
   }, []);
+
+  console.log(entries);
 
   const columns = createColumns(problemData);
   if (columns.length === 0) {
@@ -177,7 +180,7 @@ function Leaderboard({problemData, rowLimit, showPagination}) {
 
           // Add existing leaderboard entries
           entries.map(entry => (
-            <LeaderboardRow columns={columns} entry={entry} problem={problemData} key={entry.rank} parentPrefix={uuidPrefix}/>
+            <LeaderboardRow columns={columns} entry={entry} problem={problemData} key={entry.submission.id} parentPrefix={uuidPrefix}/>
           ))
         }
         </tbody>  

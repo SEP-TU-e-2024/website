@@ -39,3 +39,4 @@ class LeaderboardSerializer(serializers.Serializer):
 
     problem = SpecifiedProblemSerializer(read_only=True)
     entries = LeaderboardEntrySerializer(read_only=True, many=True)
+    unranked_entries = LeaderboardEntrySerializer(read_only=True, many=True)
