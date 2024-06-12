@@ -86,7 +86,7 @@ function ProblemOccurrenceOverviewPage() {
               <ProblemOccurrenceSubmission />
             </TabPane>
             <TabPane tabId="4">
-              <ProblemOccurrenceProblemInstanceList />
+              <ProblemOccurrenceProblemInstanceList problemData={problemData}/>
             </TabPane>
           </TabContent>
         </Col>

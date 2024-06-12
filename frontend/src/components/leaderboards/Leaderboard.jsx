@@ -150,8 +150,6 @@ function Leaderboard({problemData, rowLimit, showPagination}) {
     fetchLeaderboardData();
   }, []);
 
-  console.log(entries);
-
   const columns = createColumns(problemData);
   if (columns.length === 0) {
     console.error("Error: createColumns didn't find any columns to create");
