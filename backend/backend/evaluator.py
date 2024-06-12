@@ -49,11 +49,11 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
     # Send the submission to the judge for evaluation
     protocol.send_command(Commands.START,
                           cpus=submission.problem.evaluation_settings.cpu,
-                          memory=10,
-                          gpus=0,
+                          memory=10, # TODO: memory amount
+                          gpus=0, # TODO: GPU amount
                           time_limit=submission.problem.evaluation_settings.time_limit,
-                          machine_type="Standard_B1s",
-                          submission_type="code",
+                          machine_type="Standard_B1s", # TODO: machine type
+                          submission_type="code", # TODO: submission type
                           source_url=submission_blob.url,
                           validator_url=validator_blob.url)
 
