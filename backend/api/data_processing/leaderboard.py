@@ -10,11 +10,11 @@ class Leaderboard:
 
     def __init__(self, problem: SpecifiedProblem):
         self.problem = problem
-        submissions = Submission.objects.all().filter(problem=problem)
-        entries = [LeaderboardEntry(submission) for submission in submissions]
+        submissions = Submission.objects.filter(problem=problem)
+        entries = [LeaderboardEntry(problem, submission) for submission in submissions]
 
         def is_rankable_entry(entry):
-            return self.problem.scoring_metric.name in entry.results.keys()
+            return self.problem.scoring_metric.name in entry.results.keys() and entry.submission.is_verified
         
         self.entries = list(filter(lambda entry: is_rankable_entry(entry), entries))
         self.unranked_entries = list(filter(lambda entry: not is_rankable_entry(entry), entries))
@@ -39,3 +39,4 @@ class LeaderboardSerializer(serializers.Serializer):
 
     problem = SpecifiedProblemSerializer(read_only=True)
     entries = LeaderboardEntrySerializer(read_only=True, many=True)
+    unranked_entries = LeaderboardEntrySerializer(read_only=True, many=True)
