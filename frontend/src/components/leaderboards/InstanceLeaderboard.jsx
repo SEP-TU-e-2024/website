@@ -5,7 +5,7 @@ import { Container } from "reactstrap";
 import './Leaderboard.scss';
 import LeaderboardColumn from './LeaderboardColumn';
 import api from "../../api";
-import { v4 as uuidv4 } from 'uuid';
+import Leaderboard from "./Leaderboard";
 
 function downloadBlob(response) {
   // Create blob
@@ -104,44 +104,8 @@ function createColumns(problem, instance) {
  * @returns the component
  */
 function InstanceLeaderboard({problemData, leaderboardData, instance}) {
-  const uuidPrefix = uuidv4();  
   const columns = createColumns(problemData, instance);
-
-  if (columns.length === 0) {
-    console.error("Error: createColumns didn't find any columns to create");
-    return (
-      <p className="text-danger">Error: no column names found</p>
-    );
-  }
-  
-  return (
-    <Container fluid className='justify-content-center'>
-      <table className='leaderboard-table'>
-        <thead>
-          <tr>{
-            // Add column name for each column 
-            columns.map(column => (
-              <th key={column.name}>{column.getHeader()}</th>
-            ))
-          }</tr>
-        </thead>
-        <tbody>
-            {
-            // Display message if no leaderboard entries exist
-            leaderboardData.length === 0 ? 
-            <tr><td colSpan={columns.length} align='center' className="text-danger">
-                No leaderboard entries
-            </td></tr> :
-
-            // Add existing leaderboard entries
-            leaderboardData.map(entry => (
-                <LeaderboardRow columns={columns} entry={entry} problem={problemData} key={entry.submission.id} parentPrefix={uuidPrefix}/>
-            ))
-            }
-        </tbody>  
-      </table>
-    </Container>
-  );
+  return Leaderboard(problemData, columns, leaderboardData, LeaderboardRow);
 }
 
 /**

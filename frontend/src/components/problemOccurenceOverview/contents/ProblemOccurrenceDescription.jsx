@@ -1,7 +1,7 @@
 import React from "react"
 import { Container, Row, Col } from "reactstrap";
 import Submit from '../../submit/Submit';
-import Leaderboard from "../../leaderboards/Leaderboard";
+import AggregateLeaderboard from "../../leaderboards/AggregateLeaderboard";
 
 /**
  * A component for the description/overview of a single problem occurence. 
@@ -13,7 +13,7 @@ function ProblemOccurrenceDescription({problemData, leaderboardData}) {
         <Row className="">
           <Col>
             <p>{problemData.description}</p>
-            <Leaderboard problemData={problemData} leaderboardData={leaderboardData} rowLimit={5}/>
+            <AggregateLeaderboard problemData={problemData} leaderboardData={leaderboardData} rowLimit={5}/>
           </Col>
         </Row>
     </Container>
