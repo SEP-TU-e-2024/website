@@ -107,20 +107,6 @@ function createColumns(problem) {
   return columns;
 }
 
-/**
- * Leaderboard component.
- * 
- * @param {JSON} problemData the problem data 
- * @param {int} rowLimit the limit to the amount of displayed rows 
- * @param {bool} showPagination whether to show a pagination component (not implemented yet)
- * 
- * @returns the component
- */
-function AggregateLeaderboard({problemData, leaderboardData, rowLimit, showPagination}) {
-  const columns = createColumns(problemData);
-  return Leaderboard(problemData, columns, leaderboardData, LeaderboardRow);
-}
-
 // Create download specific solution click handler
 function getDownloadSingleSolutionOnClickHandler(submission, instance_entry) {
   return function onClickHandler(event) {
@@ -165,6 +151,20 @@ function createInstanceColumns(problem, submission) {
   ));
   
   return columns;
+}
+
+/**
+ * Leaderboard component.
+ * 
+ * @param {JSON} problemData the problem data 
+ * @param {int} rowLimit the limit to the amount of displayed rows 
+ * @param {bool} showPagination whether to show a pagination component (not implemented yet)
+ * 
+ * @returns the component
+ */
+function AggregateLeaderboard({problemData, leaderboardData, rowLimit, showPagination}) {
+  const columns = createColumns(problemData);
+  return Leaderboard(problemData, columns, leaderboardData, LeaderboardRow);
 }
 
 /**
