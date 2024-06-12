@@ -12,8 +12,7 @@ class StartCommand(Command):
     The StartCommand class is used to start a container on the runner.
     """
 
-    @staticmethod
-    def response(response: dict):
+    def response(self, response: dict):
         # TODO: See if it is better to have this as a class variable
         submission = response["submission"]
         # TODO: See if it is better to have this as a class variable
