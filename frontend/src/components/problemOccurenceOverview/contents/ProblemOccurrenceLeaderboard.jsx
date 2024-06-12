@@ -5,12 +5,12 @@ import Leaderboard from "../../leaderboards/Leaderboard";
 /**
  * A component that includes the leaderboard of a problem occurence.
  */
-function ProblemOccurrenceLeaderboard({problemData}) {
+function ProblemOccurrenceLeaderboard({problemData, leaderboardData}) {
   return (
     <Container fluid className="ps-0 pt-2">
         <Row className="">
           <Col>
-            <Leaderboard problemData={problemData}/>
+            <Leaderboard problemData={problemData} leaderboardData={leaderboardData}/>
           </Col>
         </Row>
     </Container>

@@ -7,19 +7,6 @@ import LeaderboardColumn from './LeaderboardColumn';
 import api from "../../api";
 import { v4 as uuidv4 } from 'uuid';
 
-/**
- * Async function to fetch the leaderboard data from the backend
- * @returns response data
- */
-async function getLeaderboardData(problemId) {
-  try {
-    const response = await api.get(`/leaderboard/${problemId}`);
-    return response.data;
-  } catch (err) {
-    console.error(err);
-  }
-}
-
 function downloadBlob(response) {
   // Create blob
   const fileBlob = new Blob([response.data], { type: response.headers['content-type'] });
@@ -116,29 +103,9 @@ function createColumns(problem, instance) {
  * 
  * @returns the component
  */
-function InstanceLeaderboard({problemData, instance}) {
-  const [entries, setEntries] = useState([]);
-  const uuidPrefix = uuidv4();
-  
-  // Data fetching code
-  useEffect(() => {
-    
-    const fetchLeaderboardData = async () => {
-      try {
-        const data = await getLeaderboardData(problemData.id);
-        const entries = data.entries.concat(data.unranked_entries)
-        setEntries(entries);
-      } catch (err) {
-        console.error(err);
-      }
-      //TODO proper error handling
-    }
-    fetchLeaderboardData();
-  }, []);
-  
+function InstanceLeaderboard({problemData, leaderboardData, instance}) {
+  const uuidPrefix = uuidv4();  
   const columns = createColumns(problemData, instance);
-  console.log(entries)
-
 
   if (columns.length === 0) {
     console.error("Error: createColumns didn't find any columns to create");
@@ -161,13 +128,13 @@ function InstanceLeaderboard({problemData, instance}) {
         <tbody>
             {
             // Display message if no leaderboard entries exist
-            entries.length === 0 ? 
+            leaderboardData.length === 0 ? 
             <tr><td colSpan={columns.length} align='center' className="text-danger">
                 No leaderboard entries
             </td></tr> :
 
             // Add existing leaderboard entries
-            entries.map(entry => (
+            leaderboardData.map(entry => (
                 <LeaderboardRow columns={columns} entry={entry} problem={problemData} key={entry.submission.id} parentPrefix={uuidPrefix}/>
             ))
             }

@@ -4,7 +4,7 @@ import InstanceLeaderboard from "../../leaderboards/InstanceLeaderboard";
 /**
  * A component for listing the problem instances included in a problem occurence.
  */
-function ProblemOccurrenceProblemInstanceList({problemData}) {
+function ProblemOccurrenceProblemInstanceList({problemData, leaderboardData}) {
   const [selectedInstance, setSelectedInstance] = useState(0);
 
   const handleInstanceChange = (event) => {
@@ -20,7 +20,7 @@ function ProblemOccurrenceProblemInstanceList({problemData}) {
                 <option key={index} value={index}> {instance} </option>
               ))}
             </select>
-            <InstanceLeaderboard instance={selectedInstance} problemData={problemData}/>
+            <InstanceLeaderboard instance={selectedInstance} leaderboardData={leaderboardData} problemData={problemData}/>
           </Col>
         </Row>
     </Container>
