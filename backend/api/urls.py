@@ -11,8 +11,6 @@ from .views.leaderboard_entry_view import LeaderboardEntryView
 from .views.leaderboard_view import LeaderboardView
 from .views.problem_occurence_view import ProblemOccurrenceView
 from .views.problem_view import Problems
-
-# from .views.result_view import ResultView
 from .views.submit_view import SubmitViewSet
 
 # Routers are standard for viewsets

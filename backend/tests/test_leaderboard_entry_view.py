@@ -64,12 +64,12 @@ class LeaderboardEntryViewTest(APITestCase):
         )
 
         #Create LeaderboardEntry for testing purposes
-        self.entries = LeaderboardEntry(self.submission)
+        self.entries = LeaderboardEntry(self.problem, self.submission)
 
 
     def test_leaderboard_entry(self):
         #Send a request to the api endpoint
-        resp = self.client.get('/api/leaderboard_entry/' + str(self.submission.id))
+        resp = self.client.get(f'/api/leaderboard_entry/{str(self.problem.id)}/{str(self.submission.id)}' )
 
         # unpack the json object
         result = json.loads(resp.content.decode())

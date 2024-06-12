@@ -26,11 +26,6 @@ class TestAuthView(TestCase):
         #Construct mock request for signing up
         req = self.rf.post(
             '/',
-            data={
-                'email':'test@benchlab.com',
-                'username':'benchlab user',
-                'password':'123'
-            }
         )
         #Add parameters
         req.data = {
@@ -44,7 +39,7 @@ class TestAuthView(TestCase):
         #Extract token and uid from the mail that was sent by the signup method
         link_index = mail.outbox[0].body.find('http://testserver/api/activate/')
         uid, token = mail.outbox[0].body[link_index:].strip().split('/')[-2:]
-        print(token)
+        print(f'Token: {token}')
         #Decode the uid
         uid_decoded = force_str(urlsafe_base64_decode(uid))
         #Get the user object from storage
@@ -69,11 +64,6 @@ class TestAuthView(TestCase):
         #Make mockup request with invalid email
         req = self.rf.post(
             '/',
-            data={
-                'email':'asd',
-                'username':'benchlab user',
-                'password':'123'
-            }
         )
         req.data = {
                 'email':'asd',
@@ -95,7 +85,8 @@ class TestAuthView(TestCase):
         )
         #Assert that the right error was thrown
         self.assertEqual(r.status_code, status.HTTP_404_NOT_FOUND)
-        self.assertEqual(r.content, b'User error: Invalid UUID')
+
+        self.assertEqual(r.data,{'User error': 'User not found.'})
 
     def test_login_invalid_token(self):
         #Tests whether a user cannot login with an invalid token
@@ -104,7 +95,7 @@ class TestAuthView(TestCase):
         
         #Check whether the right error was thrown
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(r.content, b'User error: Invalid Token')
+        self.assertEqual(r.data, {"User error": "Invalid token."})
 
     def test_send_login_mail_valid(self):
         #Verifies whether send_login_mail method works on valid credentials
@@ -112,11 +103,6 @@ class TestAuthView(TestCase):
         #Construct request with valid credentials
         req = self.rf.post(
             '/',
-            data={
-                'email':'abc@abc.com',
-                'username':'benchlab user',
-                'password':'123'
-            }
         )
         req.data = {
                 'email':'abc@abc.com',
@@ -135,11 +121,6 @@ class TestAuthView(TestCase):
         #Construct request with invalid email
         req = self.rf.post(
             '/',
-            data={
-                'email':'doesnt exist',
-                'username':'test',
-                'password':'123'
-            }
         )
         req.data = {
                 'email':'doesnt exist',
@@ -151,7 +132,7 @@ class TestAuthView(TestCase):
         r = self.auth.send_login_email(req)
         #Assert that the right errors are thrown
         self.assertEqual(r.status_code, status.HTTP_404_NOT_FOUND)
-        self.assertEqual(r.content, b"User error: User not found")
+        self.assertEqual(r.data,  {"User error": "User not found."})
     
     def test_send_login_smtp_exception(self):
         #TODO: figure out how to trigger SMPT exception
@@ -178,7 +159,7 @@ class TestAuthView(TestCase):
         )
         #Check that the right error is thrown
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(r.content, b"User error: User not found")
+        self.assertEqual(r.data, {"User error": "User not found."})
 
     def test_activate_invalid_token(self):
         #Tests whether a user can activate with an invalid token
@@ -190,6 +171,6 @@ class TestAuthView(TestCase):
         )
         #Check whether error is thrown
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(r.content, b'User error: Invalid Token')
+        self.assertEqual(r.data,  {"User error": "Invalid token."},'invalid token ,or user already activated"')
 
     

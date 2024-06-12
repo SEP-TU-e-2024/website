@@ -179,7 +179,6 @@ class Result(models.Model):
     """Table that stores result of a submission"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    benchmark_instance = models.ForeignKey(BenchmarkInstance, on_delete=models.CASCADE)
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
     benchmark_instance = models.ForeignKey(BenchmarkInstance, on_delete=models.CASCADE, null=True)
     metric = models.ForeignKey(Metric, on_delete=models.CASCADE)
