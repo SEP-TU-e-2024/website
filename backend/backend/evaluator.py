@@ -15,7 +15,7 @@ from .protocol.website import Commands, WebsiteProtocol
 logger = logging.getLogger("evaluator")
 
 # Specify the host and port for the judge server
-HOST = "localhost"
+HOST = "0.0.0.0"
 PORT = 30000
 
 evaluation_queue: Queue = Queue()
@@ -49,15 +49,17 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
                           source_url=blob_client.url)
 
 
+
 def initiate_protocol():
     """Initiate the connection protocol"""
     logger.info("Starting listening TCP socket")
 
     # Initiate the listening TCP socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # allows immediate re-bind of port after release (nice for development)
+    # Allows immediate re-bind of port after release (nice for development)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock.bind((HOST, PORT))
+    # Set the backlog of unaccepted connections to 1.
     sock.listen(1)
 
     # Wait for an incoming connection from the judge on another thread
@@ -65,6 +67,7 @@ def initiate_protocol():
     thread.start()
 
     logger.info(f"Judge server started on {HOST}:{PORT}.")
+
 
 def establish_judge_connection(sock: socket.socket):
     """Establishes a judge connection for the specified socket"""
