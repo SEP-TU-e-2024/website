@@ -17,4 +17,4 @@ class CheckCommand(Command):
         status = response["status"]
 
         if status != "ok":
-            raise ValueError(f'Unexpected respone! Expected "ok" and got "{status}"')
+            raise ValueError(f'Unexpected response! Expected "ok" and got "{status}"')

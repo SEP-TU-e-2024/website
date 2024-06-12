@@ -15,7 +15,7 @@ class Commands(Enum):
 
     START = StartCommand()
     """
-    Start a container on the runner.
+    Start the evaluation of a submission.
     """
 
     CHECK = CheckCommand()
