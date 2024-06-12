@@ -101,6 +101,7 @@ def establish_judge_connection(sock: socket.socket):
         # Wait for submissions in the queue to be evaluated
         while True:
             submission = evaluation_queue.get()
+            # TODO: what if submission evaluation failed, do we put it back in the queue?
             try:
                 evaluate_submission(protocol, submission)
             except Exception:

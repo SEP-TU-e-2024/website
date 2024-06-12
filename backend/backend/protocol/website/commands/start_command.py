@@ -2,9 +2,13 @@
 This module contains the StartCommand class.
 """
 
+import logging
+
 from backend.api.serializers import ResultSerializer
 
 from .command import Command
+
+logger = logging.getLoggerClass("start_command")
 
 
 class StartCommand(Command):
@@ -13,6 +17,7 @@ class StartCommand(Command):
     """
 
     def response(self, response: dict):
+        logger.info(f"Received response: {response}")
         # TODO: See if it is better to have this as a class variable
         submission = response["submission"]
         # TODO: See if it is better to have this as a class variable
