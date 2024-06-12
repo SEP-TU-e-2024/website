@@ -2,8 +2,9 @@
 This module contains the StartCommand class.
 """
 
-from .command import Command
 from backend.api.serializers import ResultSerializer
+
+from .command import Command
 
 
 class StartCommand(Command):
@@ -13,5 +14,5 @@ class StartCommand(Command):
 
     @staticmethod
     def response(response: dict):
-        
-        ResultSerializer(data=)
+        print(f"Got START response: {response}")
+        # ResultSerializer(data=)
