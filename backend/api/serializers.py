@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
 from .models import (
+    BenchmarkInstance,
     EvaluationSettings,
     Metric,
     ProblemCategory,
@@ -112,4 +113,14 @@ class ProblemCategorySerializer(serializers.ModelSerializer):
             "simulator",
             "validator",
             "specified_problems",
+        ]
+
+
+class BenchmarkInstanceSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = BenchmarkInstance
+        fields = [
+            "id",
+            "filepath",
         ]
