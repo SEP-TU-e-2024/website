@@ -2,8 +2,6 @@
 This module contains the StartCommand class.
 """
 
-from backend.api.serializers import ResultSerializer
-
 from .command import Command
 
 
