@@ -205,14 +205,6 @@ LOGGING = {
     },
     "root": {
         "handlers": ["console"],
-        "level": "WARNING",
-    },
-    "loggers": {
-        "evaluator": {
-            "handlers": ["console"],
-            "level": "INFO",
-            "propagate": False,
-            "formatter": "verbose",
-        },
+        "level": "INFO",
     },
 }
