@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react';
  * @param {JSON} rows, data to render 
  * @returns HTML Table
  */
-function ProblemOccurenceOverview({rows}) {
+function ProblemOccurrenceOverview({rows}) {
     const navigate = useNavigate();
     
     let handleRowClick = (id)=> {
@@ -22,9 +22,9 @@ function ProblemOccurenceOverview({rows}) {
     }
  
     // Assemble a list of all specified problems per problem category
-    const problemOccurences = rows.map((problem_cat) => (
-            problem_cat['specified_problems'].map((problem_occurence)  => (
-                <li >{problem_occurence['name']}</li>
+    const problemOccurrences = rows.map((problem_cat) => (
+            problem_cat['specified_problems'].map((problem_occurrence)  => (
+                <li >{problem_occurrence['name']}</li>
             ))
         )
     );
@@ -60,7 +60,7 @@ function ProblemOccurenceOverview({rows}) {
     )
 }
 /**
- * Fetches problem occurences from the backend
+ * Fetches problem occurrences from the backend
  * @returns data, array
  */
 async function getRows() {
@@ -81,7 +81,7 @@ async function getRows() {
 
 /**
  * React component for rending the homepage
- * @returns Problem occurence table
+ * @returns Problem occurrence table
  */
 function HomePage() {
     const [rows, setRows] = useState([]);
@@ -118,7 +118,7 @@ function HomePage() {
             </div>
             <div>
                 <Container fluid className='justify-content-center'>
-                    <ProblemOccurenceOverview rows={rows}/>
+                    <ProblemOccurrenceOverview rows={rows}/>
                 </Container>
             </div>
         </div>
