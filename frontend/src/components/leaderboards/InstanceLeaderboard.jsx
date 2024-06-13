@@ -8,53 +8,41 @@ import api from "../../api";
 import Leaderboard from "./Leaderboard";
 import MetricColumn from "./MetricColumn";
 
-function downloadBlob(response) {
-  // Create blob
-  const fileBlob = new Blob([response.data], { type: response.headers['content-type'] });
-  const blobUrl = URL.createObjectURL(fileBlob);
-
-  // Extract filename from response headers or use a default name
-  const contentDisposition = response.headers['Content-Disposition'];
-  let filename = 'submission.zip';
-
-  // Create a temporary anchor element to trigger the download
-  const link = document.createElement('a');
-  link.href = blobUrl;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-
-  // Clean up and revoke the object URL
-  URL.revokeObjectURL(blobUrl);
-  link.remove();
+/**
+ * Leaderboard component.
+ * 
+ * @param {JSON} problemData the problem data 
+ * @param {int} rowLimit the limit to the amount of displayed rows 
+ * @param {bool} showPagination whether to show a pagination component (not implemented yet)
+ * 
+ * @returns the component
+ */
+function InstanceLeaderboard({problemData, leaderboardData, instance}) {
+  const columns = createColumns(problemData, instance);
+  // Copy is to we only affect this leaderboard when ranking the instance entries.
+  const instanceLeaderboardData = [...leaderboardData];
+  rankInstanceEntries(problemData, instanceLeaderboardData, instance);
+  return <Leaderboard problemData={problemData} columns={columns} leaderboardData={instanceLeaderboardData} LeaderboardRow={LeaderboardRow}/>
 }
 
-// Download submission handler
-async function handleDownloadSolverClick(filepath) {
-  try {
-    const response = await api.get('/download/download_solver/', {
-      params: { filepath: filepath },
-      responseType: 'blob'
-    });
-
-    // Create a Blob from the response data
-    downloadBlob(response)
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-// Download solutions handler
-function handleDownloadSolutionsClick(e) {
-  e.stopPropagation();
-  alert("download solutions");
-}
-
-// Download scores handler
-function handleDownloadScoresClick(e) {
-  e.stopPropagation();
-  alert("download scores");
-}
+/**
+ * 
+ * @param {Array} columns the columns of the leaderboard
+ * @param {JSON} entry a single entry in the leaderboard
+ * @returns 
+ */
+function LeaderboardRow({columns, entry}) {
+  return (
+    <>
+      <tr className="view">
+        {/* // Add column data cell for the leaderboard entry  */}
+        {columns.map(column => (
+            <td key={column.name}>{column.getData(entry)}</td>
+        ))}        
+      </tr>
+    </>
+  )
+};
 
 /**
  * Create the leaderboard columns for a problem
@@ -96,21 +84,16 @@ function createColumns(problem, instance) {
   return columns;
 }
 
-/**
- * Leaderboard component.
- * 
- * @param {JSON} problemData the problem data 
- * @param {int} rowLimit the limit to the amount of displayed rows 
- * @param {bool} showPagination whether to show a pagination component (not implemented yet)
- * 
- * @returns the component
- */
-function InstanceLeaderboard({problemData, leaderboardData, instance}) {
-  const columns = createColumns(problemData, instance);
-  // Copy is to we only affect this leaderboard when ranking the instance entries.
-  const instanceLeaderboardData = [...leaderboardData];
-  rankInstanceEntries(problemData, instanceLeaderboardData, instance);
-  return <Leaderboard problemData={problemData} columns={columns} leaderboardData={instanceLeaderboardData} LeaderboardRow={LeaderboardRow}/>
+// Download solutions handler
+function handleDownloadSolutionsClick(e) {
+  e.stopPropagation();
+  alert("download solutions");
+}
+
+// Download scores handler
+function handleDownloadScoresClick(e) {
+  e.stopPropagation();
+  alert("download scores");
 }
 
 /**
@@ -153,22 +136,4 @@ function rankInstanceEntries(problemData, leaderboardData, instance) {
   })
 }
 
-/**
- * 
- * @param {Array} columns the columns of the leaderboard
- * @param {JSON} entry a single entry in the leaderboard
- * @returns 
- */
-function LeaderboardRow({columns, entry}) {
-  return (
-    <>
-      <tr className="view">
-        {/* // Add column data cell for the leaderboard entry  */}
-        {columns.map(column => (
-            <td key={column.name}>{column.getData(entry)}</td>
-        ))}        
-      </tr>
-    </>
-  )
-};
 export default InstanceLeaderboard;

@@ -9,53 +9,70 @@ import api from "../../api";
 import { v4 as uuidv4 } from 'uuid';
 import Leaderboard from "./Leaderboard";
 
-function downloadBlob(response) {
-  // Create blob
-  const fileBlob = new Blob([response.data], { type: response.headers['content-type'] });
-  const blobUrl = URL.createObjectURL(fileBlob);
-
-  // Extract filename from response headers or use a default name
-  const contentDisposition = response.headers['Content-Disposition'];
-  let filename = 'submission.zip';
-
-  // Create a temporary anchor element to trigger the download
-  const link = document.createElement('a');
-  link.href = blobUrl;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-
-  // Clean up and revoke the object URL
-  URL.revokeObjectURL(blobUrl);
-  link.remove();
+/**
+ * Leaderboard component.
+ * 
+ * @param {JSON} problemData the problem data 
+ * @param {JSON} leaderboardData data for the leaderboard
+ * @param {int} rowLimit the limit to the amount of displayed rows 
+ * @param {bool} showPagination whether to show a pagination component (not implemented yet)
+ * 
+ * @returns the component
+ */
+function AggregateLeaderboard({problemData, leaderboardData, rowLimit, showPagination}) {
+  const columns = createColumns(problemData);
+  return <Leaderboard problemData={problemData} columns={columns} leaderboardData={leaderboardData} LeaderboardRow={LeaderboardRow}/>
 }
 
-// Download submission handler
-async function handleDownloadSolverClick(filepath) {
-  try {
-    const response = await api.get('/download/download_solver/', {
-      params: { filepath: filepath },
-      responseType: 'blob'
-    });
-
-    // Create a Blob from the response data
-    downloadBlob(response)
-  } catch (err) {
-    console.error(err);
+/**
+ * 
+ * @param {Array} columns the columns of the leaderboard
+ * @param {JSON} entry a single entry in the leaderboard
+ * @param {JSON} problemData the problem of the leaderboard
+ * @param {UUID} parentPrefix prefix for dyamic keys
+ * @returns 
+ */
+function LeaderboardRow({columns, entry, problemData, parentPrefix}) {
+  // Prefix strings for the id's of submission entries and collapsables
+  const PROBLEM_INSTANCES_ID_PREFIX = "problem-instances-" + parentPrefix + "-";
+  
+  // Handle toggling the problem instances for a single submission
+  function handleToggleSubmissionRow(e) {
+    const foldContainer = document.getElementById(PROBLEM_INSTANCES_ID_PREFIX + entry.submission.id);
+    
+    // Toggle the display classes
+    foldContainer.classList.toggle("fold-open");
+    foldContainer.classList.toggle("fold-closed");
   }
-}
 
-// Download solutions handler
-function handleDownloadSolutionsClick(e) {
-  e.stopPropagation();
-  alert("download solutions");
-}
+  const instance_columns = createInstanceColumns(problemData, entry.submission);
 
-// Download scores handler
-function handleDownloadScoresClick(e) {
-  e.stopPropagation();
-  alert("download scores");
-}
+  if (instance_columns.length === 0) {
+    console.error("Error: createInstanceColumns didn't find any columns to create");
+    return (
+      <p className="text-danger">Error: no column names found</p>
+    );
+  }
+  
+  return (
+    <>
+      <tr onClick={handleToggleSubmissionRow} className="view">
+        {/* // Add column data cell for the leaderboard entry  */}
+        {columns.map(column => (
+            <td key={column.name}>{column.getData(entry)}</td>
+        ))}        
+      </tr>
+      
+      <tr id={PROBLEM_INSTANCES_ID_PREFIX + entry.submission.id} className="fold-closed">
+        <td colSpan="8" className="fold-container">
+          <div className="fold-content">
+              <Leaderboard problemData={problemData} columns={instance_columns} leaderboardData={entry.instance_entries} LeaderboardRow={InstanceRow}/>
+          </div>
+        </td>
+      </tr>
+    </>
+  )
+};
 
 /**
  * Create the leaderboard columns for a problem
@@ -107,21 +124,54 @@ function createColumns(problem) {
   return columns;
 }
 
-// Create download specific solution click handler
-function getDownloadSingleSolutionOnClickHandler(submission, instance_entry) {
-  return function onClickHandler(event) {
-    event.stopPropagation();
-    alert("download single solution");
+
+// Download submission handler
+async function handleDownloadSolverClick(filepath) {
+  try {
+    const response = await api.get('/download/download_solver/', {
+      params: { filepath: filepath },
+      responseType: 'blob'
+    });
+
+    // Create a Blob from the response data
+    downloadBlob(response)
+  } catch (err) {
+    console.error(err);
   }
 }
 
-// Create visualize problem instance click handler
-function getHandleVisualizePiOnClickHandler(submission, instance_entry) {
-  return function onClickHandler(event) {
-    event.stopPropagation();
-    alert("visualize");
-  }
+
+function downloadBlob(response) {
+  // Create blob
+  const fileBlob = new Blob([response.data], { type: response.headers['content-type'] });
+  const blobUrl = URL.createObjectURL(fileBlob);
+  let filename = 'submission.zip';
+
+  // Create a temporary anchor element to trigger the download
+  const link = document.createElement('a');
+  link.href = blobUrl;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+
+  // Clean up and revoke the object URL
+  URL.revokeObjectURL(blobUrl);
+  link.remove();
 }
+
+
+// Download solutions handler
+function handleDownloadSolutionsClick(e) {
+  e.stopPropagation();
+  alert("download solutions");
+}
+
+// Download scores handler
+function handleDownloadScoresClick(e) {
+  e.stopPropagation();
+  alert("download scores");
+}
+
 
 /**
  * Create the instance columns for a leaderboard entry
@@ -154,72 +204,6 @@ function createInstanceColumns(problem, submission) {
 }
 
 /**
- * Leaderboard component.
- * 
- * @param {JSON} problemData the problem data 
- * @param {JSON} leaderboardData data for the leaderboard
- * @param {int} rowLimit the limit to the amount of displayed rows 
- * @param {bool} showPagination whether to show a pagination component (not implemented yet)
- * 
- * @returns the component
- */
-function AggregateLeaderboard({problemData, leaderboardData, rowLimit, showPagination}) {
-  const columns = createColumns(problemData);
-  return <Leaderboard problemData={problemData} columns={columns} leaderboardData={leaderboardData} LeaderboardRow={LeaderboardRow}/>
-}
-
-/**
- * 
- * @param {Array} columns the columns of the leaderboard
- * @param {JSON} entry a single entry in the leaderboard
- * @param {JSON} problemData the problem of the leaderboard
- * @param {UUID} parentPrefix prefix for dyamic keys
- * @returns 
- */
-function LeaderboardRow({columns, entry, problemData, parentPrefix}) {
-  // Prefix strings for the id's of submission entries and collapsables
-  const SUBMISSION_ID_PREFIX = "submission-";
-  const PROBLEM_INSTANCES_ID_PREFIX = "problem-instances-" + parentPrefix + "-";
-  
-  // Handle toggling the problem instances for a single submission
-  function handleToggleSubmissionRow(e) {
-    const foldContainer = document.getElementById(PROBLEM_INSTANCES_ID_PREFIX + entry.submission.id);
-    
-    // Toggle the display classes
-    foldContainer.classList.toggle("fold-open");
-    foldContainer.classList.toggle("fold-closed");
-  }
-
-  const instance_columns = createInstanceColumns(problemData, entry.submission);
-
-  if (instance_columns.length === 0) {
-    console.error("Error: createInstanceColumns didn't find any columns to create");
-    return (
-      <p className="text-danger">Error: no column names found</p>
-    );
-  }
-  
-  return (
-    <>
-      <tr onClick={handleToggleSubmissionRow} id={SUBMISSION_ID_PREFIX + entry.submission.id} className="view">
-        {/* // Add column data cell for the leaderboard entry  */}
-        {columns.map(column => (
-            <td key={column.name}>{column.getData(entry)}</td>
-        ))}        
-      </tr>
-      
-      <tr id={PROBLEM_INSTANCES_ID_PREFIX + entry.submission.id} className="fold-closed">
-        <td colSpan="8" className="fold-container">
-          <div className="fold-content">
-              <Leaderboard problemData={problemData} columns={instance_columns} leaderboardData={entry.instance_entries} LeaderboardRow={InstanceRow}/>
-          </div>
-        </td>
-      </tr>
-    </>
-  )
-};
-
-/**
  * 
  * @param {Array} columns the columns of the leaderboard
  * @param {JSON} entry a single entry in the leaderboard
@@ -235,5 +219,22 @@ function InstanceRow({columns, entry}) {
     }</tr>
   )
 };
+
+
+// Create download specific solution click handler
+function getDownloadSingleSolutionOnClickHandler(submission, instance_entry) {
+  return function onClickHandler(event) {
+    event.stopPropagation();
+    alert("download single solution");
+  }
+}
+
+// Create visualize problem instance click handler
+function getHandleVisualizePiOnClickHandler(submission, instance_entry) {
+  return function onClickHandler(event) {
+    event.stopPropagation();
+    alert("visualize");
+  }
+}
 
 export default AggregateLeaderboard;
