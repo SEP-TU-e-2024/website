@@ -188,3 +188,8 @@ TU/e uses [simian](http://www.harukizaemon.com/simian/index.html/) to analyse co
 [understand](http://scitools.com/student) is used to derive all the other metrics.
 
 **Note:** understand incorrectly computes Module coupling, it only accounts for classes in the same file. 
+
+### Testing
+
+In order to test, navigate to the backend folder, then run the following command:
+`python manage.py test tests`

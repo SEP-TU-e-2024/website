@@ -125,7 +125,6 @@ class BenchmarkInstanceSerializer(serializers.ModelSerializer):
             "filepath",
         ]
 
-
 class ResultSerializer(serializers.ModelSerializer):
     """Serializer for result"""
 
