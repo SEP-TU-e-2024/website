@@ -157,6 +157,7 @@ function createInstanceColumns(problem, submission) {
  * Leaderboard component.
  * 
  * @param {JSON} problemData the problem data 
+ * @param {JSON} leaderboardData data for the leaderboard
  * @param {int} rowLimit the limit to the amount of displayed rows 
  * @param {bool} showPagination whether to show a pagination component (not implemented yet)
  * 
@@ -164,17 +165,18 @@ function createInstanceColumns(problem, submission) {
  */
 function AggregateLeaderboard({problemData, leaderboardData, rowLimit, showPagination}) {
   const columns = createColumns(problemData);
-  return Leaderboard(problemData, columns, leaderboardData, LeaderboardRow);
+  return <Leaderboard problemData={problemData} columns={columns} leaderboardData={leaderboardData} LeaderboardRow={LeaderboardRow}/>
 }
 
 /**
  * 
  * @param {Array} columns the columns of the leaderboard
  * @param {JSON} entry a single entry in the leaderboard
- * @param {JSON} problem of the leaderboard
+ * @param {JSON} problemData the problem of the leaderboard
+ * @param {UUID} parentPrefix prefix for dyamic keys
  * @returns 
  */
-function LeaderboardRow({columns, entry, problem, parentPrefix}) {
+function LeaderboardRow({columns, entry, problemData, parentPrefix}) {
   // Prefix strings for the id's of submission entries and collapsables
   const SUBMISSION_ID_PREFIX = "submission-";
   const PROBLEM_INSTANCES_ID_PREFIX = "problem-instances-" + parentPrefix + "-";
@@ -188,7 +190,8 @@ function LeaderboardRow({columns, entry, problem, parentPrefix}) {
     foldContainer.classList.toggle("fold-closed");
   }
 
-  const instance_columns = createInstanceColumns(problem, entry.submission);
+  const instance_columns = createInstanceColumns(problemData, entry.submission);
+
   if (instance_columns.length === 0) {
     console.error("Error: createInstanceColumns didn't find any columns to create");
     return (
@@ -208,36 +211,29 @@ function LeaderboardRow({columns, entry, problem, parentPrefix}) {
       <tr id={PROBLEM_INSTANCES_ID_PREFIX + entry.submission.id} className="fold-closed">
         <td colSpan="8" className="fold-container">
           <div className="fold-content">
-            <table className="pi-table">
-              <thead>
-                <tr>{
-                  // Add column name for each column 
-                  instance_columns.map(column => (
-                    <th key={column.name}>{column.getHeader()}</th>
-                  ))
-                }</tr>
-              </thead>
-              <tbody>{
-                // Display message if no leaderboard entries exist
-                entry.instance_entries.length === 0 ?
-                <tr><td colSpan={instance_columns.length} align='center' className="text-danger">
-                  No instances available.
-                </td></tr>
-                :
-                entry.instance_entries.map(instance_entry => (
-                  <tr key={instance_entry.benchmark_instance.id} className="view">{
-                    // Add column data for each instance column
-                    instance_columns.map(column => (
-                      <th key={column.name}>{column.getData(instance_entry)}</th>
-                    ))
-                  }</tr>
-                ))
-              }</tbody>  
-            </table>
+              <Leaderboard problemData={problemData} columns={instance_columns} leaderboardData={entry.instance_entries} LeaderboardRow={InstanceRow}/>
           </div>
         </td>
       </tr>
     </>
   )
 };
+
+/**
+ * 
+ * @param {Array} columns the columns of the leaderboard
+ * @param {JSON} entry a single entry in the leaderboard
+ * @returns 
+ */
+function InstanceRow({columns, entry}) {
+  return (
+    <tr className="view">{
+      // Add column data for each instance column
+      columns.map(column => (
+        <th key={column.name}>{column.getData(entry)}</th>
+      ))
+    }</tr>
+  )
+};
+
 export default AggregateLeaderboard;

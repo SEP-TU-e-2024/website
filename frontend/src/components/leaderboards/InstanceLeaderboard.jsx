@@ -110,7 +110,7 @@ function InstanceLeaderboard({problemData, leaderboardData, instance}) {
   // Copy is to we only affect this leaderboard when ranking the instance entries.
   const instanceLeaderboardData = [...leaderboardData];
   rankInstanceEntries(problemData, instanceLeaderboardData, instance);
-  return Leaderboard(problemData, columns, instanceLeaderboardData, LeaderboardRow);
+  return <Leaderboard problemData={problemData} columns={columns} leaderboardData={instanceLeaderboardData} LeaderboardRow={LeaderboardRow}/>
 }
 
 /**
@@ -157,15 +157,12 @@ function rankInstanceEntries(problemData, leaderboardData, instance) {
  * 
  * @param {Array} columns the columns of the leaderboard
  * @param {JSON} entry a single entry in the leaderboard
- * @param {JSON} problem of the leaderboard
  * @returns 
  */
 function LeaderboardRow({columns, entry}) {
-  // Prefix strings for the id's of submission entries and collapsables
-  const SUBMISSION_ID_PREFIX = "submission-";
   return (
     <>
-      <tr id={SUBMISSION_ID_PREFIX + entry.submission.id} className="view">
+      <tr className="view">
         {/* // Add column data cell for the leaderboard entry  */}
         {columns.map(column => (
             <td key={column.name}>{column.getData(entry)}</td>
