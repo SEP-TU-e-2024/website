@@ -4,11 +4,11 @@ This module contains the StartCommand class.
 
 import logging
 
-from backend.api.serializers import ResultSerializer
+from api.serializers import ResultSerializer
 
 from .command import Command
 
-logger = logging.getLoggerClass("start_command")
+logger = logging.getLogger("start_command")
 
 
 class StartCommand(Command):
@@ -18,21 +18,22 @@ class StartCommand(Command):
 
     def response(self, response: dict):
         logger.info(f"Received response: {response}")
-        # TODO: See if it is better to have this as a class variable
-        submission = response["submission"]
-        # TODO: See if it is better to have this as a class variable
-        benchmark_instance = response["benchmark_instance"]
+        # # TODO: See if it is better to have this as a class variable
+        # submission = response["submission"]
+        # # TODO: See if it is better to have this as a class variable
+        # benchmark_instance = response["benchmark_instance"]
 
-        for metric in response["metrics"]:
-            score = response[metric]["score"]
+        # for metric in response["metrics"]:
+        #     score = response[metric]["score"]
 
-            data = {
-                "submission": submission,
-                "benchmark_instance": benchmark_instance,
-                "metric": metric,
-                "score": score,
-            }
+        #     data = {
+        #         "submission": submission,
+        #         "benchmark_instance": benchmark_instance,
+        #         "metric": metric,
+        #         "score": score,
+        #     }
+            
 
-            serializer = ResultSerializer(data=data)
-            serializer.is_valid()
-            serializer.save()
+        #     serializer = ResultSerializer(data=data)
+        #     serializer.is_valid()
+        #     serializer.save()
