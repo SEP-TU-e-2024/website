@@ -6,6 +6,7 @@ import './Leaderboard.scss';
 import LeaderboardColumn from './LeaderboardColumn';
 import api from "../../api";
 import Leaderboard from "./Leaderboard";
+import MetricColumn from "./MetricColumn";
 
 function downloadBlob(response) {
   // Create blob
@@ -65,9 +66,11 @@ function createColumns(problem, instance) {
   let columns = [];
 
   columns.push(new LeaderboardColumn("#", 
-    (entry) => { return entry.rank == 0 ? '~' : entry.rank }));
-  columns.push(new LeaderboardColumn(problem.scoring_metric.name,
-    (entry) => { return entry.instance_entries[instance].results[problem.scoring_metric.name] }));
+    (entry) => { return entry.instance_entries[instance].rank === 0 ? 
+      '~' : entry.instance_entries[instance].rank }));
+
+  columns.push(new MetricColumn(problem.scoring_metric, 
+    (entry) => { return entry.instance_entries[instance].results; }))
 
   columns.push(new LeaderboardColumn("Submission name", 
     (entry) => { return entry.submission.name }));
@@ -86,8 +89,7 @@ function createColumns(problem, instance) {
 
   problem.metrics.forEach((metric) => {
     if (metric.name != problem.scoring_metric.name) {
-        columns.push(new LeaderboardColumn(metric.name,
-            (entry) => { return entry.instance_entries[instance].results[metric.name] }));
+      columns.push(new MetricColumn(metric, (entry) => { return entry.instance_entries[instance].results; }))
     }
   });
   
@@ -105,7 +107,48 @@ function createColumns(problem, instance) {
  */
 function InstanceLeaderboard({problemData, leaderboardData, instance}) {
   const columns = createColumns(problemData, instance);
+  rankInstanceEntries(problemData, leaderboardData, instance);
   return Leaderboard(problemData, columns, leaderboardData, LeaderboardRow);
+}
+
+/**
+ * Ranks the instance entries based on the scoring metric
+ * 
+ * @param {JSON} problemData the problem data 
+ * @param {int} rowLimit the limit to the amount of displayed rows 
+ * @param {bool} showPagination whether to show a pagination component (not implemented yet)
+ */
+function rankInstanceEntries(problemData, leaderboardData, instance) {
+  const rankableInstanceEntries = [];
+  
+  for (let entry of leaderboardData) {
+    let instanceEntry = entry.instance_entries[instance];
+    if (!(problemData.scoring_metric.name in instanceEntry.results)) {
+      instanceEntry['rank'] = 0;
+      continue;
+    }
+    rankableInstanceEntries.push(instanceEntry);
+  }
+
+  let getScoreFromEntry = (instanceEntry) => { return instanceEntry.results[problemData.scoring_metric.name]; };
+
+  if (problemData.scoring_metric.order === 0) {
+    rankableInstanceEntries.sort((a, b) => {return getScoreFromEntry(a) - getScoreFromEntry(b); })
+  } else {
+    rankableInstanceEntries.sort((a, b) => {return getScoreFromEntry(b) - getScoreFromEntry(a); })
+  }
+
+  let rank = 1;
+  for (let entry of rankableInstanceEntries) {
+    entry['rank'] = rank++;
+  }
+
+  let getRankFromEntry = (entry) => { return entry.instance_entries[instance].rank; };
+
+  leaderboardData.sort((a, b) => {
+    return (getRankFromEntry(b) === 0 ? -1 : getRankFromEntry(a)) - 
+    (getRankFromEntry(a) === 0 ? -1 : getRankFromEntry(b));
+  })
 }
 
 /**
