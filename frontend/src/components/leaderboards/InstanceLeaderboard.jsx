@@ -107,8 +107,10 @@ function createColumns(problem, instance) {
  */
 function InstanceLeaderboard({problemData, leaderboardData, instance}) {
   const columns = createColumns(problemData, instance);
-  rankInstanceEntries(problemData, leaderboardData, instance);
-  return Leaderboard(problemData, columns, leaderboardData, LeaderboardRow);
+  // Copy is to we only affect this leaderboard when ranking the instance entries.
+  const instanceLeaderboardData = [...leaderboardData];
+  rankInstanceEntries(problemData, instanceLeaderboardData, instance);
+  return Leaderboard(problemData, columns, instanceLeaderboardData, LeaderboardRow);
 }
 
 /**
