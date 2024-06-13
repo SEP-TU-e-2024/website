@@ -109,7 +109,7 @@ class AuthViewSet(ViewSet):
         return Response(
             {"User error": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST
         )
-
+    
     @action(detail=False, methods=["POST"])
     def send_login_email(self, request):
         """Sends activation email
@@ -221,7 +221,6 @@ class AuthViewSet(ViewSet):
             return Response(
                 {"User error": "User not found."}, status=status.HTTP_400_BAD_REQUEST
             )
-
         # Checks token and sets user to active
         if user is not None and account_activation_token.check_token(user, token):
             user.is_active = True

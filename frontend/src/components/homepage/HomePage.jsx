@@ -61,6 +61,7 @@ function ProblemOccurenceOverview({rows}) {
         </div>
     )
 }
+
 /**
  * Fetches problem occurences from the backend
  * @returns data, array

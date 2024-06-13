@@ -89,7 +89,6 @@ class Validator(StorageLocation):
 
 class BenchmarkInstance(StorageLocation):
     """Single data instance for an optimization problem"""
-
     pass
 
 
