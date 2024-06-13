@@ -13,13 +13,12 @@ class Commands(Enum):
     This class contains all the commands that the website can execute.
     """
 
-    # TODO
     START = StartCommand()
     """
-    Start a container on the runner.
+    Start the evaluation of a submission.
     """
 
     CHECK = CheckCommand()
     """
-    Check the status of the runner.
+    Check the status of the judge.
     """

@@ -6,6 +6,7 @@ from .models import (
     EvaluationSettings,
     Metric,
     ProblemCategory,
+    Result,
     SpecifiedProblem,
     StorageLocation,
     Submission,
@@ -39,7 +40,7 @@ class StorageLocationSerializer(serializers.ModelSerializer):
 
 
 class SubmissionSerializer(StorageLocationSerializer):
-    """ "Serializer for submissions"""
+    """Serializer for submissions"""
 
     # Adds fields of storagelocation as direct fields of submissions
     class Meta(StorageLocationSerializer.Meta):
@@ -62,13 +63,13 @@ class EvaluationSettingSerializer(serializers.ModelSerializer):
         model = EvaluationSettings
         fields = ["cpu", "time_limit"]
 
-        
+
 class MetricSerializer(serializers.ModelSerializer):
     """Serializer for metric"""
 
     class Meta:
         model = Metric
-        fields = ['name', 'label', 'unit', 'order']
+        fields = ["name", "label", "unit", "order"]
 
 
 class SpecifiedProblemSerializer(serializers.ModelSerializer):
@@ -117,7 +118,6 @@ class ProblemCategorySerializer(serializers.ModelSerializer):
 
 
 class BenchmarkInstanceSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = BenchmarkInstance
         fields = [
@@ -125,3 +125,9 @@ class BenchmarkInstanceSerializer(serializers.ModelSerializer):
             "filepath",
         ]
 
+class ResultSerializer(serializers.ModelSerializer):
+    """Serializer for result"""
+
+    class Meta:
+        model = Result
+        fields = ["submission", "benchmark_instance", "metric", "score"]

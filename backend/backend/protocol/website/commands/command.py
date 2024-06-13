@@ -6,9 +6,8 @@ class Command(ABC):
     Base abstract class for commands.
     """
 
-    @staticmethod
     @abstractmethod
-    def response(response: dict):
+    def response(self, response: dict):
         """
         Handles the response from the judge.
         """

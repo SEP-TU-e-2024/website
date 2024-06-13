@@ -1,27 +1,63 @@
 import errno
 import logging
+import os
 import socket
 import threading
+import uuid
+from queue import Queue
 
 from api.models import Submission
-from api.serializers import SubmissionSerializer
+from azure.storage.blob import BlobServiceClient
 
 from .protocol import Connection
 from .protocol.website import Commands, WebsiteProtocol
 
 logger = logging.getLogger("evaluator")
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
 
 # Specify the host and port for the judge server
-HOST = "localhost"
+BIND_HOST = "0.0.0.0"
 PORT = 30000
 
+evaluation_queue: Queue = Queue()
 
-def evaluate_submission(submission: Submission):
-    """Evaluate the submission"""
-    print(f"Submission made: {submission}, {SubmissionSerializer(submission).data}")
+def queue_evaluate_submission(submission: Submission):
+    evaluation_queue.put(submission)
+
+def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
+    """
+    Evaluate the submission, waits for the result.
+    """
+    connection_string = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
+    blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+    
+    # Get submission blob
+    submission_blob = blob_service_client.get_blob_client(
+        container=os.getenv("AZURE_STORAGE_CONTAINER_SUBMISSION"), blob=submission.filepath
+    )
+    if not submission_blob.exists():
+        raise ValueError("Submission Blob file does not exist")
+
+    # Get validator blob
+    validator_blob = blob_service_client.get_blob_client(
+        container=os.getenv("AZURE_STORAGE_CONTAINER_VALIDATOR"), blob=submission.problem.category.validator.filepath
+    )
+    if not validator_blob.exists():
+        raise ValueError("Validator Blob file does not exist")
+
+    logger.info(f"Sending submission {submission.id} to judge for evaluation")
+
+    # Send the submission to the judge for evaluation
+    protocol.send_command(Commands.START,
+                          cpus=submission.problem.evaluation_settings.cpu,
+                          memory=10, # TODO: memory amount
+                          gpus=0, # TODO: GPU amount
+                          time_limit=submission.problem.evaluation_settings.time_limit,
+                          machine_type="Standard_B1s", # TODO: machine type
+                          submission_type="code", # TODO: submission type
+                          source_url=submission_blob.url,
+                          validator_url=validator_blob.url)
+
+
 
 def initiate_protocol():
     """Initiate the connection protocol"""
@@ -29,16 +65,18 @@ def initiate_protocol():
 
     # Initiate the listening TCP socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # allows immediate re-bind of port after release (nice for development)
+    # Allows immediate re-bind of port after release (nice for development)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    sock.bind((HOST, PORT))
+    sock.bind((BIND_HOST, PORT))
+    # Set the backlog of unaccepted connections to 1.
     sock.listen(1)
 
     # Wait for an incoming connection from the judge on another thread
     thread = threading.Thread(target=establish_judge_connection, args=(sock,), daemon=True)
     thread.start()
 
-    logger.info(f"Judge server started on {HOST}:{PORT}.")
+    logger.info(f"Judge server started on {BIND_HOST}:{PORT}.")
+
 
 def establish_judge_connection(sock: socket.socket):
     """Establishes a judge connection for the specified socket"""
@@ -54,12 +92,20 @@ def establish_judge_connection(sock: socket.socket):
     protocol = WebsiteProtocol(connection)
 
     try:
-        # The first command is the first command that should be sent. It tests if the judge is connected correctly.
-        protocol.send_command(Commands.CHECK, block=True)
+        # TODO TP: testing purposes, remove
+        submission_id = uuid.UUID("a2938ac3-9a6b-4d88-a875-72f46ea913aa")
+        submission = Submission.objects.get(id=submission_id)
 
-        # TODO: Run until the judge or the website closes the connection
+        queue_evaluate_submission(submission)
+
+        # Wait for submissions in the queue to be evaluated
         while True:
-            pass
+            submission = evaluation_queue.get()
+            # TODO: what if submission evaluation failed, do we put it back in the queue?
+            try:
+                evaluate_submission(protocol, submission)
+            except Exception:
+                logger.error(f"Error evaluating submission with ID {submission.id}", exc_info=1)
 
     except socket.timeout:
         logger.error("Judge timed out.")

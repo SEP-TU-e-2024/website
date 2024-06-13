@@ -19,7 +19,7 @@ class Counter:
 
     def generate(self):
         """
-        This method retruns the current count. This method is thread-safe.
+        This method returns the current count. This method is thread-safe.
         """
         with self.lock:
             current_count = self.count
