@@ -124,3 +124,4 @@ class BenchmarkInstanceSerializer(serializers.ModelSerializer):
             "id",
             "filepath",
         ]
+
