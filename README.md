@@ -191,4 +191,4 @@ TU/e uses [simian](http://www.harukizaemon.com/simian/index.html/) to analyse co
 ### Testing
 
 In order to test, navigate to the backend folder, then run the following command:
-`python manage.py makemigrations`
+`python manage.py test tests`

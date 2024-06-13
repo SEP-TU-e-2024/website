@@ -156,6 +156,7 @@ class AuthViewSet(ViewSet):
             self.logger.warning("Failed to send email", exc_info=1)
             return Response(
                 {"Email erorr": "Failed to send email"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
         return Response({}, status=status.HTTP_200_OK)
 
