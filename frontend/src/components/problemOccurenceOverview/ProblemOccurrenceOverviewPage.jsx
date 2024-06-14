@@ -72,7 +72,7 @@ function ProblemOccurrenceOverviewPage() {
         </Row>
         <Row className="align-items-center">
           <Col className='bg-white border-dark border text-dark text-center'>
-            <h5 className="fw-bold">{problemData.name} :  {problemData.evaluation_settings.time_limit} second, {problemData.evaluation_settings.cpu} CPU variation</h5>
+            <h5 className="fw-bold">{problemData.name} :  {problemData.evaluation_settings.time_limit} second, {problemData.evaluation_settings.memory} MB Memory, {problemData.evaluation_settings.cpu} CPU variation</h5>
           </Col>
         </Row>
       </Container>

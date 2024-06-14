@@ -61,7 +61,7 @@ class EvaluationSettingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EvaluationSettings
-        fields = ["cpu", "time_limit"]
+        fields = ["cpu", "time_limit", "memory", "machine_type"]
 
 
 class MetricSerializer(serializers.ModelSerializer):
