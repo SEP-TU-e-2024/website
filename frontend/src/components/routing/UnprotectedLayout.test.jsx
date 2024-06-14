@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, vi } from "vitest";
+import { beforeEach, describe, expect, vi } from "vitest";
 import UnprotectedLayout from "./UnprotectedLayout";
 import AuthContext from "../../context/AuthContext";
 import { BrowserRouter } from "react-router-dom";
@@ -50,7 +50,7 @@ describe("Unprotected layout", () => {
         );
         // Find register button
         const registerButton = screen.getByText("Registration");
-        // Check whether user was redirected to register page
+        // Check whether register button is present
         expect(registerButton).toBeInTheDocument();
     });
 

@@ -63,7 +63,7 @@ function ProblemOccurrenceOverview({rows}) {
  * Fetches problem occurrences from the backend
  * @returns data, array
  */
-export async function getRows() {
+async function getRows() {
     try {
         const response = await api.post('/problems/occurrence_overview', {});
         return response.data
@@ -90,7 +90,7 @@ function HomePage() {
         const fetchRows = async () => {
         try {
             const data = await getRows();
-            console.log(data);
+            // console.log(data);
             setRows(data);
         } catch(error) {
             // TODO, proper handling
