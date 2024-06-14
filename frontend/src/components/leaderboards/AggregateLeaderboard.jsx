@@ -1,12 +1,10 @@
 // leaderboard.jsx
 
-import React, { useEffect, useState } from "react";
-import { Container } from "reactstrap";
+import React from "react";
 import './Leaderboard.scss';
 import MetricColumn from './MetricColumn';
 import LeaderboardColumn from './LeaderboardColumn';
 import api from "../../api";
-import { v4 as uuidv4 } from 'uuid';
 import Leaderboard from "./Leaderboard";
 
 /**
@@ -94,12 +92,19 @@ function createColumns(problem) {
     (entry) => { return entry.submitter.name }));
   columns.push(new LeaderboardColumn("Submitted date", 
     (entry) => { return entry.submission.created_at.slice(0,10) })); //the slice is to format the date
+  
+    problem.metrics.forEach((metric) => {
+    if (metric.name != problem.scoring_metric.name) {
+      columns.push(new MetricColumn(metric));
+    }
+  });
+
   columns.push(new LeaderboardColumn("Download Solver", 
     (entry) => { 
       return (
         <div className="download-cell"><i 
           role="button" 
-          onClick={entry.submission.is_downloadable ? () => handleDownloadSolverClick(entry.submission.filepath) : null} 
+          onClick={entry.submission.is_downloadable ? (event) => handleDownloadSolverClick(event, entry.submission.filepath) : null} 
           className={entry.submission.is_downloadable ? "bi-download" : "bi-download disabled"} 
         /></div>
       )
@@ -114,19 +119,14 @@ function createColumns(problem) {
     (entry) => { return <div className="download-cell"><i role="button" onClick={handleDownloadScoresClick} className="bi-download" /></div> },
     <div className="download-cell">Download Scores</div>
   ));
-
-  problem.metrics.forEach((metric) => {
-    if (metric.name != problem.scoring_metric.name) {
-      columns.push(new MetricColumn(metric));
-    }
-  });
   
   return columns;
 }
 
 
 // Download submission handler
-async function handleDownloadSolverClick(filepath) {
+async function handleDownloadSolverClick(event, filepath) {
+  event.stopPropagation()
   try {
     const response = await api.get('/download/download_solver/', {
       params: { filepath: filepath },
@@ -192,11 +192,11 @@ function createInstanceColumns(problem, submission) {
   });
 
   columns.push(new LeaderboardColumn("Download solution", 
-    (entry) => { return <div className="download-cell"><i onClick={getDownloadSingleSolutionOnClickHandler(submission, entry)} role="button" className="bi-download"/></div> }, 
+    (entry) => { return <div className="download-cell"><i onClick={(event) => handleVisualizePi(event)} role="button" className="bi-download"/></div> }, 
     <div className="download-cell">Download<br/>Solution</div>
   ));
   columns.push(new LeaderboardColumn("Visualize", 
-    (entry) => { return <div className="download-cell"><i onClick={getHandleVisualizePiOnClickHandler(submission, entry)} role="button" className="bi-eye"/></div> },
+    (entry) => { return <div className="download-cell"><i onClick={(event) => handleDownloadSingleSolution(event)} role="button" className="bi-eye"/></div> },
     <div className="download-cell">Visualize</div>
   ));
   
@@ -222,19 +222,15 @@ function InstanceRow({columns, entry}) {
 
 
 // Create download specific solution click handler
-function getDownloadSingleSolutionOnClickHandler(submission, instance_entry) {
-  return function onClickHandler(event) {
-    event.stopPropagation();
-    alert("download single solution");
-  }
+function handleDownloadSingleSolution(event) {
+  event.stopPropagation();
+  alert("download single solution");
 }
 
 // Create visualize problem instance click handler
-function getHandleVisualizePiOnClickHandler(submission, instance_entry) {
-  return function onClickHandler(event) {
-    event.stopPropagation();
-    alert("visualize");
-  }
+function handleVisualizePi(event) {
+  event.stopPropagation();
+  alert("visualize");
 }
 
 export default AggregateLeaderboard;

@@ -1,10 +1,8 @@
 // leaderboard.jsx
 
-import React, { useEffect, useState } from "react";
-import { Container } from "reactstrap";
+import React from "react";
 import './Leaderboard.scss';
 import LeaderboardColumn from './LeaderboardColumn';
-import api from "../../api";
 import Leaderboard from "./Leaderboard";
 import MetricColumn from "./MetricColumn";
 
@@ -66,6 +64,13 @@ function createColumns(problem, instance) {
     (entry) => { return entry.submitter.name }));
   columns.push(new LeaderboardColumn("Submitted date", 
     (entry) => { return entry.submission.created_at.slice(0,10) })); //the slice is to format the date
+
+  problem.metrics.forEach((metric) => {
+    if (metric.name != problem.scoring_metric.name) {
+      columns.push(new MetricColumn(metric, (entry) => { return entry.instance_entries[instance].results; }))
+    }
+  });
+
   columns.push(new LeaderboardColumn("Download Solution", 
     (entry) => { return <div className="download-cell"><i role="button" onClick={handleDownloadSolutionsClick} className="bi-download" /></div> },
     <div className="download-cell">Download Solutions</div>
@@ -75,12 +80,6 @@ function createColumns(problem, instance) {
     <div className="download-cell">Download Scores</div>
   ));
 
-  problem.metrics.forEach((metric) => {
-    if (metric.name != problem.scoring_metric.name) {
-      columns.push(new MetricColumn(metric, (entry) => { return entry.instance_entries[instance].results; }))
-    }
-  });
-  
   return columns;
 }
 
