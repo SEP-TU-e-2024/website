@@ -60,8 +60,10 @@ class EvaluationSettings(models.Model):
     """Settings for a problem"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    cpu = models.IntegerField()
-    time_limit = models.FloatField()
+    cpu = models.IntegerField(default=1)
+    time_limit = models.FloatField(default=60)
+    memory = models.IntegerField(default=256)
+    machine_type = models.CharField(max_length=256, default="Standard_B1s", help_text="All posible machine types can be found here, copy them EXACTLY AS WRITTEN: https://learn.microsoft.com/en-us/python/api/azure-mgmt-compute/azure.mgmt.compute.v2024_03_01.models.hardwareprofile?view=azure-python#keyword-only-parameters")
 
     class Meta:
         verbose_name = "evaluation settings"
