@@ -1,4 +1,4 @@
-import {React, useState} from "react"
+import {React, useState, useEffect} from "react"
 import api from "../../api";
 import { useLoaderData } from "react-router-dom";
 import { Container, Row, Col, TabContent, TabPane } from 'reactstrap'
@@ -9,23 +9,53 @@ import ProblemOccurrenceSubmission from "./contents/ProblemOccurrenceSubmission"
 import './ProblemOccurrrenceOverviewBody.scss';
 
 /**
+ * Async function to fetch the leaderboard data from the backend
+ * @returns response data
+ */
+async function getLeaderboardData(problemId) {
+  try {
+    const response = await api.get(`/leaderboard/${problemId}`);
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+/**
  * Page component for a problem occurence overview.
  */
 function ProblemOccurrenceOverviewPage() {
   const problemData = useLoaderData();//it returns an array because we use the same endpoint as for the list of problem occurrences
-  
+  const [currentTab, setCurrentTab] = useState("1");
+  const [entries, setEntries] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   if (problemData == null) {
     //somewhat janky error handling but there isn't really any other exception that is thrown somewhere
     throw new Error("Problem with fetching the requested data from db");
   }
   
-  const [currentTab, setCurrentTab] = useState("1");
+  useEffect(() => {
+    
+    const fetchLeaderboardData = async () => {
+      try {
+        const data = await getLeaderboardData(problemData.id);
+        const entries = data.entries.concat(data.unranked_entries)
+        setEntries(entries);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+      //TODO proper error handling
+    }
+    fetchLeaderboardData();
+  }, []);
   
   //Handle the tab switch by setting the currentTab state to the id of the tab that is clicked
   function handleTabSwitch(e) {
     setCurrentTab(e.target.id);
   }
-
 
   return (
     <div>
@@ -77,16 +107,16 @@ function ProblemOccurrenceOverviewPage() {
           {/* Actual content of the tabs */}
           <TabContent activeTab={currentTab}>
             <TabPane tabId="1">
-              <ProblemOccurrenceDescription problemData={problemData}/>
+              {!loading ? (<ProblemOccurrenceDescription problemData={problemData} leaderboardData={entries}/>) : <div>Loading...</div>}
             </TabPane>
             <TabPane tabId="2">
-              <ProblemOccurrenceLeaderboard problemData={problemData}/>
+              {!loading ? (<ProblemOccurrenceLeaderboard problemData={problemData} leaderboardData={entries}/>) : <div>Loading...</div>}
             </TabPane>
             <TabPane tabId="3">
               <ProblemOccurrenceSubmission />
             </TabPane>
             <TabPane tabId="4">
-              <ProblemOccurrenceProblemInstanceList />
+              {!loading ? (<ProblemOccurrenceProblemInstanceList problemData={problemData} leaderboardData={entries}/>) : <div>Loading...</div>} 
             </TabPane>
           </TabContent>
         </Col>
