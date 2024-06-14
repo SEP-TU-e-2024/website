@@ -25,7 +25,7 @@ class ProblemOccurrenceView(APIView):
 
         #Join data from the problem category and specified problem
         problem_data = SpecifiedProblemSerializer(specified_problem,many=True).data[0]
-        problem_data['problem_name'] = category_data['name']
+        problem_data['name'] = category_data['name']
         problem_data['description'] = category_data['description']
 
         #Return the json object

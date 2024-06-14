@@ -1,7 +1,10 @@
 
 class LeaderboardColumn {
-    /** Column name that can be used as key or header display */
+    /** Column name that can be used as key and is default header */
     #name;
+    
+    /** Heaer display of the column */
+    #header;
     
     /** Private method to get cell data for the column from an entry */
     #getDataFromEntry;
@@ -11,10 +14,12 @@ class LeaderboardColumn {
      * 
      * @param {string} name of column that is unique and displayable
      * @param {function(JSON)} getDataFromEntry function to get cell data from an entry
+     * @param {string} header string to display for the column, is set to name if left undefined.
      */
-    constructor(name, getDataFromEntry) {
+    constructor(name, getDataFromEntry, header=undefined) {
       this.#name = name;
       this.#getDataFromEntry = getDataFromEntry;
+      this.#header = header ?? name;
     }
   
     /**
@@ -41,7 +46,7 @@ class LeaderboardColumn {
      * @returns 
      */
     getHeader() {
-        return this.name;
+        return this.#header;
     }
 }
 export default LeaderboardColumn;

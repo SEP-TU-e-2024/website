@@ -3,6 +3,5 @@ Hi {{ user.username }}
 
 Please click on the link below to confirm your submission:
 
-<!--  Creates unique url including submission id and encrypted token -->
-{{ protocol }}://{{ domain }}{% url 'confirmSubmission' sidb64=sid token=token%}
+{{ protocol }}://{{ domain }}{% url 'confirm_submission' sidb64=sid token=token%}
 {% endautoescape %}

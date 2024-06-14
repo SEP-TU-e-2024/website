@@ -11,7 +11,9 @@ import { useState, useEffect } from 'react';
  */
 function ProblemOccurrenceOverview({rows}) {
     const navigate = useNavigate();
-    
+    const styleMapping = {"0" : "Scientific", "1" : "Competition"}
+
+
     let handleRowClick = (id)=> {
         navigate("/problemoccurrence/" + id);
     }    
@@ -33,9 +35,9 @@ function ProblemOccurrenceOverview({rows}) {
         <div className='problem_container'>
             {rows.map(row => (
                 // Hard coding to allow easier access to static values
-                <div className={`problem_card ${row["type"]}`} key={row.id}>
+                <div className={`problem_card ${styleMapping[row["type"]]}`} key={row.id}>
                     <div className='card_title'> 
-                        {row["type"]} 
+                        {styleMapping[row["type"]]} 
                     </div>
                     <div className='card_content'>
                         <h5>
@@ -59,6 +61,7 @@ function ProblemOccurrenceOverview({rows}) {
         </div>
     )
 }
+
 /**
  * Fetches problem occurrences from the backend
  * @returns data, array
@@ -90,7 +93,6 @@ function HomePage() {
         const fetchRows = async () => {
         try {
             const data = await getRows();
-            // console.log(data);
             setRows(data);
         } catch(error) {
             // TODO, proper handling

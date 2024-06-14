@@ -6,14 +6,15 @@ from azure.storage.blob import BlobServiceClient
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMessage
-from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework import status
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
+
+from backend.evaluator import queue_evaluate_submission
 
 from ..models import Submission
 from ..models import UserProfile as User
@@ -79,9 +80,8 @@ class SubmitViewSet(ViewSet):
     def verify_submission(self, request, logged_in, submission):
         # Verifies submission if logged in
         if logged_in:
-            submission.is_verified = True
-            submission.save()
-            return HttpResponse({}, status=status.HTTP_200_OK)
+            self.evaluate_submission(submission)
+            return Response({}, status=status.HTTP_200_OK)
 
         # User not logged in, hence sent verification email
         if not self.send_submission_email(request, submission):
@@ -151,6 +151,7 @@ class SubmitViewSet(ViewSet):
         )
         return email.send()
 
+    @api_view(('GET',))
     def confirm_submission(self, sidb64, token):
         """Activates submission in backend
 
@@ -178,9 +179,8 @@ class SubmitViewSet(ViewSet):
             submission, token
         ):
             # Puts submission to verified
-            submission.is_verified = True
-            submission.save()
-            return HttpResponse({}, status=status.HTTP_200_OK)
+            self.evaluate_submission(submission)
+            return Response({"Succesfull": "Succesfull"}, status=status.HTTP_200_OK)
         return Response(
             {"Submission error": "Submission not found"},
             status=status.HTTP_400_BAD_REQUEST,
@@ -217,3 +217,8 @@ class SubmitViewSet(ViewSet):
         except Exception:
             self.logger.warning("File failed to upload", exc_info=1)
             return False
+
+    def evaluate_submission(self, submission: Submission):
+        submission.is_verified = True
+        submission.save()
+        queue_evaluate_submission(submission)

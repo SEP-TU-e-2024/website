@@ -12,6 +12,7 @@
 
 AZURE_STORAGE_CONNECTION_STRING = 'connection_string'
 AZURE_STORAGE_CONTAINER_SUBMISSION = 'container_name'
+AZURE_STORAGE_CONTAINER_VALIDATOR = 'container_name'
 
 ## Backend 
 SECRET_KEY = "secret_key"
@@ -110,6 +111,8 @@ If you do need to change data this can be a workflow:
 - run `python manage.py flush` to empty the database.
 - run `python manage.py loaddata XXXX_filename.json` to seed the db with the new data.
 
+If the migrate command gives an error, it might be easier to reset your entire database. This can be done with `python manage.py reset_db`, rather than the flush command.
+
 ## Ruff
 
 Ruff is a tool that checks, based on some rules, the Python code, similar to Java Checkstyle.
@@ -185,3 +188,8 @@ TU/e uses [simian](http://www.harukizaemon.com/simian/index.html/) to analyse co
 [understand](http://scitools.com/student) is used to derive all the other metrics.
 
 **Note:** understand incorrectly computes Module coupling, it only accounts for classes in the same file. 
+
+### Testing
+
+In order to test, navigate to the backend folder, then run the following command:
+`python manage.py test tests`

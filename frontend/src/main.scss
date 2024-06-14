@@ -122,13 +122,6 @@ $nav-underline-link-active-color:   var(--#{$prefix}emphasis-color);
 // @import 'bootstrap/dist/css/bootstrap.min.css';
 @import "node_modules/bootstrap/scss/bootstrap";
 
-//format seconds to include an s after the number
-.seconds::after {
-  content: "s";
-}
-
-
-
 // /* Nav underline */
 // /* We override this class because the styling doesn't really fit with the ortec look and feel */
 // .nav-underline {

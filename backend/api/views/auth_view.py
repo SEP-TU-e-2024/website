@@ -5,7 +5,6 @@ from smtplib import SMTPException
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMessage
-from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
@@ -94,7 +93,7 @@ class AuthViewSet(ViewSet):
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
         except ObjectDoesNotExist:
-            return HttpResponse(
+            return Response(
                 {"User error": "User not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
@@ -107,10 +106,10 @@ class AuthViewSet(ViewSet):
             }
             redirect_url = f"{os.getenv('FRONTEND_URL')}tokens/?refresh_token={response_data['refresh_token']}&access_token={response_data['access_token']}"
             return redirect(redirect_url)
-        return HttpResponse(
+        return Response(
             {"User error": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST
         )
-
+    
     @action(detail=False, methods=["POST"])
     def send_login_email(self, request):
         """Sends activation email
@@ -129,7 +128,7 @@ class AuthViewSet(ViewSet):
             # Gets user by email
             user = User.objects.get(email=request.data["email"])
         except ObjectDoesNotExist:
-            return HttpResponse(
+            return Response(
                 {"User error": "User not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
@@ -155,11 +154,11 @@ class AuthViewSet(ViewSet):
             email.send()
         except SMTPException:
             self.logger.warning("Failed to send email", exc_info=1)
-            return HttpResponse(
+            return Response(
                 {"Email erorr": "Failed to send email"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
-        return HttpResponse({}, status=status.HTTP_200_OK)
+        return Response({}, status=status.HTTP_200_OK)
 
     def send_activate_email(self, request, user):
         """Sends activation email
@@ -219,16 +218,15 @@ class AuthViewSet(ViewSet):
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
         except ObjectDoesNotExist:
-            return HttpResponse(
+            return Response(
                 {"User error": "User not found."}, status=status.HTTP_400_BAD_REQUEST
             )
-
         # Checks token and sets user to active
         if user is not None and account_activation_token.check_token(user, token):
             user.is_active = True
             user.save()
             # Redirects to login
             return redirect(f'{os.getenv("FRONTEND_URL")}login')
-        return HttpResponse(
+        return Response(
             {"User error": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST
         )
