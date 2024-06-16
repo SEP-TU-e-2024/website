@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react';
  * @param {JSON} rows, data to render 
  * @returns HTML Table
  */
-function ProblemOccurrenceOverview({rows}) {
+function ProblemOccurenceOverview({rows}) {
     const navigate = useNavigate();
     const styleMapping = {"0" : "Scientific", "1" : "Competition"}
 
@@ -24,9 +24,9 @@ function ProblemOccurrenceOverview({rows}) {
     }
  
     // Assemble a list of all specified problems per problem category
-    const problemOccurrences = rows.map((problem_cat) => (
-            problem_cat['specified_problems'].map((problem_occurrence)  => (
-                <li >{problem_occurrence['name']}</li>
+    const problemOccurences = rows.map((problem_cat) => (
+            problem_cat['specified_problems'].map((problem_occurence)  => (
+                <li >{problem_occurence['name']}</li>
             ))
         )
     );
@@ -120,7 +120,7 @@ function HomePage() {
             </div>
             <div>
                 <Container fluid className='justify-content-center'>
-                    <ProblemOccurrenceOverview rows={rows}/>
+                    <ProblemOccurenceOverview rows={rows}/>
                 </Container>
             </div>
         </div>

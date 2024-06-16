@@ -96,9 +96,10 @@ function Submit() {
               required />
           </div>
           <div>
-            <label>Select a File</label>
+            <label htmlFor="fileSelector">Select a File</label>
             <input
               name="file"
+              id="fileSelector"
               type="file"
               accept=".zip,.rar,.7z"
               required
