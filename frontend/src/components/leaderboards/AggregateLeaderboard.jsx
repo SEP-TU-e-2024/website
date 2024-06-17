@@ -61,6 +61,7 @@ function LeaderboardRow({columns, entry, problemData, parentPrefix}) {
         ))}        
       </tr>
       
+      {/* if category.style is 0 it is a comp problem */}
       {problemData.category.style != 0 ? 
       <tr id={PROBLEM_INSTANCES_ID_PREFIX + entry.submission.id} className="fold-closed">
         <td colSpan="8" className="fold-container">
