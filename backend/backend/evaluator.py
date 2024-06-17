@@ -62,15 +62,19 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
             raise ValueError("Benchmark instance Blob file does not exist")
         benchmark_instance_urls[benchmark_instance.id] = benchmark_instance_blob
 
+    command = StartCommand()
 
     # Send the submission to the judge for evaluation
     protocol.send_command(
-        StartCommand(),
+        command,
+        block=True,
         evaluation_settings=submission.problem.evaluation_settings,
         benchmark_instances=benchmark_instance_urls,
         submission_url=submission_blob.url,
         validator_url=validator_blob.url,
     )
+
+    print(command.results)
 
 
 def initiate_protocol():
@@ -111,7 +115,8 @@ def establish_judge_connection(sock: socket.socket):
                 submission = evaluation_queue.get()
                 # TODO: what if submission evaluation failed, do we put it back in the queue?
                 try:
-                    evaluate_submission(protocol, submission)
+                    thread = threading.Thread(target=evaluate_submission, args=(protocol, submission), daemon=True)
+                    thread.start()
                 except Exception:
                     logger.error(f"Error evaluating submission with ID {submission.id}", exc_info=1)
 

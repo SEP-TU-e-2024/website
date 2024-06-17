@@ -35,3 +35,5 @@ class StartCommand(Command):
             serializer = ResultSerializer(data=data)
             serializer.is_valid()
             serializer.save()
+
+        self.results = results
