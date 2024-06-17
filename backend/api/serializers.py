@@ -75,6 +75,7 @@ class MetricSerializer(serializers.ModelSerializer):
 class ProblemCategorySerializer(serializers.ModelSerializer):
     """Serializer for problem categories"""
 
+    #Get the simulator and validator
     simulator = StorageLocationSerializer(read_only=True)
     validator = StorageLocationSerializer(read_only=True)
     
@@ -92,6 +93,8 @@ class ProblemCategorySerializer(serializers.ModelSerializer):
 
 
 class BenchmarkInstanceSerializer(serializers.ModelSerializer):
+    """Serializer for benchmar instances"""
+    
     class Meta:
         model = BenchmarkInstance
         fields = [
@@ -111,9 +114,7 @@ class SpecifiedProblemSerializer(serializers.ModelSerializer):
 
     # Add additional serialization depth to the fields
     evaluation_settings = EvaluationSettingSerializer(read_only=True)
-    
     benchmark_instances = BenchmarkInstanceSerializer(many=True, read_only=True)
-    
     metrics = MetricSerializer(many=True, read_only=True)
     scoring_metric = MetricSerializer(read_only=True)
 
