@@ -10,7 +10,7 @@ function RegisterForm() {
     const [passwordVisiblity, setPasswordVisibility] = useState(false); 
     let {register_user} = useContext(AuthContext)
 
-    const handlePassword = (event) => {
+    const togglePasswordVisibility = (event) => {
         setPasswordVisibility(!passwordVisiblity);
     };
 
@@ -76,7 +76,7 @@ function RegisterForm() {
                     )}
                     <button type="submit">Register</button>
                 </form>
-                <p onClick={handlePassword}>{passwordVisiblity ? 
+                <p onClick={togglePasswordVisibility}>{passwordVisiblity ? 
                     (
                         " Want to login through email? Click here "
                     ) :
