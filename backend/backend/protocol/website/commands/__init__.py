@@ -2,6 +2,6 @@
 This module contains the website commands.
 """
 
-from .website_commands import Commands
+from .command import Command
 
-__all__ = ["Commands"]
+__all__ = ["Command"]

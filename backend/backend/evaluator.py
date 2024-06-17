@@ -10,7 +10,8 @@ from api.models import Submission
 from azure.storage.blob import BlobServiceClient
 
 from .protocol import Connection
-from .protocol.website import Commands, WebsiteProtocol
+from .protocol.website import WebsiteProtocol
+from .protocol.website.commands.start_command import StartCommand
 
 logger = logging.getLogger("evaluator")
 
@@ -64,7 +65,7 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
 
     # Send the submission to the judge for evaluation
     protocol.send_command(
-        Commands.START,
+        StartCommand(),
         evaluation_settings=submission.problem.evaluation_settings,
         benchmark_instances=benchmark_instance_urls,
         submission_url=submission_blob.url,
