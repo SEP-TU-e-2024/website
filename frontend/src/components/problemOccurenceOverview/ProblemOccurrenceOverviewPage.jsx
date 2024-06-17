@@ -57,6 +57,8 @@ function ProblemOccurrenceOverviewPage() {
     setCurrentTab(e.target.id);
   }
 
+  console.log(problemData)
+  
   return (
     <div>
       <Container fluid className="bg-primary mt-4">
@@ -98,12 +100,15 @@ function ProblemOccurrenceOverviewPage() {
               </a>
             </li>
             
-            <li className="tab-selector-item">
-              <a role="button" className={currentTab == "4" ? "active tab-selector-link": "tab-selector-link"} /*active={currentTab == "4"}*/ id="4" onClick={handleTabSwitch}>
-                Problem instances
-              </a>
-            </li>
-            
+            {/* Hide this tab if the problem is a competition style problem */}
+            {problemData.category.style != 0 ? 
+              <li className="tab-selector-item">
+                <a role="button" className={currentTab == "4" ? "active tab-selector-link": "tab-selector-link"} /*active={currentTab == "4"}*/ id="4" onClick={handleTabSwitch}>
+                  Problem instances
+                </a>
+              </li>
+            : 
+              <></>}
           </ul>
           
           {/* Actual content of the tabs */}
@@ -117,9 +122,13 @@ function ProblemOccurrenceOverviewPage() {
             <TabPane tabId="3">
               <ProblemOccurrenceSubmission />
             </TabPane>
-            <TabPane tabId="4">
-              {!loading ? (<ProblemOccurrenceProblemInstanceList problemData={problemData} leaderboardData={entries}/>) : <div>Loading...</div>} 
-            </TabPane>
+            {problemData.category.style != 0 ? 
+              <TabPane tabId="4">
+                {!loading ? (<ProblemOccurrenceProblemInstanceList problemData={problemData} leaderboardData={entries}/>) : <div>Loading...</div>} 
+              </TabPane>
+            :
+              <></>
+            }   
           </TabContent>
         </Col>
         

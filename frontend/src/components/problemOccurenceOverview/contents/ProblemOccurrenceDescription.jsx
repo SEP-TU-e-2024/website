@@ -1,6 +1,5 @@
 import React from "react"
 import { Container, Row, Col } from "reactstrap";
-import Submit from '../../submit/Submit';
 import AggregateLeaderboard from "../../leaderboards/AggregateLeaderboard";
 
 /**
@@ -12,7 +11,7 @@ function ProblemOccurrenceDescription({problemData, leaderboardData}) {
     <Container className="ps-0 pt-2">
         <Row className="">
           <Col>
-            <p>{problemData.description}</p>
+            <p>{problemData.category.description}</p>
             <AggregateLeaderboard problemData={problemData} leaderboardData={leaderboardData} rowLimit={5}/>
           </Col>
         </Row>
