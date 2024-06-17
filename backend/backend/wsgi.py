@@ -15,7 +15,7 @@ from backend.evaluator import initiate_protocol
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
 
+application = get_wsgi_application()
+
 # Start the Backend <-> Judge protocol
 initiate_protocol()
-
-application = get_wsgi_application()
