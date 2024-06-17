@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 
 from ..models import SpecifiedProblem
-from ..serializers import ProblemCategorySerializer, SpecifiedProblemSerializer
+from ..serializers import SpecifiedProblemSerializer
 
 
 class ProblemOccurrenceView(APIView):
@@ -16,17 +16,13 @@ class ProblemOccurrenceView(APIView):
         """
 
         #Retrieve the specified problem
-        specified_problem = SpecifiedProblem.objects.all().filter(id=problem_id).select_related("category")
+        specified_problem = SpecifiedProblem.objects.filter(id=problem_id).select_related("category")
         #Check whether specified problem exists
         if not specified_problem.exists():
-            return Response({}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({}, status=status.HTTP_404_NOT_FOUND)
         #Retrieve the associated category
-        category_data = ProblemCategorySerializer(specified_problem.get().category).data
-
-        #Join data from the problem category and specified problem
-        problem_data = SpecifiedProblemSerializer(specified_problem,many=True).data[0]
-        problem_data['name'] = category_data['name']
-        problem_data['description'] = category_data['description']
+        specified_problem = specified_problem.get() #actually hit the DB now to fetch the data
+        problem_data = SpecifiedProblemSerializer(specified_problem)
 
         #Return the json object
-        return JsonResponse(problem_data, safe=False, status=status.HTTP_200_OK)
+        return JsonResponse(problem_data.data, safe=False, status=status.HTTP_200_OK)
