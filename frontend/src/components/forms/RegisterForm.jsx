@@ -11,7 +11,7 @@ function RegisterForm() {
     let {register_user} = useContext(AuthContext)
 
     const handlePassword = (event) => {
-        setPasswordVisibility(true);
+        setPasswordVisibility(!passwordVisiblity);
     };
 
     return (
@@ -76,7 +76,14 @@ function RegisterForm() {
                     )}
                     <button type="submit">Register</button>
                 </form>
-                <p onClick={handlePassword}> Want to login through password? Click here </p>
+                <p onClick={handlePassword}>{passwordVisiblity ? 
+                    (
+                        " Want to login through email? Click here "
+                    ) :
+                    (
+                        " Want to login through password? Click here "
+                    )
+                }</p>
             </div>
         </div>
     );
