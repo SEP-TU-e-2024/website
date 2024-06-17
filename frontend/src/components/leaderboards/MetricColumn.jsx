@@ -6,13 +6,13 @@ class MetricColumn extends LeaderboardColumn {
      * 
      * @param {JSON} metric to create column for.
      */
-    constructor(metric) {
+    constructor(metric, resultsFromEntry=(entry) =>  {return entry.results; }) {
         // Construct the column based on the metric values
         super(metric.label, (entry) => {
 
         // Format the data of the scoring metric with score and unit
-        return metric.name in entry.results ? 
-            `${entry.results[metric.name]}${metric.unit}`: 
+        return metric.name in resultsFromEntry(entry) ? 
+            `${resultsFromEntry(entry)[metric.name]}${metric.unit}`: 
             '*'
         })
     }
