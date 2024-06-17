@@ -51,16 +51,23 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
 
     logger.info(f"Sending submission {submission.id} to judge for evaluation")
 
+    benchmark_instance_urls = dict()
+    for benchmark_instance in submission.problem.benchmark_instances.all():
+        # Get benchmark instnace blob
+        benchmark_instance_blob = blob_service_client.get_blob_client(
+            container=os.getenv("AZURE_STORAGE_CONTAINER_SUBMISSION"), blob=benchmark_instance.filepath
+        )
+        if not benchmark_instance_blob.exists():
+            raise ValueError("Benchmark instance Blob file does not exist")
+        benchmark_instance_urls[benchmark_instance.id] = benchmark_instance_blob
+
+
     # Send the submission to the judge for evaluation
     protocol.send_command(
         Commands.START,
-        cpus=submission.problem.evaluation_settings.cpu,
-        memory=10,  # TODO: memory amount
-        gpus=0,  # TODO: GPU amount
-        time_limit=submission.problem.evaluation_settings.time_limit,
-        machine_type="Standard_B1s",  # TODO: machine type
-        submission_type="code",  # TODO: submission type
-        source_url=submission_blob.url,
+        evaluation_settings=submission.problem.evaluation_settings,
+        benchmark_instances=benchmark_instance_urls,
+        submission_url=submission_blob.url,
         validator_url=validator_blob.url,
     )
 
