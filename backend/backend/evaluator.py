@@ -98,14 +98,14 @@ def establish_judge_connection(sock: socket.socket):
 
             queue_evaluate_submission(submission)
 
-        # Wait for submissions in the queue to be evaluated
-        while True:
-            submission = evaluation_queue.get()
-            # TODO: what if submission evaluation failed, do we put it back in the queue?
-            try:
-                evaluate_submission(protocol, submission)
-            except Exception:
-                logger.error(f"Error evaluating submission with ID {submission.id}", exc_info=1)
+            # Wait for submissions in the queue to be evaluated
+            while True:
+                submission = evaluation_queue.get()
+                # TODO: what if submission evaluation failed, do we put it back in the queue?
+                try:
+                    evaluate_submission(protocol, submission)
+                except Exception:
+                    logger.error(f"Error evaluating submission with ID {submission.id}", exc_info=1)
 
         except socket.timeout:
             logger.error("Judge timed out.")
