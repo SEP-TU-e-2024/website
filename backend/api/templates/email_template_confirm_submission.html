@@ -1,0 +1,7 @@
+{% autoescape off %}
+Hi {{ user.username }}
+
+Please click on the link below to confirm your submission:
+
+{{ protocol }}://{{ domain }}{% url 'confirm_submission' sidb64=sid token=token%}
+{% endautoescape %}
