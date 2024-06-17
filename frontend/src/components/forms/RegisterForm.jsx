@@ -76,7 +76,7 @@ function RegisterForm() {
                     )}
                     <button type="submit">Register</button>
                 </form>
-                <p onClick={handlePassword}> Want to login through password? Click here </p>
+                <p onClick={handlePassword} style={{cursor:'pointer'}}> Want to login through password? Click here </p>
             </div>
         </div>
     );
