@@ -44,8 +44,8 @@ function MyNavbar() {
             <NavbarBrand onClick={() => {navigate(routeStrings.ROOT)}} href="">
                 <img alt="logo" src="/src/assets/LOGO.svg" style={{ width: 120 }} />
             </NavbarBrand>
-            <NavbarToggler onClick={toggle} />
-            <Collapse isOpen={isOpen} navbar>
+            <NavbarToggler onClick={toggle} data-testid="toggler"/>
+            <Collapse isOpen={isOpen} navbar data-testid="collapse">
                 <Nav navbar className="me-auto navbar-left">
                     <NavItem className="route-button">
                         <NavLink active={routeStrings.BESTKNOWNSOLUTIONS === location.pathname} href={routeStrings.BESTKNOWNSOLUTIONS}>

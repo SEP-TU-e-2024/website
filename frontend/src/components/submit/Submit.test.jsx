@@ -5,32 +5,31 @@ import { BrowserRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import AuthContext from "../../context/AuthContext";
 import api from "../../api";
+import { mockGuestContextData, mockMemberContextData } from "../testing_utils/TestingUtils";
 
-// Mocks a user object
-const mockUser = {
-    name: 'Test User',
-    token: 'mock-session-token'
-};
-
-// Mocks a user that is logged in, i.e. a member
-const mockMemberContextData = {
-    user: mockUser,
-    set_tokens: vi.fn(),
-    login_user: vi.fn(),
-    logout_user: vi.fn(),
-    register_user: vi.fn(),
-    send_email_login: vi.fn(),
-};
-
-// Mocks a user that is not logged in, i.e. a guest
-const mockGuestContextData = {
-    user: null, // null because user is not logged in
-    set_tokens: vi.fn(),
-    login_user: vi.fn(),
-    logout_user: vi.fn(),
-    register_user: vi.fn(),
-    send_email_login: vi.fn(),
-};
+function renderWithRouter(loggedIn) {
+    if (loggedIn) {
+        render(
+            // Wrapped in BrowserRouter for navigation
+            <BrowserRouter>
+                {/* Mocks the user data */}
+                <AuthContext.Provider value={mockMemberContextData}>
+                    <Submit/>
+                </AuthContext.Provider>
+            </BrowserRouter>
+        );
+    } else {
+        render(
+            // Wrapped in BrowserRouter to do navigation
+            <BrowserRouter>
+                {/* Mock the user data */}
+                <AuthContext.Provider value={mockGuestContextData}>
+                    <Submit/>
+                </AuthContext.Provider>
+            </BrowserRouter>
+        );
+    }    
+}
 
 describe("Submit form", () => {
     beforeEach(() => {
@@ -44,15 +43,7 @@ describe("Submit form", () => {
     });
 
     it("should contain a submit button", () => {
-        render(
-            // Wrapped in BrowserRouter to allow for navigation
-            <BrowserRouter>
-                {/* Mock the AuthContext that is used to handle user data */}
-                <AuthContext.Provider value={mockMemberContextData}>
-                    <Submit/>
-                </AuthContext.Provider>
-            </BrowserRouter>
-        );
+        renderWithRouter(false);
 
         // Check whether submit button is in there
         const submitButton = screen.getByText("Submit solution");
@@ -60,15 +51,7 @@ describe("Submit form", () => {
     });
 
     it("should alert when no file is provided", async () => {
-        render(
-            // Wrapped in BrowserRouter to allow for navigation
-            <BrowserRouter>
-                {/* Mock the AuthContext that is used to handle user data */}
-                <AuthContext.Provider value={mockMemberContextData}>
-                    <Submit/>
-                </AuthContext.Provider>
-            </BrowserRouter>
-        );
+        renderWithRouter(false);
 
         // Mock the window.alert function such that we can check whether it's been called
         window.alert = vi.fn();
@@ -82,15 +65,7 @@ describe("Submit form", () => {
     });
 
     it("should select a provided document", async () => {
-        render(
-            // Wrapped in BrowserRouter to allow for navigation
-            <BrowserRouter>
-                {/* Mock the AuthContext that is used to handle user data */}
-                <AuthContext.Provider value={mockMemberContextData}>
-                    <Submit/>
-                </AuthContext.Provider>
-            </BrowserRouter>
-        );
+        renderWithRouter(false);
         
         const fileSelector = screen.getByLabelText('Select a File');
         // Create mock file
@@ -107,13 +82,7 @@ describe("Submit form", () => {
     });
 
     it("should enter a submission name", async () => {
-        render(
-        <BrowserRouter>
-            {/* Mock the AuthContext that is used to handle user data */}
-            <AuthContext.Provider value={mockMemberContextData}>
-                <Submit/>
-            </AuthContext.Provider>
-        </BrowserRouter>)
+        renderWithRouter(false);
         const input = screen.getByPlaceholderText("Submission Name");
         // Fill in testName as the name of the submission
         const testName = 'test';
@@ -126,13 +95,7 @@ describe("Submit form", () => {
     });
     
     it("guest should enter an email", async () => {
-        render(
-        <BrowserRouter>
-            {/* Mock the AuthContext that is used to handle user data */}
-            <AuthContext.Provider value={mockGuestContextData}>
-                <Submit/>
-            </AuthContext.Provider>
-        </BrowserRouter>)
+        renderWithRouter(false);
         const input = screen.getByPlaceholderText("Email");
         // Fill in testName as the email
         const testEmail = 'test@email.com';
@@ -145,13 +108,7 @@ describe("Submit form", () => {
     });
 
     it("member should not enter an email", async () => {
-        render(
-        <BrowserRouter>
-            {/* Mock the AuthContext that is used to handle user data */}
-            <AuthContext.Provider value={mockMemberContextData}>
-                <Submit/>
-            </AuthContext.Provider>
-        </BrowserRouter>)
+        renderWithRouter(true);
         const input = screen.queryByPlaceholderText("Email");
         await waitFor(async () => {
             // Check if the test name has been entered

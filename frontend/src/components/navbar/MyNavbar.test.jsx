@@ -1,113 +1,79 @@
-import { fireEvent, render, screen, waitFor} from "@testing-library/react";
-import { describe, expect } from "vitest";
-import { BrowserRouter } from "react-router-dom";
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
+import { vi } from 'vitest';
+import AuthContext from '../../context/AuthContext';
+import MyNavbar from './MyNavbar';
+import { mockGuestContextData, mockMemberContextData } from '../testing_utils/TestingUtils';
 
-import MyNavbar from "./MyNavbar";
-import AuthContext from "../../context/AuthContext";
-import userEvent from "@testing-library/user-event";
-
-// Mocks a user object
-const mockUser = {
-    name: 'Test User',
-    token: 'mock-session-token'
-};
-
-// Mocks a user that is logged in, i.e. a member
-const mockMemberContextData = {
-    user: mockUser,
-    set_tokens: vi.fn(),
-    login_user: vi.fn(),
-    logout_user: vi.fn(),
-    register_user: vi.fn(),
-    send_email_login: vi.fn(),
-}
-
-// Mocks a user that is not logged in, i.e. a guest
-const mockGuestContextData = {
-    user: null, // null because user is not logged in
-    set_tokens: vi.fn(),
-    login_user: vi.fn(),
-    logout_user: vi.fn(),
-    register_user: vi.fn(),
-    send_email_login: vi.fn(),
-};
-
-describe("Navbar component", () => {
-    it("should render a logo", () => {
+function renderWithRouter(loggedIn) {
+    if (loggedIn) {
         render(
-            // Wrapped in BrowserRouter because MyNavBar uses routing functions
+            // Wrapped in a BrowserRouter to allow for navigation
             <BrowserRouter>
-                {/* Mock the AuthContext that MyNavBar uses to handle user data */}
+                {/* Mock the user data */}
                 <AuthContext.Provider value={mockMemberContextData}>
                     <MyNavbar/>
                 </AuthContext.Provider>
             </BrowserRouter>
         );
-        // Find logo in the navbar
-        const logo = screen.getByAltText("logo");
-        expect(logo).toBeInTheDocument();
-    });
-
-    it("should shrink navbar with window size", async () => {
+    } else {
         render(
-            // Wrapped in BrowserRouter because MyNavBar uses routing functions
+            // Wrapped in BrowserRouter to facilitate navigation
             <BrowserRouter>
-                {/* Mock the AuthContext that MyNavBar uses to handle user data */}
+                {/* Mock the user data */}
                 <AuthContext.Provider value={mockGuestContextData}>
                     <MyNavbar/>
                 </AuthContext.Provider>
             </BrowserRouter>
         );
-        // Resize the window
-        Object.defineProperty(window, 'innerWidth', {writable: true, configurable: true, value: 200});
-        await fireEvent(window, new Event("resize"));
-        waitFor(() => {
-            // Check if the buttons are in the document
-            // If the navbar is shrunk properly, they shouldn't be visible
-            const loginButton = screen.getByText("Login");
-            expect(loginButton).not.toBeVisible();
-            const logoutButton = screen.getByText("Logout");
-            expect(logoutButton).not.toBeVisible();
-            const registerButton = screen.getByText("Registration");
-            expect(registerButton).not.toBeVisible();
-            // Logo should still be visible
-            const logo = screen.getByAltText("logo");
-            expect(logo).toBeVisible();
-            // Navbar toggler (to expand/collaps navbar in this state) should be visible
-            const toggler = screen.getByText("navbar-toggler");
-            expect(toggler).toBeVisible();
-        });        
+    }    
+}
+
+describe('MyNavbar', () => {
+    it('renders the navbar', () => {
+        renderWithRouter(false);
+
+        // Check whether the navbar is rendered by checking whether the logo (which is included in the navbar) is there
+        expect(screen.getByAltText('logo')).toBeInTheDocument();
     });
 
-    it("navbar toggler should expand navbar", async () => {
-        render(
-            // Wrapped in BrowserRouter because MyNavBar uses routing functions
-            <BrowserRouter>
-                {/* Mock the AuthContext that MyNavBar uses to handle user data */}
-                <AuthContext.Provider value={mockGuestContextData}>
-                    <MyNavbar/>
-                </AuthContext.Provider>
-            </BrowserRouter>
-        );
-        // Resize the window
-        Object.defineProperty(window, 'innerWidth', {writable: true, configurable: true, value: 200});
-        await fireEvent(window, new Event("resize"));
-        waitFor(async () => {
-            // Find navbar toggler
-            const toggler = screen.getByText("navbar-toggler");
-            // Buttons should not be visible
-            const loginButton = screen.getByText("Login");
-            expect(loginButton).not.toBeVisible();
-            const logoutButton = screen.getByText("Logout");
-            expect(logoutButton).not.toBeVisible();
-            const registerButton = screen.getByText("Registration");
-            expect(registerButton).not.toBeVisible();
-            // Click the toggler to expand the navbar
-            await userEvent.click(toggler);
-            // Buttons should be visible now
-            expect(loginButton).toBeVisible();
-            expect(logoutButton).toBeVisible();
-            expect(registerButton).toBeVisible();
+    it('toggles the collapse on clicking the toggler', async () => {
+        renderWithRouter(false);
+
+        // Click the navbar toggler
+        const toggler = screen.getByTestId('toggler');
+        fireEvent.click(toggler);
+        // Wait for the changes to render
+        await waitFor(() => {
+            // Check whether the navbar is expanded
+            expect(screen.getByTestId('collapse')).toHaveClass('collapse show');
         });
+
+        // Click the navbar toggler again
+        fireEvent.click(toggler);
+        // Wait for the changes to render
+        await waitFor(() => {
+            // Check whether the navbar is collapsed
+            expect(screen.getByTestId('collapse')).not.toHaveClass('collapse show');
+        });
+    });
+
+    it('renders login and registration buttons for guests', () => {
+        renderWithRouter(false);
+
+        // Check whether a guest gets to see login and registration buttons
+        expect(screen.getByText('Login')).toBeInTheDocument();
+        expect(screen.getByText('Registration')).toBeInTheDocument();
+        expect(screen.queryByText('Logout')).not.toBeInTheDocument();
+    });
+
+    it('renders logout link for members', () => {
+        renderWithRouter(true);
+
+        // Check whether a member gets to see logout button instead of login button
+        expect(screen.getByText('Logout')).toBeInTheDocument();
+        expect(screen.queryByText('Login')).not.toBeInTheDocument();
+        expect(screen.queryByText('Registration')).not.toBeInTheDocument();
     });
 });

@@ -4,32 +4,31 @@ import UnprotectedLayout from "./UnprotectedLayout";
 import AuthContext from "../../context/AuthContext";
 import { BrowserRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
+import { mockGuestContextData, mockMemberContextData } from "../testing_utils/TestingUtils";
 
-// Mocks a user object
-const mockUser = {
-    name: 'Test User',
-    token: 'mock-session-token'
-};
-
-// Mocks a user that is logged in, i.e. a member
-const mockMemberContextData = {
-    user: mockUser,
-    set_tokens: vi.fn(),
-    login_user: vi.fn(),
-    logout_user: vi.fn(),
-    register_user: vi.fn(),
-    send_email_login: vi.fn(),
-};
-
-// Mocks a user that is not logged in, i.e. a guest
-const mockGuestContextData = {
-    user: null, // null because user is not logged in
-    set_tokens: vi.fn(),
-    login_user: vi.fn(),
-    logout_user: vi.fn(),
-    register_user: vi.fn(),
-    send_email_login: vi.fn(),
-};
+function renderWithRouter(loggedIn) {
+    if (loggedIn) {
+        render(
+            // Wrapped in BrowserRouter to allow for navigation
+            <BrowserRouter>
+                {/* Mock the user data */}
+                <AuthContext.Provider value={mockMemberContextData}>
+                    <UnprotectedLayout/>
+                </AuthContext.Provider>
+            </BrowserRouter>
+        );
+    } else {
+        render(
+            // Wrapped in BrowserRouter to allow for navigation
+            <BrowserRouter>
+                {/* Mock the user data */}
+                <AuthContext.Provider value={mockGuestContextData}>
+                    <UnprotectedLayout/>
+                </AuthContext.Provider>
+            </BrowserRouter>
+        );
+    }    
+}
 
 describe("Unprotected layout", () => {
 
@@ -39,15 +38,7 @@ describe("Unprotected layout", () => {
     });
     
     it("should show a guest the registration button", () => {
-        render(
-            // Wrapped in BrowserRouter because it uses routing functions
-            <BrowserRouter>
-                {/* Mock the AuthContext that it uses to handle user data */}
-                <AuthContext.Provider value={mockGuestContextData}>
-                    <UnprotectedLayout/>
-                </AuthContext.Provider>
-            </BrowserRouter>
-        );
+        renderWithRouter(false);
         // Find register button
         const registerButton = screen.getByText("Registration");
         // Check whether register button is present
@@ -55,15 +46,7 @@ describe("Unprotected layout", () => {
     });
 
     it("should navigate to registration page when register button is clicked", async () => {
-        render(
-            // Wrapped in BrowserRouter because it uses routing functions
-            <BrowserRouter>
-                {/* Mock the AuthContext that it uses to handle user data */}
-                <AuthContext.Provider value={mockGuestContextData}>
-                    <UnprotectedLayout/>
-                </AuthContext.Provider>
-            </BrowserRouter>
-        );
+        renderWithRouter(false);
         // Should not be at register page yet
         expect(window.location.pathname).not.toContain("/register");
         // Find register button
@@ -75,56 +58,27 @@ describe("Unprotected layout", () => {
     });
 
     it("should not redirect a guest to login", () => {
-        render(
-            // Wrapped in BrowserRouter because it uses routing functions
-            <BrowserRouter>
-                {/* Mock the AuthContext that it uses to handle user data */}
-                <AuthContext.Provider value={mockGuestContextData}>
-                    <UnprotectedLayout/>
-                </AuthContext.Provider>
-            </BrowserRouter>
-        );
+        renderWithRouter(false);
+        // Check if not redirected to login
         expect(window.location.pathname).not.toContain("/login");
     });
     
     it("should show a guest the login button", () => {
-        render(
-            // Wrapped in BrowserRouter because it uses routing functions
-            <BrowserRouter>
-                {/* Mock the AuthContext that it uses to handle user data */}
-                <AuthContext.Provider value={mockGuestContextData}>
-                    <UnprotectedLayout/>
-                </AuthContext.Provider>
-            </BrowserRouter>
-        );
+        renderWithRouter(false);
+        // Check if login button is present
         const loginButton = screen.getByText("Login");
         expect(loginButton).toBeInTheDocument();
     });
 
     it("should show a member the logout button", () => {
-        render(
-            // Wrapped in BrowserRouter because it uses routing functions
-            <BrowserRouter>
-                {/* Mock the AuthContext that it uses to handle user data */}
-                <AuthContext.Provider value={mockMemberContextData}>
-                    <UnprotectedLayout/>
-                </AuthContext.Provider>
-            </BrowserRouter>
-        );
+        renderWithRouter(true);
+        // Check if logout button is present
         const logoutButton = screen.getByText("Logout");
         expect(logoutButton).toBeInTheDocument();
     });
 
     it("should call the logout_user function when logout button is clicked", async () => {
-        render(
-            // Wrapped in BrowserRouter because it uses routing functions
-            <BrowserRouter>
-                {/* Mock the AuthContext that it uses to handle user data */}
-                <AuthContext.Provider value={mockMemberContextData}>
-                    <UnprotectedLayout/>
-                </AuthContext.Provider>
-            </BrowserRouter>
-        );
+        renderWithRouter(true);
         // Find logout button
         const logoutButton = screen.getByText("Logout");
         // Simulate click of logout button
@@ -135,15 +89,7 @@ describe("Unprotected layout", () => {
     
     it("should redirect to home page when logo is clicked", async () => {
         window.location.assign("/login");
-        render(
-            // Wrapped in BrowserRouter because it uses routing functions
-            <BrowserRouter>
-                {/* Mock the AuthContext that it uses to handle user data */}
-                <AuthContext.Provider value={mockMemberContextData}>
-                    <UnprotectedLayout/>
-                </AuthContext.Provider>
-            </BrowserRouter>
-        );
+        renderWithRouter(true);
         // Find logo in the navbar
         const logo = screen.getByAltText("logo");
         // Simulate click of the logo

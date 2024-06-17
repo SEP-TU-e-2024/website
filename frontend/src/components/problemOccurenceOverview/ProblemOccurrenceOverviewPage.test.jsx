@@ -3,10 +3,6 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
 import { useLoaderData } from 'react-router-dom';
 import ProblemOccurrenceOverviewPage from './ProblemOccurrenceOverviewPage';
-import ProblemOccurrenceDescription from './contents/ProblemOccurrenceDescription';
-import ProblemOccurrenceLeaderboard from './contents/ProblemOccurrenceLeaderboard';
-import ProblemOccurrenceSubmission from './contents/ProblemOccurrenceSubmission';
-import ProblemOccurrenceProblemInstanceList from './contents/ProblemOccurrenceProblemInstanceList';
 
 vi.mock('react-router-dom', () => ({
 useLoaderData: vi.fn(),

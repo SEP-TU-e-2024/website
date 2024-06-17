@@ -4,47 +4,16 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import api from "../../api";
+import { mockNoProblemData, mockProblemData, mockMultiProblemData } from "../testing_utils/TestingUtils";
 
-// Data for if no problem data is retrieved
-const mockNoProblemData = {};
-
-// Data defining a problem category to be displayed on the homepage
-const mockProblemData = [
-    {
-        description : "The Time Slotting Problem (TSP) entails optimizing the allocation of entities into predefined time slots.",
-        id : "2587bee1-8210-4d2e-a2ff-08a82fce5fc3",
-        name : "Time Slotting Problem",
-        simulator: null,
-        specified_problems : [{id : '3e44afea-c625-4cb9-ad31-41ea0fbd0745', name : 'Meeting scheduling'}],
-        style : 0,
-        type : 1,
-        validator: null
-    }
-];
-
-// Data defining a couple problem categories to be displayed on the homepage
-const mockMultiProblemData = [
-    {
-        description : "The Time Slotting Problem (TSP) entails optimizing the allocation of entities into predefined time slots.",
-        id : "2587bee1-8210-4d2e-a2ff-08a82fce5fc3",
-        name : "Time Slotting Problem",
-        simulator: null,
-        specified_problems : [{id : '3e44afea-c625-4cb9-ad31-41ea0fbd0745', name : 'Meeting scheduling'}],
-        style : 0,
-        type : 1,
-        validator: null
-    }, {
-        description : "The Capacitated Vehicle Routing Problem (CVRP) is a logistics optimization challenge where a fleet of vehicles with limited capacity must efficiently serve a set of customers while minimizing transportation costs. Each vehicle starts and ends its route at a central depot, visiting customers to fulfill their demands without exceeding the vehicle's capacity. The objective is to minimize total travel distance or time while ensuring that all customers are served. CVRP finds applications in various industries su",
-        id : "2587bee1-8210-4d2e-a2ff-08a82fce5fc4",
-        name : "CVRP",
-        simulator: null,
-        specified_problems : [{id : '3e44afea-c625-4cb9-ad31-41ea0fbd0744', name : 'CVRP instance'}],
-        style : 0,
-        type : 0,
-        validator: null
-    }
-];
-
+function renderWithRouter() {
+    render(
+        // Wrapped in BrowserRouter to allow for navigation
+        <BrowserRouter>
+            <HomePage/>
+        </BrowserRouter>
+    );
+}
 describe("HomePage", () => {
     beforeEach(() => {
         // Reset window.location to the homepage to avoid leaking state
@@ -64,11 +33,7 @@ describe("HomePage", () => {
         const apiSpy = vi.spyOn(api, 'post').mockResolvedValue(mockNoProblemData);
 
         // Render the HomePage component wrapped in BrowserRouter
-        render(
-            <BrowserRouter>
-                <HomePage />
-            </BrowserRouter>
-        );
+        renderWithRouter();
 
         // Wait for the useEffect and fetchData to complete
         await waitFor(async () => {
@@ -85,12 +50,7 @@ describe("HomePage", () => {
         // Let it return one problem category
         const apiSpy = vi.spyOn(api, 'post').mockResolvedValue({data:mockProblemData});
 
-        render(
-            // Wrap it in BrowserRouter to allow for navigation
-            <BrowserRouter>
-                <HomePage/>
-            </BrowserRouter>
-        );
+        renderWithRouter();
 
         // Wait for the entire page to render before testing its components
         // Necessary because of the data fetching going on
@@ -110,12 +70,7 @@ describe("HomePage", () => {
         // Let it return one problem category
         const apiSpy = vi.spyOn(api, 'post').mockResolvedValue({data:mockMultiProblemData});
 
-        render(
-            // Wrap it in BrowserRouter to allow for navigation
-            <BrowserRouter>
-                <HomePage/>
-            </BrowserRouter>
-        );
+        renderWithRouter();
 
         // Wait for the entire page to render before testing its components
         // Necessary because of the data fetching going on
@@ -137,12 +92,7 @@ describe("HomePage", () => {
         // Let it return one problem category
         const apiSpy = vi.spyOn(api, 'post').mockResolvedValue({data:mockMultiProblemData});
 
-        render(
-            // Wrap it in BrowserRouter to allow for navigation
-            <BrowserRouter>
-                <HomePage/>
-            </BrowserRouter>
-        );
+        renderWithRouter();
 
         // Wait for the entire page to render before testing its components
         // Necessary because of the data fetching going on
