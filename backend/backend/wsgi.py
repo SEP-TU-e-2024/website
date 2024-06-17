@@ -11,11 +11,11 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-from backend.evaluator import initiate_protocol
-
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
 
 application = get_wsgi_application()
+
+from backend.evaluator import initiate_protocol  # noqa: E402
 
 # Start the Backend <-> Judge protocol
 initiate_protocol()
