@@ -54,13 +54,14 @@ function LeaderboardRow({columns, entry, problemData, parentPrefix}) {
   
   return (
     <>
-      <tr onClick={handleToggleSubmissionRow} className="view">
+      <tr onClick={problemData.category.style != 0 ? handleToggleSubmissionRow : null} className="view">
         {/* // Add column data cell for the leaderboard entry  */}
         {columns.map(column => (
             <td key={column.name}>{column.getData(entry)}</td>
         ))}        
       </tr>
       
+      {problemData.category.style != 0 ? 
       <tr id={PROBLEM_INSTANCES_ID_PREFIX + entry.submission.id} className="fold-closed">
         <td colSpan="8" className="fold-container">
           <div className="fold-content">
@@ -68,6 +69,8 @@ function LeaderboardRow({columns, entry, problemData, parentPrefix}) {
           </div>
         </td>
       </tr>
+      :
+      <></>}
     </>
   )
 };
