@@ -4,7 +4,7 @@ This module contains the StartCommand class.
 
 import logging
 
-from backend.api.serializers import ResultSerializer
+from api.serializers import ResultSerializer
 
 from .command import Command
 
@@ -15,11 +15,6 @@ class StartCommand(Command):
     """
     The StartCommand class is used to start a container on the runner.
     """
-
-    def __init__(self, submission, benchmark_instance):
-        self.submission = submission
-        self.benchmark_instance = benchmark_instance
-
 
     def response(self, response: dict):
         logger.info(f"Received response: {response}")
