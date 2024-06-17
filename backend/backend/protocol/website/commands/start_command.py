@@ -4,6 +4,8 @@ This module contains the StartCommand class.
 
 import logging
 
+from backend.api.serializers import ResultSerializer
+
 from .command import Command
 
 logger = logging.getLogger("start_command")
@@ -14,24 +16,24 @@ class StartCommand(Command):
     The StartCommand class is used to start a container on the runner.
     """
 
+    def __init__(self, submission, benchmark_instance):
+        self.submission = submission
+        self.benchmark_instance = benchmark_instance
+
+
     def response(self, response: dict):
         logger.info(f"Received response: {response}")
-        # # TODO: See if it is better to have this as a class variable
-        # submission = response["submission"]
-        # # TODO: See if it is better to have this as a class variable
-        # benchmark_instance = response["benchmark_instance"]
 
-        # for metric in response["metrics"]:
-        #     score = response[metric]["score"]
+        results = response["results"]["results"]
 
-        #     data = {
-        #         "submission": submission,
-        #         "benchmark_instance": benchmark_instance,
-        #         "metric": metric,
-        #         "score": score,
-        #     }
+        for metric in results.keys():
+            data = {
+                "submission": self.submission,
+                "benchmark_instance": self.benchmark_instance,
+                "metric": metric,
+                "score": results["metric"],
+            }
             
-
-        #     serializer = ResultSerializer(data=data)
-        #     serializer.is_valid()
-        #     serializer.save()
+            serializer = ResultSerializer(data=data)
+            serializer.is_valid()
+            serializer.save()

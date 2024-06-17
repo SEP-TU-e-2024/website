@@ -7,7 +7,7 @@ from .command import Command
 
 class CheckCommand(Command):
     """
-    The CheckCommand class is used to check the status of the runner.
+    The CheckCommand class is used to check the status of the judge.
     """
 
     def response(self, response: dict):
