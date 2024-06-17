@@ -24,8 +24,8 @@ class Problems(APIView):
         #this is a bit hacky but it is what it is
         specified_problems_dict = {}
         for problem_cat in problem_cats:
-            specified_problems = problem_cat.specified_problems.all()
-            specified_problems_dict[str(problem_cat.id)] = specified_problems
+            specified_problems = problem_cat.specified_problems.all() #retrieve the specified problems related to the problem categories
+            specified_problems_dict[str(problem_cat.id)] = specified_problems #put them in a dict based on the problem category id
             
         # Serializes
         serialized_cats = ProblemCategorySerializer(problem_cats, many=True).data
