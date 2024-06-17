@@ -56,8 +56,6 @@ function ProblemOccurrenceOverviewPage() {
   function handleTabSwitch(e) {
     setCurrentTab(e.target.id);
   }
-
-  console.log(problemData)
   
   return (
     <div>
