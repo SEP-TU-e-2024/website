@@ -81,42 +81,6 @@ describe("Submit form", () => {
         });
     });
 
-    // it("should upload the provided document", async () => {
-    //     render(
-    //     <BrowserRouter>
-    //         {/* Mock the AuthContext that is used to handle user data */}
-    //         <AuthContext.Provider value={mockMemberContextData}>
-    //             <Submit/>
-    //         </AuthContext.Provider>
-    //     </BrowserRouter>)
-    //     const input = screen.getByPlaceholderText("Submission Name");
-    //     // Mock the api.post function such that we can check whether it's been called
-    //     const apiSpy = vi.spyOn(api, 'post').mockResolvedValue({ status: 200 });
-        
-    //     // Assert the file input has only the selected file
-    //     const fileSelector = screen.getByLabelText('Select a File');
-    //     // Create mock file
-    //     const file = new File(['file contents'], 'example.zip', { type: 'application/zip' });
-    //     // Submit mock file
-    //     fireEvent.change(fileSelector, { target: { files: [file] } });
-    //     // userEvent.upload(fileSelector, file);
-    //     // Fill in testName as the name of the submission
-    //     const testName = 'test';
-    //     fireEvent.change(input, {target: {value: testName}});
-
-    //     const submitButton = screen.getByText("Submit solution");
-    //     fireEvent.submit(submitButton);
-    //     await waitFor(() => {
-    //         // Check if only the test file has been selected
-    //         expect(fileSelector.files[0]).toBe(file);
-    //         expect(fileSelector.files).toHaveLength(1);
-    //         // Check if the test name has been entered
-    //         expect(input.value).toBe(testName);
-    //         expect(apiSpy).toHaveBeenCalled();
-    //         expect(screen.getByText('Submission uploaded successfully.')).toBeInTheDocument();
-    //       });
-    // });
-
     it("should select a provided document", async () => {
         render(
             // Wrapped in BrowserRouter to allow for navigation

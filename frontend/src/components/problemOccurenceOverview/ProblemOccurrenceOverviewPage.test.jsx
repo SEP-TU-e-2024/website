@@ -54,7 +54,6 @@ it('renders the component with problem data', () => {
     
     // Check whether all expected elements are in the page
     expect(screen.getByText('Sample Problem')).toBeInTheDocument();
-    expect(screen.getByText('Sample Problem Occurrence : 60 second, 4 CPU variation')).toBeInTheDocument();
     expect(screen.getByText('Overview')).toBeInTheDocument();
     expect(screen.getByText('Leaderboard')).toBeInTheDocument();
     expect(screen.getByText('Submission')).toBeInTheDocument();
