@@ -40,7 +40,7 @@ function ProblemOccurrenceOverviewPage() {
     const fetchLeaderboardData = async () => {
       try {
         const data = await getLeaderboardData(problemData.id);
-        const entries = data.entries.concat(data.unranked_entries)
+        const entries = data.entries.concat(data.unranked_entries)        
         setEntries(entries);
       } catch (err) {
         console.error(err);
@@ -63,7 +63,7 @@ function ProblemOccurrenceOverviewPage() {
         <Row className="justify-content-center">
           <Col xs="2"></Col> {/* Intentionally empty col */}
           <Col className='text-light text-center py-5' xs="8">
-            <h1 className="fw-bold">{problemData.problem_name}</h1>
+            <h1 className="fw-bold">{problemData.name}</h1>
           </Col>
           <Col xs="2" className="align-self-end text-end text-light fw-bold">
             <Row><Col>1/day<i className="bi-cloud-upload" /></Col></Row>
@@ -72,7 +72,7 @@ function ProblemOccurrenceOverviewPage() {
         </Row>
         <Row className="align-items-center">
           <Col className='bg-white border-dark border text-dark text-center'>
-            <h5 className="fw-bold">{problemData.name} :  {problemData.evaluation_settings.time_limit} second, {problemData.evaluation_settings.memory} MB Memory, {problemData.evaluation_settings.cpu} CPU variation</h5>
+            <h5 className="fw-bold">{problemData.category.name} :  {problemData.evaluation_settings.time_limit} second, {problemData.evaluation_settings.memory} MB Memory, {problemData.evaluation_settings.cpu} CPU variation</h5>
           </Col>
         </Row>
       </Container>
@@ -97,11 +97,13 @@ function ProblemOccurrenceOverviewPage() {
                 Submission
               </a>
             </li>
+            
             <li className="tab-selector-item">
               <a role="button" className={currentTab == "4" ? "active tab-selector-link": "tab-selector-link"} /*active={currentTab == "4"}*/ id="4" onClick={handleTabSwitch}>
                 Problem instances
               </a>
             </li>
+            
           </ul>
           
           {/* Actual content of the tabs */}

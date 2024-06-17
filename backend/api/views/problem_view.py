@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 
 from ..models import ProblemCategory
-from ..serializers import ProblemCategorySerializer
+from ..serializers import MinimalSpecifiedProblemSerializer, ProblemCategorySerializer
 
 
 class Problems(APIView):
@@ -15,13 +15,21 @@ class Problems(APIView):
         Returns a list of all problem categories
         """
         #Retrieve all problem categories
-        problems = ProblemCategory.objects.all()
+        problem_cats = ProblemCategory.objects.prefetch_related().all()
 
         #Check whether there are any problem categories
-        if len(problems) < 1:
+        if len(problem_cats) < 1:
             HttpResponseNotFound("No Problem Categories found")
 
+        #this is a bit hacky but it is what it is
+        specified_problems_dict = {}
+        for problem_cat in problem_cats:
+            specified_problems = problem_cat.specified_problems.all()
+            specified_problems_dict[str(problem_cat.id)] = specified_problems
+            
         # Serializes
-        serializer = ProblemCategorySerializer(problems, many=True)
-
-        return JsonResponse(serializer.data, safe=False,status=status.HTTP_200_OK )
+        serialized_cats = ProblemCategorySerializer(problem_cats, many=True).data
+        for serialized_cat in serialized_cats:
+            serialized_cat["specified_problems"] = MinimalSpecifiedProblemSerializer(specified_problems_dict[serialized_cat['id']], many=True).data
+                
+        return JsonResponse(serialized_cats, safe=False,status=status.HTTP_200_OK )
