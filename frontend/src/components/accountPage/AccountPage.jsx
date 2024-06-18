@@ -1,6 +1,7 @@
 import api from '../../api';
 import { useState, useEffect } from 'react';
 import './AccountPage.scss'
+import { useNavigate } from "react-router-dom";
 
 /**
  * Fetches account information from the backend
@@ -46,6 +47,7 @@ async function getSubmissions() {
 function AccountPage() {
     const [account, setAccount] = useState(null);
     const [submissions, setSubmissions] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -60,6 +62,10 @@ function AccountPage() {
 
         fetchData();
     }, []);
+
+    const handleRowClick = (problem) => {
+        navigate("/problemoccurrence/" + problem)
+    };
 
     return (
         <div className='account_page'>
@@ -90,9 +96,9 @@ function AccountPage() {
                             <th> Submission name </th>
                         </thead>
                         {submissions.map(submission => (
-                            <tr key={submission.id}>
+                            <tr onClick={() => handleRowClick(submission.problem)} key={submission.id}>
                                 <td>{submission.created_at.slice(0,10)}</td>
-                                <td><a href={"/problemoccurrence/" + submission.problem}> {submission.name}</a></td>
+                                <td> {submission.name}</td>
                             </tr>
                         ))}
                     </table>

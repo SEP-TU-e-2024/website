@@ -5,6 +5,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
+from .views.account_view import AccountView
 from .views.auth_view import AuthViewSet
 from .views.download_from_blob_view import DownloadFromBlobViewSet
 from .views.in_development_view import InDevelopmentView
@@ -12,9 +13,8 @@ from .views.leaderboard_entry_view import LeaderboardEntryView
 from .views.leaderboard_view import LeaderboardView
 from .views.problem_occurence_view import ProblemOccurrenceView
 from .views.problem_view import Problems
-from .views.submit_view import SubmitViewSet
-from .views.account_view import AccountView
 from .views.submission_view import SubmissionView
+from .views.submit_view import SubmitViewSet
 
 # Routers are standard for viewsets
 api_router = DefaultRouter()
