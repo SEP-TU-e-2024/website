@@ -76,7 +76,7 @@ function RegisterForm() {
                     )}
                     <button type="submit">Register</button>
                 </form>
-                <p onClick={togglePasswordVisibility}>{passwordVisiblity ? 
+                <p onClick={togglePasswordVisibility}  style={{cursor:'pointer'}}>{passwordVisiblity ? 
                     (
                         " Want to login through email? Click here "
                     ) :
