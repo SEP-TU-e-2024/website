@@ -9,7 +9,7 @@ from time import sleep
 from api.models import Submission
 from azure.storage.blob import BlobServiceClient
 
-from backend.api.serializers import ResultSerializer
+from backend.api.serializers import EvaluationSettingSerializer, ResultSerializer
 
 from .protocol import Connection
 from .protocol.website import WebsiteProtocol
@@ -62,7 +62,7 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
         )
         if not benchmark_instance_blob.exists():
             raise ValueError("Benchmark instance Blob file does not exist")
-        benchmark_instance_urls[benchmark_instance.id] = benchmark_instance_blob
+        benchmark_instance_urls[benchmark_instance.id] = benchmark_instance_blob.url
 
     command = StartCommand()
 
@@ -70,7 +70,7 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
     protocol.send_command(
         command,
         block=True,
-        evaluation_settings=submission.problem.evaluation_settings,
+        evaluation_settings=EvaluationSettingSerializer(submission.problem.evaluation_settings).data,
         benchmark_instances=benchmark_instance_urls,
         submission_url=submission_blob.url,
         validator_url=validator_blob.url,
