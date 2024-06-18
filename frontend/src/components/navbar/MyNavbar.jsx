@@ -33,7 +33,8 @@ function MyNavbar() {
         LOGIN: '/login',
         LOGOUT: '/logout',
         HOME: '/home',
-        ROOT: '/'
+        ROOT: '/',
+        DEVELOPMENT : '/in_development'
     }
     
     
@@ -47,11 +48,8 @@ function MyNavbar() {
             <Collapse isOpen={isOpen} navbar>
                 <Nav navbar className="me-auto navbar-left">
                     <NavItem className="route-button">
-                        <NavLink active={routeStrings.BESTKNOWNSOLUTIONS === location.pathname} href={routeStrings.BESTKNOWNSOLUTIONS}>
+                        <NavLink active={routeStrings.BESTKNOWNSOLUTIONS === location.pathname} href={routeStrings.DEVELOPMENT}> {/* TODO: change link to BESTKNOWNSOLUTIONS if that page is implemented */}
                             Best Known Solutions
-                        </NavLink>
-                        <NavLink href={routeStrings.BESTKNOWNSOLUTIONS}>
-                           Testing tab
                         </NavLink>
                     </NavItem>
                 </Nav>
