@@ -29,6 +29,7 @@ function renderWithRouter(loggedIn) {
         );
     }    
 }
+
 describe("Protected layout", () => {
     beforeEach(() => {
         // Reset window.location to the homepage to avoid leaking state
