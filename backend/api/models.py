@@ -69,6 +69,8 @@ class EvaluationSettings(models.Model):
         verbose_name = "evaluation settings"
         verbose_name_plural = "evaluation settings"
 
+    def __str__(self):
+        return f'{self.cpu} CPU, {self.time_limit} Seconds, {self.memory} Memory, {self.machine_type}'
 
 class StorageLocation(models.Model):
     """Storage path reference to locate file(s)"""
@@ -76,7 +78,9 @@ class StorageLocation(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     filepath = models.CharField(max_length=256, null=True, blank=True)
 
-
+    def __str__(self):
+        return self.filepath
+    
 class Simulator(StorageLocation):
     """Program that will evaluate solvers"""
 
@@ -114,7 +118,9 @@ class Metric(models.Model):
     unit = models.CharField(max_length=4, choices=Unit.choices, default=Unit.NONE, blank=True)
     order = models.IntegerField(choices=Order.choices, default=Order.COST)
 
-
+    def __str__(self):
+        return self.label
+    
 class ProblemCategory(models.Model):
     """Category representing an optimization problem"""
 
@@ -144,7 +150,9 @@ class ProblemCategory(models.Model):
         verbose_name = "problem category"
         verbose_name_plural = "problem categories"
 
-
+    def __str__(self):
+        return self.name
+    
 class SpecifiedProblem(models.Model):
     """Specified problem, potentially with evaluation settings"""
 
@@ -165,6 +173,8 @@ class SpecifiedProblem(models.Model):
     metrics = models.ManyToManyField(Metric)
     scoring_metric = models.ForeignKey(Metric, default="run_time", on_delete=models.PROTECT, related_name='specifiedproblem_ranking_set')
 
+    def __str__(self):
+        return self.name
 
 class Submission(StorageLocation):
     """Database model for submissions"""
@@ -175,7 +185,9 @@ class Submission(StorageLocation):
     created_at = models.DateTimeField(auto_now_add=True)
     is_verified = models.BooleanField(default=False)
     is_downloadable = models.BooleanField(default=False)
-
+    
+    def __str__(self):
+        return self.name
 
 class Result(models.Model):
     """Table that stores result of a submission"""
@@ -185,3 +197,6 @@ class Result(models.Model):
     benchmark_instance = models.ForeignKey(BenchmarkInstance, on_delete=models.CASCADE, null=True)
     metric = models.ForeignKey(Metric, on_delete=models.CASCADE)
     score = models.DecimalField(decimal_places=2, max_digits=6)
+
+    def __str__(self):
+        return f'{self.metric} : {self.score}'
