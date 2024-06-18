@@ -4,8 +4,6 @@ This module contains the StartCommand class.
 
 import logging
 
-from api.serializers import ResultSerializer
-
 from .command import Command
 
 logger = logging.getLogger("start_command")
