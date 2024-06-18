@@ -42,7 +42,7 @@ function Aboutpage() {
         <h3 className="text-primary">Runtime Environment</h3>
       </Row>
       <Row>
-        <p>Runtime Environment description here (ask backend team)</p>
+        <p>When you upload code to BenchLab, your code will be run in our specialized containers available in a controlled enviornement. Using the custom-developed IOModule, both static and interactive algorithms can be easily evaluated. For further information, check the instructions attached on each problem category page.</p>
       </Row>
       
       <Row>
