@@ -23,14 +23,6 @@ function ProblemOccurenceOverview({rows}) {
         return (<div>No data found</div>);
     }
  
-    // Assemble a list of all specified problems per problem category
-    const problemOccurences = rows.map((problem_cat) => (
-            problem_cat['specified_problems'].map((problem_occurence)  => (
-                <li >{problem_occurence['name']}</li>
-            ))
-        )
-    );
-
     return (
         <div className='problem_container'>
             {rows.map(row => (
