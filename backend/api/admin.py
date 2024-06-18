@@ -15,7 +15,12 @@ from .models import (
 
 # If a model should be administrated through an admin panel register them here.
 admin.site.register(UserProfile) # User table
-admin.site.register(Submission) # Submission table
+
+class AdminSubmission(admin.ModelAdmin):
+    model = Submission
+    list_display = ('name', 'user', 'problem')
+
+admin.site.register(AdminSubmission) # Submission table
 admin.site.register(EvaluationSettings) # Evaluation table
 admin.site.register(Simulator) # Simulator table
 admin.site.register(Validator) # Validator table
@@ -30,6 +35,5 @@ class AdminSpecifiedProblem(admin.TabularInline):
 class AdminProblemCategory(admin.ModelAdmin):
     inlines = [AdminSpecifiedProblem]
     list_display = ('id', 'name', 'description', 'simulator', 'validator', 'style', 'type')
-
 admin.site.register(ProblemCategory, AdminProblemCategory)
 admin.site.register(SpecifiedProblem)
