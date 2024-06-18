@@ -7,9 +7,8 @@ from queue import Queue
 from time import sleep
 
 from api.models import Submission
+from api.serializers import EvaluationSettingSerializer, ResultSerializer
 from azure.storage.blob import BlobServiceClient
-
-from backend.api.serializers import EvaluationSettingSerializer, ResultSerializer
 
 from .protocol import Connection
 from .protocol.website import WebsiteProtocol
