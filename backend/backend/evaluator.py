@@ -26,6 +26,9 @@ evaluation_queue: Queue = Queue()
 
 
 def queue_evaluate_submission(submission: Submission):
+    """
+    Queues a submission for evaluation.
+    """
     evaluation_queue.put(submission)
 
 
@@ -38,6 +41,7 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
 
     logger.info(f"Sending submission {submission.id} to judge for evaluation")
 
+    # Initialize command and its arguments
     command = StartCommand()
     validator = submission.problem.category.validator
     benchmark_instances = submission.problem.benchmark_instances.all()
@@ -57,8 +61,10 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
         validator_url=validator.get_blob(blob_service_client).url,
     )
 
+    # Handle results
     for benchmark_instance in command.results.keys():
         benchmark_results = command.results[benchmark_instance]['results'][0]
+        # Store each received metric in the database
         for metric in benchmark_results.keys():
             data = {
                 "submission": submission.id,
@@ -74,7 +80,9 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
 
 
 def initiate_protocol():
-    """Initiate the connection protocol"""
+    """
+    Initiate the connection protocol
+    """
     logger.info("Starting listening TCP socket")
 
     # Initiate the listening TCP socket
@@ -86,7 +94,9 @@ def initiate_protocol():
 
 
 def establish_judge_connection(sock: socket.socket):
-    """Establishes a judge connection for the specified socket"""
+    """
+    Establishes a judge connection for the specified socket
+    """
     # TODO: allow for re-connection after disconnect
 
     while True:
