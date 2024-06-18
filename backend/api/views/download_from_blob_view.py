@@ -3,9 +3,9 @@
 import logging
 import os
 
+from api.models import StorageLocation
 from azure.storage.blob import BlobServiceClient
 from django.http import HttpResponse
-from api.models import StorageLocation
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
