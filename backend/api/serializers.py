@@ -36,7 +36,7 @@ class StorageLocationSerializer(serializers.ModelSerializer):
     # Base fields for all children
     class Meta:
         model = StorageLocation
-        fields = ["id", "container", "filepath"]
+        fields = ["id", "container", "filepath", "is_downloadable"]
 
 
 class SubmissionSerializer(StorageLocationSerializer):
@@ -52,7 +52,6 @@ class SubmissionSerializer(StorageLocationSerializer):
             "problem",
             "created_at",
             "is_verified",
-            "is_downloadable",
         ]
 
 
