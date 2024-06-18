@@ -9,6 +9,8 @@ from time import sleep
 from api.models import Submission
 from azure.storage.blob import BlobServiceClient
 
+from backend.api.serializers import ResultSerializer
+
 from .protocol import Connection
 from .protocol.website import WebsiteProtocol
 from .protocol.website.commands.start_command import StartCommand
@@ -75,6 +77,20 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
     )
 
     print(command.results)
+    
+    for benchmark_instance in command.results.keys():
+        benchmark_results = command.results[benchmark_instance]['results']
+        for metric in benchmark_results.keys():
+            data = {
+                "submission": submission,
+                "benchmark_instance": benchmark_instance,
+                "metric": metric,
+                "score": benchmark_results[metric],
+            }
+            
+            serializer = ResultSerializer(data=data)
+            serializer.is_valid()
+            serializer.save()
 
 
 def initiate_protocol():

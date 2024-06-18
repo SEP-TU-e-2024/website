@@ -23,17 +23,4 @@ class StartCommand(Command):
         logger.info(f"Received response: {response}")
 
         results = response["results"]["results"]
-
-        for metric in results.keys():
-            data = {
-                "submission": self.submission,
-                "benchmark_instance": self.benchmark_instance,
-                "metric": metric,
-                "score": results["metric"],
-            }
-            
-            serializer = ResultSerializer(data=data)
-            serializer.is_valid()
-            serializer.save()
-
         self.results = results
