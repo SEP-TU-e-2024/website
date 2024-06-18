@@ -1,0 +1,66 @@
+@import '../../main.scss';
+
+.form_container{
+    width: auto;
+
+    button {
+        background-color: $primary;
+        border: none; /* Remove default border */
+        color: white; /* White text */
+        font-size: 16px; /* Font size */
+        cursor: pointer; /* Pointer cursor on hover */
+        transition: background-color 0.3s ease;
+    }
+
+    form {
+        display:inline-flex;
+        flex-direction: column;
+        //width: auto;
+    }
+}
+
+.form_container * {
+    width: auto;
+    display:inline-block;
+}
+
+.field_container {
+    text-align: center;
+}
+
+.field_container *{
+    text-align: left;
+    font-weight: bold;
+
+    width: 350px;
+}
+
+.upload_container {
+    border: 2px dashed $primary;
+    border-radius: 5px;
+
+    text-align: center;
+
+    div {
+        display:inline-flex;
+        flex-direction: column;
+    }
+
+    label {
+        padding: 20px;
+    }
+
+    i {
+        margin:auto;
+        font-size: 3rem;
+        color: $primary;
+    }
+}
+
+.upload_button {
+    background-color: $primary;
+}
+
+.submit_button {
+    width: 50px;
+}

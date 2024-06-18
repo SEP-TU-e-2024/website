@@ -1,6 +1,7 @@
 import React from "react"
 import { Container, Row, Col } from "reactstrap";
 import Submit from "../../submit/Submit";
+import '../ProblemOccurrrenceOverviewBody.scss'
 
 /**
  * A component for giving more details about a problem occurrence.
@@ -8,8 +9,8 @@ import Submit from "../../submit/Submit";
 function ProblemOccurrenceSubmission() {
   return (
     <Container className="ps-0 pt-2">
-        <Row className="">
-          <Col>
+        <Row className="justify-content-center">
+          <Col className='text-center' xs="8">
             <Submit/>
           </Col>
         </Row>
