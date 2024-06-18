@@ -7,6 +7,7 @@ from rest_framework_simplejwt.views import (
 
 from .views.auth_view import AuthViewSet
 from .views.download_from_blob_view import DownloadFromBlobViewSet
+from .views.in_development_view import InDevelopmentView
 from .views.leaderboard_entry_view import LeaderboardEntryView
 from .views.leaderboard_view import LeaderboardView
 from .views.problem_occurence_view import ProblemOccurrenceView
@@ -48,6 +49,11 @@ urlpatterns = [
         SubmitViewSet.confirm_submission,
         name="confirm_submission",
     ),
+    path(
+        "in_development",
+        InDevelopmentView.as_view(),
+        name="in_development"
+    )
 ]
 
 # Combining urls of routers and patterns

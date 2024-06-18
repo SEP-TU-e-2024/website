@@ -10,6 +10,7 @@ import HomePage from './components/homepage/HomePage';
 import RegisterForm from "./components/forms/RegisterForm";
 import ProblemOccurrenceOverviewPage from './components/problemOccurenceOverview/ProblemOccurrenceOverviewPage';
 import ErrorPage from "./components/errorPage/ErrorPage";
+import DevelopmentPage from "./components/developmentPage/DevelopmentPage";
 import AuthLayout from "./components/routing/AuthLayout";
 import ProtectedLayout from "./components/routing/ProtectedLayout";
 import TokenAuthenticator from "./components/tokenauthenticator/TokenAuthenticator";
@@ -47,6 +48,7 @@ export const router = createBrowserRouter(
             loader={async ({ params }) => {
               return getPOInfo(params.problem_occurence); //TODO fetching logic here
             }} />
+          <Route path="/in_development" element={<DevelopmentPage />} />
         </Route>
         
       </Route>

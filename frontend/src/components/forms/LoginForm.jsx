@@ -11,7 +11,7 @@ function LoginForm() {
     let {login_user} = useContext(AuthContext)
     let {send_email_login} = useContext(AuthContext)
 
-    const handleForm = (event) => {
+    const togglePasswordVisibility = (event) => {
         setPasswordVisibility(!passwordVisiblity)
     };
 
@@ -41,7 +41,7 @@ function LoginForm() {
                     </div>
                     <button type="submit">Login</button>
                 </form>
-                <p onClick={handleForm}> Or login with email </p>
+                <p onClick={togglePasswordVisibility} style={{cursor:'pointer'}}> Or login with email </p>
             </div>
             </>
         )
@@ -64,7 +64,7 @@ function LoginForm() {
                     </div>
                     <button type="submit"> Send email </button>
                 </form>
-                <p onClick={handleForm}> Or login with password </p>
+                <p onClick={togglePasswordVisibility} style={{cursor:'pointer'}}> Or login with password </p>
             </div>
             </>
         )
