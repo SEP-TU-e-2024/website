@@ -105,7 +105,7 @@ function Submit() {
             <FileUploader handleChange={handleChange} name="file" types={fileTypes} children={
               <div>
                 {file ? <div>{file.name}</div> : undefined}
-                <img src="/src/assets/upload.svg"/>
+                <i className="bi bi-upload" />
                 <p> Drag and drop a file </p>
                 <button className="upload_button"> 
                   Browse
