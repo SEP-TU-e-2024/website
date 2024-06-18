@@ -1,6 +1,6 @@
 @import '../../main.scss';
 
-.form_container{
+.submit_container{
     width: auto;
 
     button {
@@ -19,7 +19,7 @@
     }
 }
 
-.form_container * {
+.submit_container * {
     width: auto;
     display:inline-block;
 }
