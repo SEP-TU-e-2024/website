@@ -20,5 +20,5 @@ class StartCommand(Command):
     def response(self, response: dict):
         logger.info(f"Received response: {response}")
 
-        results = response["results"]
+        results = response["result"]
         self.results = results

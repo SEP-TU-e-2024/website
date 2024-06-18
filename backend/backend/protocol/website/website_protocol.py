@@ -78,7 +78,7 @@ class WebsiteProtocol(Protocol):
             )
             response = queue.get()
 
-            command.value.response(response)
+            command.response(response)
 
         except Exception:
             logger.error(
