@@ -36,34 +36,16 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
     connection_string = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
     blob_service_client = BlobServiceClient.from_connection_string(connection_string)
 
-    # Get submission blob
-    submission_blob = blob_service_client.get_blob_client(
-        container=submission.container, blob=submission.filepath
-    )
-    if not submission_blob.exists():
-        raise ValueError("Submission Blob file does not exist")
-
-    # Get validator blob
-    validator_blob = blob_service_client.get_blob_client(
-        container=os.getenv("AZURE_STORAGE_CONTAINER_VALIDATOR"),
-        blob=submission.problem.category.validator.filepath,
-    )
-    if not validator_blob.exists():
-        raise ValueError("Validator Blob file does not exist")
-
     logger.info(f"Sending submission {submission.id} to judge for evaluation")
 
-    benchmark_instance_urls = dict()
-    for benchmark_instance in submission.problem.benchmark_instances.all():
-        # Get benchmark instance blob
-        benchmark_instance_blob = blob_service_client.get_blob_client(
-            container=benchmark_instance.container, blob=benchmark_instance.filepath
-        )
-        if not benchmark_instance_blob.exists():
-            raise ValueError("Benchmark instance Blob file does not exist")
-        benchmark_instance_urls[str(benchmark_instance.id)] = benchmark_instance_blob.url
-
     command = StartCommand()
+    validator = submission.problem.category.validator
+    benchmark_instances = submission.problem.benchmark_instances.all()
+    benchmark_instance_urls = {
+        str(benchamark_instance.id):
+        benchamark_instance.get_blob(blob_service_client).url
+        for benchamark_instance in benchmark_instances
+    }
 
     # Send the submission to the judge for evaluation
     protocol.send_command(
@@ -71,8 +53,8 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
         block=True,
         evaluation_settings=EvaluationSettingSerializer(submission.problem.evaluation_settings).data,
         benchmark_instances=benchmark_instance_urls,
-        submission_url=submission_blob.url,
-        validator_url=validator_blob.url,
+        submission_url=submission.get_blob(blob_service_client).url,
+        validator_url=validator.get_blob(blob_service_client).url,
     )
 
     for benchmark_instance in command.results.keys():
