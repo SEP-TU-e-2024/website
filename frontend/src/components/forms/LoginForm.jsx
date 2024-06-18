@@ -41,7 +41,7 @@ function LoginForm() {
                     </div>
                     <button type="submit">Login</button>
                 </form>
-                <p onClick={handleForm}> Or login with email </p>
+                <p onClick={handleForm} style={{cursor:'pointer'}}> Or login with email </p>
             </div>
             </>
         )
@@ -64,7 +64,7 @@ function LoginForm() {
                     </div>
                     <button type="submit"> Send email </button>
                 </form>
-                <p onClick={handleForm}> Or login with password </p>
+                <p onClick={handleForm} style={{cursor:'pointer'}}> Or login with password </p>
             </div>
             </>
         )
