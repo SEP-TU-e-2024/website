@@ -1,12 +1,15 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import api from '../../api';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from "../../context/AuthContext";
+import { FileUploader } from "react-drag-drop-files";
+import './Submit.scss'
 
 function Submit() {
   let { user } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const [file, setFile] = useState(null);
   const [isDownloadable, setIsDownloadable] = useState(false);
+  const fileTypes = ["ZIP", "RAR", "7Z"];
 
   const handleCheckboxChange = () => {
     setIsDownloadable(!isDownloadable);
@@ -40,9 +43,12 @@ function Submit() {
     return true;
   };
 
+  const handleChange = (file) => {
+    setFile(file);
+  };
+
   const uploadHandler = async (e) => {
     e.preventDefault();
-    const file = e.target.file.files[0];
 
     if (!file) {
       alert("No file provided");
@@ -67,8 +73,8 @@ function Submit() {
         !user ? alert("Check your email to confirm submission") : alert("Submission uploaded successfully.");
       }
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.error) {
-        alert(error.response.data.error);
+      if (error.response && error.response.data && error.response.data.name) {
+        alert(error.response.data.name);
         return;
       }
       alert(error.message);
@@ -78,32 +84,35 @@ function Submit() {
 
   return (
     <>
-      <div className='submit_container'>
+      <div className='form_container'>
         <form onSubmit={uploadHandler} method='post'>
           {!user ? (
-            <div>
+            <div className='field_container'>
               <input
                 name="email"
                 type="text"
                 placeholder={"Email"} />
             </div>
           ) : undefined}
-          <div>
+          <div className='field_container'>
             <input
               name="submission_name"
               type="text"
               placeholder={"Submission Name"}
               required />
           </div>
-          <div>
-            <label>Select a File</label>
-            <input
-              name="file"
-              type="file"
-              accept=".zip,.rar,.7z"
-              required
-            />
-          </div>
+          <div className="upload_container">
+            <FileUploader handleChange={handleChange} name="file" types={fileTypes} children={
+              <div>
+                {file ? <div>{file.name}</div> : undefined}
+                <img src="/src/assets/upload.svg"/>
+                <p> Drag and drop a file </p>
+                <button className="upload_button"> 
+                  Browse
+                </button>
+              </div>
+            }/>
+          </div> 
           <div>
             <label>
               <input
@@ -114,7 +123,7 @@ function Submit() {
               Make submission downloadable to other users
             </label>
           </div>
-          <button type="submit">Submit solution</button>
+          <button type="submit" className="submit_button">Submit solution</button>
         </form>
       </div>
     </>
