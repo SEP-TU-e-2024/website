@@ -17,6 +17,7 @@ import TokenAuthenticator from "./components/tokenauthenticator/TokenAuthenticat
 import UnProtectedLayout from "./components/routing/UnprotectedLayout";
 
 import { getPOInfo } from './components/problemOccurenceOverview/ProblemOccurrenceOverviewPage';
+import AccountPage from "./components/accountPage/AccountPage";
 
 /**
  * This is the router object.
@@ -31,6 +32,7 @@ export const router = createBrowserRouter(
         
         {/* Protected routes */}
         <Route element={<ProtectedLayout />}>
+          <Route path="/account" element={<AccountPage />} />
         </Route>
           
         {/* Non protected routes */}

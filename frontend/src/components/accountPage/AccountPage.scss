@@ -1,0 +1,58 @@
+@import '../../main.scss';
+
+.account_page {
+    color: $primary;
+    margin-top: 5%;
+
+    h4 {
+        font-weight: bold;
+    }
+
+    h5 {
+        font-weight: bold;
+        font-size: 1.2em;
+        margin-bottom: 0;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    table {
+        border-collapse:separate; 
+        
+        border-spacing: 0 0.8em;
+        color: $primary;
+    }
+
+    td{
+        padding: 10px;
+        padding-left:10px;
+        padding-right:50px;
+    }
+
+    th {
+        padding: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    tr {
+        outline: 1px solid $primary;
+        border: 1px solid $primary;
+    }
+}
+
+.account_container {
+    width: 960px;
+    margin: auto;
+    margin-top: 2%;
+}
