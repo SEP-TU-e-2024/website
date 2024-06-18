@@ -75,17 +75,16 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
         validator_url=validator_blob.url,
     )
 
-    print(command.results)
-    
     for benchmark_instance in command.results.keys():
-        benchmark_results = command.results[benchmark_instance]['results']
+        benchmark_results = command.results[benchmark_instance]['results'][0]
         for metric in benchmark_results.keys():
             data = {
-                "submission": submission,
-                "benchmark_instance": benchmark_instance,
+                "submission": submission.id,
+                "benchmark_instance": uuid.UUID(benchmark_instance),
                 "metric": metric,
-                "score": benchmark_results[metric],
+                "score": float(benchmark_results[metric]),
             }
+            logger.info(f"Storing result: {repr(data)}")
             
             serializer = ResultSerializer(data=data)
             serializer.is_valid()
