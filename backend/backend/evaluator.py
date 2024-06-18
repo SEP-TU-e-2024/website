@@ -61,7 +61,7 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
         )
         if not benchmark_instance_blob.exists():
             raise ValueError("Benchmark instance Blob file does not exist")
-        benchmark_instance_urls[benchmark_instance.id] = benchmark_instance_blob.url
+        benchmark_instance_urls[str(benchmark_instance.id)] = benchmark_instance_blob.url
 
     command = StartCommand()
 
