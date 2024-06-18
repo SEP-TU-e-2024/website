@@ -194,7 +194,7 @@
         "name": "Time Slotting Problem",
         "style": 0,
         "type": 1,
-        "description": "The Time Slotting Problem (TSP) entails optimizing the allocation of entities into predefined time slots, considering constraints and objectives such as maximizing resource utilization or satisfaction metrics. Commonly encountered in scheduling scenarios, TSP aims to efficiently arrange tasks or events to minimize conflicts and satisfy objectives within a given time frame.",
+        "description": "The Time Slotting Problem entails optimizing the allocation of entities into predefined time slots, considering constraints and objectives such as maximizing resource utilization or satisfaction metrics. Commonly encountered in scheduling scenarios, the Time Slotting Problem aims to efficiently arrange tasks or events to minimize conflicts and satisfy objectives within a given time frame.",
         "simulator": null,
         "validator": null
     }
