@@ -38,7 +38,7 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
 
     # Get submission blob
     submission_blob = blob_service_client.get_blob_client(
-        container=os.getenv("AZURE_STORAGE_CONTAINER_SUBMISSION"), blob=submission.filepath
+        container=submission.container, blob=submission.filepath
     )
     if not submission_blob.exists():
         raise ValueError("Submission Blob file does not exist")
@@ -55,9 +55,9 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
 
     benchmark_instance_urls = dict()
     for benchmark_instance in submission.problem.benchmark_instances.all():
-        # Get benchmark instnace blob
+        # Get benchmark instance blob
         benchmark_instance_blob = blob_service_client.get_blob_client(
-            container=os.getenv("AZURE_STORAGE_CONTAINER_SUBMISSION"), blob=benchmark_instance.filepath
+            container=benchmark_instance.container, blob=benchmark_instance.filepath
         )
         if not benchmark_instance_blob.exists():
             raise ValueError("Benchmark instance Blob file does not exist")

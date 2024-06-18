@@ -5,6 +5,7 @@ import os
 
 from azure.storage.blob import BlobServiceClient
 from django.http import HttpResponse
+from api.models import StorageLocation
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -13,17 +14,26 @@ from rest_framework.viewsets import ViewSet
 
 class DownloadFromBlobViewSet(ViewSet):
     """
-    This class is responsible for handling all requests related to downloading a problem file from the blobstorage.
+    This class is responsible for handling all requests related to downloading a storage location file from the blobstorage.
     """
 
     logger = logging.getLogger(__name__)
 
     @action(detail=False, methods=["GET"])
-    def download_solver(self, request):
-        """ Download function for submission solvers """
+    def storage_location(self, request):
+        id = request.GET.get('id')
+        storage_location = StorageLocation.objects.get(pk=id)
 
-        return self.download_file(request.GET.get('filepath'), os.getenv("AZURE_STORAGE_CONTAINER_SUBMISSION"))
-
+        if not storage_location:
+            # Storage location not found for id.
+            return HttpResponse(status=404)
+        
+        if not storage_location.is_downloadable:
+            # Forbidden, when not downloadable.
+            return HttpResponse(status=403)
+        
+        return self.download_file(storage_location.filepath, storage_location.container)
+    
 
     def download_file(self, file_path, container):
         """ Generic download function for files from blob storage """

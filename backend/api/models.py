@@ -74,7 +74,9 @@ class StorageLocation(models.Model):
     """Storage path reference to locate file(s)"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    filepath = models.CharField(max_length=256, null=True, blank=True)
+    container = models.CharField(max_length=256, null=True)
+    filepath = models.CharField(max_length=256, null=True)
+    is_downloadable = models.BooleanField(default=False)
 
 
 class Simulator(StorageLocation):
@@ -174,7 +176,6 @@ class Submission(StorageLocation):
     name = models.CharField(max_length=256, unique=True, default='unnamed')
     created_at = models.DateTimeField(auto_now_add=True)
     is_verified = models.BooleanField(default=False)
-    is_downloadable = models.BooleanField(default=False)
 
 
 class Result(models.Model):

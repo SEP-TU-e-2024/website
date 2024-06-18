@@ -33,10 +33,15 @@ class ProfileSerializer(ModelSerializer):
 class StorageLocationSerializer(serializers.ModelSerializer):
     """Serializer for storage locations"""
 
+    
+
     # Base fields for all children
     class Meta:
         model = StorageLocation
-        fields = ["id", "filepath"]
+        fields = ["id", "container", "filepath"]
+
+
+
 
 
 class SubmissionSerializer(StorageLocationSerializer):
