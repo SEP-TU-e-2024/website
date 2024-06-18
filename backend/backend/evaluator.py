@@ -43,7 +43,7 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
     benchmark_instances = submission.problem.benchmark_instances.all()
     benchmark_instance_urls = {
         str(benchamark_instance.id):
-        benchamark_instance.get_blob_url(blob_service_client)
+        benchamark_instance.get_blob(blob_service_client).url
         for benchamark_instance in benchmark_instances
     }
 
@@ -53,8 +53,8 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
         block=True,
         evaluation_settings=EvaluationSettingSerializer(submission.problem.evaluation_settings).data,
         benchmark_instances=benchmark_instance_urls,
-        submission_url=submission.get_blob_url(blob_service_client),
-        validator_url=validator.get_blob_url(blob_service_client),
+        submission_url=submission.get_blob(blob_service_client).url,
+        validator_url=validator.get_blob(blob_service_client).url,
     )
 
     print(command.results)
