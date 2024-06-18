@@ -33,6 +33,8 @@ EMAIL_USE_TLS = "True"
 
 FRONTEND_URL = "http://localhost:5173/"
 
+JUDGE_HOST = "localhost"
+
 ## Frontend 
 VITE_API_URL = "http://localhost:8000/api"
 ```

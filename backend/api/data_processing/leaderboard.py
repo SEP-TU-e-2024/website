@@ -22,7 +22,7 @@ class Leaderboard:
         self.rank_entries()
 
     def rank_entries(self):
-        """Rank the entries based on the scoring metrics"""
+        """Rank the entries based on the scoring metric"""
         
         self.entries.sort(key=lambda entry: entry.results[self.problem.scoring_metric.name],
                             reverse=( self.problem.scoring_metric.order == Metric.Order.REWARD))
