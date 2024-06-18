@@ -19,9 +19,10 @@ const ProtectedLayout = () => {
     return (
         <>
           <MyNavbar />
-          <Container>
+          <Container style={{minHeight:'100vh'}}>
             <Outlet />
           </Container>
+          <Footer />
         </>
     )
   };
