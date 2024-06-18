@@ -36,7 +36,7 @@ class StorageLocationSerializer(serializers.ModelSerializer):
     # Base fields for all children
     class Meta:
         model = StorageLocation
-        fields = ["filepath"]
+        fields = ["id", "filepath"]
 
 
 class SubmissionSerializer(StorageLocationSerializer):
@@ -72,14 +72,49 @@ class MetricSerializer(serializers.ModelSerializer):
         fields = ["name", "label", "unit", "order"]
 
 
+class ProblemCategorySerializer(serializers.ModelSerializer):
+    """Serializer for problem categories"""
+
+    #Get the simulator and validator
+    simulator = StorageLocationSerializer(read_only=True)
+    validator = StorageLocationSerializer(read_only=True)
+    
+    class Meta:
+        model = ProblemCategory
+        fields = [
+            "id",
+            "name",
+            "style",
+            "type",
+            "description",
+            "simulator",
+            "validator",
+        ]
+
+
+class BenchmarkInstanceSerializer(serializers.ModelSerializer):
+    """Serializer for benchmar instances"""
+    
+    class Meta:
+        model = BenchmarkInstance
+        fields = [
+            "id",
+            "filepath",
+        ]
+
+
 class SpecifiedProblemSerializer(serializers.ModelSerializer):
     """Serializer for specified problems"""
 
     # Add additional field for the submission count
     submission_count = serializers.IntegerField(read_only=True)
+    
+    #add the category
+    category = ProblemCategorySerializer(read_only=True)
 
     # Add additional serialization depth to the fields
     evaluation_settings = EvaluationSettingSerializer(read_only=True)
+    benchmark_instances = BenchmarkInstanceSerializer(many=True, read_only=True)
     metrics = MetricSerializer(many=True, read_only=True)
     scoring_metric = MetricSerializer(read_only=True)
 
@@ -97,34 +132,22 @@ class SpecifiedProblemSerializer(serializers.ModelSerializer):
         ]
 
 
-class ProblemCategorySerializer(serializers.ModelSerializer):
-    """Serializer for problem categories"""
-
-    # Foreign key field
-    specified_problems = SpecifiedProblemSerializer(many=True, read_only=True)
+class MinimalSpecifiedProblemSerializer(serializers.ModelSerializer):
+    """Serializer for specified problems without category objects etc"""
 
     class Meta:
-        model = ProblemCategory
+        model = SpecifiedProblem
         fields = [
             "id",
             "name",
-            "style",
-            "type",
-            "description",
-            "simulator",
-            "validator",
-            "specified_problems",
+            "category",
+            "benchmark_instances",
+            "evaluation_settings",
+            "metrics",
+            "scoring_metric",
         ]
-
-
-class BenchmarkInstanceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BenchmarkInstance
-        fields = [
-            "id",
-            "filepath",
-        ]
-
+        
+        
 class ResultSerializer(serializers.ModelSerializer):
     """Serializer for result"""
 
