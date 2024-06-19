@@ -73,8 +73,10 @@ function ProblemOccurrenceOverviewPage() {
             <h1 className="fw-bold">{problemData.name}</h1>
           </Col>
           <Col xs="2" className="align-self-end text-end text-light fw-bold">
+            {/* TODO: Implement 
             <Row><Col>1/day<i className="bi-cloud-upload" /></Col></Row>
-            <Row><Col>1d 20h 40m <i className="bi-clock" /></Col></Row>
+            <Row><Col>1d 20h 40m <i className="bi-clock" /></Col></Row> 
+            */}
           </Col> 
         </Row>
         <Row className="align-items-center">
