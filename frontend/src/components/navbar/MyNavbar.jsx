@@ -34,7 +34,9 @@ function MyNavbar() {
         LOGOUT: '/logout',
         HOME: '/home',
         ROOT: '/',
-        DEVELOPMENT : '/in_development'
+        DEVELOPMENT : '/in_development',
+        ACCOUNT: '/account',
+        ABOUT: '/about'
     }
     
     
@@ -55,12 +57,19 @@ function MyNavbar() {
                 </Nav>
                 <Nav navbar className="ms-auto navbar-right d-flex flex-row">
                     <NavItem className="information-button">
-                        <img src="/src/assets/question_mark.svg"/>
+                        <a href={routeStrings.ABOUT}>
+                            <img src="/src/assets/question_mark.svg"/>
+                        </a>
                     </NavItem>
                     {user ? (
+                        <>
                         <NavItem className="login-logout-button">
                             <a onClick={logout_user} href="">Logout</a>
                         </NavItem>
+                        <NavItem className="register-button">
+                            <a href={routeStrings.ACCOUNT}>Account</a>
+                        </NavItem>
+                        </>
                     ) : (
                         <>
                         <NavItem className="login-logout-button">

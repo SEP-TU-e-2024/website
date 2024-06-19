@@ -16,8 +16,15 @@ async function getLeaderboardData(problemId) {
   try {
     const response = await api.get(`/leaderboard/${problemId}`);
     return response.data;
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    if (error.response.status == 401) {
+      alert("Unauthorized to access this content");
+    } else if (error.response.status == 404) {
+      alert("Problem not found")
+    } else if (error.response.status == 500) {
+      alert("Something went wrong on the server")
+    }
+    console.error(error);
   }
 }
 
@@ -66,8 +73,10 @@ function ProblemOccurrenceOverviewPage() {
             <h1 className="fw-bold">{problemData.name}</h1>
           </Col>
           <Col xs="2" className="align-self-end text-end text-light fw-bold">
+            {/* TODO: Implement 
             <Row><Col>1/day<i className="bi-cloud-upload" /></Col></Row>
-            <Row><Col>1d 20h 40m <i className="bi-clock" /></Col></Row>
+            <Row><Col>1d 20h 40m <i className="bi-clock" /></Col></Row> 
+            */}
           </Col> 
         </Row>
         <Row className="align-items-center">
@@ -148,14 +157,15 @@ export async function getPOInfo(problemOccurrenceID) {
   try {
     const response = await api.get(`problems/problem_occurrence/${problemOccurrenceID}`);
     return response.data; 
-  } catch(err) {
-    console.error(err);
-    if (err.response.status == 404) {
-      throw new Error("Error 404: problem occurrence was not found");
-    } else if (err.response.status == 401) {
-      throw new Error("Error 401: unauthorized to access this content");
+  } catch(error) {
+    if (error.response.status == 401) {
+      alert("Unauthorized to access this content");
+    } else if (error.response.status == 404) {
+      alert("No problem categories not found")
+    } else if (error.response.status == 500) {
+      alert("Something went wrong on the server")
     }
-    else throw err;
+    console.log(error)
   }
 }
 

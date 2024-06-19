@@ -6,13 +6,13 @@ from azure.storage.blob import BlobServiceClient
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMessage
+from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework import status
-from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
-from rest_framework.viewsets import ViewSet
+from rest_framework.views import APIView
 
 from backend.evaluator import queue_evaluate_submission
 
@@ -22,20 +22,23 @@ from ..serializers import SubmissionSerializer
 from ..tokens import submission_confirm_token
 
 
-class SubmitViewSet(ViewSet):
+class SubmitAPIView(APIView):
     """
     This class is responsible for handling all requests related to submitting a zip file.
     """
 
     logger = logging.getLogger(__name__)
 
-    @action(detail=False, methods=["POST"])
-    def upload_submission(self, request):
+    def post(self, request):
+        """
+        Method used for submtting a submission
+        """
+
         request_file = request.FILES["file"]
         # Check if file exists
         if not request_file:
             return Response(
-                {"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST
+                {"detail": "No file provided"}, status=status.HTTP_400_BAD_REQUEST
             )
 
         # Check file properties
@@ -45,7 +48,7 @@ class SubmitViewSet(ViewSet):
             and self.check_file_type(request_file)
         ):
             return Response(
-                {"error": "Invalid file provided"}, status=status.HTTP_400_BAD_REQUEST
+                {"detail": "Invalid file provided"}, status=status.HTTP_400_BAD_REQUEST
             )
 
         # Checks validity of submitted data
@@ -53,6 +56,7 @@ class SubmitViewSet(ViewSet):
         if not serializer.is_valid():
             for field, message in serializer.errors.items():
                 self.logger.error({"field": field, "error": message})
+                return Response({"detail" : message}, status=status.HTTP_400_BAD_REQUEST)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         # Gets or creates user
         user = request.user
@@ -62,13 +66,14 @@ class SubmitViewSet(ViewSet):
         submission = serializer.save()
         submission.user = user
         submission.filepath = str(submission.id) + "." + request_file.name.split(".")[-1]
+        submission.container = os.getenv("AZURE_STORAGE_CONTAINER_SUBMISSION")
         submission.save()
 
         # Stores file in blob storage
         if not self.save_to_blob_storage(request_file, submission.id):
             submission.delete()
             return Response(
-                {"error": "An error occurred during file upload"},
+                {"detail": "An error occurred during file upload"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
@@ -151,8 +156,7 @@ class SubmitViewSet(ViewSet):
         )
         return email.send()
 
-    @api_view(('GET',))
-    def confirm_submission(self, sidb64, token):
+    def get(self, request, sidb64, token):
         """Activates submission in backend
 
         Parameters
@@ -180,7 +184,7 @@ class SubmitViewSet(ViewSet):
         ):
             # Puts submission to verified
             self.evaluate_submission(submission)
-            return Response({"Succesfull": "Succesfull"}, status=status.HTTP_200_OK)
+            return redirect(f'{os.getenv("FRONTEND_URL")}home')
         return Response(
             {"Submission error": "Submission not found"},
             status=status.HTTP_400_BAD_REQUEST,
