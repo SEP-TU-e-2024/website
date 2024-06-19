@@ -86,11 +86,11 @@ def initiate_protocol():
     logger.info("Starting listening TCP socket")
 
     # Wait for an incoming connection from the judge on another thread
-    thread = threading.Thread(target=establish_judge_connection, args=(), daemon=True)
+    thread = threading.Thread(target=establish_judge_connection, daemon=True)
     thread.start()
 
 
-def establish_judge_connection(sock: socket.socket):
+def establish_judge_connection():
     """
     Establishes a judge connection for the specified socket
     """
