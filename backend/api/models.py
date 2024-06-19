@@ -1,5 +1,6 @@
 import uuid
 
+from azure.storage.blob import BlobClient, BlobServiceClient
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
@@ -74,7 +75,18 @@ class StorageLocation(models.Model):
     """Storage path reference to locate file(s)"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    filepath = models.CharField(max_length=256, null=True, blank=True)
+    container = models.CharField(max_length=256, null=True)
+    filepath = models.CharField(max_length=256, null=True)
+    is_downloadable = models.BooleanField(default=False)
+
+    def get_blob(self, blob_service_client:BlobServiceClient) -> BlobClient:
+        # Get benchmark instance blob
+        blob = blob_service_client.get_blob_client(
+            container=self.container, blob=self.filepath
+        )
+        if not blob.exists():
+            raise ValueError(f"Blob file does not exist for storage location with id {self.id}")
+        return blob
 
 
 class Simulator(StorageLocation):
@@ -174,7 +186,6 @@ class Submission(StorageLocation):
     name = models.CharField(max_length=256, unique=True, default='unnamed')
     created_at = models.DateTimeField(auto_now_add=True)
     is_verified = models.BooleanField(default=False)
-    is_downloadable = models.BooleanField(default=False)
 
 
 class Result(models.Model):
