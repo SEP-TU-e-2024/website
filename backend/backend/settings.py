@@ -48,8 +48,10 @@ INSTALLED_APPS = [
     "django_extensions",
 ]
 
+# CORS settings
 CORS_ALLOWED_ORIGINS = [os.environ.get("FRONTEND_URL", "http://localhost:5173")]
 
+# CSRF settings
 csrf_trusted_origins_var = os.environ.get("CSRF_TRUSTED_ORIGINS", "")
 csrf_trusted_origins_list = []
 if csrf_trusted_origins_list != "":
