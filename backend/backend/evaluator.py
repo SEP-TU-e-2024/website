@@ -3,6 +3,7 @@ import os
 import socket
 import threading
 import uuid
+from decimal import Decimal, getcontext
 from queue import Queue
 from time import sleep
 
@@ -26,6 +27,7 @@ RETRY_WAIT = 5
 
 evaluation_queue: Queue = Queue()
 
+getcontext().prec = 8
 
 def queue_evaluate_submission(submission: Submission):
     """
@@ -69,17 +71,22 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
         for benchmark_instance in command.results.keys():
             benchmark_results = command.results[benchmark_instance]["results"][0]
             # Store each received metric in the database
-            for metric in benchmark_results.keys():
+            for metric in submission.problem.metrics.all():
+                # Skip saving result that is not present
+                if metric.name not in benchmark_results:
+                    continue
+
                 data = {
                     "submission": submission.id,
                     "benchmark_instance": uuid.UUID(benchmark_instance),
-                    "metric": metric,
-                    "score": float(benchmark_results[metric]),
+                    "metric": metric.name,
+                    "score": round(Decimal(benchmark_results[metric.name]), 2),
                 }
                 logger.info(f"Storing result: {repr(data)}")
 
                 serializer = ResultSerializer(data=data)
-                serializer.is_valid()
+                if not serializer.is_valid():
+                    raise Exception(f"invalid result serializer data: {serializer.errors}")
                 serializer.save()
     else:
         # Send email to user that submission failed
