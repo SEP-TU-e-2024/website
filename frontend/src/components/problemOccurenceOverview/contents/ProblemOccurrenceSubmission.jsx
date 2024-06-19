@@ -7,7 +7,6 @@ import '../ProblemOccurrrenceOverviewBody.scss'
  * A component for giving more details about a problem occurrence.
  */
 function ProblemOccurrenceSubmission({problemData}) {
-  console.log(problemData.category)
   return (
     <Container className="ps-0 pt-2">
         <Row className="justify-content-center">
