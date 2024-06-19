@@ -66,12 +66,16 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
     for benchmark_instance in command.results.keys():
         benchmark_results = command.results[benchmark_instance]["results"][0]
         # Store each received metric in the database
-        for metric in benchmark_results.keys():
+        for metric in submission.problem.metrics.all():
+            # Skip saving result that is not present
+            if (metric.name in benchmark_results):
+                continue
+
             data = {
                 "submission": submission.id,
                 "benchmark_instance": uuid.UUID(benchmark_instance),
-                "metric": metric,
-                "score": float(benchmark_results[metric]),
+                "metric": metric.name,
+                "score": float(benchmark_results[metric.name]),
             }
             logger.info(f"Storing result: {repr(data)}")
 
