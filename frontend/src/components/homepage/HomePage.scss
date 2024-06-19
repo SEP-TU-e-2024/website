@@ -26,6 +26,10 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
+    
+    li:hover {
+        text-decoration: underline;
+    }
 }
 
 .problem_card{ 
