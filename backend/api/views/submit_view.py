@@ -81,7 +81,7 @@ class SubmitViewSet(ViewSet):
     def verify_submission(self, request, logged_in, submission):
         # Verifies submission if logged in
         if logged_in:
-            self.evaluate_submission(submission)
+            SubmitViewSet.evaluate_submission(submission)
             return Response({}, status=status.HTTP_200_OK)
 
         # User not logged in, hence sent verification email
@@ -180,7 +180,7 @@ class SubmitViewSet(ViewSet):
             submission, token
         ):
             # Puts submission to verified
-            self.evaluate_submission(submission)
+            SubmitViewSet.evaluate_submission2(submission)
             return Response({"Succesfull": "Succesfull"}, status=status.HTTP_200_OK)
         return Response(
             {"Submission error": "Submission not found"},
@@ -219,7 +219,8 @@ class SubmitViewSet(ViewSet):
             self.logger.warning("File failed to upload", exc_info=1)
             return False
 
-    def evaluate_submission(self, submission: Submission):
+    @staticmethod
+    def evaluate_submission(submission: Submission):
         submission.is_verified = True
         submission.save()
         queue_evaluate_submission(submission)
