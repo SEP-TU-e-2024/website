@@ -67,7 +67,7 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
 
 def initiate_protocol():
     """Initiate the connection protocol"""
-    logger.info("Starting listening TCP socket")
+    logger.info("Initiating the connection protocol.")
 
     # Initiate the listening TCP socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -85,6 +85,7 @@ def establish_judge_connection(sock: socket.socket):
         disconnected = True
 
         try:
+            logger.info(f"Trying to connect to the Judge server at {HOST}:{PORT}.")
             sock.connect((HOST, PORT))
             logger.info(f"Connected to the Judge server at {HOST}:{PORT}.")
             
