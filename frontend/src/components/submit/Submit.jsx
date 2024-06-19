@@ -84,7 +84,7 @@ function Submit() {
 
   return (
     <>
-      <div className='form_container'>
+      <div className='submit_container'>
         <form onSubmit={uploadHandler} method='post'>
           {!user ? (
             <div className='field_container'>

@@ -62,6 +62,7 @@ class SubmitViewSet(ViewSet):
         submission = serializer.save()
         submission.user = user
         submission.filepath = str(submission.id) + "." + request_file.name.split(".")[-1]
+        submission.container = os.getenv("AZURE_STORAGE_CONTAINER_SUBMISSION")
         submission.save()
 
         # Stores file in blob storage

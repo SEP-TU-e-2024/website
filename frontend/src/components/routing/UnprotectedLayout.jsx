@@ -11,13 +11,13 @@ import { Container } from "reactstrap";
  */
 const UnProtectedLayout = () => {
     return (
-      <>
-        <MyNavbar />
-        <Container style={{minHeight:'100vh'}}>
-          <Outlet />
-        </Container>
-        <Footer />
-      </>
+        <>
+          <MyNavbar />
+          <Container style={{ minHeight: '100vh' }}>
+            <Outlet />
+          </Container>
+          <Footer />
+        </>
     )
   };
 
