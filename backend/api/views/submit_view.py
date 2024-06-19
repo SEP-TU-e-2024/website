@@ -142,6 +142,7 @@ class SubmitAPIView(APIView):
         message = render_to_string(
             "email_template_confirm_submission.html",
             {
+                "user": request.user.name if not request.user.is_anonymous else "User",
                 "domain": get_current_site(request).domain,
                 "sid": urlsafe_base64_encode(force_bytes(submission.id)),
                 "token": submission_confirm_token.make_token(submission),
