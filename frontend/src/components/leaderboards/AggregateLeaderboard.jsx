@@ -93,7 +93,7 @@ function createColumns(problem) {
   columns.push(new LeaderboardColumn("Submission name", 
     (entry) => { return entry.submission.name }));
   columns.push(new LeaderboardColumn("Submitted by", 
-    (entry) => { return entry.submitter.name }));
+    (entry) => { return entry.submitter.name != null && entry.submitter.name != "" ?  entry.submitter.name : "Anonymous user" }));
   columns.push(new LeaderboardColumn("Submitted date", 
     (entry) => { return entry.submission.created_at.slice(0,10) })); //the slice is to format the date
   
@@ -137,8 +137,17 @@ async function handleDownloadClick(event, storage_location) {
 
     // Create a Blob from the response data
     downloadBlob(response)
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    if (error.response.status == 401) {
+      alert("Unauthorized to access this content");
+    } else if (error.response.status == 403) {
+      alert("File not downloadable")
+    } else if (error.response.status == 404) {
+      alert("File not found")
+    } else if (error.response.status == 500) {
+      alert("Something went wrong on the server")
+    }
+    console.log(error)
   }
 }
 
