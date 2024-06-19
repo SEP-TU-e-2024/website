@@ -47,7 +47,7 @@ INSTALLED_APPS = [
 # TODO: CHANGE THIS IN PRODUCTION
 CORS_ORIGIN_ALLOW_ALL = True
 
-CSRF_TRUSTED_ORIGINS = ["*"]
+CSRF_TRUSTED_ORIGINS = ["https://backend-benchlabtest.azurewebsites.net"]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
