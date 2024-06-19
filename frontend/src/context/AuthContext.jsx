@@ -88,7 +88,7 @@ export const AuthProvider = ({children}) => {
             } else {
                 alert("Something went wrong");
             }
-            console.error('Singup error');
+            console.error('Signup error');
         }
     }
 
@@ -103,7 +103,6 @@ export const AuthProvider = ({children}) => {
     let login_user = async (e)=> {
         // Prevents default form submission
         e.preventDefault()
-        console.log(e.target.password.value);
         try {
             // Submits user data to API
             let response = await api.post('/auth/token/', {
