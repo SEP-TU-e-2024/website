@@ -108,7 +108,7 @@ function createColumns(problem) {
       return (
         <div className="download-cell"><i 
           role="button" 
-          onClick={entry.submission.is_downloadable ? (event) => handleDownloadSolverClick(event, entry.submission.filepath) : null} 
+          onClick={entry.submission.is_downloadable ? (event) => handleDownloadClick(event, entry.submission) : null} 
           className={entry.submission.is_downloadable ? "bi-download" : "bi-download disabled"} 
         /></div>
       )
@@ -127,13 +127,11 @@ function createColumns(problem) {
   return columns;
 }
 
-
-// Download submission handler
-async function handleDownloadSolverClick(event, filepath) {
+async function handleDownloadClick(event, storage_location) {
   event.stopPropagation()
   try {
-    const response = await api.get('/download/download_solver/', {
-      params: { filepath: filepath },
+    const response = await api.get('/download/storage_location/', {
+      params: { id: storage_location.id },
       responseType: 'blob'
     });
 
