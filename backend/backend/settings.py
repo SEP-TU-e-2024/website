@@ -47,6 +47,8 @@ INSTALLED_APPS = [
 # TODO: CHANGE THIS IN PRODUCTION
 CORS_ORIGIN_ALLOW_ALL = True
 
+CSRF_TRUSTED_ORIGINS = ["*"]
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
