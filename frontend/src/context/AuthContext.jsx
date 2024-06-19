@@ -79,17 +79,16 @@ export const AuthProvider = ({children}) => {
             if (response.status === 201) {
                 alert("Email sent successfully, please check your email");
                 navigate('/login');
-            } else {
-                throw new Error('Failed to register user, unknown error');
             }
         } catch(error) {
-            // Handle errors
-            if (error.response.data.error) {
-                alert(error.response.data.error)
-                return
+            if (error.response.data.detail) {
+                alert(error.response.data.detail);
+            } else if (error.response.status == 500) {
+                alert("Something went wrong internally");
+            } else {
+                alert("Something went wrong");
             }
-            alert(error.message);
-            console.error('Singup error:', error.message);
+            console.error('Singup error');
         }
     }
 
@@ -104,7 +103,7 @@ export const AuthProvider = ({children}) => {
     let login_user = async (e)=> {
         // Prevents default form submission
         e.preventDefault()
-        
+        console.log(e.target.password.value);
         try {
             // Submits user data to API
             let response = await api.post('/auth/token/', {
@@ -117,14 +116,16 @@ export const AuthProvider = ({children}) => {
             navigate('/home');
 
         } catch (error) {
-            // Handle errors
             if (error.response.data.detail) {
-                alert(error.response.data.detail)
-                console.error('Login error:', error.response.data.detail);
-                return
+                alert(error.response.data.detail);
+            } else if (error.response.status == 404) {
+                alert("Account not found");
+            } else if (error.response.status == 500) {
+                alert("Something went wrong, maybe you don't have a password.");
+            } else {
+                alert("Something went wrong");
             }
-            alert(error.message);
-            console.error('Login error:', error.message);
+            console.error('Login error');
         }
     }
 
@@ -149,14 +150,15 @@ export const AuthProvider = ({children}) => {
             alert("Email sent succesfully")
         } catch(error) {
             // Handle errors
-            if (error.response.status == 404) {
+            if (error.response.data.detail) {
+                alert(error.response.data.detail);
+            } else if (error.response.status == 404) {
                 alert("Account with given email does not exists")
-            }
-            else {
-                alert("Failed to send email")
+            } else if (error.response.status == 500) {
+                alert("Something went wrong internally")
             }
             
-            console.error('Login error:', error.message);
+            console.error('Login error');
         }
     }
 
@@ -206,6 +208,7 @@ export const AuthProvider = ({children}) => {
             }
         } catch (error) {
             // Handle errors
+            alert("Session expired")
             logout_user();
             console.error('Update error:', error.message);
         }

@@ -38,7 +38,7 @@ class SubmitAPIView(APIView):
         # Check if file exists
         if not request_file:
             return Response(
-                {"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST
+                {"detail": "No file provided"}, status=status.HTTP_400_BAD_REQUEST
             )
 
         # Check file properties
@@ -48,7 +48,7 @@ class SubmitAPIView(APIView):
             and self.check_file_type(request_file)
         ):
             return Response(
-                {"error": "Invalid file provided"}, status=status.HTTP_400_BAD_REQUEST
+                {"detail": "Invalid file provided"}, status=status.HTTP_400_BAD_REQUEST
             )
 
         # Checks validity of submitted data
@@ -56,6 +56,7 @@ class SubmitAPIView(APIView):
         if not serializer.is_valid():
             for field, message in serializer.errors.items():
                 self.logger.error({"field": field, "error": message})
+                return Response({"detail" : message}, status=status.HTTP_400_BAD_REQUEST)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         # Gets or creates user
         user = request.user
@@ -72,7 +73,7 @@ class SubmitAPIView(APIView):
         if not self.save_to_blob_storage(request_file, submission.id):
             submission.delete()
             return Response(
-                {"error": "An error occurred during file upload"},
+                {"detail": "An error occurred during file upload"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 

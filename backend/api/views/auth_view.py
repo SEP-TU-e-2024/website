@@ -46,6 +46,7 @@ class AuthViewSet(ViewSet):
         if not serializer.is_valid():
             for field, message in serializer.errors.items():
                 self.logger.error({"field": field, "error": message})
+                return Response({"detail" : message}, status=status.HTTP_400_BAD_REQUEST)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         # Creating and disabling user
@@ -129,7 +130,7 @@ class AuthViewSet(ViewSet):
             user = User.objects.get(email=request.data["email"])
         except ObjectDoesNotExist:
             return Response(
-                {"User error": "User not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         try:
@@ -155,7 +156,7 @@ class AuthViewSet(ViewSet):
         except SMTPException:
             self.logger.warning("Failed to send email", exc_info=1)
             return Response(
-                {"Email erorr": "Failed to send email"},
+                {"detail": "Failed to send email"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
         return Response({}, status=status.HTTP_200_OK)

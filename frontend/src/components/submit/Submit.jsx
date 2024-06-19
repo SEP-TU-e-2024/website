@@ -73,12 +73,14 @@ function Submit() {
         !user ? alert("Check your email to confirm submission") : alert("Submission uploaded successfully.");
       }
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.name) {
-        alert(error.response.data.name);
-        return;
+      if (error.response.data.detail) {
+        alert(error.response.data.detail);
+      } else if (error.response.status == 400) {
+        alert("Invalid submission")
+      } else if (error.response.status == 500) {
+        alert("Something went wrong internally")
       }
-      alert(error.message);
-      console.error('Submission error:', error.message);
+      console.error('Submission error');
     }
   };
 
