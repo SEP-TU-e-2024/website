@@ -16,7 +16,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./backend-benchlabtest
+        working-directory: ./backend
 
     steps:
       - uses: actions/checkout@v4
