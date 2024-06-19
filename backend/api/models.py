@@ -157,6 +157,7 @@ class ProblemCategory(models.Model):
     validator = models.ForeignKey(
         Validator, on_delete=models.SET_NULL, null=True, blank=True
     )
+    example_submission_url = models.CharField(max_length=512, null=True)
 
     class Meta:
         verbose_name = "problem category"

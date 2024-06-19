@@ -6,11 +6,17 @@ import '../ProblemOccurrrenceOverviewBody.scss'
 /**
  * A component for giving more details about a problem occurrence.
  */
-function ProblemOccurrenceSubmission() {
+function ProblemOccurrenceSubmission({problemData}) {
+  console.log(problemData.category)
   return (
     <Container className="ps-0 pt-2">
         <Row className="justify-content-center">
           <Col className='text-center' xs="8">
+            { 
+              problemData.category.example_submission_url ? 
+              <p>{problemData.category.name} <a href={problemData.category.example_submission_url}>Example Submission</a></p>:
+              <></>  
+            }
             <Submit/>
           </Col>
         </Row>
