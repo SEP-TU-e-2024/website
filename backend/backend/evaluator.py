@@ -68,19 +68,20 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
         # Store each received metric in the database
         for metric in submission.problem.metrics.all():
             # Skip saving result that is not present
-            if (metric.name in benchmark_results):
+            if metric.name not in benchmark_results:
                 continue
 
             data = {
                 "submission": submission.id,
                 "benchmark_instance": uuid.UUID(benchmark_instance),
                 "metric": metric.name,
-                "score": float(benchmark_results[metric.name]),
+                "score": round(float(benchmark_results[metric.name]), 2),
             }
             logger.info(f"Storing result: {repr(data)}")
 
             serializer = ResultSerializer(data=data)
-            serializer.is_valid()
+            if not serializer.is_valid():
+                raise Exception(f"invalid result serializer data: {serializer.errors}")
             serializer.save()
 
 
