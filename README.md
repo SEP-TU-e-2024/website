@@ -33,6 +33,8 @@ EMAIL_USE_TLS = "True"
 
 FRONTEND_URL = "http://localhost:5173"
 
+ALLOWED_HOSTS = "*"
+CSRF_TRUSTED_ORIGINS = "http://localhost"
 JUDGE_HOST = "localhost"
 
 ## Frontend 
