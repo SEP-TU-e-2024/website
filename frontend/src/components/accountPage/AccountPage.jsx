@@ -15,7 +15,9 @@ async function getAccount() {
         if (error.response.status == 401) {
             alert("Unauthorized to access this content");
         } else if (error.response.status == 404) {
-            alert("Error during fetching of account data")
+            alert("Account data not found")
+        } else if (error.response.status == 500) {
+            alert("Something went wrong on the server")
         }
         console.error(error)
     }
@@ -34,7 +36,9 @@ async function getSubmissions() {
         if (error.response.status == 401) {
             alert("Unauthorized to access this content");
         } else if (error.response.status == 404) {
-            alert("Error during fetching of account data")
+            alert("Account data not found")
+        } else if (error.response.status == 500) {
+            alert("Something went wrong on the server")
         }
         console.error(error)
     }

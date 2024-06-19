@@ -137,8 +137,17 @@ async function handleDownloadClick(event, storage_location) {
 
     // Create a Blob from the response data
     downloadBlob(response)
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    if (error.response.status == 401) {
+      alert("Unauthorized to access this content");
+    } else if (error.response.status == 403) {
+      alert("File not downloadable")
+    } else if (error.response.status == 404) {
+      alert("File not found")
+    } else if (error.response.status == 500) {
+      alert("Something went wrong on the server")
+    }
+    console.log(error)
   }
 }
 
