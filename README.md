@@ -31,7 +31,7 @@ EMAIL_HOST_PASSWORD = "password"
 EMAIL_PORT = "587"
 EMAIL_USE_TLS = "True"
 
-FRONTEND_URL = "http://localhost:5173/"
+FRONTEND_URL = "http://localhost:5173"
 
 JUDGE_HOST = "localhost"
 
