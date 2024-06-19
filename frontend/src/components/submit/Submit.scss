@@ -22,6 +22,7 @@
 .submit_container * {
     width: auto;
     display:inline-block;
+    margin: 3px;
 }
 
 .field_container {
@@ -59,8 +60,4 @@
 
 .upload_button {
     background-color: $primary;
-}
-
-.submit_button {
-    width: 50px;
 }

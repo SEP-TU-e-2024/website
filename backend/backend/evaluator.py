@@ -7,10 +7,12 @@ from queue import Queue
 from time import sleep
 
 from api.models import Submission
+from api.serializers import EvaluationSettingSerializer, ResultSerializer
 from azure.storage.blob import BlobServiceClient
 
 from .protocol import Connection
-from .protocol.website import Commands, WebsiteProtocol
+from .protocol.website import WebsiteProtocol
+from .protocol.website.commands.start_command import StartCommand
 
 logger = logging.getLogger("evaluator")
 
@@ -24,6 +26,9 @@ evaluation_queue: Queue = Queue()
 
 
 def queue_evaluate_submission(submission: Submission):
+    """
+    Queues a submission for evaluation.
+    """
     evaluation_queue.put(submission)
 
 
@@ -34,49 +39,62 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
     connection_string = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
     blob_service_client = BlobServiceClient.from_connection_string(connection_string)
 
-    # Get submission blob
-    submission_blob = blob_service_client.get_blob_client(
-        container=os.getenv("AZURE_STORAGE_CONTAINER_SUBMISSION"), blob=submission.filepath
-    )
-    if not submission_blob.exists():
-        raise ValueError("Submission Blob file does not exist")
-
-    # Get validator blob
-    validator_blob = blob_service_client.get_blob_client(
-        container=os.getenv("AZURE_STORAGE_CONTAINER_VALIDATOR"),
-        blob=submission.problem.category.validator.filepath,
-    )
-    if not validator_blob.exists():
-        raise ValueError("Validator Blob file does not exist")
-
     logger.info(f"Sending submission {submission.id} to judge for evaluation")
+
+    # Initialize command and its arguments
+    command = StartCommand()
+    validator = submission.problem.category.validator
+    benchmark_instances = submission.problem.benchmark_instances.all()
+    benchmark_instance_urls = {
+        str(benchamark_instance.id): benchamark_instance.get_blob(blob_service_client).url
+        for benchamark_instance in benchmark_instances
+    }
 
     # Send the submission to the judge for evaluation
     protocol.send_command(
-        Commands.START,
-        cpus=submission.problem.evaluation_settings.cpu,
-        memory=10,  # TODO: memory amount
-        gpus=0,  # TODO: GPU amount
-        time_limit=submission.problem.evaluation_settings.time_limit,
-        machine_type="Standard_B1s",  # TODO: machine type
-        submission_type="code",  # TODO: submission type
-        source_url=submission_blob.url,
-        validator_url=validator_blob.url,
+        command,
+        block=True,
+        evaluation_settings=EvaluationSettingSerializer(
+            submission.problem.evaluation_settings
+        ).data,
+        benchmark_instances=benchmark_instance_urls,
+        submission_url=submission.get_blob(blob_service_client).url,
+        validator_url=validator.get_blob(blob_service_client).url,
     )
+
+    # Handle results
+    for benchmark_instance in command.results.keys():
+        benchmark_results = command.results[benchmark_instance]["results"][0]
+        # Store each received metric in the database
+        for metric in benchmark_results.keys():
+            data = {
+                "submission": submission.id,
+                "benchmark_instance": uuid.UUID(benchmark_instance),
+                "metric": metric,
+                "score": float(benchmark_results[metric]),
+            }
+            logger.info(f"Storing result: {repr(data)}")
+
+            serializer = ResultSerializer(data=data)
+            serializer.is_valid()
+            serializer.save()
 
 
 def initiate_protocol():
-    """Initiate the connection protocol"""
-    logger.info("Initiating the connection protocol.")
+    """
+    Initiate the connection protocol
+    """
+    logger.info("Initializing the connection protocol...")
 
     # Wait for an incoming connection from the judge on another thread
-    thread = threading.Thread(target=establish_judge_connection, args=(), daemon=True)
+    thread = threading.Thread(target=establish_judge_connection, daemon=True)
     thread.start()
 
 
 def establish_judge_connection():
-    """Establishes a judge connection for the specified socket"""
-    # TODO: allow for re-connection after disconnect
+    """
+    Establishes a judge connection for the specified socket
+    """
 
     while True:
         disconnected = True
@@ -84,8 +102,8 @@ def establish_judge_connection():
         try:
             # Initiate the listening TCP socket
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            
-            logger.info(f"Trying to connect to the Judge server at {HOST}:{PORT}.")
+
+            logger.info(f"Trying to connect to the Judge server at {HOST}:{PORT}...")
             sock.connect((HOST, PORT))
             logger.info(f"Connected to the Judge server at {HOST}:{PORT}.")
 
@@ -104,7 +122,10 @@ def establish_judge_connection():
                 submission = evaluation_queue.get()
                 # TODO: what if submission evaluation failed, do we put it back in the queue?
                 try:
-                    evaluate_submission(protocol, submission)
+                    thread = threading.Thread(
+                        target=evaluate_submission, args=(protocol, submission), daemon=True
+                    )
+                    thread.start()
                 except Exception:
                     logger.error(f"Error evaluating submission with ID {submission.id}", exc_info=1)
 
@@ -118,7 +139,7 @@ def establish_judge_connection():
             sleep(RETRY_WAIT)
 
         except Exception:
-            logger.error("An unexpected error has occured.", exc_info=1)
+            logger.error("An unexpected error has occurred.", exc_info=1)
 
         finally:
             if not disconnected:

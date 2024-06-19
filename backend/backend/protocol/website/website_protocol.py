@@ -7,7 +7,7 @@ import threading
 from queue import Queue
 
 from .. import Connection, Protocol
-from .commands import Commands
+from .commands import Command
 
 logger = logging.getLogger("protocol.website")
 
@@ -46,7 +46,7 @@ class WebsiteProtocol(Protocol):
                     continue
                 self.queue_dict[message_id].put(response)
 
-    def send_command(self, command: Commands, block: bool = False, **kwargs):
+    def send_command(self, command: Command, block: bool = False, **kwargs):
         """
         Sends a given command with the given arguments to the judge.
         """
@@ -59,7 +59,7 @@ class WebsiteProtocol(Protocol):
             target=self._send_command, args=(command,), kwargs=kwargs, daemon=True
         ).start()
 
-    def _send_command(self, command: Commands, **kwargs):
+    def _send_command(self, command: Command, **kwargs):
         """
         Send command to the judge and wait for the response.
         """
@@ -78,7 +78,7 @@ class WebsiteProtocol(Protocol):
             )
             response = queue.get()
 
-            command.value.response(response)
+            command.response(response)
 
         except Exception:
             logger.error(
