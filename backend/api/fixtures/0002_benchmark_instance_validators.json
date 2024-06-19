@@ -1,0 +1,972 @@
+[
+{
+    "model": "api.userprofile",
+    "pk": "89162009-a8a0-4c7a-b054-ed898f24b955",
+    "fields": {
+        "last_login": "2024-06-10T12:41:23Z",
+        "email": "staff@email.com",
+        "name": "Staff",
+        "is_staff": true,
+        "is_superuser": false,
+        "is_active": true,
+        "password": null,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "api.userprofile",
+    "pk": "9a2636e0-984f-4e79-bc9e-13a628f3cf7b",
+    "fields": {
+        "last_login": "2024-06-18T13:04:12.779Z",
+        "email": "admin@email.com",
+        "name": "Admin",
+        "is_staff": true,
+        "is_superuser": true,
+        "is_active": true,
+        "password": "pbkdf2_sha256$720000$jO2XTesLUiYYlMxPSfv0Ux$sViB2nxtCywoCSeH3LeM+WzlmnKMFBAPfWFEU0KmBVI=",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "api.userprofile",
+    "pk": "f04cac7e-4b10-4076-bcf8-93718af6efbe",
+    "fields": {
+        "last_login": "2024-06-10T12:39:09Z",
+        "email": "user@email.com",
+        "name": "User",
+        "is_staff": false,
+        "is_superuser": false,
+        "is_active": true,
+        "password": null,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "api.evaluationsettings",
+    "pk": "7a23b521-8869-4102-9eda-c9213e719895",
+    "fields": {
+        "cpu": 1,
+        "time_limit": 60.0,
+        "memory": 256,
+        "machine_type": "Standard_B1s"
+    }
+},
+{
+    "model": "api.evaluationsettings",
+    "pk": "7f043808-a7da-4edc-b1f4-1797f8d40def",
+    "fields": {
+        "cpu": 4,
+        "time_limit": 300.0,
+        "memory": 256,
+        "machine_type": "Standard_B1s"
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+    "fields": {
+        "container": "benchmark-instances-test-validator",
+        "filepath": "instance2.txt",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "2d7a8e94-0c3e-4c13-bf98-4296de50ae8a",
+    "fields": {
+        "container": "validators",
+        "filepath": "validator.zip",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "3d409989-b882-47ea-af79-82bd1bbaa495",
+    "fields": {
+        "container": "benchmark-instances-vrptw-homberger-200",
+        "filepath": "C1_2_1.200.20.vrptw",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "6d28f80e-d531-4c51-90f8-b0a76b768f20",
+    "fields": {
+        "container": null,
+        "filepath": "2f3d5222-d0e4-486b-a892-eb6de952d11a.zip",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "706e2604-224a-4c3e-8b1c-f9418200c232",
+    "fields": {
+        "container": "benchmark-instances-vrptw-homberger-200",
+        "filepath": "C1_2_1.200.20.vrptw",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "7e36136f-2462-4273-85ee-2e6a641b4198",
+    "fields": {
+        "container": "benchmark-instances-vrptw-homberger-200",
+        "filepath": "C1_2_1.200.20.vrptw",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "83a8977e-760a-4d44-9a67-e07ca4d4c155",
+    "fields": {
+        "container": "benchmark-instances-test-validator",
+        "filepath": "instance1.txt",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "8bb927b2-8904-45db-bc1d-2ac2daf61d10",
+    "fields": {
+        "container": "benchmark-instances-vrptw-homberger-200",
+        "filepath": "C1_2_1.200.20.vrptw",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "a1777c0b-1346-4eac-accb-0a7f61fb5ae8",
+    "fields": {
+        "container": "benchmark-instances-vrptw-homberger-200",
+        "filepath": "C1_2_1.200.20.vrptw",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+    "fields": {
+        "container": "submissions",
+        "filepath": "submission.zip",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "a9ff016d-f279-4e86-8c98-5c5e51f34d5a",
+    "fields": {
+        "container": null,
+        "filepath": "0d9485d4-eeb6-40e5-a098-83964a32bf6f.zip",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "bca2f71a-74e2-413c-8050-e24836c43ab3",
+    "fields": {
+        "container": null,
+        "filepath": "1ca57f0f-f0a9-41d6-b71a-729c04c7b6b6.zip",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "bf8756f8-95a9-4d24-a0d4-e74bf49cecbb",
+    "fields": {
+        "container": "benchmark-instances-vrptw-homberger-200",
+        "filepath": "C1_2_1.200.20.vrptw",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "fd7023d0-0790-4ffd-956a-3305ab901cb4",
+    "fields": {
+        "container": null,
+        "filepath": "178004dc-3d8e-4092-ace6-3c06ab4157bc.rar",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.validator",
+    "pk": "2d7a8e94-0c3e-4c13-bf98-4296de50ae8a",
+    "fields": {}
+},
+{
+    "model": "api.benchmarkinstance",
+    "pk": "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+    "fields": {}
+},
+{
+    "model": "api.benchmarkinstance",
+    "pk": "3d409989-b882-47ea-af79-82bd1bbaa495",
+    "fields": {}
+},
+{
+    "model": "api.benchmarkinstance",
+    "pk": "706e2604-224a-4c3e-8b1c-f9418200c232",
+    "fields": {}
+},
+{
+    "model": "api.benchmarkinstance",
+    "pk": "7e36136f-2462-4273-85ee-2e6a641b4198",
+    "fields": {}
+},
+{
+    "model": "api.benchmarkinstance",
+    "pk": "83a8977e-760a-4d44-9a67-e07ca4d4c155",
+    "fields": {}
+},
+{
+    "model": "api.benchmarkinstance",
+    "pk": "8bb927b2-8904-45db-bc1d-2ac2daf61d10",
+    "fields": {}
+},
+{
+    "model": "api.benchmarkinstance",
+    "pk": "a1777c0b-1346-4eac-accb-0a7f61fb5ae8",
+    "fields": {}
+},
+{
+    "model": "api.benchmarkinstance",
+    "pk": "bf8756f8-95a9-4d24-a0d4-e74bf49cecbb",
+    "fields": {}
+},
+{
+    "model": "api.metric",
+    "pk": "meeting_count",
+    "fields": {
+        "label": "Number of meetings",
+        "unit": "",
+        "order": 1
+    }
+},
+{
+    "model": "api.metric",
+    "pk": "path_length",
+    "fields": {
+        "label": "Path length",
+        "unit": "",
+        "order": 0
+    }
+},
+{
+    "model": "api.metric",
+    "pk": "run_time",
+    "fields": {
+        "label": "Run time",
+        "unit": "s",
+        "order": 0
+    }
+},
+{
+    "model": "api.metric",
+    "pk": "score",
+    "fields": {
+        "label": "The score",
+        "unit": "",
+        "order": 1
+    }
+},
+{
+    "model": "api.problemcategory",
+    "pk": "2587bee1-8210-4d2e-a2ff-08a82fce5fc3",
+    "fields": {
+        "name": "Time Slotting Problem",
+        "style": 0,
+        "type": 1,
+        "description": "The Time Slotting Problem entails optimizing the allocation of entities into predefined time slots, considering constraints and objectives such as maximizing resource utilization or satisfaction metrics. Commonly encountered in scheduling scenarios, the Time Slotting Problem aims to efficiently arrange tasks or events to minimize conflicts and satisfy objectives within a given time frame.",
+        "simulator": null,
+        "validator": "2d7a8e94-0c3e-4c13-bf98-4296de50ae8a"
+    }
+},
+{
+    "model": "api.problemcategory",
+    "pk": "3513eb23-7b59-4a70-b6d5-1ebf5e354db4",
+    "fields": {
+        "name": "My Test Problem",
+        "style": 1,
+        "type": 0,
+        "description": "Hello, world!",
+        "simulator": null,
+        "validator": "2d7a8e94-0c3e-4c13-bf98-4296de50ae8a"
+    }
+},
+{
+    "model": "api.problemcategory",
+    "pk": "c3be0151-e61e-470b-bba6-4b7f26903d3c",
+    "fields": {
+        "name": "Traveling Salesman Problem",
+        "style": 1,
+        "type": 0,
+        "description": "The Traveling Salesman Problem (TSP) is a classic optimization challenge that seeks to determine the shortest possible route for a salesman to visit a given set of cities exactly once and return to the original city. It is an NP-hard problem in combinatorial optimization, making it difficult to solve efficiently as the number of cities increases. TSP has significant practical applications in logistics, manufacturing, and various fields requiring route planning and resource allocation. The complexity arises from the factorial growth of possible routes, necessitating sophisticated algorithms and heuristics to approximate optimal solutions within reasonable computational timeframes.",
+        "simulator": null,
+        "validator": "2d7a8e94-0c3e-4c13-bf98-4296de50ae8a"
+    }
+},
+{
+    "model": "api.specifiedproblem",
+    "pk": "343da3bd-d33d-4e6f-a0fc-2c5361918faf",
+    "fields": {
+        "name": "Delivery Route Planning",
+        "category": "c3be0151-e61e-470b-bba6-4b7f26903d3c",
+        "evaluation_settings": "7a23b521-8869-4102-9eda-c9213e719895",
+        "scoring_metric": "path_length",
+        "benchmark_instances": [
+            "706e2604-224a-4c3e-8b1c-f9418200c232",
+            "7e36136f-2462-4273-85ee-2e6a641b4198",
+            "8bb927b2-8904-45db-bc1d-2ac2daf61d10",
+            "bf8756f8-95a9-4d24-a0d4-e74bf49cecbb"
+        ],
+        "metrics": [
+            "path_length",
+            "run_time",
+            "score"
+        ]
+    }
+},
+{
+    "model": "api.specifiedproblem",
+    "pk": "3e44afea-c625-4cb9-ad31-41ea0fbd0745",
+    "fields": {
+        "name": "Meeting scheduling",
+        "category": "2587bee1-8210-4d2e-a2ff-08a82fce5fc3",
+        "evaluation_settings": "7f043808-a7da-4edc-b1f4-1797f8d40def",
+        "scoring_metric": "meeting_count",
+        "benchmark_instances": [
+            "3d409989-b882-47ea-af79-82bd1bbaa495",
+            "a1777c0b-1346-4eac-accb-0a7f61fb5ae8"
+        ],
+        "metrics": [
+            "meeting_count",
+            "run_time",
+            "score"
+        ]
+    }
+},
+{
+    "model": "api.specifiedproblem",
+    "pk": "83cb333e-e4c9-4f92-b002-9a8b33b039fd",
+    "fields": {
+        "name": "MyTestSpecProb",
+        "category": "3513eb23-7b59-4a70-b6d5-1ebf5e354db4",
+        "evaluation_settings": "7a23b521-8869-4102-9eda-c9213e719895",
+        "scoring_metric": "score",
+        "benchmark_instances": [
+            "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+            "83a8977e-760a-4d44-9a67-e07ca4d4c155"
+        ],
+        "metrics": [
+            "score"
+        ]
+    }
+},
+{
+    "model": "api.submission",
+    "pk": "6d28f80e-d531-4c51-90f8-b0a76b768f20",
+    "fields": {
+        "user": "9a2636e0-984f-4e79-bc9e-13a628f3cf7b",
+        "problem": "3e44afea-c625-4cb9-ad31-41ea0fbd0745",
+        "name": "Example time slotting submission",
+        "created_at": "2024-06-10T13:06:03.824Z",
+        "is_verified": true
+    }
+},
+{
+    "model": "api.submission",
+    "pk": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+    "fields": {
+        "user": "f04cac7e-4b10-4076-bcf8-93718af6efbe",
+        "problem": "83cb333e-e4c9-4f92-b002-9a8b33b039fd",
+        "name": "tps first little submission",
+        "created_at": "2024-06-12T13:14:42.580Z",
+        "is_verified": true
+    }
+},
+{
+    "model": "api.submission",
+    "pk": "a9ff016d-f279-4e86-8c98-5c5e51f34d5a",
+    "fields": {
+        "user": "89162009-a8a0-4c7a-b054-ed898f24b955",
+        "problem": "343da3bd-d33d-4e6f-a0fc-2c5361918faf",
+        "name": "Advanced solution",
+        "created_at": "2024-06-10T12:45:18.702Z",
+        "is_verified": true
+    }
+},
+{
+    "model": "api.submission",
+    "pk": "bca2f71a-74e2-413c-8050-e24836c43ab3",
+    "fields": {
+        "user": "9a2636e0-984f-4e79-bc9e-13a628f3cf7b",
+        "problem": "343da3bd-d33d-4e6f-a0fc-2c5361918faf",
+        "name": "Example traveling salesman submission",
+        "created_at": "2024-06-10T12:44:20.847Z",
+        "is_verified": true
+    }
+},
+{
+    "model": "api.submission",
+    "pk": "fd7023d0-0790-4ffd-956a-3305ab901cb4",
+    "fields": {
+        "user": "f04cac7e-4b10-4076-bcf8-93718af6efbe",
+        "problem": "343da3bd-d33d-4e6f-a0fc-2c5361918faf",
+        "name": "Basic solver v1",
+        "created_at": "2024-06-10T12:44:47.526Z",
+        "is_verified": true
+    }
+},
+{
+    "model": "api.result",
+    "pk": "03915b99-9215-485e-b155-d31345120727",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "8bb927b2-8904-45db-bc1d-2ac2daf61d10",
+        "metric": "score",
+        "score": "1.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "06dc8f9c-1ff8-491f-afab-8a09a6e9b3ae",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "706e2604-224a-4c3e-8b1c-f9418200c232",
+        "metric": "run_time",
+        "score": "0.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "0b21e933-8fc6-4294-84ab-8a00a462663d",
+    "fields": {
+        "submission": "a9ff016d-f279-4e86-8c98-5c5e51f34d5a",
+        "benchmark_instance": "706e2604-224a-4c3e-8b1c-f9418200c232",
+        "metric": "path_length",
+        "score": "12.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "0ba5fa7a-2b25-4aef-9d75-8caf9c0a97dc",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "8bb927b2-8904-45db-bc1d-2ac2daf61d10",
+        "metric": "score",
+        "score": "1.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "0fb2afc6-3204-41c4-8bae-ad7bd14bf66a",
+    "fields": {
+        "submission": "bca2f71a-74e2-413c-8050-e24836c43ab3",
+        "benchmark_instance": "bf8756f8-95a9-4d24-a0d4-e74bf49cecbb",
+        "metric": "path_length",
+        "score": "46.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "11859821-e08e-4664-8993-fdf1e853e049",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "7e36136f-2462-4273-85ee-2e6a641b4198",
+        "metric": "score",
+        "score": "1.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "163340e4-a2c4-4549-a25b-e9a10717a2a8",
+    "fields": {
+        "submission": "fd7023d0-0790-4ffd-956a-3305ab901cb4",
+        "benchmark_instance": "bf8756f8-95a9-4d24-a0d4-e74bf49cecbb",
+        "metric": "path_length",
+        "score": "92.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "18c12b60-7aa7-4c88-8d51-ba6fe3a00b5c",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "7e36136f-2462-4273-85ee-2e6a641b4198",
+        "metric": "run_time",
+        "score": "0.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "19bd057d-4414-431e-89c0-5534b5eb5e12",
+    "fields": {
+        "submission": "6d28f80e-d531-4c51-90f8-b0a76b768f20",
+        "benchmark_instance": "a1777c0b-1346-4eac-accb-0a7f61fb5ae8",
+        "metric": "run_time",
+        "score": "289.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "1afa36e9-eed9-4eac-9f5e-b268b5bb6ef5",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "83a8977e-760a-4d44-9a67-e07ca4d4c155",
+        "metric": "score",
+        "score": "1.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "1ef247be-c4e3-45ef-9b13-941faabe3e86",
+    "fields": {
+        "submission": "fd7023d0-0790-4ffd-956a-3305ab901cb4",
+        "benchmark_instance": "706e2604-224a-4c3e-8b1c-f9418200c232",
+        "metric": "path_length",
+        "score": "43.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "26ab6ae3-6221-4346-965f-9da890041a1c",
+    "fields": {
+        "submission": "a9ff016d-f279-4e86-8c98-5c5e51f34d5a",
+        "benchmark_instance": "7e36136f-2462-4273-85ee-2e6a641b4198",
+        "metric": "path_length",
+        "score": "23.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "271de8f5-c9e5-4637-a156-a76c4789a720",
+    "fields": {
+        "submission": "bca2f71a-74e2-413c-8050-e24836c43ab3",
+        "benchmark_instance": "7e36136f-2462-4273-85ee-2e6a641b4198",
+        "metric": "run_time",
+        "score": "130.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "2aa68d9c-dddd-41b4-80be-63c005213dea",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "8bb927b2-8904-45db-bc1d-2ac2daf61d10",
+        "metric": "run_time",
+        "score": "0.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "2c8f0212-e5b6-407a-a65c-f22bd29d25bb",
+    "fields": {
+        "submission": "fd7023d0-0790-4ffd-956a-3305ab901cb4",
+        "benchmark_instance": "bf8756f8-95a9-4d24-a0d4-e74bf49cecbb",
+        "metric": "run_time",
+        "score": "19.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "2d900064-11be-4f40-8aaa-957608685e56",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "bf8756f8-95a9-4d24-a0d4-e74bf49cecbb",
+        "metric": "run_time",
+        "score": "0.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "2ec8b005-be9e-459c-8fce-7c0ea321f054",
+    "fields": {
+        "submission": "6d28f80e-d531-4c51-90f8-b0a76b768f20",
+        "benchmark_instance": "3d409989-b882-47ea-af79-82bd1bbaa495",
+        "metric": "run_time",
+        "score": "149.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "3058895a-bcb4-42bb-9251-0807f2616aaa",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "7e36136f-2462-4273-85ee-2e6a641b4198",
+        "metric": "run_time",
+        "score": "0.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "322176ea-aa3b-4eaf-8cde-649f8e54d417",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "bf8756f8-95a9-4d24-a0d4-e74bf49cecbb",
+        "metric": "score",
+        "score": "1.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "3ac2d239-d9fa-47ca-886f-d86e147415dd",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "bf8756f8-95a9-4d24-a0d4-e74bf49cecbb",
+        "metric": "score",
+        "score": "1.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "3c9c3740-062e-4ff0-adb6-73b5e69f0ab4",
+    "fields": {
+        "submission": "fd7023d0-0790-4ffd-956a-3305ab901cb4",
+        "benchmark_instance": "bf8756f8-95a9-4d24-a0d4-e74bf49cecbb",
+        "metric": "path_length",
+        "score": "45.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "3cc69901-f8b7-4cfa-a889-f1e0abaadbe0",
+    "fields": {
+        "submission": "fd7023d0-0790-4ffd-956a-3305ab901cb4",
+        "benchmark_instance": "8bb927b2-8904-45db-bc1d-2ac2daf61d10",
+        "metric": "run_time",
+        "score": "43.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "3d050230-f42b-4cd2-8eba-7ee60dfc0d59",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "706e2604-224a-4c3e-8b1c-f9418200c232",
+        "metric": "score",
+        "score": "1.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "4392d148-17d6-4246-85e6-c662489cec2b",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "bf8756f8-95a9-4d24-a0d4-e74bf49cecbb",
+        "metric": "score",
+        "score": "1.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "4b5f86c8-5571-4dd5-92f8-a13e66bc363b",
+    "fields": {
+        "submission": "bca2f71a-74e2-413c-8050-e24836c43ab3",
+        "benchmark_instance": "8bb927b2-8904-45db-bc1d-2ac2daf61d10",
+        "metric": "path_length",
+        "score": "40.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "4cf2a33e-f67e-4837-9632-8d0e1cfc7c20",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "8bb927b2-8904-45db-bc1d-2ac2daf61d10",
+        "metric": "run_time",
+        "score": "0.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "5177da67-b93e-4573-8deb-625d5b7be178",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "bf8756f8-95a9-4d24-a0d4-e74bf49cecbb",
+        "metric": "score",
+        "score": "1.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "5e35503d-4a4b-4ca1-951b-86e56f354d78",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "706e2604-224a-4c3e-8b1c-f9418200c232",
+        "metric": "run_time",
+        "score": "0.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "60ce8d3e-9aea-40e4-b551-93162b5da425",
+    "fields": {
+        "submission": "bca2f71a-74e2-413c-8050-e24836c43ab3",
+        "benchmark_instance": "706e2604-224a-4c3e-8b1c-f9418200c232",
+        "metric": "run_time",
+        "score": "130.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "84c0e201-a0bb-4942-a1c0-e4907235a942",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "bf8756f8-95a9-4d24-a0d4-e74bf49cecbb",
+        "metric": "run_time",
+        "score": "0.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "9178a251-ac24-47d7-a9a9-ef7a533afb1e",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "706e2604-224a-4c3e-8b1c-f9418200c232",
+        "metric": "score",
+        "score": "1.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "9270ee1d-1528-4465-b406-d652192032fc",
+    "fields": {
+        "submission": "bca2f71a-74e2-413c-8050-e24836c43ab3",
+        "benchmark_instance": "706e2604-224a-4c3e-8b1c-f9418200c232",
+        "metric": "path_length",
+        "score": "100.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "93c3d33e-fc68-4f1d-b422-cf80193946d3",
+    "fields": {
+        "submission": "fd7023d0-0790-4ffd-956a-3305ab901cb4",
+        "benchmark_instance": "7e36136f-2462-4273-85ee-2e6a641b4198",
+        "metric": "path_length",
+        "score": "34.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "96b8701a-2045-409e-b7e0-fee3d1bfad20",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "bf8756f8-95a9-4d24-a0d4-e74bf49cecbb",
+        "metric": "run_time",
+        "score": "0.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "9de37667-5a68-4004-b4b2-8c352438291b",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "8bb927b2-8904-45db-bc1d-2ac2daf61d10",
+        "metric": "run_time",
+        "score": "0.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "9f3acb2e-8787-435a-9ef1-d6f04769a30b",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "8bb927b2-8904-45db-bc1d-2ac2daf61d10",
+        "metric": "score",
+        "score": "1.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "ae5d8d52-f7a5-4ac3-9841-513655627dcb",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "706e2604-224a-4c3e-8b1c-f9418200c232",
+        "metric": "run_time",
+        "score": "0.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "b140e7d8-c1c8-4f01-9cef-515920f98161",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "7e36136f-2462-4273-85ee-2e6a641b4198",
+        "metric": "score",
+        "score": "1.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "b338d17c-4345-41f1-86d4-2f47c3644b64",
+    "fields": {
+        "submission": "bca2f71a-74e2-413c-8050-e24836c43ab3",
+        "benchmark_instance": "7e36136f-2462-4273-85ee-2e6a641b4198",
+        "metric": "path_length",
+        "score": "32.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "b346b927-bd17-49c0-a1a8-65712fd4c259",
+    "fields": {
+        "submission": "bca2f71a-74e2-413c-8050-e24836c43ab3",
+        "benchmark_instance": "8bb927b2-8904-45db-bc1d-2ac2daf61d10",
+        "metric": "path_length",
+        "score": "84.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "b41dbbbc-c85f-4333-adea-80b1b5fa8f33",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+        "metric": "score",
+        "score": "1.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "b6a118d1-0368-4170-85bb-30406bfe8361",
+    "fields": {
+        "submission": "fd7023d0-0790-4ffd-956a-3305ab901cb4",
+        "benchmark_instance": "8bb927b2-8904-45db-bc1d-2ac2daf61d10",
+        "metric": "path_length",
+        "score": "13.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "bd35e63b-3a9d-479a-bb2d-f2b5197c483f",
+    "fields": {
+        "submission": "a9ff016d-f279-4e86-8c98-5c5e51f34d5a",
+        "benchmark_instance": "8bb927b2-8904-45db-bc1d-2ac2daf61d10",
+        "metric": "run_time",
+        "score": "230.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "beb7b989-f79a-4698-8dd9-6fa549247519",
+    "fields": {
+        "submission": "bca2f71a-74e2-413c-8050-e24836c43ab3",
+        "benchmark_instance": "bf8756f8-95a9-4d24-a0d4-e74bf49cecbb",
+        "metric": "run_time",
+        "score": "19.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "beeebd5a-74be-4ff0-9bb6-aa94876840a6",
+    "fields": {
+        "submission": "6d28f80e-d531-4c51-90f8-b0a76b768f20",
+        "benchmark_instance": "3d409989-b882-47ea-af79-82bd1bbaa495",
+        "metric": "meeting_count",
+        "score": "14.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "bfab246b-aaa2-4ca5-9cd6-4bd30a42a7b6",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "7e36136f-2462-4273-85ee-2e6a641b4198",
+        "metric": "score",
+        "score": "1.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "c3674492-7228-4646-8bbd-227b18bd849b",
+    "fields": {
+        "submission": "6d28f80e-d531-4c51-90f8-b0a76b768f20",
+        "benchmark_instance": "a1777c0b-1346-4eac-accb-0a7f61fb5ae8",
+        "metric": "meeting_count",
+        "score": "38.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "ca7f5355-5968-410f-bca2-3c86e9cf97df",
+    "fields": {
+        "submission": "a9ff016d-f279-4e86-8c98-5c5e51f34d5a",
+        "benchmark_instance": "7e36136f-2462-4273-85ee-2e6a641b4198",
+        "metric": "path_length",
+        "score": "19.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "cd2f1866-c00b-4ecc-82a9-cd0744deb76f",
+    "fields": {
+        "submission": "fd7023d0-0790-4ffd-956a-3305ab901cb4",
+        "benchmark_instance": "706e2604-224a-4c3e-8b1c-f9418200c232",
+        "metric": "run_time",
+        "score": "12.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "d0dba71d-0fd7-43e1-895d-8a79016ad505",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "706e2604-224a-4c3e-8b1c-f9418200c232",
+        "metric": "score",
+        "score": "1.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "eed45423-b10d-4944-bc22-584ade238718",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "7e36136f-2462-4273-85ee-2e6a641b4198",
+        "metric": "run_time",
+        "score": "0.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "eeda7bd5-d664-4371-9d77-f5f4e8b411b3",
+    "fields": {
+        "submission": "fd7023d0-0790-4ffd-956a-3305ab901cb4",
+        "benchmark_instance": "7e36136f-2462-4273-85ee-2e6a641b4198",
+        "metric": "run_time",
+        "score": "29.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "f12f6526-4e5e-43df-8ecd-7da9734196bb",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "8bb927b2-8904-45db-bc1d-2ac2daf61d10",
+        "metric": "score",
+        "score": "1.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "f2c0419b-c6ce-42f8-9445-9b160c5a24ac",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "7e36136f-2462-4273-85ee-2e6a641b4198",
+        "metric": "score",
+        "score": "1.00"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "f6d15682-0046-4617-a3ed-3cc76d10536b",
+    "fields": {
+        "submission": "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+        "benchmark_instance": "706e2604-224a-4c3e-8b1c-f9418200c232",
+        "metric": "score",
+        "score": "1.00"
+    }
+}
+]
