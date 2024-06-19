@@ -116,8 +116,8 @@ def establish_judge_connection(sock: socket.socket):
             logger.info(f"Failed to connect to Judge server. Retrying in 5 seconds... ({e})")
             sleep(RETRY_WAIT)
 
-        except Exception as e:
-            logger.error(f"Unexpected error occured: {e}")
+        except Exception:
+            logger.error("An unexpected error has occured.", exc_info=1)
 
         finally:
             if not disconnected:
