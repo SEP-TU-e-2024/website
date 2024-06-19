@@ -69,15 +69,12 @@ def initiate_protocol():
     """Initiate the connection protocol"""
     logger.info("Initiating the connection protocol.")
 
-    # Initiate the listening TCP socket
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
     # Wait for an incoming connection from the judge on another thread
-    thread = threading.Thread(target=establish_judge_connection, args=(sock,), daemon=True)
+    thread = threading.Thread(target=establish_judge_connection, args=(), daemon=True)
     thread.start()
 
 
-def establish_judge_connection(sock: socket.socket):
+def establish_judge_connection():
     """Establishes a judge connection for the specified socket"""
     # TODO: allow for re-connection after disconnect
 
@@ -85,10 +82,13 @@ def establish_judge_connection(sock: socket.socket):
         disconnected = True
 
         try:
+            # Initiate the listening TCP socket
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            
             logger.info(f"Trying to connect to the Judge server at {HOST}:{PORT}.")
             sock.connect((HOST, PORT))
             logger.info(f"Connected to the Judge server at {HOST}:{PORT}.")
-            
+
             connection = Connection(HOST, PORT, sock, threading.Lock())
             disconnected = False
             protocol = WebsiteProtocol(connection)
