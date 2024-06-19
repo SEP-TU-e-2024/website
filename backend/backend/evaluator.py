@@ -95,7 +95,6 @@ def establish_judge_connection():
     """
     Establishes a judge connection for the specified socket
     """
-    # TODO: allow for re-connection after disconnect
 
     while True:
         disconnected = True
