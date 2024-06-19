@@ -35,7 +35,8 @@ function MyNavbar() {
         HOME: '/home',
         ROOT: '/',
         DEVELOPMENT : '/in_development',
-        ACCOUNT: '/account'
+        ACCOUNT: '/account',
+        ABOUT: '/about'
     }
     
     
@@ -56,7 +57,9 @@ function MyNavbar() {
                 </Nav>
                 <Nav navbar className="ms-auto navbar-right d-flex flex-row">
                     <NavItem className="information-button">
-                        <img src="/assets/question_mark.svg"/>
+                        <a href={routeStrings.ABOUT}>
+                            <img src="/assets/question_mark.svg"/>
+                        </a>
                     </NavItem>
                     {user ? (
                         <>

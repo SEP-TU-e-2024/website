@@ -46,7 +46,7 @@ function ProblemOccurenceOverview({rows}) {
                         </ul>
                     </div> 
                     <div className='card_footer'>
-                        <p>1D 20H 40M</p>
+                        
                     </div>
                 </div>
             ))}
@@ -62,14 +62,13 @@ async function getRows() {
     try {
         const response = await api.post('/problems/occurrence_overview', {});
         return response.data
-    } catch(err) {
-        if (err.response.status == 401) {
-            throw new Error("Unauthorized to access this content");
-            //TODO maybe redirect here or something
-        } else if (err.response.status == 404) {
-            throw new Error("No problem instances found in the database");
+    } catch(error) {
+        if (error.response.status == 401) {
+            alert("Unauthorized to access this content");
+        } else if (error.response.status == 404) {
+            alert("No problems found");
         } else {
-            throw err;
+            alert("Something went wrong");
         }
     }
 }
@@ -87,8 +86,7 @@ function HomePage() {
             const data = await getRows();
             setRows(data);
         } catch(error) {
-            // TODO, proper handling
-            alert(error.message)
+            alert("Something went wrong")
             console.error(error)
         }}
 

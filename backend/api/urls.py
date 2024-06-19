@@ -14,12 +14,11 @@ from .views.leaderboard_view import LeaderboardView
 from .views.problem_occurence_view import ProblemOccurrenceView
 from .views.problem_view import Problems
 from .views.submission_view import SubmissionView
-from .views.submit_view import SubmitViewSet
+from .views.submit_view import SubmitAPIView
 
 # Routers are standard for viewsets
 api_router = DefaultRouter()
 api_router.register(r"auth", AuthViewSet, basename="auth")
-api_router.register(r"submit", SubmitViewSet, basename="submit")
 api_router.register(
     r"download", DownloadFromBlobViewSet, basename="download"
 )
@@ -29,6 +28,8 @@ urlpatterns = [
     path("problems/occurrence_overview", Problems.as_view()),
     path("account", AccountView.as_view()),
     path("submissions", SubmissionView.as_view()),
+    path('submit/', SubmitAPIView.as_view(), name='submit'),
+    path('submit/confirm/<str:sidb64>/<str:token>/', SubmitAPIView.as_view(), name='confirm'),
     path(
         "problems/problem_occurrence/<str:problem_id>",
         ProblemOccurrenceView.as_view(),
@@ -47,11 +48,6 @@ urlpatterns = [
         "login/<uidb64>/<token>",
         AuthViewSet.login_through_email,
         name="login",
-    ),
-    path(
-        "confirm_submission/<sidb64>/<token>",
-        SubmitViewSet.confirm_submission,
-        name="confirm_submission",
     ),
     path(
         "in_development",

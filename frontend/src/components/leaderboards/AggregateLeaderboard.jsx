@@ -93,8 +93,8 @@ function createColumns(problem) {
   columns.push(new LeaderboardColumn("Submission name", 
     (entry) => { return entry.submission.name }));
   columns.push(new LeaderboardColumn("Submitted by", 
-    (entry) => { return entry.submitter.name }));
-  columns.push(new LeaderboardColumn("Submitted date", 
+    (entry) => { return entry.submitter.name != null && entry.submitter.name != "" ?  entry.submitter.name : "Anonymous user" }));
+  columns.push(new LeaderboardColumn("Submission date", 
     (entry) => { return entry.submission.created_at.slice(0,10) })); //the slice is to format the date
   
     problem.metrics.forEach((metric) => {
@@ -115,14 +115,14 @@ function createColumns(problem) {
     },
     <div className="download-cell">Download Solver</div>
   ));
-  columns.push(new LeaderboardColumn("Download Solutions", 
-    (entry) => { return <div className="download-cell"><i role="button" onClick={handleDownloadSolutionsClick} className="bi-download" /></div> },
-    <div className="download-cell">Download Solutions</div>
-  ));
-  columns.push(new LeaderboardColumn("Download Scores", 
-    (entry) => { return <div className="download-cell"><i role="button" onClick={handleDownloadScoresClick} className="bi-download" /></div> },
-    <div className="download-cell">Download Scores</div>
-  ));
+  // columns.push(new LeaderboardColumn("Download Solutions", 
+  //   (entry) => { return <div className="download-cell"><i role="button" onClick={handleDownloadSolutionsClick} className="bi-download" /></div> },
+  //   <div className="download-cell">Download Solutions</div>
+  // ));
+  // columns.push(new LeaderboardColumn("Download Scores", 
+  //   (entry) => { return <div className="download-cell"><i role="button" onClick={handleDownloadScoresClick} className="bi-download" /></div> },
+  //   <div className="download-cell">Download Scores</div>
+  // ));
   
   return columns;
 }
@@ -137,8 +137,17 @@ async function handleDownloadClick(event, storage_location) {
 
     // Create a Blob from the response data
     downloadBlob(response)
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    if (error.response.status == 401) {
+      alert("Unauthorized to access this content");
+    } else if (error.response.status == 403) {
+      alert("File not downloadable")
+    } else if (error.response.status == 404) {
+      alert("File not found")
+    } else if (error.response.status == 500) {
+      alert("Something went wrong on the server")
+    }
+    console.log(error)
   }
 }
 
@@ -193,14 +202,14 @@ function createInstanceColumns(problem, submission) {
     }
   });
 
-  columns.push(new LeaderboardColumn("Download solution", 
-    (entry) => { return <div className="download-cell"><i onClick={(event) => handleVisualizePi(event)} role="button" className="bi-download"/></div> }, 
-    <div className="download-cell">Download<br/>Solution</div>
-  ));
-  columns.push(new LeaderboardColumn("Visualize", 
-    (entry) => { return <div className="download-cell"><i onClick={(event) => handleDownloadSingleSolution(event)} role="button" className="bi-eye"/></div> },
-    <div className="download-cell">Visualize</div>
-  ));
+  // columns.push(new LeaderboardColumn("Download solution", 
+  //   (entry) => { return <div className="download-cell"><i onClick={(event) => handleVisualizePi(event)} role="button" className="bi-download"/></div> }, 
+  //   <div className="download-cell">Download<br/>Solution</div>
+  // ));
+  // columns.push(new LeaderboardColumn("Visualize", 
+  //   (entry) => { return <div className="download-cell"><i onClick={(event) => handleDownloadSingleSolution(event)} role="button" className="bi-eye"/></div> },
+  //   <div className="download-cell">Visualize</div>
+  // ));
   
   return columns;
 }
