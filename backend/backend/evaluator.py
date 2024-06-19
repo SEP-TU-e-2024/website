@@ -3,9 +3,9 @@ import os
 import socket
 import threading
 import uuid
+from decimal import Decimal, getcontext
 from queue import Queue
 from time import sleep
-from decimal import Decimal, getcontext
 
 from api.models import Submission
 from api.serializers import EvaluationSettingSerializer, ResultSerializer
