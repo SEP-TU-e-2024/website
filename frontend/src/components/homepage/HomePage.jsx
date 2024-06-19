@@ -46,7 +46,7 @@ function ProblemOccurenceOverview({rows}) {
                         </ul>
                     </div> 
                     <div className='card_footer'>
-                        <p>1D 20H 40M</p>
+                        
                     </div>
                 </div>
             ))}
