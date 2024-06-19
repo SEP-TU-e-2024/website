@@ -9,6 +9,8 @@ from time import sleep
 from api.models import Submission
 from api.serializers import EvaluationSettingSerializer, ResultSerializer
 from azure.storage.blob import BlobServiceClient
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 
 from .protocol import Connection
 from .protocol.website import WebsiteProtocol
@@ -62,27 +64,52 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
         validator_url=validator.get_blob(blob_service_client).url,
     )
 
-    # Handle results
-    for benchmark_instance in command.results.keys():
-        benchmark_results = command.results[benchmark_instance]["results"][0]
-        # Store each received metric in the database
-        for metric in submission.problem.metrics.all():
-            # Skip saving result that is not present
-            if metric.name not in benchmark_results:
-                continue
+    if command.success:
+        # Handle results
+        for benchmark_instance in command.results.keys():
+            benchmark_results = command.results[benchmark_instance]["results"][0]
+            # Store each received metric in the database
+            for metric in submission.problem.metrics.all():
+                # Skip saving result that is not present
+                if metric.name not in benchmark_results:
+                    continue
 
-            data = {
-                "submission": submission.id,
-                "benchmark_instance": uuid.UUID(benchmark_instance),
-                "metric": metric.name,
-                "score": round(float(benchmark_results[metric.name]), 2),
-            }
-            logger.info(f"Storing result: {repr(data)}")
+                data = {
+                    "submission": submission.id,
+                    "benchmark_instance": uuid.UUID(benchmark_instance),
+                    "metric": metric.name,
+                    "score": round(float(benchmark_results[metric.name]), 2),
+                }
+                logger.info(f"Storing result: {repr(data)}")
 
-            serializer = ResultSerializer(data=data)
-            if not serializer.is_valid():
-                raise Exception(f"invalid result serializer data: {serializer.errors}")
-            serializer.save()
+                serializer = ResultSerializer(data=data)
+                if not serializer.is_valid():
+                    raise Exception(f"invalid result serializer data: {serializer.errors}")
+                serializer.save()
+    else:
+        # Send email to user that submission failed
+        text_causes = {
+            "timeout": "The submission timed out.",
+            "error": "A runtime error occurred during the submission evaluation.",
+            "internal_error": "An internal error occurred during the submission evaluation.",
+            "judge_internal_error": "An internal error occurred during the submission evaluation.",
+        }
+
+        text_cause = text_causes[command.cause]
+
+        mail_subject = "Submission failure."
+        message = render_to_string(
+            "email_template_submission_fail.html",
+            {
+                "user": submission.user.name,
+                "submission": submission.name,
+                "cause": text_cause,
+            },
+        )
+        email = EmailMessage(
+            mail_subject, message, from_email=os.getenv("EMAIL_FROM"), to={submission.user.email}
+        )
+        return email.send()
 
 
 def initiate_protocol():
