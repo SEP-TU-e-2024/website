@@ -44,7 +44,7 @@ function MyNavbar() {
 
         <Navbar expand="md" container="md" className="mynavbar">
             <NavbarBrand href="/">
-                <img alt="logo" src="/src/assets/LOGO.svg" style={{ width: 120 }} />
+                <img alt="logo" src="/assets/LOGO.svg" style={{ width: 120 }} />
             </NavbarBrand>
             <NavbarToggler onClick={toggle} />
             <Collapse isOpen={isOpen} navbar>
@@ -58,7 +58,7 @@ function MyNavbar() {
                 <Nav navbar className="ms-auto navbar-right d-flex flex-row">
                     <NavItem className="information-button">
                         <a href={routeStrings.ABOUT}>
-                            <img src="/src/assets/question_mark.svg"/>
+                            <img src="/assets/question_mark.svg"/>
                         </a>
                     </NavItem>
                     {user ? (
