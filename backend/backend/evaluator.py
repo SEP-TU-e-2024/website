@@ -5,6 +5,7 @@ import threading
 import uuid
 from queue import Queue
 from time import sleep
+from decimal import Decimal, getcontext
 
 from api.models import Submission
 from api.serializers import EvaluationSettingSerializer, ResultSerializer
@@ -24,6 +25,7 @@ RETRY_WAIT = 5
 
 evaluation_queue: Queue = Queue()
 
+getcontext().prec = 8
 
 def queue_evaluate_submission(submission: Submission):
     """
@@ -75,7 +77,7 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
                 "submission": submission.id,
                 "benchmark_instance": uuid.UUID(benchmark_instance),
                 "metric": metric.name,
-                "score": round(float(benchmark_results[metric.name]), 2),
+                "score": round(Decimal(benchmark_results[metric.name]), 2),
             }
             logger.info(f"Storing result: {repr(data)}")
 
