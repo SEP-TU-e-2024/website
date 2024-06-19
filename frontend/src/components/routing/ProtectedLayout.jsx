@@ -4,6 +4,7 @@ import React from 'react';
 import AuthContext from "../../context/AuthContext";
 import MyNavbar from "../navbar/MyNavbar";
 import { Container } from "reactstrap";
+import Footer from "../footer/Footer";
 
 /**
  * This component is a wrapper for the pages that you need to be logged in for
@@ -19,9 +20,10 @@ const ProtectedLayout = () => {
     return (
         <>
           <MyNavbar />
-          <Container>
+          <Container style={{ minHeight: '100vh' }}>
             <Outlet />
           </Container>
+          <Footer />
         </>
     )
   };
