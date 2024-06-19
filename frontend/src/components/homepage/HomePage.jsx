@@ -39,7 +39,7 @@ function ProblemOccurenceOverview({rows}) {
                             {/* Adding all specified problems for this problem category */}
                            {row['specified_problems'].map(
                                 (problem) => (
-                                    <li onClick={() => handleRowClick(problem.id)} key={problem.id} style={{cursor:'pointer'}}>{problem['name']}</li>
+                                    <li onClick={() => handleRowClick(problem.id)} key={problem.id} role='button'>{problem['name']}</li>
                                 )
                             )
                             }
