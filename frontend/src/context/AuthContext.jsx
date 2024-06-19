@@ -84,7 +84,7 @@ export const AuthProvider = ({children}) => {
             if (error.response.data.detail) {
                 alert(error.response.data.detail);
             } else if (error.response.status == 500) {
-                alert("Something went wrong internally");
+                alert("Something went wrong on the server");
             } else {
                 alert("Something went wrong");
             }
@@ -155,7 +155,7 @@ export const AuthProvider = ({children}) => {
             } else if (error.response.status == 404) {
                 alert("Account with given email does not exists")
             } else if (error.response.status == 500) {
-                alert("Something went wrong internally")
+                alert("Something went wrong on the server")
             }
             
             console.error('Login error');

@@ -78,7 +78,7 @@ function Submit() {
       } else if (error.response.status == 400) {
         alert("Invalid submission")
       } else if (error.response.status == 500) {
-        alert("Something went wrong internally")
+        alert("Something went wrong on the server")
       }
       console.error('Submission error');
     }

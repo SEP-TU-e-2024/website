@@ -17,7 +17,7 @@ async function getAccount() {
         } else if (error.response.status == 404) {
             alert("Account data not found")
         } else if (error.response.status == 500) {
-            alert("Something went wrong internally")
+            alert("Something went wrong on the server")
         }
         console.error(error)
     }
@@ -38,7 +38,7 @@ async function getSubmissions() {
         } else if (error.response.status == 404) {
             alert("Account data not found")
         } else if (error.response.status == 500) {
-            alert("Something went wrong internally")
+            alert("Something went wrong on the server")
         }
         console.error(error)
     }

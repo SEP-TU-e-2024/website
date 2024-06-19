@@ -22,7 +22,7 @@ async function getLeaderboardData(problemId) {
     } else if (error.response.status == 404) {
       alert("Problem not found")
     } else if (error.response.status == 500) {
-      alert("Something went wrong internally")
+      alert("Something went wrong on the server")
     }
     console.error(error);
   }
@@ -161,7 +161,7 @@ export async function getPOInfo(problemOccurrenceID) {
     } else if (error.response.status == 404) {
       alert("No problem categories not found")
     } else if (error.response.status == 500) {
-      alert("Something went wrong internally")
+      alert("Something went wrong on the server")
     }
     console.log(error)
   }

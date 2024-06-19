@@ -145,7 +145,7 @@ async function handleDownloadClick(event, storage_location) {
     } else if (error.response.status == 404) {
       alert("File not found")
     } else if (error.response.status == 500) {
-      alert("Something went wrong internally")
+      alert("Something went wrong on the server")
     }
     console.log(error)
   }
