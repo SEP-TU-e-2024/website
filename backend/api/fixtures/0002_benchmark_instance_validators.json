@@ -9,7 +9,7 @@
         "is_staff": true,
         "is_superuser": false,
         "is_active": true,
-        "password": null,
+        "password": "pbkdf2_sha256$720000$1fJmPJhCPBetMd5mI9eLZT$TFY5zdS90+HXzNN2GzFlG+8TZI0p7RAgeFhDDVnuS+k=",
         "groups": [],
         "user_permissions": []
     }
@@ -39,7 +39,7 @@
         "is_staff": false,
         "is_superuser": false,
         "is_active": true,
-        "password": null,
+        "password": "pbkdf2_sha256$720000$lsuGWYGrvWy9vSTIqBCALr$7Z7c8Viy1vZoWAvmBpTkmrHM6EZ2ruY4/s4UH9PzJ9E=",
         "groups": [],
         "user_permissions": []
     }
