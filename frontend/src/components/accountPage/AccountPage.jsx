@@ -74,9 +74,9 @@ function AccountPage() {
                 <hr></hr>
                 {account ? 
                     <div>
-                        <h5>{account.name}</h5>
+                        <h5>{account.name ? account.name : "Anonymous"}</h5>
                         <div className='account_details'>
-                            <p>{account.email}</p>
+                            <p>{account.email ? account.email : "Unkown email"}</p>
                         </div> 
                     </div> 
                     : 
