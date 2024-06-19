@@ -105,7 +105,7 @@ class AuthViewSet(ViewSet):
                 "refresh_token": str(token),
                 "access_token": str(token.access_token),
             }
-            redirect_url = f"{os.getenv('FRONTEND_URL')}tokens/?refresh_token={response_data['refresh_token']}&access_token={response_data['access_token']}"
+            redirect_url = f"{os.getenv('FRONTEND_URL')}/tokens/?refresh_token={response_data['refresh_token']}&access_token={response_data['access_token']}"
             return redirect(redirect_url)
         return Response(
             {"User error": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST
@@ -227,7 +227,7 @@ class AuthViewSet(ViewSet):
             user.is_active = True
             user.save()
             # Redirects to login
-            return redirect(f'{os.getenv("FRONTEND_URL")}login')
+            return redirect(f'{os.getenv("FRONTEND_URL")}/login')
         return Response(
             {"User error": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST
         )
