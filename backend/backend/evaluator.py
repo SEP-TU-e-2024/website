@@ -110,12 +110,6 @@ def establish_judge_connection(sock: socket.socket):
             disconnected = False
             protocol = WebsiteProtocol(connection)
 
-            # TODO TP: testing purposes, remove
-            submission_id = uuid.UUID("a2938ac3-9a6b-4d88-a875-72f46ea913aa")
-            submission = Submission.objects.get(id=submission_id)
-
-            queue_evaluate_submission(submission)
-
             # Wait for submissions in the queue to be evaluated
             while True:
                 submission = evaluation_queue.get()
