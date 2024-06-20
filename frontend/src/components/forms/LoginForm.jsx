@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
+import { Navigate } from "react-router-dom";
 import axios from 'axios';
 import './Form.scss';
 import { useNavigate } from "react-router-dom";
@@ -6,10 +7,15 @@ import AuthContext from '../../context/AuthContext';
 import { Container, Row, Col, TabContent, TabPane } from 'reactstrap'
 
 function LoginForm() {
+    let { user } = useContext(AuthContext);
     const [passwordVisiblity, setPasswordVisibility] = useState(false); 
     const navigate = useNavigate();
     let {login_user} = useContext(AuthContext)
     let {send_email_login} = useContext(AuthContext)
+
+    if (user) {
+        return <Navigate to="/home" />;
+    }
 
     const togglePasswordVisibility = (event) => {
         setPasswordVisibility(!passwordVisiblity)
