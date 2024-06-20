@@ -14,26 +14,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ./backend
-
     steps:
       - uses: actions/checkout@v4
 
       - name: Set up Python version
         uses: actions/setup-python@v1
         with:
-          python-version: "3.12"
+          python-version: '3.12'
 
       - name: Create and start virtual environment
         run: |
           python -m venv venv
           source venv/bin/activate
-
+      
       - name: Install dependencies
         run: pip install -r requirements.txt
-
+        
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
@@ -44,14 +40,14 @@ jobs:
         with:
           name: python-app
           path: |
-            ./backend/release.zip
-            ./backend/!venv/
+            release.zip
+            !venv/
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: "Production"
+      name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write #This is required for requesting the JWT
@@ -65,16 +61,18 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip
 
+      
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_1BDCBD7E90FE402FA528F4683243B2C4 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_65857142E2FA4EC0ACE7C0F10D475B35 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_1B28F75222134976B5A03BE371DE6D88 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_9BAA7F6CE7E34D83B2AA9C4640F1EFC3 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_DB71E7F8629748E3B34C976A38DDB094 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_16EAC78BCC68476BB61C032604D2BC2D }}
 
-      - name: "Deploy to Azure Web App"
+      - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
-          app-name: "backend-benchlabtest"
-          slot-name: "Production"
+          app-name: 'backend-benchlabtest'
+          slot-name: 'Production'
+          
