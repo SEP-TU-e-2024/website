@@ -25,7 +25,7 @@ class LeaderboardEntry:
                       if metric.name in instance.results]
             
             if len(scores) == len(self.instance_entries):
-                self.results[metric.name] = sum(scores) / len(scores)
+                self.results[metric.name] = round(sum(scores) / len(scores), 2)
             elif (submission.is_verified):
                 print(f"metric {metric.name} is missing results of " +
                       f"submission {submission.name} for {len(self.instance_entries) - len(scores)} instance(s)")
