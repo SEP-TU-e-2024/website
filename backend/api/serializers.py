@@ -88,6 +88,7 @@ class ProblemCategorySerializer(serializers.ModelSerializer):
             "description",
             "simulator",
             "validator",
+            "example_submission_url",
         ]
 
 

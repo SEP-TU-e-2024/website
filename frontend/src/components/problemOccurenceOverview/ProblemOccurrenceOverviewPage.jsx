@@ -129,7 +129,7 @@ function ProblemOccurrenceOverviewPage() {
               {!loading ? (<ProblemOccurrenceLeaderboard problemData={problemData} leaderboardData={entries}/>) : <div>Loading...</div>}
             </TabPane>
             <TabPane tabId="3">
-              <ProblemOccurrenceSubmission />
+              <ProblemOccurrenceSubmission problemData={problemData}/>
             </TabPane>
             
             {/* if category.style is 0 it is a comp problem */}
