@@ -139,7 +139,7 @@ class AuthViewSet(ViewSet):
             message = render_to_string(
                 "email_template_login.html",
                 {
-                    "user": user.name,
+                    "user": user.name if user.name is not None else "User",
                     "domain": get_current_site(request).domain,
                     "uid": urlsafe_base64_encode(force_bytes(user.pk)),
                     "token": account_activation_token.make_token(user),
@@ -185,7 +185,7 @@ class AuthViewSet(ViewSet):
         message = render_to_string(
             "email_template.html",
             {
-                "user": user.name,
+                "user": user.name if user.name is not None else "User",
                 "domain": get_current_site(request).domain,
                 "uid": urlsafe_base64_encode(force_bytes(user.pk)),
                 "token": account_activation_token.make_token(user),
