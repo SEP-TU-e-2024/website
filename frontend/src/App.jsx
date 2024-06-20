@@ -19,7 +19,6 @@ import UnProtectedLayout from "./components/routing/UnprotectedLayout";
 import { getPOInfo } from './components/problemOccurenceOverview/ProblemOccurrenceOverviewPage';
 import AccountPage from "./components/accountPage/AccountPage";
 import Aboutpage from "./components/about/AboutPage";
-import { useAlert } from "./context/AlertContext";
 
 /**
  * This is the router object.

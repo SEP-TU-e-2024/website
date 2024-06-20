@@ -2,23 +2,22 @@ import api from '../../api';
 import { useState, useEffect } from 'react';
 import './AccountPage.scss'
 import { useNavigate } from "react-router-dom";
-import { useAlert } from '../../context/AlertContext';
 
 /**
  * Fetches account information from the backend
  * @returns data
  */
-async function getAccount(showAlert) {
+async function getAccount() {
     try {
         const response = await api.get('/account', {});
         return response.data
     } catch(error) {
         if (error.response.status == 401) {
-            showAlert("Unauthorized to access this content", "error");
+            alert("Unauthorized to access this content");
         } else if (error.response.status == 404) {
-            showAlert("Account data not found", "error")
+            alert("Account data not found")
         } else if (error.response.status == 500) {
-            showAlert("Something went wrong on the server", "error")
+            alert("Something went wrong on the server")
         }
         console.error(error)
     }
@@ -28,18 +27,18 @@ async function getAccount(showAlert) {
  * Fetches submisisons for a user
  * @returns data, array
  */
-async function getSubmissions(showAlert) {
+async function getSubmissions() {
     try {
         const response = await api.get('/submissions', {});
         console.log(response.data)
         return response.data
     } catch(error) {
         if (error.response.status == 401) {
-            showAlert("Unauthorized to access this content", "error");
+            alert("Unauthorized to access this content");
         } else if (error.response.status == 404) {
-            showAlert("Account data not found", "error")
+            alert("Account data not found")
         } else if (error.response.status == 500) {
-            showAlert("Something went wrong on the server", "error")
+            alert("Something went wrong on the server")
         }
         console.error(error)
     }
@@ -53,13 +52,12 @@ function AccountPage() {
     const [account, setAccount] = useState(null);
     const [submissions, setSubmissions] = useState([]);
     const navigate = useNavigate();
-    let {showAlert} = useAlert();
 
     useEffect(() => {
         const fetchData = async () => {
         try {
-            const account = await getAccount(showAlert);
-            const submissions = await getSubmissions(showAlert);
+            const account = await getAccount();
+            const submissions = await getSubmissions();
             setAccount(account);
             setSubmissions(submissions);
         } catch(error) {
