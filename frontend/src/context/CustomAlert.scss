@@ -1,5 +1,9 @@
+@import '../main.scss';
+
 .custom_alert{
-    position: absolute;
+    position: fixed;
+    top: 0;
+    left: 0;
     z-index: 1000; /* Ensure a high z-index to appear on top */
     width: 100%;
 
@@ -16,25 +20,25 @@
 }
 
 .custom_success {
-    color: #3c763d;
+    color: $success;
     background-color: #dff0d8;
     border-color: #d6e9c6;
 }
 
 .custom_primary {
-    color: #31708f;
+    color: $highlight;
     background-color: #d9edf7;
     border-color: #bce8f1;
 }
 
 .custom_warning {
-    color: #8a6d3b;
+    color: $warning;
     background-color: #fcf8e3;
     border-color: #faebcc;
 }
 
 .custom_error {
-    color: #a94442;
+    color: $danger;
     background-color: #f2dede;
     border-color: #ebccd1;
 }
