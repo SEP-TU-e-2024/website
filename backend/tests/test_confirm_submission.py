@@ -1,5 +1,5 @@
 from api.models import Metric, SpecifiedProblem, Submission, UserProfile
-from api.views.submit_view import SubmitViewSet
+from api.views.submit_view import SubmitAPIView
 from django.core import mail
 from django.test import RequestFactory
 from django.utils.encoding import force_bytes
@@ -35,7 +35,7 @@ class ConfirmSubmissionTest(APITestCase):
         )
 
         #Instantiate SubmitView for testing
-        self.view = SubmitViewSet()
+        self.view = SubmitAPIView()
         #Request Factory to make mock request
         rf = RequestFactory()
 

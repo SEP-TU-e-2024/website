@@ -70,7 +70,8 @@ class LeaderboardEntryViewTest(APITestCase):
     def test_leaderboard_entry(self):
         #Send a request to the api endpoint
         resp = self.client.get(f'/api/leaderboard_entry/{str(self.problem.id)}/{str(self.submission.id)}' )
-
+        print(resp)
+        
         # unpack the json object
         result = json.loads(resp.content.decode())
 
