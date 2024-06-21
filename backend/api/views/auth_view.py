@@ -102,12 +102,15 @@ class AuthViewSet(ViewSet):
         # Checks if user is found
         if user is None:
             response_query = "error=User not found"
+
         # Checks if user is active
         elif not user.is_active:
             response_query = "error=Account not activated"
+
         # Checks token validity
         elif not account_activation_token.check_token(user, token):
             response_query = "error=Invalid link"
+
         # Good case
         else:
             token = RefreshToken.for_user(user)
@@ -202,7 +205,8 @@ class AuthViewSet(ViewSet):
         )
         return email.send()
 
-    def activate(self, uidb64, token):
+    @action(detail=False, methods=["GET"])
+    def activate(self, request, uidb64, token):
         """Activates an user in the database
 
         Parameters
@@ -225,14 +229,24 @@ class AuthViewSet(ViewSet):
             user = User.objects.get(pk=uid)
         except ObjectDoesNotExist:
             return Response(
-                {"User error": "User not found."}, status=status.HTTP_400_BAD_REQUEST
+                {"error": "User not found."}, status=status.HTTP_400_BAD_REQUEST
             )
-        # Checks token and sets user to active
-        if user is not None and account_activation_token.check_token(user, token):
-            user.is_active = True
-            user.save()
-            # Redirects to login
-            return redirect(f'{os.getenv("FRONTEND_URL")}/login')
-        return Response(
-            {"User error": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST
-        )
+        
+        # Checks if user is found
+        if user is None:
+            return Response({"error": "User not found."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Not valid token
+        if not account_activation_token.check_token(user, token):
+            return Response({"error": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Activates user
+        user.is_active = True
+        user.save()
+
+        # Generates authentication tokens
+        token = RefreshToken.for_user(user)
+        response_query = "refresh_token=" + str(token) + "&access_token=" + str(token.access_token)
+        
+        redirect_url = f"{os.getenv('FRONTEND_URL')}/tokens/?{response_query}"
+        return redirect(redirect_url)        

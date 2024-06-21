@@ -57,8 +57,11 @@ function TokenAuthenticator() {
     }, [tokensSet])
 
     const error_message = getParameterByName('error', location.search);
-    error_message ? alert(error_message) : undefined
-    return tokensSet ? <Navigate to="/home" /> : <Navigate to="/login" />;
+    if (error_message) {
+        alert(error_message);
+        return <Navigate to="/login" />
+    }
+    return tokensSet ? <Navigate to="/home" /> : null;
 };
   
 export default TokenAuthenticator
