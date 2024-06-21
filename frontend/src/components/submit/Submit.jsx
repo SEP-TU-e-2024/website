@@ -4,12 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import AuthContext from "../../context/AuthContext";
 import { FileUploader } from "react-drag-drop-files";
 import './Submit.scss'
+import { useAlert } from "../../context/AlertContext";
 
 function Submit() {
   let { user } = useContext(AuthContext);
   const [file, setFile] = useState(null);
   const [isDownloadable, setIsDownloadable] = useState(false);
   const fileTypes = ["ZIP", "RAR", "7Z"];
+  let { showAlert } = useAlert();
 
   const handleCheckboxChange = () => {
     setIsDownloadable(!isDownloadable);
@@ -19,7 +21,7 @@ function Submit() {
     let file_extension = file.name.split('.').pop().toLowerCase();
     if (!['zip', 'rar', '7z'].includes(file_extension)) {
       console.error('Invalid file type.');
-      alert("Invalid file type. Please upload a .zip, .rar, or .7z file.");
+      showAlert("Invalid file type. Please upload a .zip, .rar, or .7z file.", "error");
       return false;
     }
     return true;
@@ -28,7 +30,7 @@ function Submit() {
   const checkFileName = (file) => {
     if (file.name.length > 50) {
       console.error('File name exceeds 50 characters.');
-      alert("File name exceeds 50 characters.");
+      showAlert("File name exceeds 50 characters.", "error");
       return false;
     }
     return true;
@@ -37,7 +39,7 @@ function Submit() {
   const checkFileSize = (file) => {
     if (file.size > 50 * 1024 * 1024) { // 50 MB in bytes
       console.error('File size exceeds 50MB.');
-      alert("File size exceeds 50MB.");
+      showAlert("File size exceeds 50MB.", "error");
       return false;
     }
     return true;
@@ -51,7 +53,7 @@ function Submit() {
     e.preventDefault();
 
     if (!file) {
-      alert("No file provided");
+      showAlert("No file provided", "error");
       return;
     }
 
@@ -70,15 +72,15 @@ function Submit() {
       let response = await api.post('/submit/', formData);
 
       if (response.status === 200) {
-        !user ? alert("Check your email to confirm submission") : alert("Submission uploaded successfully.");
+        !user ? showAlert("Check your email to confirm submission", "success") : showAlert("Submission uploaded successfully.", "success");
       }
     } catch (error) {
       if (error.response.data.detail) {
-        alert(error.response.data.detail);
+        showAlert(error.response.data.detail, "error");
       } else if (error.response.status == 400) {
-        alert("Invalid submission")
+        showAlert("Invalid submission", "error")
       } else if (error.response.status == 500) {
-        alert("Something went wrong on the server")
+        showAlert("Something went wrong on the server", "error")
       }
       console.error('Submission error');
     }

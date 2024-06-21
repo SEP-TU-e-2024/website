@@ -86,12 +86,14 @@ function createColumns(problem, instance) {
 // Download solutions handler
 function handleDownloadSolutionsClick(e) {
   e.stopPropagation();
+  // TODO: Change to showAlert
   alert("download solutions");
 }
 
 // Download scores handler
 function handleDownloadScoresClick(e) {
   e.stopPropagation();
+  // TODO: Change to showAlert
   alert("download scores");
 }
 
