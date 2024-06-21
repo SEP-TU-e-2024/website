@@ -18,7 +18,7 @@ from backend.evaluator import queue_evaluate_submission
 
 from ..models import Submission
 from ..models import UserProfile as User
-from ..serializers import SubmissionSerializer
+from ..serializers import FormSubmissionSerializer
 from ..tokens import submission_confirm_token
 
 
@@ -52,12 +52,13 @@ class SubmitAPIView(APIView):
             )
 
         # Checks validity of submitted data
-        serializer = SubmissionSerializer(data=request.data)
+        serializer = FormSubmissionSerializer(data=request.data)
         if not serializer.is_valid():
             for field, message in serializer.errors.items():
                 self.logger.error({"field": field, "error": message})
                 return Response({"detail" : message}, status=status.HTTP_400_BAD_REQUEST)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
         # Gets or creates user
         user = request.user
         if user.is_anonymous:

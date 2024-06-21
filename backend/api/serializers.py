@@ -55,6 +55,17 @@ class SubmissionSerializer(StorageLocationSerializer):
         ]
 
 
+class FormSubmissionSerializer(serializers.ModelSerializer):
+    """Serializer for validating fields required when creating a submission"""
+
+    class Meta:
+        model = Submission
+        fields = ["id",
+                  "name",
+                  "problem",
+                  "created_at"]
+
+
 class EvaluationSettingSerializer(serializers.ModelSerializer):
     """Serializer for evaluation settings"""
 
