@@ -92,14 +92,13 @@ class ProblemCategorySerializer(serializers.ModelSerializer):
         ]
 
 
-class BenchmarkInstanceSerializer(serializers.ModelSerializer):
+class BenchmarkInstanceSerializer(StorageLocationSerializer):
     """Serializer for benchmar instances"""
     
     class Meta:
         model = BenchmarkInstance
-        fields = [
-            "id",
-            "filepath",
+        fields = StorageLocationSerializer.Meta.fields + [
+            "name",
         ]
 
 
