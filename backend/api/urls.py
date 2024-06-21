@@ -38,16 +38,12 @@ urlpatterns = [
     path("auth/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("activate/<uidb64>/<token>", AuthViewSet.activate, name="activate"),
+    path('auth/login/<str:uidb64>/<str:token>/', AuthViewSet.as_view({'get': 'login_through_email'}), name='login'),
     path("leaderboard/<str:problem_id>", LeaderboardView.as_view(), name="leaderboard"),
     path(
         "leaderboard_entry/<str:submission_id>",
         LeaderboardEntryView.as_view(),
         name="leaderboardEntry",
-    ),
-    path(
-        "login/<uidb64>/<token>",
-        AuthViewSet.login_through_email,
-        name="login",
     ),
     path(
         "in_development",

@@ -73,7 +73,8 @@ class AuthViewSet(ViewSet):
             )
         return Response({}, status=status.HTTP_201_CREATED)
 
-    def login_through_email(self, uidb64, token):
+    @action(detail=False, methods=["GET"])
+    def login_through_email(self, request, uidb64, token):
         """Handles loggin in through email.
 
         Parameters
@@ -90,26 +91,30 @@ class AuthViewSet(ViewSet):
         """
         # Tries to get user from database
         user = None
+        response_query = ""
+
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
         except ObjectDoesNotExist:
-            return Response(
-                {"User error": "User not found."}, status=status.HTTP_404_NOT_FOUND
-            )
+            response_query = "error=User not found"
 
-        # Checks token and sets user to active
-        if user is not None and account_activation_token.check_token(user, token):
+        # Checks if user is found
+        if user is None:
+            response_query = "error=User not found"
+        # Checks if user is active
+        elif not user.is_active:
+            response_query = "error=Account not activated"
+        # Checks token validity
+        elif not account_activation_token.check_token(user, token):
+            response_query = "error=Invalid link"
+        # Good case
+        else:
             token = RefreshToken.for_user(user)
-            response_data = {
-                "refresh_token": str(token),
-                "access_token": str(token.access_token),
-            }
-            redirect_url = f"{os.getenv('FRONTEND_URL')}/tokens/?refresh_token={response_data['refresh_token']}&access_token={response_data['access_token']}"
-            return redirect(redirect_url)
-        return Response(
-            {"User error": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST
-        )
+            response_query = "refresh_token=" + str(token) + "&access_token=" + str(token.access_token)
+        
+        redirect_url = f"{os.getenv('FRONTEND_URL')}/tokens/?{response_query}"
+        return redirect(redirect_url)
     
     @action(detail=False, methods=["POST"])
     def send_login_email(self, request):
