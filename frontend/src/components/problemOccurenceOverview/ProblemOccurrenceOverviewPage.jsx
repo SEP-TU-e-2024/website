@@ -7,22 +7,23 @@ import ProblemOccurrenceLeaderboard from "./contents/ProblemOccurrenceLeaderboar
 import ProblemOccurrenceProblemInstanceList from "./contents/ProblemOccurrenceProblemInstanceList";
 import ProblemOccurrenceSubmission from "./contents/ProblemOccurrenceSubmission";
 import './ProblemOccurrrenceOverviewBody.scss';
+import { useAlert } from "../../context/AlertContext";
 
 /**
  * Async function to fetch the leaderboard data from the backend
  * @returns response data
  */
-async function getLeaderboardData(problemId) {
+async function getLeaderboardData(problemId, showAlert) {
   try {
     const response = await api.get(`/leaderboard/${problemId}`);
     return response.data;
   } catch (error) {
     if (error.response.status == 401) {
-      alert("Unauthorized to access this content");
+      showAlert("Unauthorized to access this content", "error");
     } else if (error.response.status == 404) {
-      alert("Problem not found")
+      showAlert("Problem not found", "error")
     } else if (error.response.status == 500) {
-      alert("Something went wrong on the server")
+      showAlert("Something went wrong on the server", "error")
     }
     console.error(error);
   }
@@ -36,6 +37,7 @@ function ProblemOccurrenceOverviewPage() {
   const [currentTab, setCurrentTab] = useState("1");
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
+  let { showAlert } = useAlert();
 
   if (problemData == null) {
     //somewhat janky error handling but there isn't really any other exception that is thrown somewhere
@@ -46,7 +48,7 @@ function ProblemOccurrenceOverviewPage() {
     
     const fetchLeaderboardData = async () => {
       try {
-        const data = await getLeaderboardData(problemData.id);
+        const data = await getLeaderboardData(problemData.id, showAlert);
         const entries = data.entries.concat(data.unranked_entries)        
         setEntries(entries);
       } catch (err) {
@@ -127,7 +129,7 @@ function ProblemOccurrenceOverviewPage() {
               {!loading ? (<ProblemOccurrenceLeaderboard problemData={problemData} leaderboardData={entries}/>) : <div>Loading...</div>}
             </TabPane>
             <TabPane tabId="3">
-              <ProblemOccurrenceSubmission />
+              <ProblemOccurrenceSubmission problemData={problemData}/>
             </TabPane>
             
             {/* if category.style is 0 it is a comp problem */}
@@ -158,12 +160,13 @@ export async function getPOInfo(problemOccurrenceID) {
     const response = await api.get(`problems/problem_occurrence/${problemOccurrenceID}`);
     return response.data; 
   } catch(error) {
+    // Can not change alerts to showAlert due to this not being react component
     if (error.response.status == 401) {
-      alert("Unauthorized to access this content");
+      alert("Unauthorized to access this content", "error");
     } else if (error.response.status == 404) {
-      alert("No problem categories not found")
+      alert("No problem categories not found", "error")
     } else if (error.response.status == 500) {
-      alert("Something went wrong on the server")
+      alert("Something went wrong on the server", "error")
     }
     console.log(error)
   }

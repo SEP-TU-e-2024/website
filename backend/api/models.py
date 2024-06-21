@@ -157,6 +157,7 @@ class ProblemCategory(models.Model):
     validator = models.ForeignKey(
         Validator, on_delete=models.SET_NULL, null=True, blank=True
     )
+    example_submission_url = models.CharField(max_length=512, null=True, blank=True)
 
     class Meta:
         verbose_name = "problem category"
@@ -207,7 +208,7 @@ class Result(models.Model):
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
     benchmark_instance = models.ForeignKey(BenchmarkInstance, on_delete=models.CASCADE, null=True)
     metric = models.ForeignKey(Metric, on_delete=models.CASCADE)
-    score = models.DecimalField(decimal_places=2, max_digits=6)
+    score = models.DecimalField(decimal_places=8, max_digits=16)
 
     def __str__(self):
         return f'{self.metric} : {self.score}'

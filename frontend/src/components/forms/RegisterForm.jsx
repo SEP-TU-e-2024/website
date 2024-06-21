@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
+import { Navigate } from "react-router-dom";
 import axios from 'axios';
 import './Form.scss';
 import { useNavigate } from "react-router-dom";
@@ -7,12 +8,17 @@ import { Container, Row, Col, TabContent, TabPane } from 'reactstrap'
 
 
 function RegisterForm() {
+    let { user } = useContext(AuthContext);
     const [passwordVisiblity, setPasswordVisibility] = useState(false); 
     let {register_user} = useContext(AuthContext)
 
     const togglePasswordVisibility = (event) => {
         setPasswordVisibility(!passwordVisiblity);
     };
+    
+    if (user) {
+        return <Navigate to="/home" />;
+    }
 
     return (
 
