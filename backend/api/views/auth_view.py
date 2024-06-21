@@ -250,4 +250,4 @@ class AuthViewSet(ViewSet):
         response_query = "refresh_token=" + str(token) + "&access_token=" + str(token.access_token)
         
         redirect_url = f"{os.getenv('FRONTEND_URL')}/tokens/?{response_query}"
-        return redirect(redirect_url)        
+        return redirect(redirect_url)
