@@ -20,6 +20,7 @@ import { getPOInfo } from './components/problemOccurenceOverview/ProblemOccurren
 import AccountPage from "./components/accountPage/AccountPage";
 import Aboutpage from "./components/about/AboutPage";
 import VerificationPage from "./components/verificationPage/VerificationPage";
+import { useAlert } from "./context/AlertContext";
 
 /**
  * This is the router object.
