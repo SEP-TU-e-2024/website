@@ -1,6 +1,7 @@
 import logging
 import os
 from smtplib import SMTPException
+from urllib.parse import urlparse
 
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ObjectDoesNotExist
@@ -194,7 +195,7 @@ class AuthViewSet(ViewSet):
             "email_template.html",
             {
                 "user": user.name,
-                "domain": get_current_site(request).domain,
+                "domain": urlparse(os.getenv("FRONTEND_URL")).netloc,
                 "uid": urlsafe_base64_encode(force_bytes(user.pk)),
                 "token": account_activation_token.make_token(user),
                 "protocol": "https" if request.is_secure() else "http",

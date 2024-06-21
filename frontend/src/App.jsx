@@ -19,6 +19,7 @@ import UnProtectedLayout from "./components/routing/UnprotectedLayout";
 import { getPOInfo } from './components/problemOccurenceOverview/ProblemOccurrenceOverviewPage';
 import AccountPage from "./components/accountPage/AccountPage";
 import Aboutpage from "./components/about/AboutPage";
+import VerificationPage from "./components/verificationPage/VerificationPage";
 
 /**
  * This is the router object.
@@ -46,6 +47,7 @@ export const router = createBrowserRouter(
           {/* Basically an endpoint to save the auth tokens from email only login */}
           <Route path="/tokens" element={<TokenAuthenticator />} />
           <Route path="/home" element={<HomePage />} />
+          <Route path="/verify/:uid/:token" element={<VerificationPage />} />
           <Route 
             path="/problemoccurrence/:problem_occurence" 
             element={<ProblemOccurrenceOverviewPage />} 
