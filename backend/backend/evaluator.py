@@ -103,7 +103,7 @@ def evaluate_submission(protocol: WebsiteProtocol, submission: Submission):
         message = render_to_string(
             "email_template_submission_fail.html",
             {
-                "user": submission.user.name,
+                "user": submission.user.name if submission.user.name is not None else "User",
                 "submission": submission.name,
                 "cause": text_cause,
             },
