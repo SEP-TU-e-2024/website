@@ -12,7 +12,8 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.viewsets import ViewSet
+from rest_framework.decorators import action
 
 from backend.evaluator import queue_evaluate_submission
 
@@ -22,14 +23,15 @@ from ..serializers import SubmissionSerializer
 from ..tokens import submission_confirm_token
 
 
-class SubmitAPIView(APIView):
+class SubmitViewSet(ViewSet):
     """
     This class is responsible for handling all requests related to submitting a zip file.
     """
 
     logger = logging.getLogger(__name__)
 
-    def post(self, request):
+    @action(detail=False, methods=["POST"])
+    def submit(self, request):
         """
         Method used for submtting a submission
         """
@@ -157,7 +159,8 @@ class SubmitAPIView(APIView):
         )
         return email.send()
 
-    def get(self, request, sidb64, token):
+    @action(detail=False, methods=["GET"])
+    def activate(self, request, sidb64, token):
         """Activates submission in backend
 
         Parameters
@@ -176,20 +179,20 @@ class SubmitAPIView(APIView):
         except ObjectDoesNotExist:
             self.logger.warning("Could not locate user")
             return Response(
-                {"User error": "User not found."}, status=status.HTTP_400_BAD_REQUEST
+                {"detail": "User not found."}, status=status.HTTP_400_BAD_REQUEST
             )
+        
+        self.logger.warning(submission)
 
         # Checks token validity
-        if submission is not None and submission_confirm_token.check_token(
-            submission, token
-        ):
-            # Puts submission to verified
-            self.evaluate_submission(submission)
-            return redirect(f'{os.getenv("FRONTEND_URL")}home')
-        return Response(
-            {"Submission error": "Submission not found"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
+        if submission is None:
+            return Response({"detail": "Submission not found."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not submission_confirm_token.check_token(submission, token):
+            return Response({"detail": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)
+
+        self.evaluate_submission(submission)
+        return redirect(f'{os.getenv("FRONTEND_URL")}/home')
 
     def save_to_blob_storage(self, file, submission_id):
         """Saves a file to Azure Blob Storage

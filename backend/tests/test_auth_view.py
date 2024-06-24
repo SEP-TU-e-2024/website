@@ -99,17 +99,6 @@ class TestAuthView(TestCase):
         self.assertEqual(response.status_code, status.HTTP_302_FOUND)
         self.assertIn("error=User%20not%20found", response.url)
     
-    # def test_login_non_existent(self):
-    #     #Try to login with a random uid that does not exist in the db
-    #     r = self.auth.login_through_email(
-    #         None,
-    #         urlsafe_base64_encode(b'4d9856e8-f8ae-4077-8a20-c5c4b1b81600'),
-    #         None
-    #     )
-    #     #Assert that the right error was thrown
-    #     self.assertEqual(r.status_code, status.HTTP_404_NOT_FOUND)
-    #     self.assertEqual(r.data,{'User error': 'User not found.'})
-
     def test_login_invalid_token(self):
         # Create an active user
         # Tests whether a user cannot login with an invalid token
@@ -120,15 +109,6 @@ class TestAuthView(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_302_FOUND)
         self.assertIn('error=Invalid%20link', response.url)
-
-    # def test_login_invalid_token(self):
-    #     #Tests whether a user cannot login with an invalid token
-    #     #Try to login with a valid user but with a random invalid token
-    #     r = self.auth.login_through_email(urlsafe_base64_encode(force_bytes(self.test_user.pk)), 'test')
-        
-    #     #Check whether the right error was thrown
-    #     self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
-    #     self.assertEqual(r.data, {"User error": "Invalid token."})
 
     def test_send_login_mail_valid(self):
         #Verifies whether send_login_mail method works on valid credentials

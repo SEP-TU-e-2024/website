@@ -30,6 +30,10 @@ class LeaderboardEntryViewTest(APITestCase):
         self.sc_metric = Metric.objects.create(
             name='TestMetric'
         )
+
+        #Create a test benchmark
+        self.benchmark = BenchmarkInstance.objects.create(filepath='a/b/c')
+
         #Set up a test specified problem
         self.problem = SpecifiedProblem.objects.create(
             name='TestProblem',
@@ -37,9 +41,9 @@ class LeaderboardEntryViewTest(APITestCase):
             category=self.cat,
             scoring_metric=self.sc_metric
         )
-        #Create a test benchmark
-        self.benchmark = BenchmarkInstance.objects.create(filepath='a/b/c')
-        
+
+        self.problem.benchmark_instances.set([self.benchmark])
+
         # Create a testing profile
         self.profile = UserProfile(
             email='test@benchlab.com',
@@ -70,7 +74,6 @@ class LeaderboardEntryViewTest(APITestCase):
     def test_leaderboard_entry(self):
         #Send a request to the api endpoint
         resp = self.client.get(f'/api/leaderboard_entry/{str(self.problem.id)}/{str(self.submission.id)}' )
-        print(resp)
         
         # unpack the json object
         result = json.loads(resp.content.decode())
@@ -81,5 +84,5 @@ class LeaderboardEntryViewTest(APITestCase):
         self.assertEqual(self.submission.name, result['submission']['name'])
         
         #Test attributes for results object
-        self.assertEqual(self.result.score, float(result['results']['TestMetric']))
+        self.assertEqual(self.result.score, float(result['instance_entries'][0]["results"]['TestMetric']))
         

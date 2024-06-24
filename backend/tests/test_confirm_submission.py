@@ -1,5 +1,5 @@
 from api.models import Metric, SpecifiedProblem, Submission, UserProfile
-from api.views.submit_view import SubmitAPIView
+from api.views.submit_view import SubmitViewSet
 from django.core import mail
 from django.test import RequestFactory
 from django.utils.encoding import force_bytes
@@ -35,7 +35,7 @@ class ConfirmSubmissionTest(APITestCase):
         )
 
         #Instantiate SubmitView for testing
-        self.view = SubmitAPIView()
+        self.view = SubmitViewSet()
         #Request Factory to make mock request
         rf = RequestFactory()
 
@@ -43,6 +43,7 @@ class ConfirmSubmissionTest(APITestCase):
         request = rf.post('/', data={'email':'test@benchlab.com'})
         request.META['HTTP_HOST'] = 'example.com'
         request.data = {'email':'test@benchlab.com'}
+        request.user = self.user
 
         #Send the email
         self.view.verify_submission(request, False, self.submission)
@@ -52,7 +53,7 @@ class ConfirmSubmissionTest(APITestCase):
         #Extract problem id and token
         link_index = mail.outbox[0].body.find('http://example.com/api/submit/confirm')
         self.assertEqual(link_index == -1,False, 'Link index in unit test is wrong, please update it.')
-        submission_sid, token = mail.outbox[0].body[link_index:].strip().split('/')[-2:]
+        submission_sid, token = mail.outbox[0].body[link_index:].strip().split('/')[-3:-1]
 
         #Check that the submission id matches
         self.assertEqual(
@@ -61,6 +62,7 @@ class ConfirmSubmissionTest(APITestCase):
             'Submission verification email verifies wrong submission!'
         )
         print(token)
+
         #TODO: Make this work
         # resp = self.client.get(f'/api/confirm_submission/{submission_sid}/{token}')
         # self.assertEqual(
