@@ -1,5 +1,7 @@
 
 
+import os
+
 from api.models import UserProfile
 from api.tokens import account_activation_token
 from api.views.auth_view import AuthViewSet
@@ -9,7 +11,7 @@ from django.test import RequestFactory, TestCase
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework import status
-import os
+
 
 class TestAuthView(TestCase):
     def setUp(self):
@@ -104,7 +106,7 @@ class TestAuthView(TestCase):
         # Tests whether a user cannot login with an invalid token
         response = self.auth.login_through_email(
             None,
-            urlsafe_base64_encode(force_bytes(self.test_user.pk)), 
+            urlsafe_base64_encode(force_bytes(self.test_user.pk)),
             'test'
         )
         self.assertEqual(response.status_code, status.HTTP_302_FOUND)
@@ -131,7 +133,7 @@ class TestAuthView(TestCase):
     def test_login_inactive_user(self):
         response = self.auth.login_through_email(
             None,
-            urlsafe_base64_encode(force_bytes(self.test_user_non_active.pk)), 
+            urlsafe_base64_encode(force_bytes(self.test_user_non_active.pk)),
             'test'
         )
         self.assertEqual(response.status_code, status.HTTP_302_FOUND)
