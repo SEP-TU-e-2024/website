@@ -46,6 +46,7 @@ class AuthViewSet(ViewSet):
         if not serializer.is_valid():
             for field, message in serializer.errors.items():
                 self.logger.error({"field": field, "error": message})
+                return Response({"detail" : message}, status=status.HTTP_400_BAD_REQUEST)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         # Creating and disabling user
@@ -104,7 +105,7 @@ class AuthViewSet(ViewSet):
                 "refresh_token": str(token),
                 "access_token": str(token.access_token),
             }
-            redirect_url = f"{os.getenv('FRONTEND_URL')}tokens/?refresh_token={response_data['refresh_token']}&access_token={response_data['access_token']}"
+            redirect_url = f"{os.getenv('FRONTEND_URL')}/tokens/?refresh_token={response_data['refresh_token']}&access_token={response_data['access_token']}"
             return redirect(redirect_url)
         return Response(
             {"User error": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST
@@ -129,7 +130,7 @@ class AuthViewSet(ViewSet):
             user = User.objects.get(email=request.data["email"])
         except ObjectDoesNotExist:
             return Response(
-                {"User error": "User not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         try:
@@ -138,7 +139,7 @@ class AuthViewSet(ViewSet):
             message = render_to_string(
                 "email_template_login.html",
                 {
-                    "user": user.name,
+                    "user": user.name if user.name is not None else "User",
                     "domain": get_current_site(request).domain,
                     "uid": urlsafe_base64_encode(force_bytes(user.pk)),
                     "token": account_activation_token.make_token(user),
@@ -155,7 +156,7 @@ class AuthViewSet(ViewSet):
         except SMTPException:
             self.logger.warning("Failed to send email", exc_info=1)
             return Response(
-                {"Email erorr": "Failed to send email"},
+                {"detail": "Failed to send email"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
         return Response({}, status=status.HTTP_200_OK)
@@ -184,7 +185,7 @@ class AuthViewSet(ViewSet):
         message = render_to_string(
             "email_template.html",
             {
-                "user": user.name,
+                "user": user.name if user.name is not None else "User",
                 "domain": get_current_site(request).domain,
                 "uid": urlsafe_base64_encode(force_bytes(user.pk)),
                 "token": account_activation_token.make_token(user),
@@ -226,7 +227,7 @@ class AuthViewSet(ViewSet):
             user.is_active = True
             user.save()
             # Redirects to login
-            return redirect(f'{os.getenv("FRONTEND_URL")}login')
+            return redirect(f'{os.getenv("FRONTEND_URL")}/login')
         return Response(
             {"User error": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST
         )

@@ -5,18 +5,20 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
+from .views.account_view import AccountView
 from .views.auth_view import AuthViewSet
 from .views.download_from_blob_view import DownloadFromBlobViewSet
+from .views.in_development_view import InDevelopmentView
 from .views.leaderboard_entry_view import LeaderboardEntryView
 from .views.leaderboard_view import LeaderboardView
 from .views.problem_occurence_view import ProblemOccurrenceView
 from .views.problem_view import Problems
-from .views.submit_view import SubmitViewSet
+from .views.submission_view import SubmissionView
+from .views.submit_view import SubmitAPIView
 
 # Routers are standard for viewsets
 api_router = DefaultRouter()
 api_router.register(r"auth", AuthViewSet, basename="auth")
-api_router.register(r"submit", SubmitViewSet, basename="submit")
 api_router.register(
     r"download", DownloadFromBlobViewSet, basename="download"
 )
@@ -24,6 +26,10 @@ api_router.register(
 # Urlpatterns are default for normal views
 urlpatterns = [
     path("problems/occurrence_overview", Problems.as_view()),
+    path("account", AccountView.as_view()),
+    path("submissions", SubmissionView.as_view()),
+    path('submit/', SubmitAPIView.as_view(), name='submit'),
+    path('submit/confirm/<str:sidb64>/<str:token>/', SubmitAPIView.as_view(), name='confirm'),
     path(
         "problems/problem_occurrence/<str:problem_id>",
         ProblemOccurrenceView.as_view(),
@@ -44,10 +50,10 @@ urlpatterns = [
         name="login",
     ),
     path(
-        "confirm_submission/<sidb64>/<token>",
-        SubmitViewSet.confirm_submission,
-        name="confirm_submission",
-    ),
+        "in_development",
+        InDevelopmentView.as_view(),
+        name="in_development"
+    )
 ]
 
 # Combining urls of routers and patterns

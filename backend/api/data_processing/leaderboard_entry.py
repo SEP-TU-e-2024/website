@@ -12,10 +12,11 @@ class LeaderboardEntry:
         # Save the submission and submission user
         self.submission = submission
         self.submitter = submission.user
+        self.instance_entries = []
 
         # Create list of leaderboard instance entries.
         self.instance_entries = [LeaderboardInstanceEntry(submission, benchmark_instance)
-                                 for benchmark_instance in problem.benchmark_instances.all()]
+                                for benchmark_instance in problem.benchmark_instances.all()]
         
         # Compute the aggerate results for the submission and each metric of the problem.
         self.results = dict()
@@ -24,14 +25,15 @@ class LeaderboardEntry:
                       if metric.name in instance.results]
             
             if len(scores) == len(self.instance_entries):
-                self.results[metric.name] = sum(scores) / len(scores)
+                self.results[metric.name] = round(sum(scores) / len(scores), 2)
             elif (submission.is_verified):
                 print(f"metric {metric.name} is missing results of " +
                       f"submission {submission.name} for {len(self.instance_entries) - len(scores)} instance(s)")
 
         # Add a rank, which is not known
         self.rank = 0
-
+        if problem.category.style == 0:
+            self.instance_entries = []
 
 class LeaderboardEntrySerializer(serializers.Serializer):
     """Serializer for leaderboard entry"""

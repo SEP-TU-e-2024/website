@@ -61,8 +61,8 @@ function createColumns(problem, instance) {
   columns.push(new LeaderboardColumn("Submission name", 
     (entry) => { return entry.submission.name }));
   columns.push(new LeaderboardColumn("Submitted by", 
-    (entry) => { return entry.submitter.name }));
-  columns.push(new LeaderboardColumn("Submitted date", 
+    (entry) => { return entry.submitter.name != null && entry.submitter.name != "" ?  entry.submitter.name : "Anonymous user" }));
+  columns.push(new LeaderboardColumn("Submission date", 
     (entry) => { return entry.submission.created_at.slice(0,10) })); //the slice is to format the date
 
   problem.metrics.forEach((metric) => {
@@ -71,14 +71,14 @@ function createColumns(problem, instance) {
     }
   });
 
-  columns.push(new LeaderboardColumn("Download Solution", 
-    (entry) => { return <div className="download-cell"><i role="button" onClick={handleDownloadSolutionsClick} className="bi-download" /></div> },
-    <div className="download-cell">Download Solutions</div>
-  ));
-  columns.push(new LeaderboardColumn("Download Scores", 
-    (entry) => { return <div className="download-cell"><i role="button" onClick={handleDownloadScoresClick} className="bi-download" /></div> },
-    <div className="download-cell">Download Scores</div>
-  ));
+  // columns.push(new LeaderboardColumn("Download Solution", 
+  //   (entry) => { return <div className="download-cell"><i role="button" onClick={handleDownloadSolutionsClick} className="bi-download" /></div> },
+  //   <div className="download-cell">Download Solutions</div>
+  // ));
+  // columns.push(new LeaderboardColumn("Download Scores", 
+  //   (entry) => { return <div className="download-cell"><i role="button" onClick={handleDownloadScoresClick} className="bi-download" /></div> },
+  //   <div className="download-cell">Download Scores</div>
+  // ));
 
   return columns;
 }

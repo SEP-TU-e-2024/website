@@ -16,8 +16,15 @@ async function getLeaderboardData(problemId) {
   try {
     const response = await api.get(`/leaderboard/${problemId}`);
     return response.data;
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    if (error.response.status == 401) {
+      alert("Unauthorized to access this content");
+    } else if (error.response.status == 404) {
+      alert("Problem not found")
+    } else if (error.response.status == 500) {
+      alert("Something went wrong on the server")
+    }
+    console.error(error);
   }
 }
 
@@ -40,7 +47,7 @@ function ProblemOccurrenceOverviewPage() {
     const fetchLeaderboardData = async () => {
       try {
         const data = await getLeaderboardData(problemData.id);
-        const entries = data.entries.concat(data.unranked_entries)
+        const entries = data.entries.concat(data.unranked_entries)        
         setEntries(entries);
       } catch (err) {
         console.error(err);
@@ -56,23 +63,25 @@ function ProblemOccurrenceOverviewPage() {
   function handleTabSwitch(e) {
     setCurrentTab(e.target.id);
   }
-
+  
   return (
     <div>
       <Container fluid className="bg-primary mt-4">
         <Row className="justify-content-center">
           <Col xs="2"></Col> {/* Intentionally empty col */}
           <Col className='text-light text-center py-5' xs="8">
-            <h1 className="fw-bold">{problemData.problem_name}</h1>
+            <h1 className="fw-bold">{problemData.name}</h1>
           </Col>
           <Col xs="2" className="align-self-end text-end text-light fw-bold">
+            {/* TODO: Implement 
             <Row><Col>1/day<i className="bi-cloud-upload" /></Col></Row>
-            <Row><Col>1d 20h 40m <i className="bi-clock" /></Col></Row>
+            <Row><Col>1d 20h 40m <i className="bi-clock" /></Col></Row> 
+            */}
           </Col> 
         </Row>
         <Row className="align-items-center">
           <Col className='bg-white border-dark border text-dark text-center'>
-            <h5 className="fw-bold">{problemData.name} :  {problemData.evaluation_settings.time_limit} second, {problemData.evaluation_settings.memory} MB Memory, {problemData.evaluation_settings.cpu} CPU variation</h5>
+            <h5 className="fw-bold">{problemData.category.name} :  {problemData.evaluation_settings.time_limit} second, {problemData.evaluation_settings.memory} MB Memory, {problemData.evaluation_settings.cpu} CPU variation</h5>
           </Col>
         </Row>
       </Container>
@@ -97,11 +106,16 @@ function ProblemOccurrenceOverviewPage() {
                 Submission
               </a>
             </li>
-            <li className="tab-selector-item">
-              <a role="button" className={currentTab == "4" ? "active tab-selector-link": "tab-selector-link"} /*active={currentTab == "4"}*/ id="4" onClick={handleTabSwitch}>
-                Problem instances
-              </a>
-            </li>
+            
+            {/* Hide this tab if the problem is a competition style problem */}
+            {problemData.category.style != 0 ? 
+              <li className="tab-selector-item">
+                <a role="button" className={currentTab == "4" ? "active tab-selector-link": "tab-selector-link"} /*active={currentTab == "4"}*/ id="4" onClick={handleTabSwitch}>
+                  Problem instances
+                </a>
+              </li>
+            : 
+              <></>}
           </ul>
           
           {/* Actual content of the tabs */}
@@ -113,11 +127,17 @@ function ProblemOccurrenceOverviewPage() {
               {!loading ? (<ProblemOccurrenceLeaderboard problemData={problemData} leaderboardData={entries}/>) : <div>Loading...</div>}
             </TabPane>
             <TabPane tabId="3">
-              <ProblemOccurrenceSubmission />
+              <ProblemOccurrenceSubmission problemData={problemData}/>
             </TabPane>
-            <TabPane tabId="4">
-              {!loading ? (<ProblemOccurrenceProblemInstanceList problemData={problemData} leaderboardData={entries}/>) : <div>Loading...</div>} 
-            </TabPane>
+            
+            {/* if category.style is 0 it is a comp problem */}
+            {problemData.category.style != 0 ? 
+              <TabPane tabId="4">
+                {!loading ? (<ProblemOccurrenceProblemInstanceList problemData={problemData} leaderboardData={entries}/>) : <div>Loading...</div>} 
+              </TabPane>
+            :
+              <></>
+            }   
           </TabContent>
         </Col>
         
@@ -137,14 +157,15 @@ export async function getPOInfo(problemOccurrenceID) {
   try {
     const response = await api.get(`problems/problem_occurrence/${problemOccurrenceID}`);
     return response.data; 
-  } catch(err) {
-    console.error(err);
-    if (err.response.status == 404) {
-      throw new Error("Error 404: problem occurrence was not found");
-    } else if (err.response.status == 401) {
-      throw new Error("Error 401: unauthorized to access this content");
+  } catch(error) {
+    if (error.response.status == 401) {
+      alert("Unauthorized to access this content");
+    } else if (error.response.status == 404) {
+      alert("No problem categories not found")
+    } else if (error.response.status == 500) {
+      alert("Something went wrong on the server")
     }
-    else throw err;
+    console.log(error)
   }
 }
 

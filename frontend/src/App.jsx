@@ -10,12 +10,15 @@ import HomePage from './components/homepage/HomePage';
 import RegisterForm from "./components/forms/RegisterForm";
 import ProblemOccurrenceOverviewPage from './components/problemOccurenceOverview/ProblemOccurrenceOverviewPage';
 import ErrorPage from "./components/errorPage/ErrorPage";
+import DevelopmentPage from "./components/developmentPage/DevelopmentPage";
 import AuthLayout from "./components/routing/AuthLayout";
 import ProtectedLayout from "./components/routing/ProtectedLayout";
 import TokenAuthenticator from "./components/tokenauthenticator/TokenAuthenticator";
 import UnProtectedLayout from "./components/routing/UnprotectedLayout";
 
 import { getPOInfo } from './components/problemOccurenceOverview/ProblemOccurrenceOverviewPage';
+import AccountPage from "./components/accountPage/AccountPage";
+import Aboutpage from "./components/about/AboutPage";
 
 /**
  * This is the router object.
@@ -30,6 +33,7 @@ export const router = createBrowserRouter(
         
         {/* Protected routes */}
         <Route element={<ProtectedLayout />}>
+          <Route path="/account" element={<AccountPage />} />
         </Route>
           
         {/* Non protected routes */}
@@ -38,6 +42,7 @@ export const router = createBrowserRouter(
           <Route path="/submit" element={<Submit />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
+          <Route path="/about" element={<Aboutpage />} />
           {/* Basically an endpoint to save the auth tokens from email only login */}
           <Route path="/tokens" element={<TokenAuthenticator />} />
           <Route path="/home" element={<HomePage />} />
@@ -47,6 +52,7 @@ export const router = createBrowserRouter(
             loader={async ({ params }) => {
               return getPOInfo(params.problem_occurence); //TODO fetching logic here
             }} />
+          <Route path="/in_development" element={<DevelopmentPage />} />
         </Route>
         
       </Route>

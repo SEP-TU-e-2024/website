@@ -13,25 +13,18 @@ class StartCommand(Command):
     """
     The StartCommand class is used to start a container on the runner.
     """
+    success: bool
+    results: dict = None
+    cause: str = None
+
+    def __init__(self):
+        super().__init__(name="START")
 
     def response(self, response: dict):
         logger.info(f"Received response: {response}")
-        # # TODO: See if it is better to have this as a class variable
-        # submission = response["submission"]
-        # # TODO: See if it is better to have this as a class variable
-        # benchmark_instance = response["benchmark_instance"]
+        self.success = response["status"] == "ok"
 
-        # for metric in response["metrics"]:
-        #     score = response[metric]["score"]
-
-        #     data = {
-        #         "submission": submission,
-        #         "benchmark_instance": benchmark_instance,
-        #         "metric": metric,
-        #         "score": score,
-        #     }
-            
-
-        #     serializer = ResultSerializer(data=data)
-        #     serializer.is_valid()
-        #     serializer.save()
+        if self.success:
+            self.results = response["result"]
+        else:
+            self.cause = response["cause"]

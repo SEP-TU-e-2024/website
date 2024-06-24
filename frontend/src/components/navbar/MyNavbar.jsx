@@ -34,7 +34,10 @@ function MyNavbar() {
         LOGIN: '/login',
         LOGOUT: '/logout',
         HOME: '/home',
-        ROOT: '/'
+        ROOT: '/',
+        DEVELOPMENT : '/in_development',
+        ACCOUNT: '/account',
+        ABOUT: '/about'
     }
     
     
@@ -42,28 +45,32 @@ function MyNavbar() {
 
         <Navbar expand="md" container="md" className="mynavbar">
             <NavbarBrand onClick={() => {navigate(routeStrings.ROOT)}} href="">
-                <img alt="logo" src="/src/assets/LOGO.svg" style={{ width: 120 }} />
+                <img alt="logo" src="/assets/LOGO.svg" style={{ width: 120 }} />
             </NavbarBrand>
             <NavbarToggler onClick={toggle} data-testid="toggler"/>
             <Collapse isOpen={isOpen} navbar data-testid="collapse">
                 <Nav navbar className="me-auto navbar-left">
                     <NavItem className="route-button">
-                        <NavLink active={routeStrings.BESTKNOWNSOLUTIONS === location.pathname} href={routeStrings.BESTKNOWNSOLUTIONS}>
+                        <NavLink active={routeStrings.BESTKNOWNSOLUTIONS === location.pathname} href={routeStrings.DEVELOPMENT}> {/* TODO: change link to BESTKNOWNSOLUTIONS if that page is implemented */}
                             Best Known Solutions
-                        </NavLink>
-                        <NavLink href={routeStrings.BESTKNOWNSOLUTIONS}>
-                           Testing tab
                         </NavLink>
                     </NavItem>
                 </Nav>
                 <Nav navbar className="ms-auto navbar-right d-flex flex-row">
                     <NavItem className="information-button">
-                        <img src="/src/assets/question_mark.svg"/>
+                        <a href={routeStrings.ABOUT}>
+                            <img src="/assets/question_mark.svg"/>
+                        </a>
                     </NavItem>
                     {user ? (
+                        <>
                         <NavItem className="login-logout-button">
                             <a onClick={logout_user} href="">Logout</a>
                         </NavItem>
+                        <NavItem className="register-button">
+                            <a href={routeStrings.ACCOUNT}>Account</a>
+                        </NavItem>
+                        </>
                     ) : (
                         <>
                         <NavItem className="login-logout-button">

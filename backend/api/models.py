@@ -1,5 +1,6 @@
 import uuid
 
+from azure.storage.blob import BlobClient, BlobServiceClient
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
@@ -69,14 +70,29 @@ class EvaluationSettings(models.Model):
         verbose_name = "evaluation settings"
         verbose_name_plural = "evaluation settings"
 
+    def __str__(self):
+        return f'{self.cpu} CPU, {self.time_limit} Seconds, {self.memory} Memory, {self.machine_type}'
 
 class StorageLocation(models.Model):
     """Storage path reference to locate file(s)"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    filepath = models.CharField(max_length=256, null=True, blank=True)
+    container = models.CharField(max_length=256, null=True)
+    filepath = models.CharField(max_length=256, null=True)
+    is_downloadable = models.BooleanField(default=False)
 
+    def get_blob(self, blob_service_client:BlobServiceClient) -> BlobClient:
+        # Get benchmark instance blob
+        blob = blob_service_client.get_blob_client(
+            container=self.container, blob=self.filepath
+        )
+        if not blob.exists():
+            raise ValueError(f"Blob file does not exist for storage location with id {self.id}")
+        return blob
 
+    def __str__(self):
+        return self.filepath
+    
 class Simulator(StorageLocation):
     """Program that will evaluate solvers"""
 
@@ -114,7 +130,9 @@ class Metric(models.Model):
     unit = models.CharField(max_length=4, choices=Unit.choices, default=Unit.NONE, blank=True)
     order = models.IntegerField(choices=Order.choices, default=Order.COST)
 
-
+    def __str__(self):
+        return self.label
+    
 class ProblemCategory(models.Model):
     """Category representing an optimization problem"""
 
@@ -139,12 +157,15 @@ class ProblemCategory(models.Model):
     validator = models.ForeignKey(
         Validator, on_delete=models.SET_NULL, null=True, blank=True
     )
+    example_submission_url = models.CharField(max_length=512, null=True, blank=True)
 
     class Meta:
         verbose_name = "problem category"
         verbose_name_plural = "problem categories"
 
-
+    def __str__(self):
+        return self.name
+    
 class SpecifiedProblem(models.Model):
     """Specified problem, potentially with evaluation settings"""
 
@@ -165,6 +186,8 @@ class SpecifiedProblem(models.Model):
     metrics = models.ManyToManyField(Metric)
     scoring_metric = models.ForeignKey(Metric, default="run_time", on_delete=models.PROTECT, related_name='specifiedproblem_ranking_set')
 
+    def __str__(self):
+        return self.name
 
 class Submission(StorageLocation):
     """Database model for submissions"""
@@ -174,8 +197,9 @@ class Submission(StorageLocation):
     name = models.CharField(max_length=256, unique=True, default='unnamed')
     created_at = models.DateTimeField(auto_now_add=True)
     is_verified = models.BooleanField(default=False)
-    is_downloadable = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.name
 
 class Result(models.Model):
     """Table that stores result of a submission"""
@@ -184,4 +208,7 @@ class Result(models.Model):
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
     benchmark_instance = models.ForeignKey(BenchmarkInstance, on_delete=models.CASCADE, null=True)
     metric = models.ForeignKey(Metric, on_delete=models.CASCADE)
-    score = models.DecimalField(decimal_places=2, max_digits=6)
+    score = models.DecimalField(decimal_places=8, max_digits=16)
+
+    def __str__(self):
+        return f'{self.metric} : {self.score}'

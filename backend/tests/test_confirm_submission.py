@@ -50,7 +50,7 @@ class ConfirmSubmissionTest(APITestCase):
 
     def test_verification(self):
         #Extract problem id and token
-        link_index = mail.outbox[0].body.find('http://example.com/api/confirm_submission')
+        link_index = mail.outbox[0].body.find('http://example.com/api/submit/confirm')
         self.assertEqual(link_index == -1,False, 'Link index in unit test is wrong, please update it.')
         submission_sid, token = mail.outbox[0].body[link_index:].strip().split('/')[-2:]
 

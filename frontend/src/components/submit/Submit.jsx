@@ -1,12 +1,15 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import api from '../../api';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from "../../context/AuthContext";
+import { FileUploader } from "react-drag-drop-files";
+import './Submit.scss'
 
 function Submit() {
   let { user } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const [file, setFile] = useState(null);
   const [isDownloadable, setIsDownloadable] = useState(false);
+  const fileTypes = ["ZIP", "RAR", "7Z"];
 
   const handleCheckboxChange = () => {
     setIsDownloadable(!isDownloadable);
@@ -40,9 +43,12 @@ function Submit() {
     return true;
   };
 
+  const handleChange = (file) => {
+    setFile(file);
+  };
+
   const uploadHandler = async (e) => {
     e.preventDefault();
-    const file = e.target.file.files[0];
 
     if (!file) {
       alert("No file provided");
@@ -61,18 +67,20 @@ function Submit() {
       e.target.email ? formData.append('email', e.target.email.value) : formData.append('email', "useremailhere@mail.com");
       formData.append('is_downloadable', isDownloadable);
       
-      let response = await api.post('/submit/upload_submission/', formData);
+      let response = await api.post('/submit/', formData);
 
       if (response.status === 200) {
         !user ? alert("Check your email to confirm submission") : alert("Submission uploaded successfully.");
       }
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.error) {
-        alert(error.response.data.error);
-        return;
+      if (error.response.data.detail) {
+        alert(error.response.data.detail);
+      } else if (error.response.status == 400) {
+        alert("Invalid submission")
+      } else if (error.response.status == 500) {
+        alert("Something went wrong on the server")
       }
-      alert(error.message);
-      console.error('Submission error:', error.message);
+      console.error('Submission error');
     }
   };
 
@@ -81,30 +89,32 @@ function Submit() {
       <div className='submit_container'>
         <form onSubmit={uploadHandler} method='post'>
           {!user ? (
-            <div>
+            <div className='field_container'>
               <input
                 name="email"
                 type="text"
                 placeholder={"Email"} />
             </div>
           ) : undefined}
-          <div>
+          <div className='field_container'>
             <input
               name="submission_name"
               type="text"
               placeholder={"Submission Name"}
               required />
           </div>
-          <div>
-            <label htmlFor="fileSelector">Select a File</label>
-            <input
-              name="file"
-              id="fileSelector"
-              type="file"
-              accept=".zip,.rar,.7z"
-              required
-            />
-          </div>
+          <div className="upload_container">
+            <FileUploader handleChange={handleChange} name="file" types={fileTypes} children={
+              <div>
+                {file ? <div>{file.name}</div> : undefined}
+                <i className="bi bi-upload" />
+                <p> Drag and drop a file </p>
+                <button className="upload_button"> 
+                  Browse
+                </button>
+              </div>
+            }/>
+          </div> 
           <div>
             <label>
               <input
@@ -115,7 +125,7 @@ function Submit() {
               Make submission downloadable to other users
             </label>
           </div>
-          <button type="submit">Submit solution</button>
+          <button type="submit" className="submit_button">Submit solution</button>
         </form>
       </div>
     </>
