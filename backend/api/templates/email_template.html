@@ -3,5 +3,5 @@ Hi {{ user }}
 
 Please click on the link below to confirm you registration:
 
-{{ protocol }}://{{ domain }}{% url 'activate' uidb64=uid token=token%}
+{{ protocol }}://{{ domain }}/verify/{{ uid }}/{{ token }}
 {% endautoescape %}

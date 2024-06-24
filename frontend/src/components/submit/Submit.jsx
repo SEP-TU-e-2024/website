@@ -69,7 +69,7 @@ function Submit() {
       e.target.email ? formData.append('email', e.target.email.value) : formData.append('email', "useremailhere@mail.com");
       formData.append('is_downloadable', isDownloadable);
       
-      let response = await api.post('/submit/', formData);
+      let response = await api.post('/submit/submit/', formData);
 
       if (response.status === 200) {
         !user ? showAlert("Check your email to confirm submission", "success") : showAlert("Submission uploaded successfully.", "success");
