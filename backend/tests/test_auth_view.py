@@ -1,5 +1,7 @@
 
 
+import os
+
 from api.models import UserProfile
 from api.tokens import account_activation_token
 from api.views.auth_view import AuthViewSet
@@ -21,6 +23,15 @@ class TestAuthView(TestCase):
         self.test_user = UserProfile.objects.create(
             email='abc@abc.com'
         )
+        self.test_user.is_active = True
+        self.test_user.save()
+
+        self.test_user_non_active = UserProfile.objects.create(
+            email='test@abc.com'
+        )
+        self.test_user_non_active.is_active = False
+        self.test_user_non_active.save()
+
     def test_sign_up_valid(self):
         #Tests whether a valid signup works
         #Construct mock request for signing up
@@ -37,11 +48,13 @@ class TestAuthView(TestCase):
         self.auth.signup(req)
         
         #Extract token and uid from the mail that was sent by the signup method
-        link_index = mail.outbox[0].body.find('http://testserver/api/activate/')
+        link_index = mail.outbox[0].body.find(os.getenv("FRONTEND_URL") + "/verify")
         uid, token = mail.outbox[0].body[link_index:].strip().split('/')[-2:]
         print(f'Token: {token}')
+
         #Decode the uid
         uid_decoded = force_str(urlsafe_base64_decode(uid))
+
         #Get the user object from storage
         user = UserProfile.objects.get(pk=uid_decoded)
         
@@ -75,27 +88,29 @@ class TestAuthView(TestCase):
         resp = self.auth.signup(req)
         #Verify that a bad request response code is thrown
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
-    
-    def test_login_non_existent(self):
+
+    def test_login_non_existent_user(self):
         #Tests whether a non existen user cannot login (through email)
-        #Try to login with a random uid that does not exist in the db
-        r = self.auth.login_through_email(
+        response = self.auth.login_through_email(
+            None,
             urlsafe_base64_encode(b'4d9856e8-f8ae-4077-8a20-c5c4b1b81600'),
             None
         )
-        #Assert that the right error was thrown
-        self.assertEqual(r.status_code, status.HTTP_404_NOT_FOUND)
 
-        self.assertEqual(r.data,{'User error': 'User not found.'})
-
+        # Assert that the right error was thrown
+        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
+        self.assertIn("error=User%20not%20found", response.url)
+    
     def test_login_invalid_token(self):
-        #Tests whether a user cannot login with an invalid token
-        #Try to login with a valid user but with a random invalid token
-        r = self.auth.login_through_email(urlsafe_base64_encode(force_bytes(self.test_user.pk)), 'test')
-        
-        #Check whether the right error was thrown
-        self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(r.data, {"User error": "Invalid token."})
+        # Create an active user
+        # Tests whether a user cannot login with an invalid token
+        response = self.auth.login_through_email(
+            None,
+            urlsafe_base64_encode(force_bytes(self.test_user.pk)),
+            'test'
+        )
+        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
+        self.assertIn('error=Invalid%20link', response.url)
 
     def test_send_login_mail_valid(self):
         #Verifies whether send_login_mail method works on valid credentials
@@ -115,6 +130,15 @@ class TestAuthView(TestCase):
         #Check that the request was succesful
         self.assertEqual(r.status_code, status.HTTP_200_OK)
 
+    def test_login_inactive_user(self):
+        response = self.auth.login_through_email(
+            None,
+            urlsafe_base64_encode(force_bytes(self.test_user_non_active.pk)),
+            'test'
+        )
+        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
+        self.assertIn('error=Account%20not%20activated', response.url)
+
     def test_send_login_non_existent(self):
         #Test that no email will be sent if an invalid email is entered
 
@@ -132,7 +156,7 @@ class TestAuthView(TestCase):
         r = self.auth.send_login_email(req)
         #Assert that the right errors are thrown
         self.assertEqual(r.status_code, status.HTTP_404_NOT_FOUND)
-        self.assertEqual(r.data,  {"User error": "User not found."})
+        self.assertEqual(r.data,  {"detail": "User not found."})
     
     def test_send_login_smtp_exception(self):
         #TODO: figure out how to trigger SMPT exception
@@ -142,6 +166,7 @@ class TestAuthView(TestCase):
         #Test whether a valid user can activate their account
         r = self.auth.activate(
             #Encode the UUID
+            None,
             urlsafe_base64_encode(force_bytes(self.test_user.id)),
             #Create a new valid token
             account_activation_token.make_token(self.test_user)
@@ -152,6 +177,7 @@ class TestAuthView(TestCase):
     def test_activate_non_existent(self):
         #Tests whether a non existent user can activate their account
         r = self.auth.activate(
+            None,
             #Encode a random UUID that is not in the db
             urlsafe_base64_encode(force_bytes('4d9856e8-f8ae-4077-8a20-c5c4b1b81600')),
             #Don't need to pass a valid token
@@ -159,11 +185,12 @@ class TestAuthView(TestCase):
         )
         #Check that the right error is thrown
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(r.data, {"User error": "User not found."})
+        self.assertEqual(r.data, {"error": "User not found."})
 
     def test_activate_invalid_token(self):
         #Tests whether a user can activate with an invalid token
         r = self.auth.activate(
+            None,
             #Encode the UUID
             urlsafe_base64_encode(force_bytes(self.test_user.pk)),
             #Random invalid token
@@ -171,6 +198,6 @@ class TestAuthView(TestCase):
         )
         #Check whether error is thrown
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(r.data,  {"User error": "Invalid token."},'invalid token ,or user already activated"')
+        self.assertEqual(r.data,  {"error": "Invalid token."},'invalid token ,or user already activated"')
 
     

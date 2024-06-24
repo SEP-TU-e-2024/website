@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import AuthContext from '../../context/AuthContext';
 import { Navigate } from "react-router-dom";
+import { useAlert } from '../../context/AlertContext';
 
 
 /**
@@ -13,6 +14,7 @@ import { Navigate } from "react-router-dom";
 function TokenAuthenticator() {
     let {set_tokens} = useContext(AuthContext)
     const [tokensSet, setTokensSet] = useState(false);
+    let { showAlert } = useAlert();
     
     /**
      * Retrieves the value of a URL parameter by its name.
@@ -56,6 +58,11 @@ function TokenAuthenticator() {
         }
     }, [tokensSet])
 
+    const error_message = getParameterByName('error', location.search);
+    if (error_message) {
+        showAlert(error_message, "error");
+        return <Navigate to="/login" />
+    }
     return tokensSet ? <Navigate to="/home" /> : null;
 };
   

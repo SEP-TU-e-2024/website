@@ -1,0 +1,33 @@
+@import '../../main.scss';
+
+.verification-page {
+    color: $primary;
+    margin:auto;
+
+    p {
+        margin-bottom: 40px;
+    }
+
+    a {
+        color: white;
+        text-decoration: none;
+        background-color: $primary;
+        padding: 10px 40px 10px 40px;
+        
+    }
+
+    a:hover {
+        background-color: #11448a;
+    }
+
+    img {
+        width:125px;
+        padding-bottom: 15px;
+    }
+}
+
+.verification-container {
+    margin-top: 10%;
+    align-items: center;
+    text-align: center;
+}

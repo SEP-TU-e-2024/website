@@ -56,7 +56,7 @@ function ProblemOccurenceOverview({rows}) {
 }
 
 /**
- * Fetches problem occurences from the backend
+ * Fetches problem occurrences from the backend
  * @returns data, array
  */
 async function getRows(showAlert) {
@@ -76,7 +76,7 @@ async function getRows(showAlert) {
 
 /**
  * React component for rending the homepage
- * @returns Problem occurence table
+ * @returns Problem occurrence table
  */
 function HomePage() {
     const [rows, setRows] = useState([]);

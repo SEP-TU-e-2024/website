@@ -69,7 +69,7 @@ function Submit() {
       e.target.email ? formData.append('email', e.target.email.value) : undefined;
       formData.append('is_downloadable', isDownloadable);
       
-      let response = await api.post('/submit/', formData);
+      let response = await api.post('/submit/submit/', formData);
 
       if (response.status === 200) {
         !user ? showAlert("Check your email to confirm submission", "success") : showAlert("Submission uploaded successfully.", "success");
@@ -106,7 +106,7 @@ function Submit() {
               required />
           </div>
           <div className="upload_container">
-            <FileUploader handleChange={handleChange} name="file" types={fileTypes} children={
+            <FileUploader handleChange={handleChange} name="file" label="test" types={fileTypes} children={
               <div>
                 {file ? <div>{file.name}</div> : undefined}
                 <i className="bi bi-upload" />
