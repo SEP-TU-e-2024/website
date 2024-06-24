@@ -28,17 +28,8 @@ $gray-800: #343a40;
 $gray-900: #212529;
 $black:    #000;
 
-@function random-color() {
-    @return rgb(
-      random(256) - 1, // generates a random value between 0 and 255
-      random(256) - 1, // generates a random value between 0 and 255
-      random(256) - 1  // generates a random value between 0 and 255
-    );
-  }
-
-//theming
-$primary:       random-color();
-$secondary:     random-color();
+$primary:       #002c67;
+$secondary:     #f67d2a;
 $highlight:       rgba($primary, .075);
 // $bg-gray:       $gray-300;
 $success:       $green !default;
