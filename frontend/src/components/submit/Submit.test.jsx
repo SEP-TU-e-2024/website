@@ -38,9 +38,8 @@ describe("Submit form", () => {
     });
 
     it("should select a provided document", async () => {
-        renderWithRouter(false, Submit);
-        
-        const fileSelector = screen.getByLabelText('Select a File');
+        let { container } = renderWithRouter(false, Submit);
+        const fileSelector = container.querySelector('input');
         // Create mock file
         const file = new File(['file contents'], 'example.zip', { type: 'application/zip' });
         expect(fileSelector.files).not.toContain(file);

@@ -73,7 +73,7 @@ export const mockMultiProblemData = [
 
 export function renderWithRouter(loggedIn, ComponentToRender) {
     if (loggedIn) {
-        render(
+        return render(
             // Wrapped in BrowserRouter to allow for navigation
             <BrowserRouter>
                 {/* Mock the user data */}
@@ -85,7 +85,7 @@ export function renderWithRouter(loggedIn, ComponentToRender) {
             </BrowserRouter>
         );
     } else {
-        render(
+        return render(
             // Wrapped in BrowserRouter to allow for navigation
             <BrowserRouter>
                 {/* Mock the user data */}
@@ -100,7 +100,7 @@ export function renderWithRouter(loggedIn, ComponentToRender) {
 }
 
 export function renderWithAlertProvider(ComponentToRender) {
-    render(
+    return render(
         <AlertProvider>
             <ComponentToRender />
         </AlertProvider>
