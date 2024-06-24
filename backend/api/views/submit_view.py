@@ -182,8 +182,6 @@ class SubmitViewSet(ViewSet):
                 {"detail": "User not found."}, status=status.HTTP_400_BAD_REQUEST
             )
         
-        self.logger.warning(submission)
-
         # Checks token validity
         if submission is None:
             return Response({"detail": "Submission not found."}, status=status.HTTP_400_BAD_REQUEST)

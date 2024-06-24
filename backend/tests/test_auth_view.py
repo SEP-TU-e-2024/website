@@ -48,7 +48,7 @@ class TestAuthView(TestCase):
         self.auth.signup(req)
         
         #Extract token and uid from the mail that was sent by the signup method
-        link_index = mail.outbox[0].body.find(os.getenv("FRONTEND_URL") + "/verify")#'http://testserver/api/activate/')
+        link_index = mail.outbox[0].body.find(os.getenv("FRONTEND_URL") + "/verify")
         uid, token = mail.outbox[0].body[link_index:].strip().split('/')[-2:]
         print(f'Token: {token}')
 

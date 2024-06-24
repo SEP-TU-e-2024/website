@@ -21,6 +21,11 @@ class LeaderboardEntryView(APIView):
         if not submission.exists():
             return Response({'error':f"Submission with id {submission_id} was not found"},
                              status=status.HTTP_400_BAD_REQUEST)
+        
+        # Robustness check to see if submission exists
+        if not problem.exists():
+            return Response({'error':f"Problem with id {problem_id} was not found"},
+                             status=status.HTTP_400_BAD_REQUEST)
 
         # Create a leaderboard entry for the submission
         serializer = LeaderboardEntrySerializer(LeaderboardEntry(problem.get(), submission.get()))
