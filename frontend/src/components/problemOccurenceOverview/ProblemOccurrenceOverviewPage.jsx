@@ -41,7 +41,7 @@ function ProblemOccurrenceOverviewPage() {
 
   if (problemData == null) {
     //somewhat janky error handling but there isn't really any other exception that is thrown somewhere
-    throw new Error("Problem with fetching the requested data from db");
+    showAlert("Problem with fetching the requested data from db");
   }
   
   useEffect(() => {

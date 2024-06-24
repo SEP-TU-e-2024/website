@@ -4,6 +4,7 @@ import { vi } from 'vitest';
 import { useLoaderData } from 'react-router-dom';
 import ProblemOccurrenceOverviewPage from './ProblemOccurrenceOverviewPage';
 import { AlertProvider } from '../../context/AlertContext';
+import { renderWithAlertProvider } from '../testing_utils/TestingUtils';
 
 vi.mock('react-router-dom', () => ({
 useLoaderData: vi.fn(),
@@ -34,6 +35,7 @@ beforeEach(() => {
     useLoaderData.mockReturnValue({
     problem_name: 'Sample Problem',
     name: 'Sample Problem Occurrence',
+    category: {name: 'Sample Problem Category'},
     evaluation_settings: {
         time_limit: 60,
         cpu: 4,
@@ -52,10 +54,10 @@ afterEach(() => {
 
 it('renders the component with problem data', () => {
     // Render the page
-    render(<AlertProvider> <ProblemOccurrenceOverviewPage/> </AlertProvider>);
+    renderWithAlertProvider(ProblemOccurrenceOverviewPage);
     
     // Check whether all expected elements are in the page
-    expect(screen.getByText('Sample Problem')).toBeInTheDocument();
+    expect(screen.getByText('Sample Problem Occurrence')).toBeInTheDocument();
     expect(screen.getByText('Overview')).toBeInTheDocument();
     expect(screen.getByText('Leaderboard')).toBeInTheDocument();
     expect(screen.getByText('Submission')).toBeInTheDocument();
@@ -112,8 +114,10 @@ it('switches tabs correctly', () => {
 it('throws an error when problem data is null', () => {
     // Mock the useLoaderData function to return null
     useLoaderData.mockReturnValue(null);
-
+    renderWithAlertProvider();
     // Check if error is thrown
-    expect(() => render(<AlertProvider> <ProblemOccurrenceOverviewPage/> </AlertProvider>)).toThrow('Problem with fetching the requested data from db');
+    expect(() => {
+        screen.getByText('Problem with fetching the requested data from db').toBeInTheDocument();
+    })
 });
 });

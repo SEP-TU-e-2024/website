@@ -6,7 +6,6 @@ import { BrowserRouter, MemoryRouter, Routes, Route } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import { mockGuestContextData, mockMemberContextData } from "../testing_utils/TestingUtils";
 import { AlertProvider } from "../../context/AlertContext";
-// import HomePage from "../homepage/HomePage";
 
 const HomePage = () => <div>Home Page</div>;
 const LoginPage = () => <div>Login Page</div>;

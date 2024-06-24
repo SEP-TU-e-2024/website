@@ -1,3 +1,8 @@
+import { render } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
+import { AlertProvider } from "../../context/AlertContext";
+import AuthContext from "../../context/AuthContext";
+
 // Some mocks that are used by multiple test suites, to avoid code duplication
 
 // Mocks a user object
@@ -65,3 +70,39 @@ export const mockMultiProblemData = [
         validator: null
     }
 ];
+
+export function renderWithRouter(loggedIn, ComponentToRender) {
+    if (loggedIn) {
+        render(
+            // Wrapped in BrowserRouter to allow for navigation
+            <BrowserRouter>
+                {/* Mock the user data */}
+                <AuthContext.Provider value={mockMemberContextData}>
+                    <AlertProvider>
+                        <ComponentToRender/>
+                    </AlertProvider>
+                </AuthContext.Provider>
+            </BrowserRouter>
+        );
+    } else {
+        render(
+            // Wrapped in BrowserRouter to allow for navigation
+            <BrowserRouter>
+                {/* Mock the user data */}
+                <AuthContext.Provider value={mockGuestContextData}>
+                    <AlertProvider>
+                        <ComponentToRender/>
+                    </AlertProvider>
+                </AuthContext.Provider>
+            </BrowserRouter>
+        );
+    }    
+}
+
+export function renderWithAlertProvider(ComponentToRender) {
+    render(
+        <AlertProvider>
+            <ComponentToRender />
+        </AlertProvider>
+    );
+}
