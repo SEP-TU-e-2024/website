@@ -4,6 +4,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import AuthContext from "../../context/AuthContext";
+import { AlertProvider } from "../../context/AlertContext";
 import api from "../../api";
 import { mockGuestContextData, mockMemberContextData } from "../testing_utils/TestingUtils";
 
@@ -12,20 +13,24 @@ function renderWithRouter(loggedIn) {
         render(
             // Wrapped in BrowserRouter for navigation
             <BrowserRouter>
-                {/* Mocks the user data */}
-                <AuthContext.Provider value={mockMemberContextData}>
-                    <Submit/>
-                </AuthContext.Provider>
+                <AlertProvider>
+                    {/* Mocks the user data */}
+                    <AuthContext.Provider value={mockMemberContextData}>
+                        <Submit/>
+                    </AuthContext.Provider>
+                </AlertProvider>
             </BrowserRouter>
         );
     } else {
         render(
             // Wrapped in BrowserRouter to do navigation
             <BrowserRouter>
+                <AlertProvider>
                 {/* Mock the user data */}
-                <AuthContext.Provider value={mockGuestContextData}>
-                    <Submit/>
-                </AuthContext.Provider>
+                    <AuthContext.Provider value={mockGuestContextData}>
+                        <Submit/>
+                    </AuthContext.Provider>
+                </AlertProvider>
             </BrowserRouter>
         );
     }    

@@ -5,26 +5,32 @@ import AuthContext from "../../context/AuthContext";
 import { BrowserRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import { mockGuestContextData, mockMemberContextData } from "../testing_utils/TestingUtils";
+import { AlertProvider } from "../../context/AlertContext";
+import Submit from "../submit/Submit";
 
 function renderWithRouter(loggedIn) {
     if (loggedIn) {
         render(
-            // Wrapped in BrowserRouter to allow for navigation
+            // Wrapped in BrowserRouter for navigation
             <BrowserRouter>
-                {/* Mock the user data */}
-                <AuthContext.Provider value={mockMemberContextData}>
-                    <ProtectedLayout/>
-                </AuthContext.Provider>
+                <AlertProvider>
+                    {/* Mocks the user data */}
+                    <AuthContext.Provider value={mockMemberContextData}>
+                        <ProtectedLayout/>
+                    </AuthContext.Provider>
+                </AlertProvider>
             </BrowserRouter>
         );
     } else {
         render(
-            // Wrapped in BrowserRouter to allow for navigation
+            // Wrapped in BrowserRouter to do navigation
             <BrowserRouter>
+                <AlertProvider>
                 {/* Mock the user data */}
-                <AuthContext.Provider value={mockGuestContextData}>
-                    <ProtectedLayout/>
-                </AuthContext.Provider>
+                    <AuthContext.Provider value={mockGuestContextData}>
+                        <ProtectedLayout/>
+                    </AuthContext.Provider>
+                </AlertProvider>
             </BrowserRouter>
         );
     }    

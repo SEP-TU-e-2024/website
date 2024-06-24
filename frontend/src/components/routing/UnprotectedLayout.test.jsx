@@ -5,6 +5,7 @@ import AuthContext from "../../context/AuthContext";
 import { BrowserRouter, MemoryRouter, Routes, Route } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import { mockGuestContextData, mockMemberContextData } from "../testing_utils/TestingUtils";
+import { AlertProvider } from "../../context/AlertContext";
 // import HomePage from "../homepage/HomePage";
 
 const HomePage = () => <div>Home Page</div>;
@@ -14,19 +15,21 @@ const RegisterPage = () => <div>Register Page</div>;
 function renderWithRouter(loggedIn, initialEntries) {
     if (loggedIn) {
         render(
-            // Wrapped in Authcontext to mock user data. Logged in so mock member data
-            <AuthContext.Provider value={mockMemberContextData}>
-                {/* Wrapped in MemoryRouter to allow for checking navigation. Initial entries were passed as a parameter*/}
-                <MemoryRouter initialEntries={initialEntries}>
-                    <Routes>
-                        <Route element={<UnprotectedLayout />}>
-                            <Route path="/" element={<HomePage />} />
-                            <Route path="/login" element={<LoginPage />} />
-                            <Route path="/register" element={<RegisterPage />} />
-                        </Route>
-                    </Routes>
-                </MemoryRouter>
-            </AuthContext.Provider>
+            <AlertProvider>
+                {/* Wrapped in Authcontext to mock user data. Logged in so mock member data */}
+                <AuthContext.Provider value={mockMemberContextData}>
+                    {/* Wrapped in MemoryRouter to allow for checking navigation. Initial entries were passed as a parameter*/}
+                    <MemoryRouter initialEntries={initialEntries}>
+                        <Routes>
+                            <Route element={<UnprotectedLayout />}>
+                                <Route path="/" element={<HomePage />} />
+                                <Route path="/login" element={<LoginPage />} />
+                                <Route path="/register" element={<RegisterPage />} />
+                            </Route>
+                        </Routes>
+                    </MemoryRouter>
+                </AuthContext.Provider>
+            </AlertProvider>
         );
     } else {
         render(

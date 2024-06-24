@@ -5,16 +5,19 @@ import { vi } from 'vitest';
 import AuthContext from '../../context/AuthContext';
 import MyNavbar from './MyNavbar';
 import { mockGuestContextData, mockMemberContextData } from '../testing_utils/TestingUtils';
+import { AlertProvider } from "../../context/AlertContext";
 
 function renderWithRouter(loggedIn) {
     if (loggedIn) {
         render(
-            // Wrapped in a BrowserRouter to allow for navigation
+            // Wrapped in BrowserRouter for navigation
             <BrowserRouter>
-                {/* Mock the user data */}
-                <AuthContext.Provider value={mockMemberContextData}>
-                    <MyNavbar/>
-                </AuthContext.Provider>
+                <AlertProvider>
+                    {/* Mocks the user data */}
+                    <AuthContext.Provider value={mockMemberContextData}>
+                        <MyNavbar/>
+                    </AuthContext.Provider>
+                </AlertProvider>
             </BrowserRouter>
         );
     } else {

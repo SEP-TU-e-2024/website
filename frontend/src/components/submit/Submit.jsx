@@ -106,7 +106,7 @@ function Submit() {
               required />
           </div>
           <div className="upload_container">
-            <FileUploader handleChange={handleChange} name="file" types={fileTypes} children={
+            <FileUploader handleChange={handleChange} name="file" label="test" types={fileTypes} children={
               <div>
                 {file ? <div>{file.name}</div> : undefined}
                 <i className="bi bi-upload" />

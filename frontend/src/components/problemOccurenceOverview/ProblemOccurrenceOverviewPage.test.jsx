@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
 import { useLoaderData } from 'react-router-dom';
 import ProblemOccurrenceOverviewPage from './ProblemOccurrenceOverviewPage';
+import { AlertProvider } from '../../context/AlertContext';
 
 vi.mock('react-router-dom', () => ({
 useLoaderData: vi.fn(),
@@ -36,7 +37,12 @@ beforeEach(() => {
     evaluation_settings: {
         time_limit: 60,
         cpu: 4,
+        memory: 256
     },
+    category: {
+        name: "Sample Problem",
+        style: "0"
+    }
     });
 });
 
@@ -46,7 +52,7 @@ afterEach(() => {
 
 it('renders the component with problem data', () => {
     // Render the page
-    render(<ProblemOccurrenceOverviewPage />);
+    render(<AlertProvider> <ProblemOccurrenceOverviewPage/> </AlertProvider>);
     
     // Check whether all expected elements are in the page
     expect(screen.getByText('Sample Problem')).toBeInTheDocument();
@@ -57,7 +63,7 @@ it('renders the component with problem data', () => {
 });
 
 it('switches tabs correctly', () => {
-    render(<ProblemOccurrenceOverviewPage />);
+    render(<AlertProvider> <ProblemOccurrenceOverviewPage/> </AlertProvider>);
     const overviewTab = screen.getByText('Overview');
     const leaderboardTab = screen.getByText('Leaderboard');
     const submissionTab = screen.getByText('Submission');
@@ -108,6 +114,6 @@ it('throws an error when problem data is null', () => {
     useLoaderData.mockReturnValue(null);
 
     // Check if error is thrown
-    expect(() => render(<ProblemOccurrenceOverviewPage />)).toThrow('Problem with fetching the requested data from db');
+    expect(() => render(<AlertProvider> <ProblemOccurrenceOverviewPage/> </AlertProvider>)).toThrow('Problem with fetching the requested data from db');
 });
 });

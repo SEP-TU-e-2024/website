@@ -4,13 +4,20 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import api from "../../api";
-import { mockNoProblemData, mockProblemData, mockMultiProblemData } from "../testing_utils/TestingUtils";
+import { mockMemberContextData, mockNoProblemData, mockProblemData, mockMultiProblemData } from "../testing_utils/TestingUtils";
+import { AlertProvider } from "../../context/AlertContext";
+import AuthContext from "../../context/AuthContext";
 
 function renderWithRouter() {
     render(
-        // Wrapped in BrowserRouter to allow for navigation
+        // Wrapped in BrowserRouter for navigation
         <BrowserRouter>
-            <HomePage/>
+            <AlertProvider>
+                {/* Mocks the user data */}
+                <AuthContext.Provider value={mockMemberContextData}>
+                    <HomePage/>
+                </AuthContext.Provider>
+            </AlertProvider>
         </BrowserRouter>
     );
 }
