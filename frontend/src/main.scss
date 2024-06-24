@@ -30,8 +30,17 @@ $black:    #000;
 
 
 //theming
-$primary:       #002c67;
-$secondary:     #f67d2a;
+// $primary:       #002c67;
+// $secondary:     #f67d2a;
+
+/* Non ORTEC styling */
+// $primary:       #126e16;
+$primary:       #6d0d85;
+// $secondary:       #59b1ec;
+// $secondary:       #2d5bda;
+// $secondary:       #f4c427;
+$secondary:       #3bab25;
+
 $highlight:       rgba($primary, .075);
 // $bg-gray:       $gray-300;
 $success:       $green !default;
