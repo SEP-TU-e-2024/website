@@ -3,6 +3,7 @@ import './HomePage.scss';
 import { useNavigate } from 'react-router-dom';
 import api from '../../api';
 import { useState, useEffect } from 'react';
+import { useAlert } from '../../context/AlertContext';
 
 /**
  * React component to render a table of problem occurences
@@ -58,17 +59,17 @@ function ProblemOccurenceOverview({rows}) {
  * Fetches problem occurrences from the backend
  * @returns data, array
  */
-async function getRows() {
+async function getRows(showAlert) {
     try {
         const response = await api.post('/problems/occurrence_overview', {});
         return response.data
     } catch(error) {
         if (error.response.status == 401) {
-            alert("Unauthorized to access this content");
+            showAlert("Unauthorized to access this content", "error");
         } else if (error.response.status == 404) {
-            alert("No problems found");
+            showAlert("No problems found", "error");
         } else {
-            alert("Something went wrong");
+            showAlert("Something went wrong", "error");
         }
     }
 }
@@ -79,14 +80,15 @@ async function getRows() {
  */
 function HomePage() {
     const [rows, setRows] = useState([]);
+    let {showAlert} = useAlert();
 
     useEffect(() => {
         const fetchRows = async () => {
         try {
-            const data = await getRows();
+            const data = await getRows(showAlert);
             setRows(data);
         } catch(error) {
-            alert("Something went wrong")
+            showAlert("Something went wrong", "error")
             console.error(error)
         }}
 
