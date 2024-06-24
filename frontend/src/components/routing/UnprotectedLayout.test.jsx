@@ -1,8 +1,8 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { beforeEach, describe, expect, vi } from "vitest";
+import { render, screen } from "@testing-library/react";
+import { describe, expect, vi } from "vitest";
 import UnprotectedLayout from "./UnprotectedLayout";
 import AuthContext from "../../context/AuthContext";
-import { BrowserRouter, MemoryRouter, Routes, Route } from "react-router-dom";
+import { MemoryRouter, Routes, Route } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import { mockGuestContextData, mockMemberContextData } from "../testing_utils/TestingUtils";
 import { AlertProvider } from "../../context/AlertContext";

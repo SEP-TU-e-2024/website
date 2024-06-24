@@ -1,10 +1,8 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { beforeEach, describe, expect, vi } from "vitest";
 import ProtectedLayout from "./ProtectedLayout";
-import AuthContext from "../../context/AuthContext";
-import { BrowserRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
-import { mockGuestContextData, mockMemberContextData, renderWithRouter } from "../testing_utils/TestingUtils";
+import { mockMemberContextData, renderWithRouter } from "../testing_utils/TestingUtils";
 
 describe("Protected layout", () => {
     beforeEach(() => {

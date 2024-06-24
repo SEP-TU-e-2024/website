@@ -1,26 +1,10 @@
 import { afterEach, beforeEach, describe, expect, vi } from "vitest";
 import HomePage from "./HomePage";
-import { render, screen, waitFor } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import api from "../../api";
-import { mockMemberContextData, mockNoProblemData, mockProblemData, mockMultiProblemData } from "../testing_utils/TestingUtils";
-import { AlertProvider } from "../../context/AlertContext";
-import AuthContext from "../../context/AuthContext";
+import { mockNoProblemData, mockProblemData, mockMultiProblemData, renderWithRouter } from "../testing_utils/TestingUtils";
 
-function renderWithRouter() {
-    render(
-        // Wrapped in BrowserRouter for navigation
-        <BrowserRouter>
-            <AlertProvider>
-                {/* Mocks the user data */}
-                <AuthContext.Provider value={mockMemberContextData}>
-                    <HomePage/>
-                </AuthContext.Provider>
-            </AlertProvider>
-        </BrowserRouter>
-    );
-}
 describe("HomePage", () => {
     beforeEach(() => {
         // Reset window.location to the homepage to avoid leaking state
@@ -40,7 +24,7 @@ describe("HomePage", () => {
         const apiSpy = vi.spyOn(api, 'post').mockResolvedValue(mockNoProblemData);
 
         // Render the HomePage component wrapped in BrowserRouter
-        renderWithRouter();
+        renderWithRouter(true, HomePage);
 
         // Wait for the useEffect and fetchData to complete
         await waitFor(async () => {
@@ -57,7 +41,7 @@ describe("HomePage", () => {
         // Let it return one problem category
         const apiSpy = vi.spyOn(api, 'post').mockResolvedValue({data:mockProblemData});
 
-        renderWithRouter();
+        renderWithRouter(true, HomePage);
 
         // Wait for the entire page to render before testing its components
         // Necessary because of the data fetching going on
@@ -77,7 +61,7 @@ describe("HomePage", () => {
         // Let it return one problem category
         const apiSpy = vi.spyOn(api, 'post').mockResolvedValue({data:mockMultiProblemData});
 
-        renderWithRouter();
+        renderWithRouter(true, HomePage);
 
         // Wait for the entire page to render before testing its components
         // Necessary because of the data fetching going on
@@ -99,7 +83,7 @@ describe("HomePage", () => {
         // Let it return one problem category
         const apiSpy = vi.spyOn(api, 'post').mockResolvedValue({data:mockMultiProblemData});
 
-        renderWithRouter();
+        renderWithRouter(true, HomePage);
 
         // Wait for the entire page to render before testing its components
         // Necessary because of the data fetching going on

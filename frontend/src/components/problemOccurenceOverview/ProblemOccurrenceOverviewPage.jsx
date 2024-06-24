@@ -38,11 +38,6 @@ function ProblemOccurrenceOverviewPage() {
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
   let { showAlert } = useAlert();
-
-  if (problemData == null) {
-    //somewhat janky error handling but there isn't really any other exception that is thrown somewhere
-    showAlert("Problem with fetching the requested data from db");
-  }
   
   useEffect(() => {
     
@@ -60,6 +55,12 @@ function ProblemOccurrenceOverviewPage() {
     }
     fetchLeaderboardData();
   }, []);
+
+  if (problemData == null) {
+    //somewhat janky error handling but there isn't really any other exception that is thrown somewhere
+    showAlert("Problem with fetching the requested data from db");
+    return <div>No data found</div>
+  }
   
   //Handle the tab switch by setting the currentTab state to the id of the tab that is clicked
   function handleTabSwitch(e) {

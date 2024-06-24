@@ -1,40 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import Submit from "./Submit";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import AuthContext from "../../context/AuthContext";
-import { AlertProvider } from "../../context/AlertContext";
-import api from "../../api";
-import { mockGuestContextData, mockMemberContextData } from "../testing_utils/TestingUtils";
-
-function renderWithRouter(loggedIn) {
-    if (loggedIn) {
-        render(
-            // Wrapped in BrowserRouter for navigation
-            <BrowserRouter>
-                <AlertProvider>
-                    {/* Mocks the user data */}
-                    <AuthContext.Provider value={mockMemberContextData}>
-                        <Submit/>
-                    </AuthContext.Provider>
-                </AlertProvider>
-            </BrowserRouter>
-        );
-    } else {
-        render(
-            // Wrapped in BrowserRouter to do navigation
-            <BrowserRouter>
-                <AlertProvider>
-                {/* Mock the user data */}
-                    <AuthContext.Provider value={mockGuestContextData}>
-                        <Submit/>
-                    </AuthContext.Provider>
-                </AlertProvider>
-            </BrowserRouter>
-        );
-    }    
-}
+import { renderWithRouter } from "../testing_utils/TestingUtils";
 
 describe("Submit form", () => {
     beforeEach(() => {
@@ -48,7 +16,7 @@ describe("Submit form", () => {
     });
 
     it("should contain a submit button", () => {
-        renderWithRouter(false);
+        renderWithRouter(false, Submit);
 
         // Check whether submit button is in there
         const submitButton = screen.getByText("Submit solution");
@@ -56,7 +24,7 @@ describe("Submit form", () => {
     });
 
     it("should alert when no file is provided", async () => {
-        renderWithRouter(false);
+        renderWithRouter(false, Submit);
 
         // Mock the window.alert function such that we can check whether it's been called
         window.alert = vi.fn();
@@ -70,7 +38,7 @@ describe("Submit form", () => {
     });
 
     it("should select a provided document", async () => {
-        renderWithRouter(false);
+        renderWithRouter(false, Submit);
         
         const fileSelector = screen.getByLabelText('Select a File');
         // Create mock file
@@ -87,7 +55,7 @@ describe("Submit form", () => {
     });
 
     it("should enter a submission name", async () => {
-        renderWithRouter(false);
+        renderWithRouter(false, Submit);
         const input = screen.getByPlaceholderText("Submission Name");
         // Fill in testName as the name of the submission
         const testName = 'test';
@@ -100,7 +68,7 @@ describe("Submit form", () => {
     });
     
     it("guest should enter an email", async () => {
-        renderWithRouter(false);
+        renderWithRouter(false, Submit);
         const input = screen.getByPlaceholderText("Email");
         // Fill in testName as the email
         const testEmail = 'test@email.com';
@@ -113,7 +81,7 @@ describe("Submit form", () => {
     });
 
     it("member should not enter an email", async () => {
-        renderWithRouter(true);
+        renderWithRouter(true, Submit);
         const input = screen.queryByPlaceholderText("Email");
         await waitFor(async () => {
             // Check if the test name has been entered

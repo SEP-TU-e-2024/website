@@ -43,7 +43,7 @@ beforeEach(() => {
     },
     category: {
         name: "Sample Problem",
-        style: "0"
+        style: "1"
     }
     });
 });
@@ -65,7 +65,7 @@ it('renders the component with problem data', () => {
 });
 
 it('switches tabs correctly', () => {
-    render(<AlertProvider> <ProblemOccurrenceOverviewPage/> </AlertProvider>);
+    renderWithAlertProvider(ProblemOccurrenceOverviewPage);
     const overviewTab = screen.getByText('Overview');
     const leaderboardTab = screen.getByText('Leaderboard');
     const submissionTab = screen.getByText('Submission');
@@ -114,7 +114,7 @@ it('switches tabs correctly', () => {
 it('throws an error when problem data is null', () => {
     // Mock the useLoaderData function to return null
     useLoaderData.mockReturnValue(null);
-    renderWithAlertProvider();
+    renderWithAlertProvider(ProblemOccurrenceOverviewPage);
     // Check if error is thrown
     expect(() => {
         screen.getByText('Problem with fetching the requested data from db').toBeInTheDocument();
