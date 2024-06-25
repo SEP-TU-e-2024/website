@@ -24,9 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG") == "True"
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ["*"]
+allowed_hosts_var = os.environ.get("ALLOWED_HOSTS", "")
+allowed_hosts_list = []
+if allowed_hosts_var != "":
+    allowed_hosts_list = allowed_hosts_var.split(" ")
+ALLOWED_HOSTS = allowed_hosts_list
 
 # Application definition
 
@@ -41,10 +45,18 @@ INSTALLED_APPS = [
     "api.apps.ApiConfig",
     "rest_framework",
     "corsheaders",
+    "django_extensions",
 ]
 
-# TODO: CHANGE THIS IN PRODUCTION
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS settings
+CORS_ALLOWED_ORIGINS = [os.environ.get("FRONTEND_URL", "http://localhost:5173")]
+
+# CSRF settings
+csrf_trusted_origins_var = os.environ.get("CSRF_TRUSTED_ORIGINS", "")
+csrf_trusted_origins_list = []
+if csrf_trusted_origins_var != "":
+    csrf_trusted_origins_list = csrf_trusted_origins_var.split(" ")
+CSRF_TRUSTED_ORIGINS = csrf_trusted_origins_list
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -67,7 +79,7 @@ ROOT_URLCONF = "backend.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -185,4 +197,25 @@ SIMPLE_JWT = {
     "TOKEN_BLACKLIST_SERIALIZER": "rest_framework_simplejwt.serializers.TokenBlacklistSerializer",
     "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
+}
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+    },
+    "formatters": {
+        "verbose": {
+            "format": "{asctime}  [\033[93m{pathname}:{lineno:d}\033[0m]  {levelname}: {message}",
+            "style": "{",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+    },
 }

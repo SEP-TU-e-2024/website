@@ -1,5 +1,6 @@
 import React from "react"
 import { AuthProvider } from "../../context/AuthContext";
+import { AlertProvider } from "../../context/AlertContext";
 import { Outlet } from "react-router-dom";
 
 /**
@@ -7,9 +8,12 @@ import { Outlet } from "react-router-dom";
  */
 function AuthLayout() {
   return (
-    <AuthProvider>
-      <Outlet />
-    </AuthProvider>
+    <AlertProvider>
+      <AuthProvider>
+        <Outlet />
+      </AuthProvider>
+    </AlertProvider>
+    
   )
 };
 

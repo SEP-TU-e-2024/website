@@ -1,8 +1,7 @@
 {% autoescape off %}
-Hi {{ user.username }}
+Hi {{ user }}
 
 Please click on the link below to confirm you registration:
 
-<!--  Creates unique url including user id and encrypted token -->
-{{ protocol }}://{{ domain }}{% url 'activate' uidb64=uid token=token%}
+{{ protocol }}://{{ domain }}/verify/{{ uid }}/{{ token }}
 {% endautoescape %}

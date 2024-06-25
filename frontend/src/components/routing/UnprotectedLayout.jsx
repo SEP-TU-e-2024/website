@@ -3,6 +3,7 @@ import { useContext } from "react";
 import React from 'react';
 import AuthContext from "../../context/AuthContext";
 import MyNavbar from "../navbar/MyNavbar";
+import Footer from "../footer/Footer";
 import { Container } from "reactstrap";
 
 /**
@@ -12,9 +13,10 @@ const UnProtectedLayout = () => {
     return (
         <>
           <MyNavbar />
-          <Container>
+          <Container style={{ minHeight: '100vh' }}>
             <Outlet />
           </Container>
+          <Footer />
         </>
     )
   };

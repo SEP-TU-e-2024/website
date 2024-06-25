@@ -1,7 +1,8 @@
-import { createContext, useState, useEffect, Navigation} from 'react'
+import { createContext, useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import api from '../api';
+import { useAlert } from './AlertContext';
 
 const AuthContext = createContext();
 
@@ -16,6 +17,7 @@ export const AuthProvider = ({children}) => {
 
     // Navigation object for multipage navigation
     const navigate = useNavigate();
+    let {showAlert} = useAlert();
 
     // Variables for storing the persisent authentiction tokens on load
     let initialTokens = ()=> localStorage.getItem("authTokens") ? JSON.parse(localStorage.getItem("authTokens")) : null 
@@ -53,14 +55,14 @@ export const AuthProvider = ({children}) => {
 
         // Checks if email is filled in correctly
         if (e.target.email.value != e.target.confirm_email.value) {
-            alert("Emails not equal")
+            showAlert("Emails are not equal", "error")
             return
         }
 
         // Checks if password is filled in correctly
         if (e.target.password && e.target.confirm_password) {
             if (e.target.password.value != e.target.confirm_password.value) {
-                alert("Passwords not equal")
+                showAlert("Passwords not equal", "error")
                 return
             }
         }
@@ -77,19 +79,18 @@ export const AuthProvider = ({children}) => {
             
             // Receives submission status and notifies user adequately
             if (response.status === 201) {
-                alert("Email sent successfully, please check your email");
+                showAlert("Email sent successfully, please check your email", "success");
                 navigate('/login');
-            } else {
-                throw new Error('Failed to register user, unknown error');
             }
         } catch(error) {
-            // Handle errors
-            if (error.response.data.error) {
-                alert(error.response.data.error)
-                return
+            if (error.response.data.detail) {
+                showAlert(error.response.data.detail, "error");
+            } else if (error.response.status == 500) {
+                showAlert("Something went wrong on the server", "error");
+            } else {
+                showAlert("Something went wrong", "error");
             }
-            alert(error.message);
-            console.error('Singup error:', error.message);
+            console.error('Signup error');
         }
     }
 
@@ -104,7 +105,6 @@ export const AuthProvider = ({children}) => {
     let login_user = async (e)=> {
         // Prevents default form submission
         e.preventDefault()
-        
         try {
             // Submits user data to API
             let response = await api.post('/auth/token/', {
@@ -117,14 +117,16 @@ export const AuthProvider = ({children}) => {
             navigate('/home');
 
         } catch (error) {
-            // Handle errors
             if (error.response.data.detail) {
-                alert(error.response.data.detail)
-                console.error('Login error:', error.response.data.detail);
-                return
+                showAlert(error.response.data.detail, "error");
+            } else if (error.response.status == 404) {
+                showAlert("Account not found", "error");
+            } else if (error.response.status == 500) {
+                showAlert("Something went wrong, maybe you don't have a password.", "error");
+            } else {
+                showAlert("Something went wrong", "error");
             }
-            alert(error.message);
-            console.error('Login error:', error.message);
+            console.error('Login error');
         }
     }
 
@@ -146,17 +148,18 @@ export const AuthProvider = ({children}) => {
                 email: e.target.email.value,
             });
 
-            alert("Email sent succesfully")
+            showAlert("Email sent succesfully", "success")
         } catch(error) {
             // Handle errors
-            if (error.response.status == 404) {
-                alert("Account with given email does not exists")
-            }
-            else {
-                alert("Failed to send email")
+            if (error.response.data.detail) {
+                showAlert(error.response.data.detail, "error");
+            } else if (error.response.status == 404) {
+                showAlert("Account with given email does not exists", "error")
+            } else if (error.response.status == 500) {
+                showAlert("Something went wrong on the server", "error")
             }
             
-            console.error('Login error:', error.message);
+            console.error('Login error');
         }
     }
 
@@ -206,6 +209,7 @@ export const AuthProvider = ({children}) => {
             }
         } catch (error) {
             // Handle errors
+            showAlert("Session expired", "error")
             logout_user();
             console.error('Update error:', error.message);
         }

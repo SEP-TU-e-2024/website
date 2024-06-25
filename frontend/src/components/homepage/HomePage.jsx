@@ -3,6 +3,7 @@ import './HomePage.scss';
 import { useNavigate } from 'react-router-dom';
 import api from '../../api';
 import { useState, useEffect } from 'react';
+import { useAlert } from '../../context/AlertContext';
 
 /**
  * React component to render a table of problem occurences
@@ -11,7 +12,9 @@ import { useState, useEffect } from 'react';
  */
 function ProblemOccurenceOverview({rows}) {
     const navigate = useNavigate();
-    
+    const styleMapping = {"0" : "Scientific", "1" : "Competition"}
+
+
     let handleRowClick = (id)=> {
         navigate("/problemoccurrence/" + id);
     }    
@@ -21,21 +24,13 @@ function ProblemOccurenceOverview({rows}) {
         return (<div>No data found</div>);
     }
  
-    // Assemble a list of all specified problems per problem category
-    const problemOccurences = rows.map((problem_cat) => (
-            problem_cat['specified_problems'].map((problem_occurence)  => (
-                <li >{problem_occurence['name']}</li>
-            ))
-        )
-    );
-
     return (
         <div className='problem_container'>
             {rows.map(row => (
                 // Hard coding to allow easier access to static values
-                <div className={`problem_card ${row["type"]}`} key={row.id}>
+                <div className={`problem_card ${styleMapping[row["type"]]}`} key={row.id}>
                     <div className='card_title'> 
-                        {row["type"]} 
+                        {styleMapping[row["type"]]} 
                     </div>
                     <div className='card_content'>
                         <h5>
@@ -45,56 +40,55 @@ function ProblemOccurenceOverview({rows}) {
                             {/* Adding all specified problems for this problem category */}
                            {row['specified_problems'].map(
                                 (problem) => (
-                                    <li onClick={() => handleRowClick(problem.id)} key={problem.id}>{problem['name']}</li>
+                                    <li onClick={() => handleRowClick(problem.id)} key={problem.id} role='button'>{problem['name']}</li>
                                 )
                             )
                             }
                         </ul>
                     </div> 
                     <div className='card_footer'>
-                        <p>1D 20H 40M</p>
+                        
                     </div>
                 </div>
             ))}
         </div>
     )
 }
+
 /**
- * Fetches problem occurences from the backend
+ * Fetches problem occurrences from the backend
  * @returns data, array
  */
-async function getRows() {
+async function getRows(showAlert) {
     try {
         const response = await api.post('/problems/occurrence_overview', {});
         return response.data
-    } catch(err) {
-        if (err.response.status == 401) {
-            throw new Error("Unauthorized to access this content");
-            //TODO maybe redirect here or something
-        } else if (err.response.status == 404) {
-            throw new Error("No problem instances found in the database");
+    } catch(error) {
+        if (error.response.status == 401) {
+            showAlert("Unauthorized to access this content", "error");
+        } else if (error.response.status == 404) {
+            showAlert("No problems found", "error");
         } else {
-            throw err;
+            showAlert("Something went wrong", "error");
         }
     }
 }
 
 /**
  * React component for rending the homepage
- * @returns Problem occurence table
+ * @returns Problem occurrence table
  */
 function HomePage() {
     const [rows, setRows] = useState([]);
+    let {showAlert} = useAlert();
 
     useEffect(() => {
         const fetchRows = async () => {
         try {
-            const data = await getRows();
-            console.log(data);
+            const data = await getRows(showAlert);
             setRows(data);
         } catch(error) {
-            // TODO, proper handling
-            alert(error.message)
+            showAlert("Something went wrong", "error")
             console.error(error)
         }}
 
@@ -105,11 +99,14 @@ function HomePage() {
         <div className='home_page'>  
             <div>
                 <p>
-                    Benchlab is a tool Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla non augue dolor. 
-                    Aliquam at egestas quam, non varius metus. Nam sed risus vel dui tincidunt pulvinar. Proin auctor 
-                    magna vitae erat consectetur, at malesuada augue sodales. Nam et rutrum ante. Mauris et commodo sem. 
-                    Donec dapibus hendrerit enim, sit amet cursus magna suscipit ornare. Vivamus venenatis dui sit amet dolor 
-                    eleifend, sit amet lacinia velit hendrerit.
+                BenchLab is a tool to benchmark algorithms and solutions for optimization problems. It shows a range of specified problems 
+                to view or submit to. Users can evaluate their algorithms by making code submissions to problem occurrences, or make solution 
+                submissions to a specific problem instance if they think they found a new Best Known Solution for that instance. 
+                BenchLab provides an environment for these evaluations to run in and display their results. Submissions are ranked on leaderboards
+                based on scoring metrics. That way, it facilitates easy and transparent benchmarking of algorithms and solutions. 
+                It is also possible to use the platform to host competitions, in which case certain data on a submission’s performance
+                is hidden but the leaderboard is still shown. New specified problems can be added to the platform by admins, providing info on the problem and
+                the code to evaluate submissions for this specified problem.
                 </p>
             </div>
             <div>

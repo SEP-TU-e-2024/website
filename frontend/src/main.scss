@@ -28,8 +28,6 @@ $gray-800: #343a40;
 $gray-900: #212529;
 $black:    #000;
 
-
-//theming
 $primary:       #002c67;
 $secondary:     #f67d2a;
 $highlight:       rgba($primary, .075);
@@ -121,13 +119,6 @@ $nav-underline-link-active-color:   var(--#{$prefix}emphasis-color);
 /* bootstrap import */
 // @import 'bootstrap/dist/css/bootstrap.min.css';
 @import "node_modules/bootstrap/scss/bootstrap";
-
-//format seconds to include an s after the number
-.seconds::after {
-  content: "s";
-}
-
-
 
 // /* Nav underline */
 // /* We override this class because the styling doesn't really fit with the ortec look and feel */
