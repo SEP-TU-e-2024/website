@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, vi } from "vitest";
-import { screen, waitFor } from "@testing-library/react";
+import { screen, waitFor, render } from "@testing-library/react";
 import { mockLeaderboardData, mockColumns, mockProblemDataLeaderboard, renderWithRouter } from "../testing_utils/TestingUtils";
 import InstanceLeaderBoard from "./InstanceLeaderBoard";
 import { LeaderboardRow, rankInstanceEntries } from "./InstanceLeaderBoard";
@@ -98,7 +98,7 @@ describe("Leaderboard", () => {
     });
 
     // Conditional render test
-    it("score of 4 on screen", async () => {
+    it("score of 4 not on screen", async () => {
         // Render the InstanceLeaderBoard component wrapped in BrowserRouter
         renderWithRouter(true, () => (
             <InstanceLeaderBoard 
@@ -118,11 +118,11 @@ describe("Leaderboard", () => {
     // Row test
     it("row test", async () => {
         // Render the LeaderboardRow component wrapped in BrowserRouter
-        renderWithRouter(true, () => (
+        render(
             <LeaderboardRow 
                 columns={mockColumns()}
                 entry={mockLeaderboardData[0]}
-            />)
+            />
         );
 
         // Wait for the useEffect and fetchData to complete
@@ -142,4 +142,13 @@ describe("Leaderboard", () => {
         expect(mockLeaderboardData[2].instance_entries[0].rank).toBe(3); // No score entry
     });
 
+    // Sorting test
+    it("Sorting test reverse order", async () => {
+        
+        mockProblemDataLeaderboard.scoring_metric["order"] = 0;
+        rankInstanceEntries(mockProblemDataLeaderboard, mockLeaderboardData, 1);
+        expect(mockLeaderboardData[0].instance_entries[1].rank).toBe(1); // Highest score
+        expect(mockLeaderboardData[1].instance_entries[1].rank).toBe(2); // Second highest score
+        expect(mockLeaderboardData[2].instance_entries[1].rank).toBe(0); // No score entry
+    });
 });

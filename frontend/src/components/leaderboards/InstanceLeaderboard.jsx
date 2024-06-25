@@ -74,31 +74,8 @@ function createColumns(problem, instance) {
       columns.push(new MetricColumn(metric, (entry) => { return entry.instance_entries[instance].results; }))
     }
   });
-
-  // columns.push(new LeaderboardColumn("Download Solution", 
-  //   (entry) => { return <div className="download-cell"><i role="button" onClick={handleDownloadSolutionsClick} className="bi-download" /></div> },
-  //   <div className="download-cell">Download Solutions</div>
-  // ));
-  // columns.push(new LeaderboardColumn("Download Scores", 
-  //   (entry) => { return <div className="download-cell"><i role="button" onClick={handleDownloadScoresClick} className="bi-download" /></div> },
-  //   <div className="download-cell">Download Scores</div>
-  // ));
-
+  
   return columns;
-}
-
-// Download solutions handler
-function handleDownloadSolutionsClick(e) {
-  e.stopPropagation();
-  // TODO: Change to showAlert
-  alert("download solutions");
-}
-
-// Download scores handler
-function handleDownloadScoresClick(e) {
-  e.stopPropagation();
-  // TODO: Change to showAlert
-  alert("download scores");
 }
 
 /**
