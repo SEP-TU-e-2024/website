@@ -192,7 +192,7 @@ export const mockLeaderboardData = [
           },
           rank: 2,
           results: {
-            score: 4,
+            score: 14,
             score2: 6
           }
         },
@@ -202,7 +202,7 @@ export const mockLeaderboardData = [
             id: "83a8977e-760a-4d44-9a67-e07ca4d4c155"
           },
           results: {
-            score: 3,
+            score: 13,
             score2: 2
           }
         }

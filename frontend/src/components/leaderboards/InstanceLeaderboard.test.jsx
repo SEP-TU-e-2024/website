@@ -80,7 +80,7 @@ describe("Leaderboard", () => {
     });
 
     // Conditional render test
-    it("score of 4 on screen", async () => {
+    it("Leaderboard shows result for instance 0", async () => {
         // Render the InstanceLeaderBoard component wrapped in BrowserRouter
         renderWithRouter(true, () => (
             <InstanceLeaderBoard 
@@ -93,12 +93,13 @@ describe("Leaderboard", () => {
         // Wait for the useEffect and fetchData to complete
         await waitFor(async () => {
             // Check whether the correct text is displayed
-            expect(screen.getByText('4')).toBeInTheDocument();
+            expect(screen.getByText('14')).toBeInTheDocument();
+            expect(screen.queryByText('13')).not.toBeInTheDocument();
         });
     });
 
     // Conditional render test
-    it("score of 4 not on screen", async () => {
+    it("Leaderboard shows result for instance 1", async () => {
         // Render the InstanceLeaderBoard component wrapped in BrowserRouter
         renderWithRouter(true, () => (
             <InstanceLeaderBoard 
@@ -111,7 +112,8 @@ describe("Leaderboard", () => {
         // Wait for the useEffect and fetchData to complete
         await waitFor(async () => {
             // Check whether the correct text is displayed
-            expect(screen.queryByText('4')).not.toBeInTheDocument();
+            expect(screen.getByText('13')).toBeInTheDocument();
+            expect(screen.queryByText('14')).not.toBeInTheDocument();
         });
     });
 

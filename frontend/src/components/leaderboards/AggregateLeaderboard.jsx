@@ -154,7 +154,6 @@ export async function handleDownloadClick(event, storage_location, showAlert) {
 export function downloadBlob(response) {
   // Create blob
   const fileBlob = new Blob([response.data], { type: response.headers['content-type'] });
-  console.log(response)
   const blobUrl = URL.createObjectURL(fileBlob);
   let filename = 'submission.zip';
 

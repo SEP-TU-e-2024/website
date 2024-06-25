@@ -20,7 +20,7 @@ describe("Leaderboard", () => {
     });
 
     it("should display 'Error: no column names found' if no data is given", async () => {
-        // Render the InstanceLeaderBoard component wrapped in BrowserRouter
+        // Render the AggregateLeaderBoard component wrapped in BrowserRouter
         renderWithRouter(true, () => (
             <AggregateLeaderboard 
                 problemData={[]}
@@ -36,7 +36,7 @@ describe("Leaderboard", () => {
     });
 
     it("should display 'No entries found' if no data is given", async () => {
-        // Render the InstanceLeaderBoard component wrapped in BrowserRouter
+        // Render the AggregateLeaderBoard component wrapped in BrowserRouter
         renderWithRouter(true, () => (
             <AggregateLeaderboard 
                 problemData={mockProblemDataLeaderboard}
@@ -53,7 +53,7 @@ describe("Leaderboard", () => {
 
     // Simple good case
     it("should display mock entries and columns", async () => {
-        // Render the InstanceLeaderBoard component wrapped in BrowserRouter
+        // Render the AggregateLeaderBoard component wrapped in BrowserRouter
         renderWithRouter(true, () => (
             <AggregateLeaderboard 
                 problemData={mockProblemDataLeaderboard}
@@ -81,7 +81,7 @@ describe("Leaderboard", () => {
     // Leaderboard Row test
     it("leaderboard row test with unfold", async () => {
 
-        // Render the InstanceRow component wrapped in BrowserRouter
+        // Render the LeaderboardRow component wrapped in BrowserRouter
         renderWithRouter(true, () => (
             <LeaderboardRow 
                 columns={mockColumns()}
@@ -102,10 +102,12 @@ describe("Leaderboard", () => {
             
             const row = johndoe.closest("tr")
             expect(row).not.toBeNull();
-            await userEvent.click(row);
 
-            expect(screen.getByText('The score')).toBeInTheDocument();
-            expect(screen.getByText('The score part 2')).toBeInTheDocument();
+            const hiddenRow = screen.getByText("The score").closest("td").closest("tr")
+            expect(hiddenRow).toHaveClass('fold-closed');
+
+            await userEvent.click(row);
+            expect(hiddenRow).toHaveClass('fold-open');
         });
     });
 
@@ -114,7 +116,7 @@ describe("Leaderboard", () => {
 
         mockProblemDataLeaderboard.category.style = 0;
 
-        // Render the InstanceRow component wrapped in BrowserRouter
+        // Render the LeaderboardRow component wrapped in BrowserRouter
         renderWithRouter(true, () => (
             <LeaderboardRow 
                 columns={mockColumns()}
@@ -203,104 +205,88 @@ describe("Leaderboard", () => {
         });
     });
 
-    describe('Download Handler Error 401 test', () => {
-        it('should not trigger download handler', async () => {
-            const apiSpy = vi.spyOn(api, 'get').mockRejectedValue({
+    describe('Download Handler Error test suite', () => {
+        const renderLeaderboard = () => renderWithRouter(true, () => (
+            <AggregateLeaderboard 
+                problemData={mockProblemDataLeaderboard}
+                leaderboardData={mockLeaderboardData}
+            />
+        ));
+        
+        const apiSpy = (statusCode) => {
+            const spy = vi.spyOn(api, 'get').mockRejectedValue({
                 response: {
-                    status: 401,
+                    status: statusCode,
                 }
             });
-
-            renderWithRouter(true, () => (
-                <AggregateLeaderboard 
-                    problemData={mockProblemDataLeaderboard}
-                    leaderboardData={mockLeaderboardData}
-                />)
-            );
+            return spy
+        }        
+        
+        it('Error 401', async () => {
+            // Render component
+            renderLeaderboard()
 
             await waitFor(async () => {
-                // Check whether our mock function has been used instead of the regular one
-                
-                let buttons = screen.getAllByRole('button')
+                const spy = apiSpy(401)
 
+                // Find download button and click
+                let buttons = screen.getAllByRole('button')
                 await userEvent.click(buttons[0]);
-                expect(apiSpy).toBeCalled();
+
+                // Check for error message
+                expect(spy).toBeCalled();
                 expect(screen.getByText("Unauthorized to access this content")).toBeInTheDocument();
             });
         });
-    });
-
-    describe('Download Handler Error 403 test', () => {
-        it('should not trigger download handler', async () => {
-            const apiSpy = vi.spyOn(api, 'get').mockRejectedValue({
-                response: {
-                    status: 403,
-                }
-            });
-
-            renderWithRouter(true, () => (
-                <AggregateLeaderboard 
-                    problemData={mockProblemDataLeaderboard}
-                    leaderboardData={mockLeaderboardData}
-                />)
-            );
+    
+        it('Error 403', async () => {
+            // Render component
+            renderLeaderboard()
 
             await waitFor(async () => {
-                // Check whether our mock function has been used instead of the regular one
-                
+                const spy = apiSpy(403)
+
+                // Find download button and click
                 let buttons = screen.getAllByRole('button')
                 await userEvent.click(buttons[0]);
-                expect(apiSpy).toBeCalled();
+
+                // Check for error message
+                expect(spy).toBeCalled();
                 expect(screen.getByText("File not downloadable")).toBeInTheDocument();
             });
         });
-    });
 
-    describe('Download Handler Error 404 test', () => {
-        it('should not trigger download handler', async () => {
-            const apiSpy = vi.spyOn(api, 'get').mockRejectedValue({
-                response: {
-                    status: 404,
-                }
-            });
-
-            renderWithRouter(true, () => (
-                <AggregateLeaderboard 
-                    problemData={mockProblemDataLeaderboard}
-                    leaderboardData={mockLeaderboardData}
-                />)
-            );
+        it('Error 404', async () => {
+            // Render component
+            renderLeaderboard()
 
             await waitFor(async () => {
-                // Check whether our mock function has been used instead of the regular one
+                const spy = apiSpy(404)
+
+                // Find download button and click
                 let buttons = screen.getAllByRole('button')
                 await userEvent.click(buttons[0]);
-                expect(apiSpy).toBeCalled();
+
+                // Check for error message
+                expect(spy).toBeCalled();
                 expect(screen.getByText("File not found")).toBeInTheDocument();
             });
         });
-    });
 
-    describe('Download Handler Error 500 test', () => {
-        it('should not trigger download handler', async () => {
-            const apiSpy = vi.spyOn(api, 'get').mockRejectedValue({
-                response: {
-                    status: 500,
-                }
-            });
-
-            renderWithRouter(true, () => (
-                <AggregateLeaderboard 
-                    problemData={mockProblemDataLeaderboard}
-                    leaderboardData={mockLeaderboardData}
-                />)
-            );
+        it('Error 500', async () => {
+            // Render component
+            renderLeaderboard()
 
             await waitFor(async () => {
-                // Check whether our mock function has been used instead of the regular one
+                const spy = apiSpy(500)
+                
+                // Find download button and click
                 let buttons = screen.getAllByRole('button')
                 await userEvent.click(buttons[0]);
-                expect(apiSpy).toBeCalled();
+                await userEvent.click(buttons[0]);
+
+                // Check for error message
+                expect(spy).toBeCalled();
                 expect(screen.getByText("Something went wrong on the server")).toBeInTheDocument();
             });
         });
