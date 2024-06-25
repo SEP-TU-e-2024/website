@@ -32,7 +32,7 @@ function AggregateLeaderboard({problemData, leaderboardData, rowLimit, showPagin
  * @param {UUID} parentPrefix prefix for dyamic keys
  * @returns 
  */
-function LeaderboardRow({columns, entry, problemData, parentPrefix}) {
+export function LeaderboardRow({columns, entry, problemData, parentPrefix}) {
   // Prefix strings for the id's of submission entries and collapsables
   const PROBLEM_INSTANCES_ID_PREFIX = "problem-instances-" + parentPrefix + "-";
   let {showAlert} = useAlert();
@@ -88,6 +88,10 @@ function LeaderboardRow({columns, entry, problemData, parentPrefix}) {
 function createColumns(problem, showAlert) {
   let columns = [];
 
+  if (problem.length === 0 || !problem) {
+    return columns;
+  }
+
   columns.push(new LeaderboardColumn("#", 
     (entry) => { return entry.rank == 0 ? '~' : entry.rank }));
 
@@ -118,21 +122,11 @@ function createColumns(problem, showAlert) {
     },
     <div className="download-cell">Download Solver</div>
   ));
-  // TODO: Pass showAlert as paramater if used
-  // columns.push(new LeaderboardColumn("Download Solutions", 
-  //   (entry) => { return <div className="download-cell"><i role="button" onClick={handleDownloadSolutionsClick} className="bi-download" /></div> },
-  //   <div className="download-cell">Download Solutions</div>
-  // ));
-  // TODO: Pass showAlert as paramater if used
-  // columns.push(new LeaderboardColumn("Download Scores", 
-  //   (entry) => { return <div className="download-cell"><i role="button" onClick={handleDownloadScoresClick} className="bi-download" /></div> },
-  //   <div className="download-cell">Download Scores</div>
-  // ));
-  
+
   return columns;
 }
 
-async function handleDownloadClick(event, storage_location, showAlert) {
+export async function handleDownloadClick(event, storage_location, showAlert) {
   event.stopPropagation()
   try {
     const response = await api.get('/download/storage_location/', {
@@ -157,9 +151,10 @@ async function handleDownloadClick(event, storage_location, showAlert) {
 }
 
 
-function downloadBlob(response) {
+export function downloadBlob(response) {
   // Create blob
   const fileBlob = new Blob([response.data], { type: response.headers['content-type'] });
+  console.log(response)
   const blobUrl = URL.createObjectURL(fileBlob);
   let filename = 'submission.zip';
 
@@ -175,20 +170,6 @@ function downloadBlob(response) {
   link.remove();
 }
 
-
-// Download solutions handler
-function handleDownloadSolutionsClick(e, showAlert) {
-  e.stopPropagation();
-  showAlert("download solutions");
-}
-
-// Download scores handler
-function handleDownloadScoresClick(e, showAlert) {
-  e.stopPropagation();
-  showAlert("download scores");
-}
-
-
 /**
  * Create the instance columns for a leaderboard entry
  * 
@@ -196,8 +177,12 @@ function handleDownloadScoresClick(e, showAlert) {
  * @param {JSON} submission to create instance columns for
  * @returns {List} instance columns that were created for the specified problem
  */
-function createInstanceColumns(problem, submission, showAlert) {
+export function createInstanceColumns(problem) {
   let columns = [];
+
+  if (Object.keys(problem).length === 0 || !problem) {
+    return columns;
+  }
 
   columns.push(new MetricColumn(problem.scoring_metric));
   
@@ -206,17 +191,6 @@ function createInstanceColumns(problem, submission, showAlert) {
       columns.push(new MetricColumn(metric));
     }
   });
-
-  // TODO: Cleanup if no longer used
-  // columns.push(new LeaderboardColumn("Download solution", 
-  //   (entry) => { return <div className="download-cell"><i onClick={(event) => handleVisualizePi(event, showAlert)} role="button" className="bi-download"/></div> }, 
-  //   <div className="download-cell">Download<br/>Solution</div>
-  // ));
-  // columns.push(new LeaderboardColumn("Visualize", 
-  //   (entry) => { return <div className="download-cell"><i onClick={(event) => handleDownloadSingleSolution(event, showAlert)} role="button" className="bi-eye"/></div> },
-  //   <div className="download-cell">Visualize</div>
-  // ));
-  
   return columns;
 }
 
@@ -226,7 +200,7 @@ function createInstanceColumns(problem, submission, showAlert) {
  * @param {JSON} entry a single entry in the leaderboard
  * @returns 
  */
-function InstanceRow({columns, entry}) {
+export function InstanceRow({columns, entry}) {
   return (
     <tr className="view">{
       // Add column data for each instance column
@@ -236,18 +210,4 @@ function InstanceRow({columns, entry}) {
     }</tr>
   )
 };
-
-
-// Create download specific solution click handler
-function handleDownloadSingleSolution(event, showAlert) {
-  event.stopPropagation();
-  showAlert("download single solution");
-}
-
-// Create visualize problem instance click handler
-function handleVisualizePi(event, showAlert) {
-  event.stopPropagation();
-  showAlert("visualize");
-}
-
 export default AggregateLeaderboard;
