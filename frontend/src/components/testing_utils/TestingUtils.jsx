@@ -360,31 +360,17 @@ export const mockBlobResponse = {
 }
 
 export function renderWithRouter(loggedIn, ComponentToRender) {
-    if (loggedIn) {
-        return render(
-            // Wrapped in BrowserRouter to allow for navigation
-            <BrowserRouter>
-                {/* Mock the user data */}
-                <AuthContext.Provider value={mockMemberContextData}>
-                    <AlertProvider>
-                        <ComponentToRender/>
-                    </AlertProvider>
-                </AuthContext.Provider>
-            </BrowserRouter>
-        );
-    } else {
-        return render(
-            // Wrapped in BrowserRouter to allow for navigation
-            <BrowserRouter>
-                {/* Mock the user data */}
-                <AuthContext.Provider value={mockGuestContextData}>
-                    <AlertProvider>
-                        <ComponentToRender/>
-                    </AlertProvider>
-                </AuthContext.Provider>
-            </BrowserRouter>
-        );
-    }    
+    return render(
+        // Wrapped in BrowserRouter to allow for navigation
+        <BrowserRouter>
+            {/* Mock the user data */}
+            <AuthContext.Provider value={loggedIn ? mockMemberContextData : mockGuestContextData}>
+                <AlertProvider>
+                    <ComponentToRender/>
+                </AlertProvider>
+            </AuthContext.Provider>
+        </BrowserRouter>
+    );  
 }
 
 export function renderWithAlertProvider(ComponentToRender) {

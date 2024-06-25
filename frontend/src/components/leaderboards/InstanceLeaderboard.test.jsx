@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, vi } from "vitest";
 import { screen, waitFor, render } from "@testing-library/react";
 import { mockLeaderboardData, mockColumns, mockProblemDataLeaderboard, renderWithRouter } from "../testing_utils/TestingUtils";
-import InstanceLeaderBoard from "./InstanceLeaderBoard";
-import { LeaderboardRow, rankInstanceEntries } from "./InstanceLeaderBoard";
+import InstanceLeaderBoard from "./InstanceLeaderboard";
+import { LeaderboardRow, rankInstanceEntries } from "./InstanceLeaderboard";
 
 describe("Leaderboard", () => {
     beforeEach(() => {
