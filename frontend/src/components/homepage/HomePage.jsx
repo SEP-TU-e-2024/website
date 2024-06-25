@@ -62,6 +62,7 @@ function ProblemOccurenceOverview({rows}) {
 async function getRows(showAlert) {
     try {
         const response = await api.post('/problems/occurrence_overview', {});
+        console.log(response.data)
         return response.data
     } catch(error) {
         if (error.response.status == 401) {

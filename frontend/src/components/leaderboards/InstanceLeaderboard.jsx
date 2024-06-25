@@ -19,6 +19,7 @@ function InstanceLeaderboard({problemData, leaderboardData, instance}) {
   const columns = createColumns(problemData, instance);
   // Copy is to we only affect this leaderboard when ranking the instance entries.
   const instanceLeaderboardData = [...leaderboardData];
+
   rankInstanceEntries(problemData, instanceLeaderboardData, instance);
   return <Leaderboard problemData={problemData} columns={columns} leaderboardData={instanceLeaderboardData} LeaderboardRow={LeaderboardRow}/>
 }
@@ -29,7 +30,7 @@ function InstanceLeaderboard({problemData, leaderboardData, instance}) {
  * @param {JSON} entry a single entry in the leaderboard
  * @returns 
  */
-function LeaderboardRow({columns, entry}) {
+export function LeaderboardRow({columns, entry}) {
   return (
     <>
       <tr className="view">
@@ -50,6 +51,9 @@ function LeaderboardRow({columns, entry}) {
  */
 function createColumns(problem, instance) {
   let columns = [];
+  if (problem.length === 0) {
+    return columns;
+  }
 
   columns.push(new LeaderboardColumn("#", 
     (entry) => { return entry.instance_entries[instance].rank === 0 ? 
@@ -104,8 +108,12 @@ function handleDownloadScoresClick(e) {
  * @param {int} rowLimit the limit to the amount of displayed rows 
  * @param {bool} showPagination whether to show a pagination component (not implemented yet)
  */
-function rankInstanceEntries(problemData, leaderboardData, instance) {
+export function rankInstanceEntries(problemData, leaderboardData, instance) {
   const rankableInstanceEntries = [];
+
+  if (problemData.length === 0) {
+    return leaderboardData;
+  }
   
   for (let entry of leaderboardData) {
     let instanceEntry = entry.instance_entries[instance];
@@ -137,4 +145,4 @@ function rankInstanceEntries(problemData, leaderboardData, instance) {
   })
 }
 
-export default InstanceLeaderboard;
+export default InstanceLeaderboard; 
