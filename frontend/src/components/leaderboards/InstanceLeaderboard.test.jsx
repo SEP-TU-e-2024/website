@@ -135,19 +135,25 @@ describe("Leaderboard", () => {
         });
     });
 
-    // Sorting test
-    it("Sorting test", async () => {
-    
+    it("Sorting from high to low", async () => {
+
         rankInstanceEntries(mockProblemDataLeaderboard, mockLeaderboardData, 0);
         expect(mockLeaderboardData[0].instance_entries[0].rank).toBe(1); // Highest score
         expect(mockLeaderboardData[1].instance_entries[0].rank).toBe(2); // Second highest score
-        expect(mockLeaderboardData[2].instance_entries[0].rank).toBe(3); // No score entry
+        expect(mockLeaderboardData[2].instance_entries[0].rank).toBe(3); // Lowest score entry
     });
 
-    // Sorting test
-    it("Sorting test reverse order", async () => {
-        
+    it("Sorting from low to high", async () => {
+        const dataCopy = [...mockLeaderboardData]
         mockProblemDataLeaderboard.scoring_metric["order"] = 0;
+        rankInstanceEntries(mockProblemDataLeaderboard, mockLeaderboardData, 0);
+
+        expect(dataCopy[0].instance_entries[0].rank).toBe(3); // Highest score
+        expect(dataCopy[1].instance_entries[0].rank).toBe(2); // Second highest score
+        expect(dataCopy[2].instance_entries[0].rank).toBe(1); // Lowest entry
+    });
+
+    it("Sorting with misformatted data", async () => {
         rankInstanceEntries(mockProblemDataLeaderboard, mockLeaderboardData, 1);
         expect(mockLeaderboardData[0].instance_entries[1].rank).toBe(1); // Highest score
         expect(mockLeaderboardData[1].instance_entries[1].rank).toBe(2); // Second highest score

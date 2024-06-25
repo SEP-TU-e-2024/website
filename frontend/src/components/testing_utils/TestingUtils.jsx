@@ -237,7 +237,7 @@ export const mockLeaderboardData = [
             },
             rank: 2,
             results: {
-              score: 1,
+              score: 2,
               score2: 7
             }
           },
@@ -314,6 +314,7 @@ export const mockLeaderboardRow = ({columns, entry}) => {
     )
   };
 
+// TODO: Remove if we can not mock the resposne
 export const mockBlobResponse = {
   "data": {},
   "status": 200,

@@ -17,7 +17,7 @@ describe("Leaderboard", () => {
     });
 
     it("should display 'Error: no column names found' if no data is given", async () => {
-        // Render the HomePage component wrapped in BrowserRouter
+        // Render the Leaderboard component wrapped in BrowserRouter
         renderWithRouter(true, () => (
             <Leaderboard 
                 problemData={mockProblemData}
@@ -35,7 +35,7 @@ describe("Leaderboard", () => {
     });
 
     it("should display 'No entries found' if no data is given", async () => {
-        // Render the HomePage component wrapped in BrowserRouter
+        // Render the Leaderboard component wrapped in BrowserRouter
         renderWithRouter(true, () => (
             <Leaderboard 
                 problemData={mockProblemData}
@@ -53,7 +53,7 @@ describe("Leaderboard", () => {
     });
 
     it("should display mock entries and columns", async () => {
-        // Render the HomePage component wrapped in BrowserRouter
+        // Render the Leaderboard component wrapped in BrowserRouter
         renderWithRouter(true, () => (
             <Leaderboard 
                 problemData={mockProblemData}

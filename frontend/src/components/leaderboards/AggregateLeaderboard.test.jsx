@@ -198,6 +198,7 @@ describe("Leaderboard", () => {
     });
 
     // Might not be testable because of file download
+    // TODO: Remove if we can not mock the resposne
     describe('downloadBlob function', () => {
         it('should trigger download with correct blob URL', () => {
             // Call the function
@@ -279,7 +280,7 @@ describe("Leaderboard", () => {
 
             await waitFor(async () => {
                 const spy = apiSpy(500)
-                
+
                 // Find download button and click
                 let buttons = screen.getAllByRole('button')
                 await userEvent.click(buttons[0]);
