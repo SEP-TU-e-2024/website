@@ -1,6 +1,9 @@
 import React, {useState} from "react"
 import { Container, Row, Col } from "reactstrap";
 import InstanceLeaderboard from "../../leaderboards/InstanceLeaderboard";
+
+import "./ProblemOccurrenceProblemInstanceList.scss";
+
 /**
  * A component for listing the problem instances included in a problem occurence.
  */
@@ -21,16 +24,22 @@ function ProblemOccurrenceProblemInstanceList({problemData, leaderboardData}) {
               ))}
             </select>
             <InstanceLeaderboard instance={selectedInstance} leaderboardData={leaderboardData} problemData={problemData}/> */}
-            
-            <table>
-              <tbody>
-                {problemData.benchmark_instances.map((instance, index) => (
-                  
-                  // The console cries about this being a div in a table but just ignore that.
-                  <InstanceLeaderboardInstanceEntry instance={instance} instanceIndex={index} leaderboardData={leaderboardData} problemData={problemData}/>
-                ))}
-              </tbody>
-            </table>
+            <Container fluid className="justify-content-center">
+              <table id="problem-instance-table">
+                <thead>
+                  <tr>
+                    <th>Problem instance name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {problemData.benchmark_instances.map((instance, index) => (
+                    
+                    // The console cries about this being a div in a table but just ignore that.
+                    <InstanceLeaderboardInstanceEntry instance={instance} instanceIndex={index} leaderboardData={leaderboardData} problemData={problemData}/>
+                    ))}
+                </tbody>
+              </table>
+            </Container>
           </Col>
         </Row>
     </Container>
@@ -46,11 +55,13 @@ function InstanceLeaderboardInstanceEntry({instance, instanceIndex, leaderboardD
   
   return (
     <>
-      <tr onClick={handleLeaderboardToggle}>
-        <td>{"Instance name will come here " + instance.id}</td>
+      <tr className="instance-button" onClick={handleLeaderboardToggle} role="button">
+        <td>{"Instance name will come here"}</td>
       </tr>
-      <tr style={leaderboardOpen ? {display:"table-row"} : {display:"none"}}>
-        <InstanceLeaderboard instance={instanceIndex} leaderboardData={leaderboardData} problemData={problemData} />
+      <tr className="instance-container" style={leaderboardOpen ? {display:"table-row"} : {display:"none"}}>
+        <td>
+          <InstanceLeaderboard instance={instanceIndex} leaderboardData={leaderboardData} problemData={problemData} />
+        </td>
       </tr>
     </>
   )
