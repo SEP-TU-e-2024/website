@@ -92,6 +92,20 @@ describe("RegisterForm fields", () => {
         // Check if there's no field where the user should enter their password
         expect(screen.queryByText("Password")).not.toBeInTheDocument();
     });
+    
+    it("displays optional username field", () => {
+        renderWithRouter(false, RegisterForm);
+
+        // Find text fields
+        var textBoxes = screen.getAllByRole("textbox");
+        expect(textBoxes).toHaveLength(3);
+
+        // Check if there's a field where the user should enter their email
+        expect(screen.getByText("Username (Optional)")).toBeInTheDocument();
+        expect(textBoxes[0].name).toBe("username");
+        // Email field should be required
+        expect(textBoxes[0]).not.toBeRequired();
+    });
 
     it("displays password field when requested", async () => {
         renderWithRouter(false, RegisterForm);
@@ -136,6 +150,20 @@ describe("RegisterForm fields", () => {
         await waitFor(() => {
             // Check if the test email has been entered
             expect(textBox.value).toBe(testMail);
+        });
+    });
+    
+    it("can fill in username", async () => {
+        renderWithRouter(false, RegisterForm);
+        
+        var textBox = screen.getAllByRole("textbox")[0];
+        // Fill in Bob as test name
+        const testName = "Bob";
+        expect(textBox.value).not.toBe(testName);
+        userEvent.type(textBox, testName);
+        await waitFor(() => {
+            // Check if the test email has been entered
+            expect(textBox.value).toBe(testName);
         });
     });
 
