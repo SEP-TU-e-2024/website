@@ -74,10 +74,7 @@ export const mockProblemDataLeaderboard =
         description: "Hello, world!",
         example_submission_url: null,
         id: "3513eb23-7b59-4a70-b6d5-1ebf5e354db4",
-        name: "My Test Problem",
         simulator: null,
-        style: 1,
-        type: 0,
         validator: {
             container: "validators",
             filepath: "validator.zip",
@@ -90,7 +87,6 @@ export const mockProblemDataLeaderboard =
             memory: 256,
             time_limit: 60
         },
-        id: "83cb333e-e4c9-4f92-b002-9a8b33b039fd",
         metrics: [
             {
                 label: "The score",
