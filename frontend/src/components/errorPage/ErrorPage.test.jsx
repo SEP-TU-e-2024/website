@@ -14,7 +14,7 @@ vi.mock('react-router-dom', async () => {
     };
 });
 
-describe('About page', () => {    
+describe('Error page', () => {    
 
     it('succesfull render with status text', async () => {
         // Mocking of hook

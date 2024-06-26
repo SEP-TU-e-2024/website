@@ -21,6 +21,7 @@ async function getAccount(showAlert) {
             showAlert("Something went wrong on the server", "error")
         }
         console.error(error)
+        return null;
     }
 }
 
@@ -31,7 +32,6 @@ async function getAccount(showAlert) {
 async function getSubmissions(showAlert) {
     try {
         const response = await api.get('/submissions', {});
-        console.log(response.data)
         return response.data
     } catch(error) {
         if (error.response.status == 401) {
@@ -42,6 +42,7 @@ async function getSubmissions(showAlert) {
             showAlert("Something went wrong on the server", "error")
         }
         console.error(error)
+        return []
     }
 }
 
@@ -57,14 +58,11 @@ function AccountPage() {
 
     useEffect(() => {
         const fetchData = async () => {
-        try {
-            const account = await getAccount(showAlert);
-            const submissions = await getSubmissions(showAlert);
-            setAccount(account);
-            setSubmissions(submissions);
-        } catch(error) {
-            console.error(error)
-        }}
+            const accountData = await getAccount(showAlert);
+            const submissionData = await getSubmissions(showAlert);
+            setAccount(accountData);
+            setSubmissions(submissionData);
+        }
 
         fetchData();
     }, []);
@@ -98,8 +96,10 @@ function AccountPage() {
                 <div className='center'>
                     <table>
                         <thead>
-                            <th> Created at </th>
-                            <th> Submission name </th>
+                            <tr>
+                                <th> Created at </th>
+                                <th> Submission name </th>
+                            </tr> 
                         </thead>
                         {submissions.map(submission => (
                             <tr onClick={() => handleRowClick(submission.problem)} key={submission.id}>
