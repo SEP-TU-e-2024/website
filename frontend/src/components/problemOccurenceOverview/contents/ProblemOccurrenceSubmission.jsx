@@ -13,8 +13,7 @@ function ProblemOccurrenceSubmission({problemData}) {
           <Col className='text-center' xs="8">
             { 
               problemData.category.example_submission_url ? 
-              <p>{problemData.category.name} <a href={problemData.category.example_submission_url}>Example Submission</a></p>:
-              <></>  
+              <p>{problemData.category.name} <a href={problemData.category.example_submission_url}>Example Submission</a></p> : <></>  
             }
             <Submit/>
           </Col>
