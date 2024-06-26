@@ -34,6 +34,9 @@ class WebsiteProtocol(Protocol):
         self.receiver_thread.start()
 
     def set_close_listener(self, close_listener: Callable, close_listener_args: tuple = ()):
+        """
+        Sets the close listener, which is called when the protocol disconnects.
+        """
         if self.close_listener is not None:
             raise ValueError("Close listener is already set!")
 
