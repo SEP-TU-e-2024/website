@@ -27,9 +27,8 @@ function MyNavbar() {
     
     const toggle = () => setIsOpen(!isOpen); //toggle the isOpen state variable
     
-    //TODO update this to work with dynamic paths (ie /leaderboard/PROBLEM_NAME/1)
     const routeStrings = {
-        BESTKNOWNSOLUTIONS : '/bestknownsolutions',
+        // BESTKNOWNSOLUTIONS : '/bestknownsolutions',
         REGISTER: '/register',
         LOGIN: '/login',
         LOGOUT: '/logout',
@@ -50,11 +49,12 @@ function MyNavbar() {
             <NavbarToggler onClick={toggle} data-testid="toggler"/>
             <Collapse isOpen={isOpen} navbar data-testid="collapse">
                 <Nav navbar className="me-auto navbar-left">
-                    <NavItem className="route-button">
-                        <NavLink active={routeStrings.BESTKNOWNSOLUTIONS === location.pathname} href={routeStrings.DEVELOPMENT}> {/* TODO: change link to BESTKNOWNSOLUTIONS if that page is implemented */}
+                    {/* TODO for later: add a best known solutions page */}
+                    {/* <NavItem className="route-button">
+                        <NavLink active={routeStrings.BESTKNOWNSOLUTIONS === location.pathname} href={routeStrings.DEVELOPMENT}> {/* TODO: change link to BESTKNOWNSOLUTIONS if that page is implemented *}
                             Best Known Solutions
                         </NavLink>
-                    </NavItem>
+                    </NavItem> */}
                 </Nav>
                 <Nav navbar className="ms-auto navbar-right d-flex flex-row">
                     <NavItem className="information-button">
