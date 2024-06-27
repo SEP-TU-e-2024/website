@@ -18,12 +18,14 @@ async function getLeaderboardData(problemId, showAlert) {
     const response = await api.get(`/leaderboard/${problemId}`);
     return response.data;
   } catch (error) {
-    if (error.response.status == 401) {
-      showAlert("Unauthorized to access this content", "error");
-    } else if (error.response.status == 404) {
-      showAlert("Problem not found", "error")
-    } else if (error.response.status == 500) {
-      showAlert("Something went wrong on the server", "error")
+    if (error.response) {
+      if (error.response.status == 401) {
+        showAlert("Unauthorized to access this content", "error");
+      } else if (error.response.status == 404) {
+        showAlert("Problem not found", "error")
+      } else if (error.response.status == 500) {
+        showAlert("Something went wrong on the server", "error")
+      }
     }
     console.error(error);
   }
@@ -44,9 +46,10 @@ function ProblemOccurrenceOverviewPage() {
     const fetchLeaderboardData = async () => {
       try {
         const data = await getLeaderboardData(problemData.id, showAlert);
-        const entries = data.entries.concat(data.unranked_entries)        
+        const entries = data ? data.entries.concat(data.unranked_entries) : [];
         setEntries(entries);
       } catch (err) {
+        setEntries([]);
         console.error(err);
       } finally {
         setLoading(false);
