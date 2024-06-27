@@ -5,7 +5,6 @@ import userEvent from "@testing-library/user-event";
 import { renderWithRouter, mockAccountData, mockAccountSubmissionData } from '../testing_utils/TestingUtils';
 import api from "../../api";
 
-
 describe('Account page', () => {    
 
     it('succesfull render', async () => {
@@ -30,11 +29,14 @@ describe('Account page', () => {
 
             expect(spy).toBeCalled();
 
+            // Check navigation to problem
             const td = screen.getByText("Example traveling salesman submission");
             expect(td).not.toBeNull();
             const row = td.closest("tr")
             expect(row).not.toBeNull();
+            expect(window.location.pathname).not.toContain("/problemoccurrence/343da3bd-d33d-4e6f-a0fc-2c5361918faf");
             await userEvent.click(row);
+            expect(window.location.pathname).toContain("/problemoccurrence/343da3bd-d33d-4e6f-a0fc-2c5361918faf");
         })
     });
 
@@ -52,7 +54,7 @@ describe('Account page', () => {
 
         await waitFor(async () => {
             // Check for expected sections
-            expect(screen.getByText("Unkown email")).toBeInTheDocument();
+            expect(screen.getByText("Unknown email")).toBeInTheDocument();
             expect(spy).toBeCalled();
         })
     });

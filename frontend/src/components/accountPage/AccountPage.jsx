@@ -80,7 +80,7 @@ function AccountPage() {
                     <div>
                         <h5>{account.name ? account.name : "Anonymous"}</h5>
                         <div className='account_details'>
-                            <p>{account.email ? account.email : "Unkown email"}</p>
+                            <p>{account.email ? account.email : "Unknown email"}</p>
                         </div> 
                     </div> 
                     : 
