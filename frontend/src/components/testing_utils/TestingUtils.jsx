@@ -63,21 +63,17 @@ export const mockProblemDataLeaderboard =
           }
         ],
         category: {
-            description: "THIS PROBLEM IS NOT FUNCTIONAL YET!!!! \n The Time Slotting Problem entails optimizing the allocation of entities into predefined time slots, considering constraints and objectives such as maximizing resource utilization or satisfaction metrics. Commonly encountered in scheduling scenarios, the Time Slotting Problem aims to efficiently arrange tasks or events to minimize conflicts and satisfy objectives within a given time frame.",
-            example_submission_url: null,
+            description: "Hello, world!",
+            example_submission_url: "www.google.com",
             id: "2587bee1-8210-4d2e-a2ff-08a82fce5fc3",
             name: "Time Slotting Problem",
             simulator: null,
             style: 1,
             type: 1
         },
-        description: "Hello, world!",
         example_submission_url: null,
         id: "3513eb23-7b59-4a70-b6d5-1ebf5e354db4",
-        name: "My Test Problem",
         simulator: null,
-        style: 1,
-        type: 0,
         validator: {
             container: "validators",
             filepath: "validator.zip",
@@ -90,7 +86,6 @@ export const mockProblemDataLeaderboard =
             memory: 256,
             time_limit: 60
         },
-        id: "83cb333e-e4c9-4f92-b002-9a8b33b039fd",
         metrics: [
             {
                 label: "The score",
@@ -358,6 +353,38 @@ export const mockBlobResponse = {
   },
   "request": {}
 }
+
+export const mockAccountData = {
+  email: "admin@email.com",
+  id: "9a2636e0-984f-4e79-bc9e-13a628f3cf7b",
+  name: "Admin"
+}
+
+export const mockAccountSubmissionData = [
+  {
+    container: null,
+    created_at: "2024-06-10T13:06:03.824000Z",
+    filepath: "2f3d5222-d0e4-486b-a892-eb6de952d11a.zip",
+    id: "6d28f80e-d531-4c51-90f8-b0a76b768f20",
+    is_downloadable: false,
+    is_verified: true,
+    name: "Example time slotting submission",
+    problem: "3e44afea-c625-4cb9-ad31-41ea0fbd0745",
+    user: "9a2636e0-984f-4e79-bc9e-13a628f3cf7b",
+  },
+  {
+    container: null,
+    created_at: "2024-06-10T12:44:20.847000Z",
+    filepath: "1ca57f0f-f0a9-41d6-b71a-729c04c7b6b6.zip",
+    id: "bca2f71a-74e2-413c-8050-e24836c43ab3",
+    is_downloadable: false,
+    is_verified: true,
+    name: "Example traveling salesman submission",
+    problem: "343da3bd-d33d-4e6f-a0fc-2c5361918faf",
+    user: "9a2636e0-984f-4e79-bc9e-13a628f3cf7b"
+  }
+]
+
 
 export function renderWithRouter(loggedIn, ComponentToRender) {
     return render(
