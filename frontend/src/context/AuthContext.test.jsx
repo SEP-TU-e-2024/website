@@ -5,7 +5,7 @@ import { describe, expect, vi } from 'vitest';
 import { AuthProvider } from './AuthContext';
 import AuthContext from './AuthContext'
 import api from '../api';
-import { mockProblemDataLeaderboard, mockLeaderboardData, renderWithRouter } from '../components/testing_utils/TestingUtils';
+import { renderWithRouter } from '../components/testing_utils/TestingUtils';
 
 const mockTokens = {
     refresh:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcxOTQ4MjUzNSwiaWF0IjoxNzE5NDc4OTM1LCJqdGkiOiJiM2VlNTlmZGI0YmM0Mjc3OTM2NzVhZmE5NjU3NmM2MyIsInVzZXJfaWQiOiI5YTI2MzZlMC05ODRmLTRlNzktYmM5ZS0xM2E2MjhmM2NmN2IifQ._F6MKVNtMyIMSbQMJOWRLL48zB2Xk811BwIG4oJcs8w",
@@ -19,7 +19,7 @@ const mockReponseTokens = {
 
 
 const TestingComponentRegister = ({event}) => {
-    const { user, set_tokens, login_user, logout_user, register_user, send_email_login } = useContext(AuthContext);
+    const { register_user} = useContext(AuthContext);
 
     register_user(event)
 
@@ -53,7 +53,7 @@ const TestingComponentSendLoginEmail = ({event}) => {
 };
 
 const TestingComponentUpdateToken = () => {
-    const { user, update_token, set_tokens } = useContext(AuthContext);
+    const { user, update_token } = useContext(AuthContext);
 
     update_token()
 
