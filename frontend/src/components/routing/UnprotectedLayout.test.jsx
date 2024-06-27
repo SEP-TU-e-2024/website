@@ -12,29 +12,11 @@ const LoginPage = () => <div>Login Page</div>;
 const RegisterPage = () => <div>Register Page</div>;
 
 function renderWithRouter(loggedIn, initialEntries) {
-    if (loggedIn) {
-        render(
-            <AlertProvider>
-                {/* Wrapped in Authcontext to mock user data. Logged in so mock member data */}
-                <AuthContext.Provider value={mockMemberContextData}>
-                    {/* Wrapped in MemoryRouter to allow for checking navigation. Initial entries were passed as a parameter*/}
-                    <MemoryRouter initialEntries={initialEntries}>
-                        <Routes>
-                            <Route element={<UnprotectedLayout />}>
-                                <Route path="/" element={<HomePage />} />
-                                <Route path="/login" element={<LoginPage />} />
-                                <Route path="/register" element={<RegisterPage />} />
-                            </Route>
-                        </Routes>
-                    </MemoryRouter>
-                </AuthContext.Provider>
-            </AlertProvider>
-        );
-    } else {
-        render(
-            // Wrapped in Authcontext to mock user data. Not logged in so use guest data
-            <AuthContext.Provider value={mockGuestContextData}>
-                {/* Wrapped in MemoryRouter to allow for checking navigation */}
+    render(
+        <AlertProvider>
+            {/* Wrapped in Authcontext to mock user data. Logged in so mock member data */}
+            <AuthContext.Provider value={loggedIn ? mockMemberContextData : mockGuestContextData}>
+                {/* Wrapped in MemoryRouter to allow for checking navigation. Initial entries were passed as a parameter*/}
                 <MemoryRouter initialEntries={initialEntries}>
                     <Routes>
                         <Route element={<UnprotectedLayout />}>
@@ -45,8 +27,8 @@ function renderWithRouter(loggedIn, initialEntries) {
                     </Routes>
                 </MemoryRouter>
             </AuthContext.Provider>
-        );
-    }    
+        </AlertProvider>
+    );
 }
 
 describe("Unprotected layout", () => {
