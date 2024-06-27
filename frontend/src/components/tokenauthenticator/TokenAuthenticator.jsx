@@ -44,7 +44,6 @@ function TokenAuthenticator() {
     }, [tokensSet])
 
     if (errorMessage) {
-        console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee")
         showAlert(errorMessage, "error");
         return <Navigate to="/login" />
     }
