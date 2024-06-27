@@ -1,8 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import AuthContext from '../../context/AuthContext';
-import { Navigate } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
 import { useAlert } from '../../context/AlertContext';
-
 
 /**
  * Component responsible for authenticating users using authentication tokens retrieved from URL parameters.
@@ -14,30 +13,10 @@ import { useAlert } from '../../context/AlertContext';
 function TokenAuthenticator() {
     let {set_tokens} = useContext(AuthContext)
     const [tokensSet, setTokensSet] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [searchParams] = useSearchParams();
     let { showAlert } = useAlert();
     
-    /**
-     * Retrieves the value of a URL parameter by its name.
-     * 
-     * This function parses the URL to extract the value of a specific parameter specified by its name.
-     * If the parameter is found in the URL, its decoded value is returned. If the parameter is not found,
-     * null is returned.
-     * 
-     * @param {string} name - The name of the parameter to retrieve.
-     * @param {string} [url=window.location.href] - The URL from which to retrieve the parameter. If not provided,
-     *                                                the current window's URL is used.
-     * @returns {string|null} - The value of the parameter specified by `name`, or `null` if the parameter is not found.
-     */
-    const getParameterByName = (name, url) => {
-        if (!url) url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
-
     /**
      * Handles the retrieval of authentication tokens from the URL parameters and sets them in the application state.
      * 
@@ -45,8 +24,9 @@ function TokenAuthenticator() {
      * application using the `setTokens` function from the `AuthContext`, and updates the `tokensSet` state to indicate that tokens are set.
      */
     useEffect(() => {
-        const refresh_token = getParameterByName('refresh_token', location.search);
-        const access_token = getParameterByName('access_token', location.search);
+        const refresh_token = searchParams.get('refresh_token');
+        const access_token = searchParams.get('access_token');
+        const error_message = searchParams.get('error');
 
         if (refresh_token && access_token) {
             const tokens = {
@@ -56,11 +36,16 @@ function TokenAuthenticator() {
             set_tokens(tokens);
             setTokensSet(true);
         }
+
+        if (error_message) {
+            setErrorMessage(error_message);
+        }
+
     }, [tokensSet])
 
-    const error_message = getParameterByName('error', location.search);
-    if (error_message) {
-        showAlert(error_message, "error");
+    if (errorMessage) {
+        console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee")
+        showAlert(errorMessage, "error");
         return <Navigate to="/login" />
     }
     return tokensSet ? <Navigate to="/home" /> : null;
