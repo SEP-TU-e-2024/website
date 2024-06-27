@@ -63,21 +63,17 @@ export const mockProblemDataLeaderboard =
           }
         ],
         category: {
-            description: "THIS PROBLEM IS NOT FUNCTIONAL YET!!!! \n The Time Slotting Problem entails optimizing the allocation of entities into predefined time slots, considering constraints and objectives such as maximizing resource utilization or satisfaction metrics. Commonly encountered in scheduling scenarios, the Time Slotting Problem aims to efficiently arrange tasks or events to minimize conflicts and satisfy objectives within a given time frame.",
-            example_submission_url: null,
+            description: "Hello, world!",
+            example_submission_url: "www.google.com",
             id: "2587bee1-8210-4d2e-a2ff-08a82fce5fc3",
             name: "Time Slotting Problem",
             simulator: null,
             style: 1,
             type: 1
         },
-        description: "Hello, world!",
         example_submission_url: null,
         id: "3513eb23-7b59-4a70-b6d5-1ebf5e354db4",
-        name: "My Test Problem",
         simulator: null,
-        style: 1,
-        type: 0,
         validator: {
             container: "validators",
             filepath: "validator.zip",
@@ -90,7 +86,6 @@ export const mockProblemDataLeaderboard =
             memory: 256,
             time_limit: 60
         },
-        id: "83cb333e-e4c9-4f92-b002-9a8b33b039fd",
         metrics: [
             {
                 label: "The score",
