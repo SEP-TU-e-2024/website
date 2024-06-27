@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { expect } from 'vitest';
+import { expect, vi } from 'vitest';
 import TokenAuthenticator from './TokenAuthenticator';
 import { renderWithRouter, mockMemberContextData } from '../testing_utils/TestingUtils';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
@@ -13,6 +13,15 @@ const mockTokens = {
     refresh:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcxOTQ4MjUzNSwiaWF0IjoxNzE5NDc4OTM1LCJqdGkiOiJiM2VlNTlmZGI0YmM0Mjc3OTM2NzVhZmE5NjU3NmM2MyIsInVzZXJfaWQiOiI5YTI2MzZlMC05ODRmLTRlNzktYmM5ZS0xM2E2MjhmM2NmN2IifQ._F6MKVNtMyIMSbQMJOWRLL48zB2Xk811BwIG4oJcs8w",
     access:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE5NDc5MjM1LCJpYXQiOjE3MTk0Nzg5MzUsImp0aSI6ImE2MTVmMWU5MzY0NjRmMTZiYjAyNmJiNjk1YmIyZDQzIiwidXNlcl9pZCI6IjlhMjYzNmUwLTk4NGYtNGU3OS1iYzllLTEzYTYyOGYzY2Y3YiJ9.7WvFx_znI0Rylu9y3DzPHBYTYrVpRUs7xevgFcx2Y70"
 }
+
+// Mock the react-router-dom module
+vi.mock('react-router-dom', async () => {
+    const actual = await vi.importActual('react-router-dom');
+    return {
+        ...actual,
+        Navigate: vi.fn()
+    };
+});
 
 describe('TokenAuthenticator', () => {
 
@@ -31,9 +40,12 @@ describe('TokenAuthenticator', () => {
             </AuthContext.Provider>
         )
 
+        const { Navigate } = await import('react-router-dom');
+
         await waitFor(() => {
             // Check for element on home page
-            expect(screen.getByText('No data found')).toBeInTheDocument();
+            expect(Navigate).toHaveBeenCalled();
+            expect(Navigate.mock.calls[0][0]).toMatchObject({ to: '/home' });
         });
     });
 
@@ -51,10 +63,14 @@ describe('TokenAuthenticator', () => {
                 </AlertProvider>
             </AuthContext.Provider>
         )
+ 
+        const { Navigate } = await import('react-router-dom');
 
-        await waitFor(async () => {
+        await waitFor(() => {
             // Check for element on home page
-            expect(window.location.pathname).toContain("/login");
+            expect(Navigate).toHaveBeenCalled();
+            expect(Navigate.mock.calls[0][0]).toMatchObject({ to: '/login' });
+            expect(screen.getByText("error")).toBeInTheDocument();
         });
     });
 });
