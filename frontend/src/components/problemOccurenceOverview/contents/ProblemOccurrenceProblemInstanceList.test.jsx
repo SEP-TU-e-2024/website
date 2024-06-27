@@ -5,7 +5,7 @@ import ProblemOccurrenceProblemInstanceList from './ProblemOccurrenceProblemInst
 import { mockProblemDataLeaderboard, mockLeaderboardData, renderWithRouter } from '../../testing_utils/TestingUtils';
 
 
-describe('Problem occurrence overview description', () => {    
+describe('Problem occurrence instance list', () => {    
 
     it('succesfull render', async () => {
         renderWithRouter(true, () => (

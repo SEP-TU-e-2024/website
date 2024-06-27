@@ -123,10 +123,14 @@ describe('ProblemOccurrenceOverviewPage', () => {
         mockProblemDataLeaderboard.category.style = 0;
 
         // Mock the useLoaderData function to return null
-        useLoaderData.mockReturnValue(null);
+        useLoaderData.mockReturnValue(mockProblemDataLeaderboard);
         renderWithAlertProvider(ProblemOccurrenceOverviewPage);
 
         // Check if text is shown
+        expect(screen.getByText('MyTestSpecProb')).toBeInTheDocument();
+        expect(screen.getByText('Overview')).toBeInTheDocument();
+        expect(screen.getByText('Leaderboard')).toBeInTheDocument();
+        expect(screen.getByText('Submission')).toBeInTheDocument();
         expect(screen.queryByText('Problem instances')).not.toBeInTheDocument();
     });
 
@@ -135,9 +139,8 @@ describe('ProblemOccurrenceOverviewPage', () => {
         useLoaderData.mockReturnValue(null);
         renderWithAlertProvider(ProblemOccurrenceOverviewPage);
         // Check if error is thrown
-        expect(() => {
-            screen.getByText('Problem with fetching the requested data from db').toBeInTheDocument();
-        })
+        expect(screen.getByText('Problem with fetching the requested data from db')).toBeInTheDocument();
+        
     });
 
     it('throws an error when problem data is null', () => {
@@ -145,9 +148,7 @@ describe('ProblemOccurrenceOverviewPage', () => {
         useLoaderData.mockReturnValue(null);
         renderWithAlertProvider(ProblemOccurrenceOverviewPage);
         // Check if error is thrown
-        expect(() => {
-            screen.getByText('Problem with fetching the requested data from db').toBeInTheDocument();
-        })
+        expect(screen.getByText('Problem with fetching the requested data from db')).toBeInTheDocument();
     });
 
     describe('Leaderboard data handler error test suite', () => {    

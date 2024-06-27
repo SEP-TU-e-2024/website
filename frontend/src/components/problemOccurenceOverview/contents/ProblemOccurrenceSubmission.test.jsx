@@ -5,19 +5,21 @@ import ProblemOccurrenceSubmission from './ProblemOccurrenceSubmission';
 import { mockProblemDataLeaderboard, mockLeaderboardData, renderWithRouter } from '../../testing_utils/TestingUtils';
 
 
-describe('Problem occurrence overview description', () => {    
+describe('Problem occurrence submission', () => {    
 
-    it('succesfull render with example', async () => {
+    it('submission form with example submission link', async () => {
         renderWithRouter(true, () => (
             <ProblemOccurrenceSubmission 
                 problemData={mockProblemDataLeaderboard}
             />
         ));
 
-        expect(screen.getByText("Example Submission")).toBeInTheDocument();
+        const submissionLink = screen.getByText("Example Submission");
+        expect(submissionLink).toBeInTheDocument();
+        expect(submissionLink).toHaveAttribute('href', 'www.google.com');
     });
 
-    it('succesfull render without example', async () => {
+    it('submission form without example submission link', async () => {
         mockProblemDataLeaderboard.category.example_submission_url = null;
 
         renderWithRouter(true, () => (
@@ -28,5 +30,4 @@ describe('Problem occurrence overview description', () => {
 
         expect(screen.queryByText("Example Submission")).not.toBeInTheDocument();
     });
-
 }); 
