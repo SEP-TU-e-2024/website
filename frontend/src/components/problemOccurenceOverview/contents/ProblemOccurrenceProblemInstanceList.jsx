@@ -32,8 +32,10 @@ function ProblemOccurrenceProblemInstanceList({problemData, leaderboardData}) {
                   </tr>
                 </thead>
                 <tbody>
-                  {problemData.benchmark_instances.map((instance, index) => (
-                    
+                  {problemData.benchmark_instances.length == 0 ? 
+                  <tr><td align="center" className="text-danger">No entries found</td></tr>
+                  :
+                  problemData.benchmark_instances.map((instance, index) => (
                     // The console cries about this being a div in a table but just ignore that.
                     <InstanceLeaderboardInstanceEntry instance={instance} instanceIndex={index} leaderboardData={leaderboardData} problemData={problemData}/>
                     ))}
@@ -56,7 +58,7 @@ function InstanceLeaderboardInstanceEntry({instance, instanceIndex, leaderboardD
   return (
     <>
       <tr className="instance-button" onClick={handleLeaderboardToggle} role="button">
-        <td>{"Instance name will come here"}</td>
+        <td>{instance.id}</td>
       </tr>
       <tr className="instance-container" style={leaderboardOpen ? {display:"table-row"} : {display:"none"}}>
         <td>
