@@ -1,65 +1,10 @@
 [
 {
-    "model": "api.userprofile",
-    "pk": "89162009-a8a0-4c7a-b054-ed898f24b955",
-    "fields": {
-        "last_login": "2024-06-10T12:41:23Z",
-        "email": "staff@email.com",
-        "name": "Staff",
-        "is_staff": true,
-        "is_superuser": false,
-        "is_active": true,
-        "password": "pbkdf2_sha256$720000$1fJmPJhCPBetMd5mI9eLZT$TFY5zdS90+HXzNN2GzFlG+8TZI0p7RAgeFhDDVnuS+k=",
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "api.userprofile",
-    "pk": "9a2636e0-984f-4e79-bc9e-13a628f3cf7b",
-    "fields": {
-        "last_login": "2024-06-28T10:18:08.273Z",
-        "email": "admin@email.com",
-        "name": "Admin",
-        "is_staff": true,
-        "is_superuser": true,
-        "is_active": true,
-        "password": "pbkdf2_sha256$720000$jO2XTesLUiYYlMxPSfv0Ux$sViB2nxtCywoCSeH3LeM+WzlmnKMFBAPfWFEU0KmBVI=",
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "api.userprofile",
-    "pk": "f04cac7e-4b10-4076-bcf8-93718af6efbe",
-    "fields": {
-        "last_login": "2024-06-10T12:39:09Z",
-        "email": "user@email.com",
-        "name": "User",
-        "is_staff": false,
-        "is_superuser": false,
-        "is_active": true,
-        "password": "pbkdf2_sha256$720000$lsuGWYGrvWy9vSTIqBCALr$7Z7c8Viy1vZoWAvmBpTkmrHM6EZ2ruY4/s4UH9PzJ9E=",
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
     "model": "api.evaluationsettings",
     "pk": "7a23b521-8869-4102-9eda-c9213e719895",
     "fields": {
         "cpu": 1,
         "time_limit": 60.0,
-        "memory": 256,
-        "machine_type": "Standard_B1s"
-    }
-},
-{
-    "model": "api.evaluationsettings",
-    "pk": "7f043808-a7da-4edc-b1f4-1797f8d40def",
-    "fields": {
-        "cpu": 4,
-        "time_limit": 300.0,
         "memory": 256,
         "machine_type": "Standard_B1s"
     }
@@ -96,7 +41,7 @@
     "pk": "2d7a8e94-0c3e-4c13-bf98-4296de50ae8a",
     "fields": {
         "container": "validators",
-        "filepath": "validator.zip",
+        "filepath": "addition_problem_validator.zip",
         "is_downloadable": false
     }
 },
@@ -132,7 +77,7 @@
     "pk": "6b017d2d-10f2-4fd4-be92-a2a40acd2551",
     "fields": {
         "container": "validators",
-        "filepath": "static_validator.zip",
+        "filepath": "vrp_static_validator.zip",
         "is_downloadable": false
     }
 },
@@ -240,7 +185,7 @@
     "pk": "ff4f01f7-824e-454e-8786-015a3419e210",
     "fields": {
         "container": "validators",
-        "filepath": "dyn_validators.zip",
+        "filepath": "vrp_dynamic_validator.zip",
         "is_downloadable": false
     }
 },
@@ -380,28 +325,10 @@
 },
 {
     "model": "api.metric",
-    "pk": "meeting_count",
+    "pk": "max_ram_mb",
     "fields": {
-        "label": "Number of meetings",
+        "label": "Max RAM Usage",
         "unit": "",
-        "order": 1
-    }
-},
-{
-    "model": "api.metric",
-    "pk": "path_length",
-    "fields": {
-        "label": "Path length",
-        "unit": "",
-        "order": 0
-    }
-},
-{
-    "model": "api.metric",
-    "pk": "run_time",
-    "fields": {
-        "label": "Run time",
-        "unit": "s",
         "order": 0
     }
 },
@@ -409,16 +336,43 @@
     "model": "api.metric",
     "pk": "score",
     "fields": {
-        "label": "The score",
+        "label": "Score",
         "unit": "",
         "order": 1
+    }
+},
+{
+    "model": "api.metric",
+    "pk": "system_time",
+    "fields": {
+        "label": "System Time",
+        "unit": "",
+        "order": 0
+    }
+},
+{
+    "model": "api.metric",
+    "pk": "user_time",
+    "fields": {
+        "label": "User Time",
+        "unit": "",
+        "order": 1
+    }
+},
+{
+    "model": "api.metric",
+    "pk": "wall_time",
+    "fields": {
+        "label": "Total Running Time",
+        "unit": "",
+        "order": 0
     }
 },
 {
     "model": "api.problemcategory",
     "pk": "3513eb23-7b59-4a70-b6d5-1ebf5e354db4",
     "fields": {
-        "name": "My Test Problem",
+        "name": "Addition Problem",
         "style": 0,
         "type": 0,
         "description": "This is a simple problem category used for testing of the platform. The problem being solved is the addition of 2 integer values",
@@ -457,7 +411,7 @@
     "model": "api.specifiedproblem",
     "pk": "83cb333e-e4c9-4f92-b002-9a8b33b039fd",
     "fields": {
-        "name": "Addition",
+        "name": "Addition Problem",
         "category": "3513eb23-7b59-4a70-b6d5-1ebf5e354db4",
         "evaluation_settings": "7a23b521-8869-4102-9eda-c9213e719895",
         "scoring_metric": "score",
@@ -466,7 +420,11 @@
             "83a8977e-760a-4d44-9a67-e07ca4d4c155"
         ],
         "metrics": [
-            "score"
+            "max_ram_mb",
+            "score",
+            "system_time",
+            "user_time",
+            "wall_time"
         ]
     }
 },
@@ -491,7 +449,11 @@
             "f5f8f189-c385-4199-87e1-d19c5168fb62"
         ],
         "metrics": [
-            "score"
+            "max_ram_mb",
+            "score",
+            "system_time",
+            "user_time",
+            "wall_time"
         ]
     }
 },
@@ -511,7 +473,11 @@
             "ee01c295-7f2a-498d-a436-1e09f26dff6f"
         ],
         "metrics": [
-            "score"
+            "max_ram_mb",
+            "score",
+            "system_time",
+            "user_time",
+            "wall_time"
         ]
     }
 }
