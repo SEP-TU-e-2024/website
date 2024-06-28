@@ -334,11 +334,20 @@
 },
 {
     "model": "api.metric",
-    "pk": "score",
+    "pk": "cost",
     "fields": {
-        "label": "Score",
+        "label": "Cost",
         "unit": "",
         "order": 0
+    }
+},
+{
+    "model": "api.metric",
+    "pk": "reward",
+    "fields": {
+        "label": "Reward",
+        "unit": "",
+        "order": 1
     }
 },
 {
@@ -414,14 +423,14 @@
         "name": "Addition Problem",
         "category": "3513eb23-7b59-4a70-b6d5-1ebf5e354db4",
         "evaluation_settings": "7a23b521-8869-4102-9eda-c9213e719895",
-        "scoring_metric": "score",
+        "scoring_metric": "reward",
         "benchmark_instances": [
             "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
             "83a8977e-760a-4d44-9a67-e07ca4d4c155"
         ],
         "metrics": [
             "max_ram_mb",
-            "score",
+            "reward",
             "system_time",
             "user_time",
             "wall_time"
@@ -435,7 +444,7 @@
         "name": "Vehicle Routing Problem",
         "category": "a8b4430a-cfc2-48d4-b149-e7a60672268e",
         "evaluation_settings": "7a23b521-8869-4102-9eda-c9213e719895",
-        "scoring_metric": "score",
+        "scoring_metric": "cost",
         "benchmark_instances": [
             "0c2982b8-f515-4bf3-aad4-f27e3e9f6ed9",
             "1007274e-ec1a-4834-8833-75d61a4e3b2c",
@@ -450,7 +459,7 @@
         ],
         "metrics": [
             "max_ram_mb",
-            "score",
+            "cost",
             "system_time",
             "user_time",
             "wall_time"
@@ -464,7 +473,7 @@
         "name": "Vehicle Routing Problem",
         "category": "7450f9fb-111f-47c2-89c8-dbc58d674ecb",
         "evaluation_settings": "7a23b521-8869-4102-9eda-c9213e719895",
-        "scoring_metric": "score",
+        "scoring_metric": "cost",
         "benchmark_instances": [
             "5ff4ecbf-ba67-4305-9998-bcf9f99949e3",
             "95707637-76ae-4823-a86f-b6631ef3d5a9",
@@ -474,7 +483,7 @@
         ],
         "metrics": [
             "max_ram_mb",
-            "score",
+            "cost",
             "system_time",
             "user_time",
             "wall_time"
