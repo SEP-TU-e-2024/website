@@ -16,12 +16,12 @@ describe('Problem occurrence instance list', () => {
         ));
 
         // TODO: Chance visibility requirement
-        expect(screen.getByText(mockProblemDataLeaderboard.benchmark_instances[0].id)).toBeVisible();
+        expect(screen.getByText(mockProblemDataLeaderboard.benchmark_instances[0].name)).toBeVisible();
         // expect(screen.queryByText(mockProblemDataLeaderboard.benchmark_instances[1].id)).not.toBeVisible();
 
         // Simulate changing the select value
         fireEvent.change(screen.getByRole('combobox'), { target: { value: '1' } });
-        expect(screen.getByText(mockProblemDataLeaderboard.benchmark_instances[1].id)).toBeVisible();
+        expect(screen.getByText(mockProblemDataLeaderboard.benchmark_instances[1].name)).toBeVisible();
         // expect(screen.queryByText(mockProblemDataLeaderboard.benchmark_instances[0].id)).not.toBeVisible();
     });
 

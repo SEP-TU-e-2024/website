@@ -54,10 +54,12 @@ export const mockProblemDataLeaderboard =
     {
         benchmark_instances: [
           {
+            name:"Instance 2",
             id: "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
             filepath: "instance2.txt"
           },
           {
+            name:"Instance 1",
             id: "83a8977e-760a-4d44-9a67-e07ca4d4c155",
             filepath: "instance1.txt"
           }
