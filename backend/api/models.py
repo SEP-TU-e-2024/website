@@ -78,8 +78,8 @@ class StorageLocation(models.Model):
     """Storage path reference to locate file(s)"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    container = models.CharField(max_length=256)
-    filepath = models.CharField(max_length=256)
+    container = models.CharField(max_length=256, default="")
+    filepath = models.CharField(max_length=256, default="")
     is_downloadable = models.BooleanField(default=False)
 
     def get_blob(self, blob_service_client:BlobServiceClient) -> BlobClient:
