@@ -83,7 +83,7 @@ export const AuthProvider = ({children}) => {
                 navigate('/login');
             }
         } catch(error) {
-            if (error.response.data.detail) {
+            if (error.response.data?.detail) {
                 showAlert(error.response.data.detail, "error");
             } else if (error.response.status == 500) {
                 showAlert("Something went wrong on the server", "error");
@@ -117,7 +117,7 @@ export const AuthProvider = ({children}) => {
             navigate('/home');
 
         } catch (error) {
-            if (error.response.data.detail) {
+            if (error.response.data?.detail) {
                 showAlert(error.response.data.detail, "error");
             } else if (error.response.status == 404) {
                 showAlert("Account not found", "error");
@@ -151,7 +151,7 @@ export const AuthProvider = ({children}) => {
             showAlert("Email sent succesfully", "success")
         } catch(error) {
             // Handle errors
-            if (error.response.data.detail) {
+            if (error.response.data?.detail) {
                 showAlert(error.response.data.detail, "error");
             } else if (error.response.status == 404) {
                 showAlert("Account with given email does not exists", "error")
@@ -189,7 +189,7 @@ export const AuthProvider = ({children}) => {
      */
     let update_token = async ()=> {
         if (authTokens == null) {
-            setLoading(false)
+            setLoading(false);
             return
         }
 
@@ -198,18 +198,18 @@ export const AuthProvider = ({children}) => {
             let response = await api.post('/auth/token/refresh/', {
                 refresh: authTokens.refresh
             });
-    
-            let tokens = authTokens
-            tokens.access = response.data.access
-            set_tokens(tokens)
+
+            let tokens = authTokens;
+            tokens.access = response.data.access;
+            set_tokens(tokens);
             
             // Sets loading to false to stop the calling of this function
             if (loading) {
-                setLoading(false)
+                setLoading(false);
             }
         } catch (error) {
             // Handle errors
-            showAlert("Session expired", "error")
+            showAlert("Session expired", "error");
             logout_user();
             console.error('Update error:', error.message);
         }
@@ -247,6 +247,7 @@ export const AuthProvider = ({children}) => {
         logout_user:logout_user,
         register_user:register_user,
         send_email_login:send_email_login,
+        update_token:update_token,
     }
 
     return(

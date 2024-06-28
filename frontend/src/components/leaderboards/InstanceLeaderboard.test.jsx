@@ -119,7 +119,7 @@ describe("Leaderboard", () => {
 
     // Row test
     it("row test", async () => {
-        // Render the LeaderboardRow component wrapped in BrowserRouter
+        // Render the LeaderboardRow component 
         render(
             <LeaderboardRow 
                 columns={mockColumns()}
