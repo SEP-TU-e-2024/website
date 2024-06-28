@@ -328,7 +328,7 @@
     "pk": "max_ram_mb",
     "fields": {
         "label": "Max RAM Usage",
-        "unit": "",
+        "unit": "MB",
         "order": 0
     }
 },
@@ -355,7 +355,7 @@
     "pk": "system_time",
     "fields": {
         "label": "System Time",
-        "unit": "",
+        "unit": "s",
         "order": 0
     }
 },
@@ -364,7 +364,7 @@
     "pk": "user_time",
     "fields": {
         "label": "User Time",
-        "unit": "",
+        "unit": "s",
         "order": 0
     }
 },
@@ -373,7 +373,7 @@
     "pk": "wall_time",
     "fields": {
         "label": "Total Running Time",
-        "unit": "",
+        "unit": "s",
         "order": 0
     }
 },

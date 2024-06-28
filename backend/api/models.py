@@ -125,6 +125,9 @@ class Metric(models.Model):
         SECONDS = 's', 'Seconds'
         MINUTES = 'min', 'Minutes'
         HOURS = 'h', 'Hours'
+        KILO_BYTES = 'KB', 'Kilobytes'
+        MEGA_BYTES = 'MB', 'Megabytes'
+        GIGA_BYTES = 'GB', 'Gigabytes'
 
     class Order(models.IntegerChoices):
         """Enum type to describe ranking order function of the metric"""
