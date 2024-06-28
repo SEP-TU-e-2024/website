@@ -66,7 +66,7 @@ function Submit() {
       formData.append('file', file);
       formData.append('name', e.target.submission_name.value);
       formData.append('problem', window.location.pathname.split('/').pop());
-      e.target.email ? formData.append('email', e.target.email.value) : undefined;
+      e.target.email ? formData.append('email', e.target.email.value) : formData.append('email', "useremailhere@mail.com");
       formData.append('is_downloadable', isDownloadable);
       
       let response = await api.post('/submit/submit/', formData);

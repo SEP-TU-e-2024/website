@@ -200,7 +200,7 @@ class SpecifiedProblem(models.Model):
 class Submission(StorageLocation):
     """Database model for submissions"""
 
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
     problem = models.ForeignKey(SpecifiedProblem, on_delete=models.CASCADE)
     name = models.CharField(max_length=256, unique=True, default='unnamed')
     created_at = models.DateTimeField(auto_now_add=True)
