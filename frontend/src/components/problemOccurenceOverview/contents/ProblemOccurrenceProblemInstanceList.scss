@@ -1,0 +1,35 @@
+@import '/src/main.scss';
+
+.instance-button {
+    outline: 1px solid $primary;
+}
+
+.instance-button:hover {
+    background-color: $highlight;
+}
+
+#problem-instance-table {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    border-collapse:separate; 
+    border-spacing: 0 0.8em;
+    color: $primary;
+}
+#problem-instance-table>thead>tr>th {
+    padding-left: 3em;
+    font-weight: bold;
+}
+.instance-button>td:first-child {
+    padding-left: 3em;
+}
+
+.instance-button * {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    font-weight:600;
+}
+
+.instance-container>td {
+    padding-left: 2em;
+}
