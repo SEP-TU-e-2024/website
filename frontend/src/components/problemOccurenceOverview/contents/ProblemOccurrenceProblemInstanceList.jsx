@@ -20,7 +20,7 @@ function ProblemOccurrenceProblemInstanceList({problemData, leaderboardData}) {
           <Col>
             {/* <select onChange={handleInstanceChange} value={selectedInstance}>
               {problemData.benchmark_instances.map((instance, index) => (
-                <option key={index} value={index}> {instance.id} </option>
+                <option key={index} value={index}> {instance.name} </option>
               ))}
             </select>
             <InstanceLeaderboard instance={selectedInstance} leaderboardData={leaderboardData} problemData={problemData}/> */}

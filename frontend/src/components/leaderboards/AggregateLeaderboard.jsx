@@ -184,6 +184,10 @@ export function createInstanceColumns(problem) {
   }
 
   columns.push(new MetricColumn(problem.scoring_metric));
+
+  columns.push(new LeaderboardColumn("Instance name", (entry) => {
+    return entry.benchmark_instance.name; 
+  }));
   
   problem.metrics.forEach((metric) => {
     if (metric.name != problem.scoring_metric.name) {

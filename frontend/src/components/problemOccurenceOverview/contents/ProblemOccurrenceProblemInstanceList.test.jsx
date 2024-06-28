@@ -54,8 +54,6 @@ describe('Problem occurrence instance list', () => {
     });
     
     it('row folds open', async () => {
-        
-        
         renderWithRouter(true, () => (
             <ProblemOccurrenceProblemInstanceList 
                 problemData={mockProblemDataLeaderboard}
@@ -74,5 +72,4 @@ describe('Problem occurrence instance list', () => {
             expect(hiddenLeaderboard).toBeVisible();
         });
     });
-
 }); 
