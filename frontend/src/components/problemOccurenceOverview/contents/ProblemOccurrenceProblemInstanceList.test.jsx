@@ -49,7 +49,7 @@ describe('Problem occurrence instance list', () => {
         
         // TODO: when the intance names are merged into main, change this test to name instead of id
         for (let instance of mockProblemDataLeaderboard.benchmark_instances) {
-            expect(screen.getByText(instance.id)).toBeVisible();
+            expect(screen.getByText(instance.name)).toBeVisible();
         }
     });
     
@@ -62,7 +62,7 @@ describe('Problem occurrence instance list', () => {
         ));
         
         await waitFor(async () => {
-            const row = screen.getByText(mockProblemDataLeaderboard.benchmark_instances[0].id).closest("td").closest("tr");
+            const row = screen.getByText(mockProblemDataLeaderboard.benchmark_instances[0].name).closest("td").closest("tr");
             const hiddenLeaderboard = screen.getAllByText("The score")[0].closest("table").closest("div").closest("td").closest("tr");
             
             //the instance leaderboard should be collapsed before clicking the row

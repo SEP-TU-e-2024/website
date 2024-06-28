@@ -8,22 +8,11 @@ import "./ProblemOccurrenceProblemInstanceList.scss";
  * A component for listing the problem instances included in a problem occurence.
  */
 function ProblemOccurrenceProblemInstanceList({problemData, leaderboardData}) {
-  // const [selectedInstance, setSelectedInstance] = useState(0);
-
-  // const handleInstanceChange = (event) => {
-  //   setSelectedInstance(event.target.value);
-  // };
 
   return (
     <Container className="ps-0 pt-2">
         <Row className="">
           <Col>
-            {/* <select onChange={handleInstanceChange} value={selectedInstance}>
-              {problemData.benchmark_instances.map((instance, index) => (
-                <option key={index} value={index}> {instance.name} </option>
-              ))}
-            </select>
-            <InstanceLeaderboard instance={selectedInstance} leaderboardData={leaderboardData} problemData={problemData}/> */}
             <Container fluid className="justify-content-center">
               <table id="problem-instance-table">
                 <thead>
@@ -58,7 +47,7 @@ function InstanceLeaderboardInstanceEntry({instance, instanceIndex, leaderboardD
   return (
     <>
       <tr className="instance-button" onClick={handleLeaderboardToggle} role="button">
-        <td>{instance.id}</td>
+        <td>{instance.name}</td>
       </tr>
       <tr className="instance-container" style={leaderboardOpen ? {display:"table-row"} : {display:"none"}}>
         <td>

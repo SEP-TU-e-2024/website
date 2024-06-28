@@ -119,7 +119,7 @@
     "model": "api.storagelocation",
     "pk": "6d28f80e-d531-4c51-90f8-b0a76b768f20",
     "fields": {
-        "container": null,
+        "container": "submissions",
         "filepath": "2f3d5222-d0e4-486b-a892-eb6de952d11a.zip",
         "is_downloadable": false
     }
@@ -191,7 +191,7 @@
     "model": "api.storagelocation",
     "pk": "a9ff016d-f279-4e86-8c98-5c5e51f34d5a",
     "fields": {
-        "container": null,
+        "container": "submissions",
         "filepath": "0d9485d4-eeb6-40e5-a098-83964a32bf6f.zip",
         "is_downloadable": false
     }
@@ -209,7 +209,7 @@
     "model": "api.storagelocation",
     "pk": "bca2f71a-74e2-413c-8050-e24836c43ab3",
     "fields": {
-        "container": null,
+        "container": "submissions",
         "filepath": "1ca57f0f-f0a9-41d6-b71a-729c04c7b6b6.zip",
         "is_downloadable": false
     }
@@ -227,7 +227,7 @@
     "model": "api.storagelocation",
     "pk": "fd7023d0-0790-4ffd-956a-3305ab901cb4",
     "fields": {
-        "container": null,
+        "container": "submissions",
         "filepath": "178004dc-3d8e-4092-ace6-3c06ab4157bc.rar",
         "is_downloadable": false
     }
@@ -241,7 +241,7 @@
     "model": "api.benchmarkinstance",
     "pk": "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
     "fields": {
-        "name": "intstance 2"
+        "name": "instance 2"
     }
 },
 {
