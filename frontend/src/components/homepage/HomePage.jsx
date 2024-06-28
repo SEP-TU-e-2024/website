@@ -12,7 +12,7 @@ import { useAlert } from '../../context/AlertContext';
  */
 function ProblemOccurenceOverview({rows}) {
     const navigate = useNavigate();
-    const styleMapping = {"0" : "Scientific", "1" : "Competition"}
+    const styleMapping = {"1" : "Scientific", "0" : "Competition"}
 
 
     let handleRowClick = (id)=> {
@@ -28,9 +28,9 @@ function ProblemOccurenceOverview({rows}) {
         <div className='problem_container'>
             {rows.map(row => (
                 // Hard coding to allow easier access to static values
-                <div className={`problem_card ${styleMapping[row["type"]]}`} key={row.id}>
+                <div className={`problem_card ${styleMapping[row["style"]]}`} key={row.id}>
                     <div className='card_title'> 
-                        {styleMapping[row["type"]]} 
+                        {styleMapping[row["style"]]} 
                     </div>
                     <div className='card_content'>
                         <h5>
