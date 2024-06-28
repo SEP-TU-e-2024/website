@@ -40,7 +40,7 @@ class LeaderboardViewTest(APITestCase):
         self.benchmark = BenchmarkInstance.objects.create(filepath='a/b/c')
         
         # Create a testing profile
-        self.profile = UserProfile(
+        self.profile = UserProfile.objects.create(
             email='test@benchlab.com',
             name='test man',
             is_staff=False,
@@ -53,7 +53,8 @@ class LeaderboardViewTest(APITestCase):
         for i in range(100):
             #Create the submission
             self.submissions += [Submission.objects.create(
-                problem_id=self.problem.id,
+                user=self.profile,
+                problem=self.problem,
                 name=f'test submission {i}',
             )]
             

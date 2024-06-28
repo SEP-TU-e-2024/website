@@ -45,7 +45,7 @@ class LeaderboardEntryViewTest(APITestCase):
         self.problem.benchmark_instances.set([self.benchmark])
 
         # Create a testing profile
-        self.profile = UserProfile(
+        self.profile = UserProfile.objects.create(
             email='test@benchlab.com',
             name='test man',
             is_staff=False,
@@ -54,7 +54,8 @@ class LeaderboardEntryViewTest(APITestCase):
 
         #Create the submission
         self.submission = Submission.objects.create(
-            problem_id=self.problem.id,
+            user=self.profile,
+            problem=self.problem,
             name='test submission',
         )
 

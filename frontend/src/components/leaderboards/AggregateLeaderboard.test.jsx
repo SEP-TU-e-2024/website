@@ -185,7 +185,8 @@ describe("Leaderboard", () => {
     it("createInstanceRows good test", async () => {
 
         let columns = createInstanceColumns(mockProblemDataLeaderboard)  
-        expect(columns).toHaveLength(2);
+        expect(columns).toHaveLength(3);
+        expect(columns.some(col => col.name === 'Instance name')).toBe(true);
         expect(columns.some(col => col.name === 'The score')).toBe(true);
         expect(columns.some(col => col.name === 'The score part 2')).toBe(true);
     });
