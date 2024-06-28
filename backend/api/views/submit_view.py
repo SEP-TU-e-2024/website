@@ -19,7 +19,7 @@ from backend.evaluator import queue_evaluate_submission
 
 from ..models import Submission
 from ..models import UserProfile as User
-from ..serializers import SubmissionSerializer as FormSubmissionSerializer
+from ..serializers import FormSubmissionSerializer
 from ..tokens import submission_confirm_token
 
 
