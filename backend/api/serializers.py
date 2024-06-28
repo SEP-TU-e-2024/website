@@ -60,10 +60,13 @@ class FormSubmissionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Submission
-        fields = ["id",
-                  "name",
-                  "problem",
-                  "created_at"]
+        fields = [
+            "id",
+            "name",
+            "problem",
+            "created_at",
+            "is_verified",
+        ]
 
 
 class EvaluationSettingSerializer(serializers.ModelSerializer):
