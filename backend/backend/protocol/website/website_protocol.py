@@ -5,6 +5,7 @@ This module contains the WebsiteProtocol class.
 import logging
 import threading
 from queue import Queue
+from typing import Callable
 
 from .. import Connection, Protocol
 from .commands import Command
@@ -21,6 +22,8 @@ class WebsiteProtocol(Protocol):
     queue_dict_lock: threading.Lock
     queue_dict: dict[str, Queue[dict]]
     receiver_thread: threading.Thread
+    close_listener: Callable = None
+    close_listener_args: tuple = ()
 
     def __init__(self, connection: Connection):
         self.connection = connection
@@ -30,21 +33,36 @@ class WebsiteProtocol(Protocol):
         self.receiver_thread = threading.Thread(target=self._receiver, daemon=True)
         self.receiver_thread.start()
 
+    def set_close_listener(self, close_listener: Callable, close_listener_args: tuple = ()):
+        """
+        Sets the close listener, which is called when the protocol disconnects.
+        """
+        if self.close_listener is not None:
+            raise ValueError("Close listener is already set!")
+
+        self.close_listener = close_listener
+        self.close_listener_args = close_listener_args
+
     def _receiver(self):
         """
         Receives and handles responses from the judge.
         """
 
-        while True:
-            message_id, response = self._receive_response()
+        try:
+            while True:
+                message_id, response = self._receive_response()
 
-            with self.queue_dict_lock:
-                if message_id not in self.queue_dict:
-                    logger.error(
-                        f"Received response from judge with unknown message id: {message_id}"
-                    )
-                    continue
-                self.queue_dict[message_id].put(response)
+                with self.queue_dict_lock:
+                    if message_id not in self.queue_dict:
+                        logger.error(
+                            f"Received response from judge with unknown message id: {message_id}"
+                        )
+                        continue
+                    self.queue_dict[message_id].put(response)
+        finally:
+            # Call close listener
+            if self.close_listener is not None:
+                self.close_listener(*self.close_listener_args)
 
     def send_command(self, command: Command, block: bool = False, **kwargs):
         """
