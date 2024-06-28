@@ -17,16 +17,6 @@ function Submit() {
     setIsDownloadable(!isDownloadable);
   };
 
-  const checkFileType = (file) => {
-    let file_extension = file.name.split('.').pop().toLowerCase();
-    if (!['zip', 'rar', '7z'].includes(file_extension)) {
-      console.error('Invalid file type.');
-      showAlert("Invalid file type. Please upload a .zip, .rar, or .7z file.", "error");
-      return false;
-    }
-    return true;
-  };
-
   const checkFileName = (file) => {
     if (file.name.length > 50) {
       console.error('File name exceeds 50 characters.');
@@ -57,32 +47,41 @@ function Submit() {
       return;
     }
 
-    if (!checkFileType(file) || !checkFileName(file) || !checkFileSize(file)) {
+    if ( !checkFileName(file) || !checkFileSize(file)) {
       return;
     }
 
     try {
       const formData = new FormData();
+      console.log("formdata")
       formData.append('file', file);
+      console.log("file")
       formData.append('name', e.target.submission_name.value);
+      console.log("name")
       formData.append('problem', window.location.pathname.split('/').pop());
+      console.log("problem")
       e.target.email ? formData.append('email', e.target.email.value) : formData.append('email', "useremailhere@mail.com");
+      console.log("email")
       formData.append('is_downloadable', isDownloadable);
+      console.log("downloadable")
       
       let response = await api.post('/submit/submit/', formData);
 
       if (response.status === 200) {
+        console.log('200')
         !user ? showAlert("Check your email to confirm submission", "success") : showAlert("Submission uploaded successfully.", "success");
       }
     } catch (error) {
-      if (error.response.data.detail) {
+      console.log('error')
+      if (error.response && error.response.data && error.response.data.detail) {
         showAlert(error.response.data.detail, "error");
-      } else if (error.response.status == 400) {
-        showAlert("Invalid submission", "error")
-      } else if (error.response.status == 500) {
-        showAlert("Something went wrong on the server", "error")
+      } else if (error.response && error.response.status == 400) {
+        showAlert("Invalid submission", "error");
+      } else if (error.response && error.response.status == 500) {
+        showAlert("Something went wrong on the server", "error");
+      } else {
+        console.error('Submission error:', error); // Log unexpected errors for debugging
       }
-      console.error('Submission error');
     }
   };
 
