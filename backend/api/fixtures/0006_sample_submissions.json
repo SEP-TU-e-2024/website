@@ -1,0 +1,377 @@
+[
+{
+    "model": "api.userprofile",
+    "pk": "ca10a3ec-ffdb-4739-ad64-7354e581c4ef",
+    "fields": {
+        "last_login": null,
+        "email": "teunsgames@gmail.com",
+        "name": "Example User",
+        "is_staff": false,
+        "is_superuser": false,
+        "is_active": true,
+        "password": null,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "api.submission",
+    "pk": "3159a975-4435-4387-911b-3ab64693baf0",
+    "fields": {
+        "user": "ca10a3ec-ffdb-4739-ad64-7354e581c4ef",
+        "problem": "83cb333e-e4c9-4f92-b002-9a8b33b039fd",
+        "name": "Example - Half correct",
+        "created_at": "2024-06-30T18:12:30.877Z",
+        "is_verified": true
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "3159a975-4435-4387-911b-3ab64693baf0",
+    "fields": {
+        "container": "submissions",
+        "filepath": "3159a975-4435-4387-911b-3ab64693baf0.zip",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.submission",
+    "pk": "8349a702-72b4-4a6b-8e34-117901bf854b",
+    "fields": {
+        "user": "ca10a3ec-ffdb-4739-ad64-7354e581c4ef",
+        "problem": "83cb333e-e4c9-4f92-b002-9a8b33b039fd",
+        "name": "Example - Correct",
+        "created_at": "2024-06-30T18:12:00.686Z",
+        "is_verified": true
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "8349a702-72b4-4a6b-8e34-117901bf854b",
+    "fields": {
+        "container": "submissions",
+        "filepath": "8349a702-72b4-4a6b-8e34-117901bf854b.zip",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.submission",
+    "pk": "eac3a159-04c3-48ed-8ca6-0552a60e1911",
+    "fields": {
+        "user": "ca10a3ec-ffdb-4739-ad64-7354e581c4ef",
+        "problem": "83cb333e-e4c9-4f92-b002-9a8b33b039fd",
+        "name": "Example - Incorrect",
+        "created_at": "2024-06-30T18:12:21.069Z",
+        "is_verified": true
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "eac3a159-04c3-48ed-8ca6-0552a60e1911",
+    "fields": {
+        "container": "submissions",
+        "filepath": "eac3a159-04c3-48ed-8ca6-0552a60e1911.zip",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.result",
+    "pk": "0fedece6-863c-46c5-833c-8d143600ea07",
+    "fields": {
+        "submission": "8349a702-72b4-4a6b-8e34-117901bf854b",
+        "benchmark_instance": "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+        "metric": "wall_time",
+        "score": "0.02000000"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "17187115-0d9c-45b6-b52e-974b9891742a",
+    "fields": {
+        "submission": "3159a975-4435-4387-911b-3ab64693baf0",
+        "benchmark_instance": "83a8977e-760a-4d44-9a67-e07ca4d4c155",
+        "metric": "wall_time",
+        "score": "0.01000000"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "185835fe-db4f-4230-8626-1e7dd76dab63",
+    "fields": {
+        "submission": "8349a702-72b4-4a6b-8e34-117901bf854b",
+        "benchmark_instance": "83a8977e-760a-4d44-9a67-e07ca4d4c155",
+        "metric": "user_time",
+        "score": "0E-8"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "1a749641-d014-4ef0-bb38-ea6edcb90251",
+    "fields": {
+        "submission": "eac3a159-04c3-48ed-8ca6-0552a60e1911",
+        "benchmark_instance": "83a8977e-760a-4d44-9a67-e07ca4d4c155",
+        "metric": "system_time",
+        "score": "0E-8"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "1af01594-0416-4b05-8f98-f3dc105647c3",
+    "fields": {
+        "submission": "eac3a159-04c3-48ed-8ca6-0552a60e1911",
+        "benchmark_instance": "83a8977e-760a-4d44-9a67-e07ca4d4c155",
+        "metric": "reward",
+        "score": "0E-8"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "2af4dd8a-a8c3-4699-a262-580ed6268b35",
+    "fields": {
+        "submission": "eac3a159-04c3-48ed-8ca6-0552a60e1911",
+        "benchmark_instance": "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+        "metric": "reward",
+        "score": "0E-8"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "35a9bb1c-c67e-4eb0-a48b-df658a9580e8",
+    "fields": {
+        "submission": "eac3a159-04c3-48ed-8ca6-0552a60e1911",
+        "benchmark_instance": "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+        "metric": "max_ram_mb",
+        "score": "9.24000000"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "38940a71-71c0-44a9-be01-e5e0d9a21be4",
+    "fields": {
+        "submission": "3159a975-4435-4387-911b-3ab64693baf0",
+        "benchmark_instance": "83a8977e-760a-4d44-9a67-e07ca4d4c155",
+        "metric": "reward",
+        "score": "1.00000000"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "4068675c-8453-4259-b994-94ffa60fc9b8",
+    "fields": {
+        "submission": "8349a702-72b4-4a6b-8e34-117901bf854b",
+        "benchmark_instance": "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+        "metric": "system_time",
+        "score": "0E-8"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "4759386e-54e5-4a3a-9d97-e1ffacfedb5e",
+    "fields": {
+        "submission": "8349a702-72b4-4a6b-8e34-117901bf854b",
+        "benchmark_instance": "83a8977e-760a-4d44-9a67-e07ca4d4c155",
+        "metric": "system_time",
+        "score": "0E-8"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "5f5df8a4-ca8c-4ae5-9b2f-9c1e384ce9b9",
+    "fields": {
+        "submission": "8349a702-72b4-4a6b-8e34-117901bf854b",
+        "benchmark_instance": "83a8977e-760a-4d44-9a67-e07ca4d4c155",
+        "metric": "reward",
+        "score": "1.00000000"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "64955ad2-fa4f-4884-9c9a-926e79747b89",
+    "fields": {
+        "submission": "8349a702-72b4-4a6b-8e34-117901bf854b",
+        "benchmark_instance": "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+        "metric": "max_ram_mb",
+        "score": "9.11000000"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "8e83e691-596c-424f-897a-a36877c5c86b",
+    "fields": {
+        "submission": "eac3a159-04c3-48ed-8ca6-0552a60e1911",
+        "benchmark_instance": "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+        "metric": "user_time",
+        "score": "0.02000000"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "8f78451f-9651-4c69-b9d5-862889c28751",
+    "fields": {
+        "submission": "3159a975-4435-4387-911b-3ab64693baf0",
+        "benchmark_instance": "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+        "metric": "reward",
+        "score": "0E-8"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "96b291c8-72c6-468f-b990-85fd3372513a",
+    "fields": {
+        "submission": "8349a702-72b4-4a6b-8e34-117901bf854b",
+        "benchmark_instance": "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+        "metric": "user_time",
+        "score": "0.02000000"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "97d356a3-b9dc-492a-ae7b-22e4994568d9",
+    "fields": {
+        "submission": "8349a702-72b4-4a6b-8e34-117901bf854b",
+        "benchmark_instance": "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+        "metric": "reward",
+        "score": "1.00000000"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "9afeb0c1-f2ac-4dcb-a7c2-7faa1c4958b7",
+    "fields": {
+        "submission": "eac3a159-04c3-48ed-8ca6-0552a60e1911",
+        "benchmark_instance": "83a8977e-760a-4d44-9a67-e07ca4d4c155",
+        "metric": "user_time",
+        "score": "0.01000000"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "a082eebe-571f-4667-a025-72a4537928a7",
+    "fields": {
+        "submission": "3159a975-4435-4387-911b-3ab64693baf0",
+        "benchmark_instance": "83a8977e-760a-4d44-9a67-e07ca4d4c155",
+        "metric": "system_time",
+        "score": "0E-8"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "a6434b9f-be1d-4779-a7ed-dcb88846b061",
+    "fields": {
+        "submission": "eac3a159-04c3-48ed-8ca6-0552a60e1911",
+        "benchmark_instance": "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+        "metric": "wall_time",
+        "score": "0.02000000"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "a80345c0-d852-445a-8bdf-501dd26db9ad",
+    "fields": {
+        "submission": "eac3a159-04c3-48ed-8ca6-0552a60e1911",
+        "benchmark_instance": "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+        "metric": "system_time",
+        "score": "0E-8"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "bdfb35ed-7de4-4c29-8c37-cd309f98055e",
+    "fields": {
+        "submission": "3159a975-4435-4387-911b-3ab64693baf0",
+        "benchmark_instance": "83a8977e-760a-4d44-9a67-e07ca4d4c155",
+        "metric": "user_time",
+        "score": "0.01000000"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "c6559df0-a1f5-47f7-a840-b3d4be9be163",
+    "fields": {
+        "submission": "3159a975-4435-4387-911b-3ab64693baf0",
+        "benchmark_instance": "83a8977e-760a-4d44-9a67-e07ca4d4c155",
+        "metric": "max_ram_mb",
+        "score": "8.76000000"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "ca64962f-7dc4-4aaf-89cb-86c5a274c4fe",
+    "fields": {
+        "submission": "eac3a159-04c3-48ed-8ca6-0552a60e1911",
+        "benchmark_instance": "83a8977e-760a-4d44-9a67-e07ca4d4c155",
+        "metric": "wall_time",
+        "score": "0.01000000"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "ca76cb5b-f8c4-46d8-a416-c34938f0bcbd",
+    "fields": {
+        "submission": "3159a975-4435-4387-911b-3ab64693baf0",
+        "benchmark_instance": "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+        "metric": "max_ram_mb",
+        "score": "9.02000000"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "d1675970-7ed0-43cc-9b3e-1865300cf9bd",
+    "fields": {
+        "submission": "3159a975-4435-4387-911b-3ab64693baf0",
+        "benchmark_instance": "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+        "metric": "user_time",
+        "score": "0.02000000"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "d37dd303-b8e5-4e4a-9c53-601fe0f27eeb",
+    "fields": {
+        "submission": "eac3a159-04c3-48ed-8ca6-0552a60e1911",
+        "benchmark_instance": "83a8977e-760a-4d44-9a67-e07ca4d4c155",
+        "metric": "max_ram_mb",
+        "score": "8.74000000"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "e81c5d4d-5352-49d8-b5ce-b5faa18fc709",
+    "fields": {
+        "submission": "8349a702-72b4-4a6b-8e34-117901bf854b",
+        "benchmark_instance": "83a8977e-760a-4d44-9a67-e07ca4d4c155",
+        "metric": "wall_time",
+        "score": "0.01000000"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "f02d983e-636b-4635-8780-88d96064d881",
+    "fields": {
+        "submission": "3159a975-4435-4387-911b-3ab64693baf0",
+        "benchmark_instance": "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+        "metric": "wall_time",
+        "score": "0.02000000"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "f059adee-241f-431a-9d36-296542936a90",
+    "fields": {
+        "submission": "3159a975-4435-4387-911b-3ab64693baf0",
+        "benchmark_instance": "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+        "metric": "system_time",
+        "score": "0E-8"
+    }
+},
+{
+    "model": "api.result",
+    "pk": "f3c90cb9-824a-4fca-88e3-011995380fcb",
+    "fields": {
+        "submission": "8349a702-72b4-4a6b-8e34-117901bf854b",
+        "benchmark_instance": "83a8977e-760a-4d44-9a67-e07ca4d4c155",
+        "metric": "max_ram_mb",
+        "score": "8.81000000"
+    }
+}
+]
