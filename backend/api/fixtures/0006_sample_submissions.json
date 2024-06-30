@@ -4,7 +4,7 @@
     "pk": "ca10a3ec-ffdb-4739-ad64-7354e581c4ef",
     "fields": {
         "last_login": null,
-        "email": "teunsgames@gmail.com",
+        "email": "human@example.com",
         "name": "Example User",
         "is_staff": false,
         "is_superuser": false,
