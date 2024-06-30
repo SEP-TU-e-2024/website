@@ -20,19 +20,10 @@
 },
 {
     "model": "api.storagelocation",
-    "pk": "0c2982b8-f515-4bf3-aad4-f27e3e9f6ed9",
+    "pk": "0ab21f87-0cd8-43ec-9643-7c5846fb6d37",
     "fields": {
         "container": "benchmark-instances-vrptw-homberger-1000",
-        "filepath": "C1_10_4.1000.90.vrptw",
-        "is_downloadable": false
-    }
-},
-{
-    "model": "api.storagelocation",
-    "pk": "1007274e-ec1a-4834-8833-75d61a4e3b2c",
-    "fields": {
-        "container": "benchmark-instances-vrptw-homberger-1000",
-        "filepath": "C1_10_5.1000.100.vrptw",
+        "filepath": "C1_10_1.vrp",
         "is_downloadable": false
     }
 },
@@ -47,19 +38,10 @@
 },
 {
     "model": "api.storagelocation",
-    "pk": "5502bc28-f9db-481b-b9ad-73a02f6fe855",
+    "pk": "58dbcaf5-b870-4347-828a-ab4e9ec2cffa",
     "fields": {
         "container": "benchmark-instances-vrptw-homberger-1000",
-        "filepath": "C1_10_2.1000.90.vrptw",
-        "is_downloadable": false
-    }
-},
-{
-    "model": "api.storagelocation",
-    "pk": "5699e623-9776-49b6-aacf-302b1b69917f",
-    "fields": {
-        "container": "benchmark-instances-vrptw-homberger-1000",
-        "filepath": "C1_10_1.1000.100.vrptw",
+        "filepath": "C2_10_1.vrp",
         "is_downloadable": false
     }
 },
@@ -74,28 +56,19 @@
 },
 {
     "model": "api.storagelocation",
+    "pk": "64902b2b-4603-465d-a3cc-37126f4b9840",
+    "fields": {
+        "container": "benchmark-instances-vrptw-homberger-1000",
+        "filepath": "C1_10_10.vrp",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
     "pk": "6b017d2d-10f2-4fd4-be92-a2a40acd2551",
     "fields": {
         "container": "validators",
         "filepath": "vrp_static_validator.zip",
-        "is_downloadable": false
-    }
-},
-{
-    "model": "api.storagelocation",
-    "pk": "79cae2f7-67ae-4cf0-b8ad-5f80db2556b7",
-    "fields": {
-        "container": "benchmark-instances-vrptw-homberger-1000",
-        "filepath": "C1_10_3.1000.90.vrptw",
-        "is_downloadable": false
-    }
-},
-{
-    "model": "api.storagelocation",
-    "pk": "7a63e4be-5c62-4702-b422-6e14a2564690",
-    "fields": {
-        "container": "benchmark-instances-vrptw-homberger-1000",
-        "filepath": "C1_10_10.1000.90.vrptw",
         "is_downloadable": false
     }
 },
@@ -110,15 +83,6 @@
 },
 {
     "model": "api.storagelocation",
-    "pk": "94090b07-cd03-4dcd-9231-556bb3941398",
-    "fields": {
-        "container": "benchmark-instances-vrptw-homberger-1000",
-        "filepath": "C1_10_7.1000.97.vrptw",
-        "is_downloadable": false
-    }
-},
-{
-    "model": "api.storagelocation",
     "pk": "95707637-76ae-4823-a86f-b6631ef3d5a9",
     "fields": {
         "container": "benchmark-instances-vrp",
@@ -128,10 +92,10 @@
 },
 {
     "model": "api.storagelocation",
-    "pk": "c09f70e0-d6df-4599-a0c4-00e59ea9ec17",
+    "pk": "a5c7104d-c81b-4703-865c-6f3a23114f71",
     "fields": {
         "container": "benchmark-instances-vrptw-homberger-1000",
-        "filepath": "C1_10_8.1000.92.vrptw",
+        "filepath": "R2_10_8.vrp",
         "is_downloadable": false
     }
 },
@@ -159,24 +123,6 @@
     "fields": {
         "container": "benchmark-instances-vrp",
         "filepath": "ORTEC-VRPTW-ASYM-0bdff870-d1-n458-k35.txt",
-        "is_downloadable": false
-    }
-},
-{
-    "model": "api.storagelocation",
-    "pk": "f4cd54b6-69d0-4c4c-a870-604769ca4ac7",
-    "fields": {
-        "container": "benchmark-instances-vrptw-homberger-1000",
-        "filepath": "C1_10_9.1000.90.vrptw",
-        "is_downloadable": false
-    }
-},
-{
-    "model": "api.storagelocation",
-    "pk": "f5f8f189-c385-4199-87e1-d19c5168fb62",
-    "fields": {
-        "container": "benchmark-instances-vrptw-homberger-1000",
-        "filepath": "C1_10_6.1000.99.vrptw",
         "is_downloadable": false
     }
 },
@@ -213,30 +159,16 @@
 },
 {
     "model": "api.benchmarkinstance",
-    "pk": "0c2982b8-f515-4bf3-aad4-f27e3e9f6ed9",
+    "pk": "0ab21f87-0cd8-43ec-9643-7c5846fb6d37",
     "fields": {
-        "name": "C1_10_4.1000.90"
+        "name": "C1_10_1"
     }
 },
 {
     "model": "api.benchmarkinstance",
-    "pk": "1007274e-ec1a-4834-8833-75d61a4e3b2c",
+    "pk": "58dbcaf5-b870-4347-828a-ab4e9ec2cffa",
     "fields": {
-        "name": "C1_10_5.1000.100"
-    }
-},
-{
-    "model": "api.benchmarkinstance",
-    "pk": "5502bc28-f9db-481b-b9ad-73a02f6fe855",
-    "fields": {
-        "name": "C1_10_2.1000.90"
-    }
-},
-{
-    "model": "api.benchmarkinstance",
-    "pk": "5699e623-9776-49b6-aacf-302b1b69917f",
-    "fields": {
-        "name": "C1_10_1.1000.100"
+        "name": "C2_10_1"
     }
 },
 {
@@ -248,16 +180,9 @@
 },
 {
     "model": "api.benchmarkinstance",
-    "pk": "79cae2f7-67ae-4cf0-b8ad-5f80db2556b7",
+    "pk": "64902b2b-4603-465d-a3cc-37126f4b9840",
     "fields": {
-        "name": "C1_10_3.1000.90"
-    }
-},
-{
-    "model": "api.benchmarkinstance",
-    "pk": "7a63e4be-5c62-4702-b422-6e14a2564690",
-    "fields": {
-        "name": "C1_10_10.1000.90"
+        "name": "C1_10_10"
     }
 },
 {
@@ -269,13 +194,6 @@
 },
 {
     "model": "api.benchmarkinstance",
-    "pk": "94090b07-cd03-4dcd-9231-556bb3941398",
-    "fields": {
-        "name": "C1_10_7.1000.97"
-    }
-},
-{
-    "model": "api.benchmarkinstance",
     "pk": "95707637-76ae-4823-a86f-b6631ef3d5a9",
     "fields": {
         "name": "VRPTW ASYM n503-k43"
@@ -283,9 +201,9 @@
 },
 {
     "model": "api.benchmarkinstance",
-    "pk": "c09f70e0-d6df-4599-a0c4-00e59ea9ec17",
+    "pk": "a5c7104d-c81b-4703-865c-6f3a23114f71",
     "fields": {
-        "name": "C1_10_8.1000.92"
+        "name": "R2_10_8"
     }
 },
 {
@@ -310,17 +228,12 @@
     }
 },
 {
-    "model": "api.benchmarkinstance",
-    "pk": "f4cd54b6-69d0-4c4c-a870-604769ca4ac7",
+    "model": "api.metric",
+    "pk": "cost",
     "fields": {
-        "name": "C1_10_9.1000.90"
-    }
-},
-{
-    "model": "api.benchmarkinstance",
-    "pk": "f5f8f189-c385-4199-87e1-d19c5168fb62",
-    "fields": {
-        "name": "C1_10_6.1000.99"
+        "label": "Cost",
+        "unit": "",
+        "order": 0
     }
 },
 {
@@ -329,15 +242,6 @@
     "fields": {
         "label": "Max RAM Usage",
         "unit": "MB",
-        "order": 0
-    }
-},
-{
-    "model": "api.metric",
-    "pk": "cost",
-    "fields": {
-        "label": "Cost",
-        "unit": "",
         "order": 0
     }
 },
@@ -446,20 +350,14 @@
         "evaluation_settings": "7a23b521-8869-4102-9eda-c9213e719895",
         "scoring_metric": "cost",
         "benchmark_instances": [
-            "0c2982b8-f515-4bf3-aad4-f27e3e9f6ed9",
-            "1007274e-ec1a-4834-8833-75d61a4e3b2c",
-            "5502bc28-f9db-481b-b9ad-73a02f6fe855",
-            "5699e623-9776-49b6-aacf-302b1b69917f",
-            "79cae2f7-67ae-4cf0-b8ad-5f80db2556b7",
-            "7a63e4be-5c62-4702-b422-6e14a2564690",
-            "94090b07-cd03-4dcd-9231-556bb3941398",
-            "c09f70e0-d6df-4599-a0c4-00e59ea9ec17",
-            "f4cd54b6-69d0-4c4c-a870-604769ca4ac7",
-            "f5f8f189-c385-4199-87e1-d19c5168fb62"
+            "0ab21f87-0cd8-43ec-9643-7c5846fb6d37",
+            "58dbcaf5-b870-4347-828a-ab4e9ec2cffa",
+            "64902b2b-4603-465d-a3cc-37126f4b9840",
+            "a5c7104d-c81b-4703-865c-6f3a23114f71"
         ],
         "metrics": [
-            "max_ram_mb",
             "cost",
+            "max_ram_mb",
             "system_time",
             "user_time",
             "wall_time"
@@ -482,8 +380,8 @@
             "ee01c295-7f2a-498d-a436-1e09f26dff6f"
         ],
         "metrics": [
-            "max_ram_mb",
             "cost",
+            "max_ram_mb",
             "system_time",
             "user_time",
             "wall_time"
