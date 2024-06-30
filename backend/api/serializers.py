@@ -66,6 +66,7 @@ class FormSubmissionSerializer(serializers.ModelSerializer):
             "problem",
             "created_at",
             "is_verified",
+            "is_downloadable"
         ]
 
 
