@@ -175,10 +175,13 @@ def establish_judge_connection():
             logger.error("An unexpected error has occurred.", exc_info=1)
 
         finally:
-            if not disconnected:
-                sock.shutdown(socket.SHUT_RDWR)
-                sock.close()
-                disconnected = True
+            try:
+                if not disconnected:
+                    sock.shutdown(socket.SHUT_RDWR)
+                    sock.close()
+                    disconnected = True
+            except Exception:
+                logger.error("Failed to close the socket", exc_info=1)
 
 
 def handle_submissions(protocol: WebsiteProtocol, event: threading.Event):
