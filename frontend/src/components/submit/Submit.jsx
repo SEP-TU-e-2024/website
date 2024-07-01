@@ -53,26 +53,18 @@ function Submit() {
 
     try {
       const formData = new FormData();
-      console.log("formdata")
       formData.append('file', file);
-      console.log("file")
       formData.append('name', e.target.submission_name.value);
-      console.log("name")
       formData.append('problem', window.location.pathname.split('/').pop());
-      console.log("problem")
       e.target.email ? formData.append('email', e.target.email.value) : formData.append('email', "useremailhere@mail.com");
-      console.log("email")
       formData.append('is_downloadable', isDownloadable);
-      console.log("downloadable")
       
       let response = await api.post('/submit/submit/', formData);
 
       if (response.status === 200) {
-        console.log('200')
         !user ? showAlert("Check your email to confirm submission", "success") : showAlert("Submission uploaded successfully.", "success");
       }
     } catch (error) {
-      console.log('error')
       if (error.response && error.response.data && error.response.data.detail) {
         showAlert(error.response.data.detail, "error");
       } else if (error.response && error.response.status == 400) {
