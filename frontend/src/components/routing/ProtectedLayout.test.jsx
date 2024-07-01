@@ -16,6 +16,17 @@ describe("Protected layout", () => {
         const logoutButton = screen.getByText("Logout");
         expect(logoutButton).toBeInTheDocument();
     });   
+    
+    it("should show the 'about' link in the footer", () => {
+        renderWithRouter(true, ProtectedLayout);
+        // Find 'about'
+        const about = screen.getByText("About");
+        // Check whether 'about' is present
+        expect(about).toBeInTheDocument();
+        // Check whether it is contained in a footer
+        const footer = about.closest('footer');
+        expect(footer).toBeInTheDocument();
+    });
 
     it("should call logout function when logout button is clicked", async () => {
         renderWithRouter(true, ProtectedLayout);
@@ -34,5 +45,14 @@ describe("Protected layout", () => {
         expect(window.location.pathname).toContain("/login");
     });
     
-    
+    it("should redirect to about page when 'about' in footer is clicked", async () => {
+        renderWithRouter(true, ProtectedLayout);
+        // Check if not in homepage before navigating
+        expect(window.location.pathname).not.toContain("/about");
+        // Find 'about' in the navbar
+        const about = screen.getByText("About");
+        // Simulate click of 'about'
+        await userEvent.click(about);
+        expect(window.location.pathname).toContain("/about");
+    });
 });

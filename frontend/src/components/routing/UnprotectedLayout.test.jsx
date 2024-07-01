@@ -10,6 +10,7 @@ import { AlertProvider } from "../../context/AlertContext";
 const HomePage = () => <div>Home Page</div>;
 const LoginPage = () => <div>Login Page</div>;
 const RegisterPage = () => <div>Register Page</div>;
+const AboutPage = () => <div>About Page</div>;
 
 function renderWithRouter(loggedIn, initialEntries) {
     render(
@@ -23,6 +24,7 @@ function renderWithRouter(loggedIn, initialEntries) {
                             <Route path="/" element={<HomePage />} />
                             <Route path="/login" element={<LoginPage />} />
                             <Route path="/register" element={<RegisterPage />} />
+                            <Route path="/about" element={<AboutPage />} />
                         </Route>
                     </Routes>
                 </MemoryRouter>
@@ -51,6 +53,17 @@ describe("Unprotected layout", () => {
         await userEvent.click(registerButton);
         // Check whether user was redirected to register page
         expect(screen.getByText('Register Page')).toBeInTheDocument();
+    });
+
+    it("should show the 'about' link in the footer", () => {
+        renderWithRouter(false, ["/"]);
+        // Find 'about'
+        const about = screen.getByText("About");
+        // Check whether 'about' is present
+        expect(about).toBeInTheDocument();
+        // Check whether it is contained in a footer
+        const footer = about.closest('footer');
+        expect(footer).toBeInTheDocument();
     });
 
     it("should not redirect a guest to login", () => {
@@ -93,5 +106,16 @@ describe("Unprotected layout", () => {
         // Simulate click of the logo
         await userEvent.click(logo);
         expect(screen.getByText("Home Page")).toBeInTheDocument();
+    });
+
+    it("should redirect to about page when 'about' in footer is clicked", async () => {
+        renderWithRouter(false, ["/login"]);
+        // Check if not in homepage before navigating
+        expect(screen.queryByText("About Page")).not.toBeInTheDocument();
+        // Find 'about' in the navbar
+        const about = screen.getByText("About");
+        // Simulate click of 'about'
+        await userEvent.click(about);
+        expect(screen.getByText("About Page")).toBeInTheDocument();
     });
 })
