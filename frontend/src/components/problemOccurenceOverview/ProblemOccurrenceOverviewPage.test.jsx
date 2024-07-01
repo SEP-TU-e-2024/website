@@ -152,7 +152,15 @@ describe('Leaderboard data handler error test suite', () => {
             }
         });
         return spy
-    }        
+    }      
+    
+    beforeEach(() => {
+        useLoaderData.mockReturnValue(mockProblemDataLeaderboard);
+    });
+
+    afterEach(() => {
+        vi.clearAllMocks();
+    });  
     
     it('Error 401', async () => {
         // Mock API to throw error
