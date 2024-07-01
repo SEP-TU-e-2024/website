@@ -8,9 +8,9 @@ import { Outlet } from "react-router-dom";
  */
 function AuthLayout() {
   return (
-    <AlertProvider>
-      <AuthProvider>
-        <Outlet />
+    <AlertProvider data-testId="alert-provider">
+      <AuthProvider data-testId="auth-provider">
+        <Outlet data-testId="outlet"/>
       </AuthProvider>
     </AlertProvider>
     
