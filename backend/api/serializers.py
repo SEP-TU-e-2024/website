@@ -55,6 +55,21 @@ class SubmissionSerializer(StorageLocationSerializer):
         ]
 
 
+class FormSubmissionSerializer(serializers.ModelSerializer):
+    """Serializer for validating fields required when creating a submission"""
+
+    class Meta:
+        model = Submission
+        fields = [
+            "id",
+            "name",
+            "problem",
+            "created_at",
+            "is_verified",
+            "is_downloadable"
+        ]
+
+
 class EvaluationSettingSerializer(serializers.ModelSerializer):
     """Serializer for evaluation settings"""
 
@@ -92,14 +107,13 @@ class ProblemCategorySerializer(serializers.ModelSerializer):
         ]
 
 
-class BenchmarkInstanceSerializer(serializers.ModelSerializer):
+class BenchmarkInstanceSerializer(StorageLocationSerializer):
     """Serializer for benchmar instances"""
     
     class Meta:
         model = BenchmarkInstance
-        fields = [
-            "id",
-            "filepath",
+        fields = StorageLocationSerializer.Meta.fields + [
+            "name",
         ]
 
 

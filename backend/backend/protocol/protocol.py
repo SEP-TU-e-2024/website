@@ -58,7 +58,10 @@ class Protocol:
         if data_size == 0:
             raise ValueError(f"The upcoming message from {ip} on {port} is of size 0!")
 
-        data = sock.recv(data_size)
+        data = bytearray()
+        while len(data) < data_size:
+            read = sock.recv(data_size - len(data))
+            data.extend(read)
 
         logger.info(f"Received message {data} of size {data_size} bytes from {ip} on port {port}.")
         message = json.loads(data)

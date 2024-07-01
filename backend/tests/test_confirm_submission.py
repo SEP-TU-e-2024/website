@@ -1,4 +1,4 @@
-from api.models import Metric, SpecifiedProblem, Submission, UserProfile
+from api.models import EvaluationSettings, Metric, SpecifiedProblem, Submission, UserProfile
 from api.views.submit_view import SubmitViewSet
 from django.core import mail
 from django.test import RequestFactory
@@ -22,16 +22,20 @@ class ConfirmSubmissionTest(APITestCase):
             name='TestMetric'
         )
 
+        #Add mock Evaluation settings to database
+        self.evaluation_settings = EvaluationSettings.objects.create()
+
         #Add mock problem directly to database
         self.problem = SpecifiedProblem.objects.create(
             name='Test Problem',
-            scoring_metric=self.sc_metric
+            scoring_metric=self.sc_metric,
+            evaluation_settings=self.evaluation_settings
         )
 
         #Add mock submission to database
         self.submission = Submission.objects.create(
             user=self.user,
-            problem_id=self.problem.id,
+            problem=self.problem,
         )
 
         #Instantiate SubmitView for testing

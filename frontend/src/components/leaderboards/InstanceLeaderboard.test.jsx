@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, vi } from "vitest";
 import { screen, waitFor, render } from "@testing-library/react";
 import { mockLeaderboardData, mockColumns, mockProblemDataLeaderboard, renderWithRouter } from "../testing_utils/TestingUtils";
-import InstanceLeaderBoard from "./InstanceLeaderBoard";
-import { LeaderboardRow, rankInstanceEntries } from "./InstanceLeaderBoard";
+import InstanceLeaderboard from "./InstanceLeaderboard";
+import { LeaderboardRow, rankInstanceEntries } from "./InstanceLeaderboard";
 
 describe("Leaderboard", () => {
     beforeEach(() => {
@@ -18,9 +18,9 @@ describe("Leaderboard", () => {
     });
 
     it("should display 'Error: no column names found' if no data is given", async () => {
-        // Render the InstanceLeaderBoard component wrapped in BrowserRouter
+        // Render the InstanceLeaderboard component wrapped in BrowserRouter
         renderWithRouter(true, () => (
-            <InstanceLeaderBoard 
+            <InstanceLeaderboard 
                 problemData={[]}
                 leaderboardData={mockLeaderboardData}
                 instance={0}
@@ -35,9 +35,9 @@ describe("Leaderboard", () => {
     });
 
     it("should display 'No entries found' if no data is given", async () => {
-        // Render the InstanceLeaderBoard component wrapped in BrowserRouter
+        // Render the InstanceLeaderboard component wrapped in BrowserRouter
         renderWithRouter(true, () => (
-            <InstanceLeaderBoard 
+            <InstanceLeaderboard 
                 problemData={mockProblemDataLeaderboard}
                 leaderboardData={[]}
                 instance={0}
@@ -53,9 +53,9 @@ describe("Leaderboard", () => {
 
     // Simple good case
     it("should display mock entries and columns", async () => {
-        // Render the InstanceLeaderBoard component wrapped in BrowserRouter
+        // Render the InstanceLeaderboard component wrapped in BrowserRouter
         renderWithRouter(true, () => (
-            <InstanceLeaderBoard 
+            <InstanceLeaderboard 
                 problemData={mockProblemDataLeaderboard}
                 leaderboardData={mockLeaderboardData}
                 instance={0}
@@ -81,9 +81,9 @@ describe("Leaderboard", () => {
 
     // Conditional render test
     it("Leaderboard shows result for instance 0", async () => {
-        // Render the InstanceLeaderBoard component wrapped in BrowserRouter
+        // Render the InstanceLeaderboard component wrapped in BrowserRouter
         renderWithRouter(true, () => (
-            <InstanceLeaderBoard 
+            <InstanceLeaderboard 
                 problemData={mockProblemDataLeaderboard}
                 leaderboardData={mockLeaderboardData}
                 instance={0}
@@ -100,9 +100,9 @@ describe("Leaderboard", () => {
 
     // Conditional render test
     it("Leaderboard shows result for instance 1", async () => {
-        // Render the InstanceLeaderBoard component wrapped in BrowserRouter
+        // Render the InstanceLeaderboard component wrapped in BrowserRouter
         renderWithRouter(true, () => (
-            <InstanceLeaderBoard 
+            <InstanceLeaderboard 
                 problemData={mockProblemDataLeaderboard}
                 leaderboardData={mockLeaderboardData}
                 instance={1}

@@ -1,0 +1,391 @@
+[
+{
+    "model": "api.evaluationsettings",
+    "pk": "7a23b521-8869-4102-9eda-c9213e719895",
+    "fields": {
+        "cpu": 1,
+        "time_limit": 60.0,
+        "memory": 256,
+        "machine_type": "Standard_B1s"
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+    "fields": {
+        "container": "benchmark-instances-test-validator",
+        "filepath": "instance2.txt",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "0ab21f87-0cd8-43ec-9643-7c5846fb6d37",
+    "fields": {
+        "container": "benchmark-instances-vrptw-homberger-1000",
+        "filepath": "C1_10_1.vrp",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "2d7a8e94-0c3e-4c13-bf98-4296de50ae8a",
+    "fields": {
+        "container": "validators",
+        "filepath": "addition_problem_validator.zip",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "58dbcaf5-b870-4347-828a-ab4e9ec2cffa",
+    "fields": {
+        "container": "benchmark-instances-vrptw-homberger-1000",
+        "filepath": "C2_10_1.vrp",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "5ff4ecbf-ba67-4305-9998-bcf9f99949e3",
+    "fields": {
+        "container": "benchmark-instances-vrp",
+        "filepath": "ORTEC-VRPTW-ASYM-1a452a2c-d1-n391-k23.txt",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "64902b2b-4603-465d-a3cc-37126f4b9840",
+    "fields": {
+        "container": "benchmark-instances-vrptw-homberger-1000",
+        "filepath": "C1_10_10.vrp",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "6b017d2d-10f2-4fd4-be92-a2a40acd2551",
+    "fields": {
+        "container": "validators",
+        "filepath": "vrp_static_validator.zip",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "83a8977e-760a-4d44-9a67-e07ca4d4c155",
+    "fields": {
+        "container": "benchmark-instances-test-validator",
+        "filepath": "instance1.txt",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "95707637-76ae-4823-a86f-b6631ef3d5a9",
+    "fields": {
+        "container": "benchmark-instances-vrp",
+        "filepath": "ORTEC-VRPTW-ASYM-1bc16246-d1-n503-k43.txt",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "a5c7104d-c81b-4703-865c-6f3a23114f71",
+    "fields": {
+        "container": "benchmark-instances-vrptw-homberger-1000",
+        "filepath": "R2_10_8.vrp",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "cd29f541-dd87-471c-a244-fa0c014dec90",
+    "fields": {
+        "container": "benchmark-instances-vrp",
+        "filepath": "ORTEC-VRPTW-ASYM-00c5356f-d1-n258-k12.txt",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "cd98c3d8-df92-4085-b9b4-569bbfde06e4",
+    "fields": {
+        "container": "benchmark-instances-vrp",
+        "filepath": "ORTEC-VRPTW-ASYM-0dc59ef2-d1-n213-k25.txt",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "ee01c295-7f2a-498d-a436-1e09f26dff6f",
+    "fields": {
+        "container": "benchmark-instances-vrp",
+        "filepath": "ORTEC-VRPTW-ASYM-0bdff870-d1-n458-k35.txt",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.storagelocation",
+    "pk": "ff4f01f7-824e-454e-8786-015a3419e210",
+    "fields": {
+        "container": "validators",
+        "filepath": "vrp_dynamic_validator.zip",
+        "is_downloadable": false
+    }
+},
+{
+    "model": "api.validator",
+    "pk": "2d7a8e94-0c3e-4c13-bf98-4296de50ae8a",
+    "fields": {}
+},
+{
+    "model": "api.validator",
+    "pk": "6b017d2d-10f2-4fd4-be92-a2a40acd2551",
+    "fields": {}
+},
+{
+    "model": "api.validator",
+    "pk": "ff4f01f7-824e-454e-8786-015a3419e210",
+    "fields": {}
+},
+{
+    "model": "api.benchmarkinstance",
+    "pk": "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+    "fields": {
+        "name": "intstance 2"
+    }
+},
+{
+    "model": "api.benchmarkinstance",
+    "pk": "0ab21f87-0cd8-43ec-9643-7c5846fb6d37",
+    "fields": {
+        "name": "C1_10_1"
+    }
+},
+{
+    "model": "api.benchmarkinstance",
+    "pk": "58dbcaf5-b870-4347-828a-ab4e9ec2cffa",
+    "fields": {
+        "name": "C2_10_1"
+    }
+},
+{
+    "model": "api.benchmarkinstance",
+    "pk": "5ff4ecbf-ba67-4305-9998-bcf9f99949e3",
+    "fields": {
+        "name": "VRPTW ASYM n391-k23"
+    }
+},
+{
+    "model": "api.benchmarkinstance",
+    "pk": "64902b2b-4603-465d-a3cc-37126f4b9840",
+    "fields": {
+        "name": "C1_10_10"
+    }
+},
+{
+    "model": "api.benchmarkinstance",
+    "pk": "83a8977e-760a-4d44-9a67-e07ca4d4c155",
+    "fields": {
+        "name": "instance 1"
+    }
+},
+{
+    "model": "api.benchmarkinstance",
+    "pk": "95707637-76ae-4823-a86f-b6631ef3d5a9",
+    "fields": {
+        "name": "VRPTW ASYM n503-k43"
+    }
+},
+{
+    "model": "api.benchmarkinstance",
+    "pk": "a5c7104d-c81b-4703-865c-6f3a23114f71",
+    "fields": {
+        "name": "R2_10_8"
+    }
+},
+{
+    "model": "api.benchmarkinstance",
+    "pk": "cd29f541-dd87-471c-a244-fa0c014dec90",
+    "fields": {
+        "name": "VRPTW ASYM n258-k12"
+    }
+},
+{
+    "model": "api.benchmarkinstance",
+    "pk": "cd98c3d8-df92-4085-b9b4-569bbfde06e4",
+    "fields": {
+        "name": "VRPTW ASYM n213-k25"
+    }
+},
+{
+    "model": "api.benchmarkinstance",
+    "pk": "ee01c295-7f2a-498d-a436-1e09f26dff6f",
+    "fields": {
+        "name": "VRPTW ASYM n458-k35"
+    }
+},
+{
+    "model": "api.metric",
+    "pk": "cost",
+    "fields": {
+        "label": "Cost",
+        "unit": "",
+        "order": 0
+    }
+},
+{
+    "model": "api.metric",
+    "pk": "max_ram_mb",
+    "fields": {
+        "label": "Max RAM Usage",
+        "unit": "MB",
+        "order": 0
+    }
+},
+{
+    "model": "api.metric",
+    "pk": "reward",
+    "fields": {
+        "label": "Reward",
+        "unit": "",
+        "order": 1
+    }
+},
+{
+    "model": "api.metric",
+    "pk": "system_time",
+    "fields": {
+        "label": "System Time",
+        "unit": "s",
+        "order": 0
+    }
+},
+{
+    "model": "api.metric",
+    "pk": "user_time",
+    "fields": {
+        "label": "User Time",
+        "unit": "s",
+        "order": 0
+    }
+},
+{
+    "model": "api.metric",
+    "pk": "wall_time",
+    "fields": {
+        "label": "Total Running Time",
+        "unit": "s",
+        "order": 0
+    }
+},
+{
+    "model": "api.problemcategory",
+    "pk": "3513eb23-7b59-4a70-b6d5-1ebf5e354db4",
+    "fields": {
+        "name": "Addition Problem",
+        "style": 0,
+        "type": 0,
+        "description": "This is a simple problem category used for testing of the platform. The problem being solved is the addition of 2 integer values",
+        "simulator": null,
+        "validator": "2d7a8e94-0c3e-4c13-bf98-4296de50ae8a",
+        "example_submission_url": null
+    }
+},
+{
+    "model": "api.problemcategory",
+    "pk": "7450f9fb-111f-47c2-89c8-dbc58d674ecb",
+    "fields": {
+        "name": "Dynamic VRP",
+        "style": 1,
+        "type": 0,
+        "description": "The Dynamic Vehicle Routing Problem (VRP) extends the Static VRP by considering real-time updates and changes in customer demands, traffic conditions, and vehicle availability. It aims to dynamically adjust routes and schedules to optimize efficiency and meet changing operational needs throughout the day.",
+        "simulator": null,
+        "validator": "ff4f01f7-824e-454e-8786-015a3419e210",
+        "example_submission_url": null
+    }
+},
+{
+    "model": "api.problemcategory",
+    "pk": "a8b4430a-cfc2-48d4-b149-e7a60672268e",
+    "fields": {
+        "name": "Static VRP",
+        "style": 1,
+        "type": 0,
+        "description": "The Static Vehicle Routing Problem (VRP) involves determining optimal routes for a fleet of vehicles to deliver goods or services to a set of locations, minimizing costs such as distance traveled or time spent, while adhering to constraints like vehicle capacity and delivery time windows.",
+        "simulator": null,
+        "validator": "6b017d2d-10f2-4fd4-be92-a2a40acd2551",
+        "example_submission_url": null
+    }
+},
+{
+    "model": "api.specifiedproblem",
+    "pk": "83cb333e-e4c9-4f92-b002-9a8b33b039fd",
+    "fields": {
+        "name": "Addition Problem",
+        "category": "3513eb23-7b59-4a70-b6d5-1ebf5e354db4",
+        "evaluation_settings": "7a23b521-8869-4102-9eda-c9213e719895",
+        "scoring_metric": "reward",
+        "benchmark_instances": [
+            "0a800b64-0cce-4cb2-95ab-39a5064ece4e",
+            "83a8977e-760a-4d44-9a67-e07ca4d4c155"
+        ],
+        "metrics": [
+            "max_ram_mb",
+            "reward",
+            "system_time",
+            "user_time",
+            "wall_time"
+        ]
+    }
+},
+{
+    "model": "api.specifiedproblem",
+    "pk": "96f65153-db4b-484c-8383-8ee7dda4a088",
+    "fields": {
+        "name": "Vehicle Routing Problem",
+        "category": "a8b4430a-cfc2-48d4-b149-e7a60672268e",
+        "evaluation_settings": "7a23b521-8869-4102-9eda-c9213e719895",
+        "scoring_metric": "cost",
+        "benchmark_instances": [
+            "0ab21f87-0cd8-43ec-9643-7c5846fb6d37",
+            "58dbcaf5-b870-4347-828a-ab4e9ec2cffa",
+            "64902b2b-4603-465d-a3cc-37126f4b9840",
+            "a5c7104d-c81b-4703-865c-6f3a23114f71"
+        ],
+        "metrics": [
+            "cost",
+            "max_ram_mb",
+            "system_time",
+            "user_time",
+            "wall_time"
+        ]
+    }
+},
+{
+    "model": "api.specifiedproblem",
+    "pk": "eb3f701b-174b-4d0a-8492-7d09dd2a8db8",
+    "fields": {
+        "name": "Vehicle Routing Problem",
+        "category": "7450f9fb-111f-47c2-89c8-dbc58d674ecb",
+        "evaluation_settings": "7a23b521-8869-4102-9eda-c9213e719895",
+        "scoring_metric": "cost",
+        "benchmark_instances": [
+            "5ff4ecbf-ba67-4305-9998-bcf9f99949e3",
+            "95707637-76ae-4823-a86f-b6631ef3d5a9",
+            "cd29f541-dd87-471c-a244-fa0c014dec90",
+            "cd98c3d8-df92-4085-b9b4-569bbfde06e4",
+            "ee01c295-7f2a-498d-a436-1e09f26dff6f"
+        ],
+        "metrics": [
+            "cost",
+            "max_ram_mb",
+            "system_time",
+            "user_time",
+            "wall_time"
+        ]
+    }
+}
+]

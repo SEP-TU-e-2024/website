@@ -73,12 +73,13 @@ class EvaluationSettings(models.Model):
     def __str__(self):
         return f'{self.cpu} CPU, {self.time_limit} Seconds, {self.memory} Memory, {self.machine_type}'
 
+
 class StorageLocation(models.Model):
     """Storage path reference to locate file(s)"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    container = models.CharField(max_length=256, null=True)
-    filepath = models.CharField(max_length=256, null=True)
+    container = models.CharField(max_length=256, default="")
+    filepath = models.CharField(max_length=256, default="")
     is_downloadable = models.BooleanField(default=False)
 
     def get_blob(self, blob_service_client:BlobServiceClient) -> BlobClient:
@@ -93,6 +94,7 @@ class StorageLocation(models.Model):
     def __str__(self):
         return self.filepath
     
+
 class Simulator(StorageLocation):
     """Program that will evaluate solvers"""
 
@@ -107,7 +109,11 @@ class Validator(StorageLocation):
 
 class BenchmarkInstance(StorageLocation):
     """Single data instance for an optimization problem"""
-    pass
+
+    name = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.name
 
 
 class Metric(models.Model):
@@ -119,6 +125,9 @@ class Metric(models.Model):
         SECONDS = 's', 'Seconds'
         MINUTES = 'min', 'Minutes'
         HOURS = 'h', 'Hours'
+        KILO_BYTES = 'KB', 'Kilobytes'
+        MEGA_BYTES = 'MB', 'Megabytes'
+        GIGA_BYTES = 'GB', 'Gigabytes'
 
     class Order(models.IntegerChoices):
         """Enum type to describe ranking order function of the metric"""
@@ -133,6 +142,7 @@ class Metric(models.Model):
     def __str__(self):
         return self.label
     
+
 class ProblemCategory(models.Model):
     """Category representing an optimization problem"""
 
@@ -166,6 +176,7 @@ class ProblemCategory(models.Model):
     def __str__(self):
         return self.name
     
+
 class SpecifiedProblem(models.Model):
     """Specified problem, potentially with evaluation settings"""
 
@@ -179,8 +190,7 @@ class SpecifiedProblem(models.Model):
         related_name='specified_problems'
     )
     evaluation_settings = models.ForeignKey(
-        EvaluationSettings, on_delete=models.CASCADE,
-        null=True, blank=True
+        EvaluationSettings, on_delete=models.CASCADE
     )
     benchmark_instances = models.ManyToManyField(BenchmarkInstance)
     metrics = models.ManyToManyField(Metric)
@@ -188,6 +198,7 @@ class SpecifiedProblem(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Submission(StorageLocation):
     """Database model for submissions"""
@@ -201,12 +212,13 @@ class Submission(StorageLocation):
     def __str__(self):
         return self.name
 
+
 class Result(models.Model):
     """Table that stores result of a submission"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    submission = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
-    benchmark_instance = models.ForeignKey(BenchmarkInstance, on_delete=models.CASCADE, null=True)
+    submission = models.ForeignKey(Submission, on_delete=models.CASCADE)
+    benchmark_instance = models.ForeignKey(BenchmarkInstance, on_delete=models.CASCADE)
     metric = models.ForeignKey(Metric, on_delete=models.CASCADE)
     score = models.DecimalField(decimal_places=8, max_digits=16)
 

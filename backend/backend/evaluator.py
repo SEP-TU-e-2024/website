@@ -1,10 +1,10 @@
 import logging
 import os
+import queue
 import socket
 import threading
 import uuid
 from decimal import Decimal, getcontext
-from queue import Queue
 from time import sleep
 
 from api.models import Submission
@@ -25,7 +25,7 @@ PORT = 30000
 
 RETRY_WAIT = 5
 
-evaluation_queue: Queue = Queue()
+evaluation_queue: queue.Queue = queue.Queue()
 
 getcontext().prec = 8
 
@@ -145,18 +145,23 @@ def establish_judge_connection():
             disconnected = False
             protocol = WebsiteProtocol(connection)
 
-            # Wait for submissions in the queue to be evaluated
-            while True:
-                submission = evaluation_queue.get()
-                # TODO: what if submission evaluation failed, do we put it back in the queue?
-                try:
-                    thread = threading.Thread(
-                        target=evaluate_submission, args=(protocol, submission), daemon=True
-                    )
-                    thread.start()
-                except Exception:
-                    logger.error(f"Error evaluating submission with ID {submission.id}", exc_info=1)
+            # Create an event to wait for the protocol to disconnect
+            event = threading.Event()
 
+            # Start taking in submissions
+            thread = threading.Thread(target=handle_submissions, args=(protocol, event), daemon=True)
+            thread.start()
+
+            # Called when the protocol disconnects
+            def on_close(event: threading.Event):
+                logger.info("Judge connection closed.")
+                event.set()
+                thread.join()
+
+            protocol.set_close_listener(on_close, (event, ))
+
+            # Wait for the protocol to disconnect
+            event.wait()
         except socket.timeout:
             logger.error("Judge timed out.")
 
@@ -170,7 +175,30 @@ def establish_judge_connection():
             logger.error("An unexpected error has occurred.", exc_info=1)
 
         finally:
-            if not disconnected:
-                sock.shutdown(socket.SHUT_RDWR)
-                sock.close()
-                disconnected = True
+            try:
+                if not disconnected:
+                    sock.shutdown(socket.SHUT_RDWR)
+                    sock.close()
+                    disconnected = True
+            except Exception:
+                logger.error("Failed to close the socket", exc_info=1)
+
+
+def handle_submissions(protocol: WebsiteProtocol, event: threading.Event):
+    """
+    Takes evaluation requests from the queue, and submits them to the judge.
+    """
+    while not event.is_set():
+        try:
+            submission = evaluation_queue.get(timeout=1)
+        except queue.Empty:
+            continue
+
+        # TODO: what if submission evaluation failed, do we put it back in the queue?
+        try:
+            thread = threading.Thread(
+                target=evaluate_submission, args=(protocol, submission), daemon=True
+            )
+            thread.start()
+        except Exception:
+            logger.error(f"Error evaluating submission with ID {submission.id}", exc_info=1)
