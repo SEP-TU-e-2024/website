@@ -142,65 +142,57 @@ describe('ProblemOccurrenceOverviewPage', () => {
         expect(screen.getByText('Problem with fetching the requested data from db')).toBeInTheDocument();
         
     });
+});
 
-    it('throws an error when problem data is null', () => {
-        // Mock the useLoaderData function to return null
-        useLoaderData.mockReturnValue(null);
+describe('Leaderboard data handler error test suite', () => {    
+    const apiSpy = (statusCode) => {
+        const spy = vi.spyOn(api, 'get').mockRejectedValue({
+            response: {
+                status: statusCode,
+            }
+        });
+        return spy
+    }        
+    
+    it('Error 401', async () => {
+        // Mock API to throw error
+        const spy = apiSpy(401)
+
+        // Render component
         renderWithAlertProvider(ProblemOccurrenceOverviewPage);
-        // Check if error is thrown
-        expect(screen.getByText('Problem with fetching the requested data from db')).toBeInTheDocument();
+
+        await waitFor(async () => {
+            // Check for error message
+            expect(spy).toBeCalled();
+            expect(screen.getByText("Unauthorized to access this content")).toBeInTheDocument();
+        });
     });
 
-    describe('Leaderboard data handler error test suite', () => {    
-        const apiSpy = (statusCode) => {
-            const spy = vi.spyOn(api, 'get').mockRejectedValue({
-                response: {
-                    status: statusCode,
-                }
-            });
-            return spy
-        }        
-        
-        it('Error 401', async () => {
-            // Mock API to throw error
-            const spy = apiSpy(401)
+    it('Error 404', async () => {
+        // Mock API to throw error
+        const spy = apiSpy(404)
 
-            // Render component
-            renderWithAlertProvider(ProblemOccurrenceOverviewPage);
+        // Render component
+        renderWithAlertProvider(ProblemOccurrenceOverviewPage);
 
-            await waitFor(async () => {
-                // Check for error message
-                expect(spy).toBeCalled();
-                expect(screen.getByText("Unauthorized to access this content")).toBeInTheDocument();
-            });
+        await waitFor(async () => {
+            // Check for error message
+            expect(spy).toBeCalled();
+            expect(screen.getByText("Problem not found")).toBeInTheDocument();
         });
+    });
 
-        it('Error 404', async () => {
-            // Mock API to throw error
-            const spy = apiSpy(404)
+    it('Error 500', async () => {
+        // Mock API to throw error
+        const spy = apiSpy(500)
 
-            // Render component
-            renderWithAlertProvider(ProblemOccurrenceOverviewPage);
+        // Render component
+        renderWithAlertProvider(ProblemOccurrenceOverviewPage);
 
-            await waitFor(async () => {
-                // Check for error message
-                expect(spy).toBeCalled();
-                expect(screen.getByText("Problem not found")).toBeInTheDocument();
-            });
-        });
-
-        it('Error 500', async () => {
-            // Mock API to throw error
-            const spy = apiSpy(500)
-
-            // Render component
-            renderWithAlertProvider(ProblemOccurrenceOverviewPage);
-
-            await waitFor(async () => {
-                // Check for error message
-                expect(spy).toBeCalled();
-                expect(screen.getByText("Something went wrong on the server")).toBeInTheDocument();
-            });
+        await waitFor(async () => {
+            // Check for error message
+            expect(spy).toBeCalled();
+            expect(screen.getByText("Something went wrong on the server")).toBeInTheDocument();
         });
     });
 });

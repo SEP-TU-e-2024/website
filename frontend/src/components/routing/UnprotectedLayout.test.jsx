@@ -34,43 +34,12 @@ function renderWithRouter(loggedIn, initialEntries) {
 }
 
 describe("Unprotected layout", () => {
-    
     it("should show a guest the registration button", () => {
         renderWithRouter(false, ["/"]);
         // Find register button
         const registerButton = screen.getByText("Registration");
         // Check whether register button is present
         expect(registerButton).toBeInTheDocument();
-    });
-
-    it("should navigate to registration page when register button is clicked", async () => {
-        renderWithRouter(false, ["/"]);
-        // Should not be at register page yet
-        expect(screen.queryByText('Register Page')).not.toBeInTheDocument();
-        // Find register button
-        const registerButton = screen.getByText("Registration");
-        // Simulate click of register button
-        await userEvent.click(registerButton);
-        // Check whether user was redirected to register page
-        expect(screen.getByText('Register Page')).toBeInTheDocument();
-    });
-
-    it("should show the 'about' link in the footer", () => {
-        renderWithRouter(false, ["/"]);
-        // Find 'about'
-        const about = screen.getByText("About");
-        // Check whether 'about' is present
-        expect(about).toBeInTheDocument();
-        // Check whether it is contained in a footer
-        const footer = about.closest('footer');
-        expect(footer).toBeInTheDocument();
-    });
-
-    it("should not redirect a guest to login", () => {
-        renderWithRouter(false, ["/"]);
-        // Check if not redirected to login
-        expect(screen.queryByText("Login Page")).not.toBeInTheDocument();
-        expect(screen.getByText("Home Page")).toBeInTheDocument();
     });
     
     it("should show a guest the login button", () => {
@@ -87,6 +56,38 @@ describe("Unprotected layout", () => {
         expect(logoutButton).toBeInTheDocument();
     });
 
+    it("should show the 'about' link in the footer", () => {
+        renderWithRouter(false, ["/"]);
+        // Find 'about'
+        const about = screen.getByText("About");
+        // Check whether 'about' is present
+        expect(about).toBeInTheDocument();
+        // Check whether it is contained in a footer
+        const footer = about.closest('footer');
+        expect(footer).toBeInTheDocument();
+    });
+});
+
+describe('Navigation', () => {
+    it("should navigate to registration page when register button is clicked", async () => {
+        renderWithRouter(false, ["/"]);
+        // Should not be at register page yet
+        expect(screen.queryByText('Register Page')).not.toBeInTheDocument();
+        // Find register button
+        const registerButton = screen.getByText("Registration");
+        // Simulate click of register button
+        await userEvent.click(registerButton);
+        // Check whether user was redirected to register page
+        expect(screen.getByText('Register Page')).toBeInTheDocument();
+    });
+
+    it("should not redirect a guest to login", () => {
+        renderWithRouter(false, ["/"]);
+        // Check if not redirected to login
+        expect(screen.queryByText("Login Page")).not.toBeInTheDocument();
+        expect(screen.getByText("Home Page")).toBeInTheDocument();
+    });
+
     it("should call the logout_user function when logout button is clicked", async () => {
         renderWithRouter(true, ["/"]);
         // Find logout button
@@ -97,7 +98,7 @@ describe("Unprotected layout", () => {
         expect(mockMemberContextData.logout_user).toHaveBeenCalledOnce();
     });
     
-    it("should redirect to home page when logo is clicked", async () => {
+    it("should navigate to home page when logo is clicked", async () => {
         renderWithRouter(false, ["/login"]);
         // Check if not in homepage before navigating
         expect(screen.queryByText("Home Page")).not.toBeInTheDocument();
@@ -108,7 +109,7 @@ describe("Unprotected layout", () => {
         expect(screen.getByText("Home Page")).toBeInTheDocument();
     });
 
-    it("should redirect to about page when 'about' in footer is clicked", async () => {
+    it("should navigate to about page when 'about' in footer is clicked", async () => {
         renderWithRouter(false, ["/login"]);
         // Check if not in homepage before navigating
         expect(screen.queryByText("About Page")).not.toBeInTheDocument();

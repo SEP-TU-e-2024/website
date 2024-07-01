@@ -17,8 +17,8 @@ vi.mock('../../context/AlertContext', () => {
   };
 });
 
-describe("AuthLayout Component", () => {
-  it("should render without crashing", () => {
+describe("AuthLayout", () => {
+  it("successful render", () => {
     render(
       <MemoryRouter initialEntries={['/']}>
         <Routes>

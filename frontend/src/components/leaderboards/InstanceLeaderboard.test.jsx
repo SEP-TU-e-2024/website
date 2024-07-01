@@ -134,7 +134,9 @@ describe("Leaderboard", () => {
             expect(screen.queryByText('Jane Smith')).not.toBeInTheDocument();
         });
     });
+});
 
+describe('Sorting', () => {
     it("Sorting from high to low", async () => {
 
         rankInstanceEntries(mockProblemDataLeaderboard, mockLeaderboardData, 0);
