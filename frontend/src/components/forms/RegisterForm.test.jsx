@@ -59,7 +59,7 @@ function renderWithMockRegister() {
     </AlertProvider>);
 }
 
-describe("RegisterForm fields", () => {
+describe("RegisterForm fields visibility", () => {
     beforeEach(() => {
         // Reset the mock object to avoid leaking state
         vi.resetAllMocks();
@@ -139,7 +139,9 @@ describe("RegisterForm fields", () => {
         // Confirm password field should not be required
         expect(confirmPasswordField).not.toBeRequired();
     });
+});
 
+describe("RegisterForm filling in fields", () => {
     it("can fill in email", async () => {
         renderWithRouter(false, RegisterForm);
         
@@ -180,7 +182,7 @@ describe("RegisterForm fields", () => {
         });
     });
 
-    it("can fill in password fields when present", async () => {
+    it("can fill in password field when present", async () => {
         await renderWithPassword(false);
 
         // Find password field

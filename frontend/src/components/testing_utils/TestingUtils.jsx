@@ -232,7 +232,7 @@ export const mockLeaderboardData = [
               filepath: "instance2.txt",
               id: "0a800b64-0cce-4cb2-95ab-39a5064ece4e"
             },
-            rank: 2,
+            rank: 3,
             results: {
               score: 2,
               score2: 7
@@ -268,6 +268,51 @@ export const mockLeaderboardData = [
         results: {
           score: 1,
           score2: 5
+        }
+    },
+    {
+        instance_entries: [
+          {
+            benchmark_instance: {
+              filepath: "instance2.txt",
+              id: "0a800b64-0cce-4cb2-95ab-39a5064ece4e"
+            },
+            rank: 4,
+            results: {
+              score: 0,
+              score2: 0
+            }
+          },
+          {
+            benchmark_instance: {
+              filepath: "instance1.txt",
+              id: "83a8977e-760a-4d44-9a67-e07ca4d4c155"
+            },
+            results: {
+              score3: 1,
+              score2: 2
+            }
+          }
+        ],
+        submission: {
+          container: "submissions",
+          created_at: "2024-06-12T13:14:42.580000Z",
+          filepath: "submission.zip",
+          id: "a2938ac3-9a6b-4d88-a875-72f46ea913aa",
+          is_downloadable: true,
+          is_verified: true,
+          name: "example submission four",
+          problem: "83cb333e-e4c9-4f92-b002-9a8b33b039fd",
+          user: "f04cac7e-4b10-4076-bcf8-93718af6efbe"
+        },
+        submitter: {
+          email: "jahnsmith@email.com",
+          id: "f04cac7e-4b10-4076-bcf8-93718af6efbe",
+          name: ""
+        },
+        results: {
+          score: 2,
+          score2: 6
         }
     }
 ]

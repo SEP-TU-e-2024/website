@@ -5,9 +5,9 @@ import VerificationPage from './VerificationPage';
 import { mockProblemDataLeaderboard, mockLeaderboardData, renderWithRouter } from '../testing_utils/TestingUtils';
 
 
-describe('Problem occurrence instance list', () => {    
+describe('Verification page', () => {    
 
-    it('succesfull render', async () => {
+    it('successful render', async () => {
         renderWithRouter(true, VerificationPage);
         
         const backendURL = import.meta.env.VITE_API_URL

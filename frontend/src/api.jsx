@@ -1,13 +1,13 @@
 import axios from "axios"
 
 // Function to get the access token from localStorage
-const getAccessToken = () => {
+export const getAccessToken = () => {
     const tokens = JSON.parse(localStorage.getItem('authTokens'));
     return tokens ? tokens.access : null;
 };
 
 // Create an axios instance
-const api = axios.create({
+export const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
 });
 

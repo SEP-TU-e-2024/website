@@ -73,6 +73,7 @@ describe("Leaderboard", () => {
             const janeSmithInstances = screen.getAllByText('Jane Smith');
             expect(janeSmithInstances).toHaveLength(2);
             expect(screen.getByText('John Doe')).toBeInTheDocument();
+            expect(screen.getByText('Anonymous user')).toBeInTheDocument();
             expect(screen.getByText('example submission one')).toBeInTheDocument();
             expect(screen.getByText('example submission two')).toBeInTheDocument();
             expect(screen.getByText('example submission three')).toBeInTheDocument();
@@ -134,7 +135,9 @@ describe("Leaderboard", () => {
             expect(screen.queryByText('Jane Smith')).not.toBeInTheDocument();
         });
     });
+});
 
+describe('Sorting', () => {
     it("Sorting from high to low", async () => {
 
         rankInstanceEntries(mockProblemDataLeaderboard, mockLeaderboardData, 0);
@@ -148,9 +151,10 @@ describe("Leaderboard", () => {
         mockProblemDataLeaderboard.scoring_metric["order"] = 0;
         rankInstanceEntries(mockProblemDataLeaderboard, mockLeaderboardData, 0);
 
-        expect(dataCopy[0].instance_entries[0].rank).toBe(3); // Highest score
-        expect(dataCopy[1].instance_entries[0].rank).toBe(2); // Second highest score
-        expect(dataCopy[2].instance_entries[0].rank).toBe(1); // Lowest entry
+        expect(dataCopy[0].instance_entries[0].rank).toBe(4); // Highest score
+        expect(dataCopy[1].instance_entries[0].rank).toBe(3); // Second highest score
+        expect(dataCopy[2].instance_entries[0].rank).toBe(2); // Low entry
+        expect(dataCopy[3].instance_entries[0].rank).toBe(1); // Lowest entry
     });
 
     it("Sorting with misformatted data", async () => {
