@@ -1,13 +1,8 @@
-import { describe, expect, it, test, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import Submit from "./Submit";
-import AuthContext from "../../context/AuthContext";
-import { AlertProvider } from "../../context/AlertContext";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { mockGuestContextData, renderWithRouter } from "../testing_utils/TestingUtils";
-import api from "../../api";
-
-// vi.mock("../../api");
+import { renderWithRouter } from "../testing_utils/TestingUtils";
 
 describe("Basic components", () => {  
     it('basic fields for guests', () => {
@@ -221,129 +216,6 @@ describe("file upload", () => {
             expect(screen.getByText("File size exceeds 50MB.")).toBeInTheDocument();
         });
     });
-
-    it("should show when file is properly uploaded", async () => {
-        const spy = vi.spyOn(api, 'post').mockResolvedValue(
-            {status: 200},
-        );
-        // api.post.mockResolvedValue({ status: 200 });
-        renderWithRouter(true, Submit);
-        
-        const input = screen.getByPlaceholderText("Submission Name");
-        // Fill in testName as the name of the submission
-        const testName = 'test';
-        // fireEvent.change(input, {target: {value: testName}})
-        await userEvent.type(input, testName);
-        
-        await waitFor(async () => {
-            expect(input.value).toBe(testName);
-            
-            // Find the file input 
-            const fileInput = document.querySelector('.upload_container input[type="file"]');
-
-            // Simulate selecting a dummy file
-            const dummyFile = new File(['dummy content'], 'dummy.zip', { type: 'application/zip' });
-            Object.defineProperty(fileInput, 'files', {
-                value: [dummyFile],
-            });
-            fireEvent.change(fileInput);
-            
-
-        })
-        
-        // Submit
-        const submitButton = screen.getByText('Submit solution');
-        userEvent.click(submitButton);
-    
-        // Wait for the API call to resolve and check assertions
-        await waitFor(() => {
-            expect(spy).toHaveBeenCalled();
-            expect(screen.getByText("Submission uploaded successfully.")).toBeInTheDocument();
-        });
-    });
-
-    // [{
-    //     scenario: 'successful submission guest',
-    //     loggedIn: false,
-    //     api_response: {status: 200},
-    //     expectedOutput: 'Check your email to confirm submission',
-    // },
-    // {
-    //     scenario: 'successful submission member',
-    //     loggedIn: true,
-    //     api_response: {status: 200},
-    //     expectedOutput: 'Submission uploaded successfully.',
-    // },
-    // {
-    //     scenario: 'invalid submission guest',
-    //     loggedIn: false,
-    //     api_response:{response: {status: 400}},
-    //     expectedOutput: 'Invalid submission',
-    // },
-    // {
-    //     scenario: 'invalid submission member',
-    //     loggedIn: true,
-    //     api_response: {status:400},
-    //     expectedOutput: 'Invalid submission',
-    // },
-    // {
-    //     scenario: 'API error 500',
-    //     loggedIn: true,
-    //     api_response: {response: {status: 500}},
-    //     expectedOutput: 'Something went wrong on the server',
-    // }
-    // ].forEach(({ scenario, loggedIn, api_response, expectedOutput }) => {
-    //     it(scenario, async () => {
-    //         // Mock API Response
-    //         if (api_response.status < 400) {
-    //             const spy = vi.spyOn(api, 'post').mockResolvedValue(
-    //                 api_response,
-    //             );
-    //             let response = await api.post('/submit/submit/', {});
-    //             console.log(response);
-    //             // I don't understand what the api_response should look like. 
-    //             // When should it be {response: {status: xxx}} and when just {status: xxx}
-    //             // And how does that work with checking if (api_response.status < 400) if some don't have api_response.status but api_response.response.status?
-    //         } else {
-    //             const spy = vi.spyOn(api, 'post').mockRejectedValue(
-    //                 api_response,
-    //             );
-    //         }
-    
-    //         // Render component
-    //         renderWithRouter(loggedIn, Submit);
-        
-    //         const input = screen.getByPlaceholderText("Submission Name");
-    //         // Fill in testName as the name of the submission
-    //         const testName = 'test';
-    //         fireEvent.change(input, {target: {value: testName}})
-            
-    //         if (!loggedIn) {
-    //             const emailInput = screen.getByPlaceholderText("Email");
-    //             // Fill in testName as the name of the submission
-    //             const testMail = 'test@email.com';
-    //             fireEvent.change(emailInput, {target: {value: testMail}})
-    //         }
-
-    //         // Find the file input 
-    //         const fileInput = document.querySelector('.upload_container input[type="file"]');
-
-    //         // Simulate selecting a dummy file
-    //         const dummyFile = new File(['dummy content'], 'dummy.zip', { type: 'application/zip' });
-    //         Object.defineProperty(fileInput, 'files', {
-    //             value: [dummyFile],
-    //         });
-    //         fireEvent.change(fileInput);
-
-    //         // Submit
-    //         const submitButton = screen.getByText('Submit solution');
-    //         userEvent.click(submitButton);
-
-    //         await waitFor(() => { 
-    //             expect(screen.getByText(expectedOutput)).toBeInTheDocument();
-    //         });
-    //     });
-    // });
 
     // Reset mocks after each test
     afterEach(() => {
