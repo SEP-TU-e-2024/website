@@ -18,8 +18,8 @@ class Problems(APIView):
         problem_cats = ProblemCategory.objects.prefetch_related().all()
 
         #Check whether there are any problem categories
-        if len(problem_cats) < 1:
-            HttpResponseNotFound("No Problem Categories found")
+        if not problem_cats.exists():
+            return HttpResponseNotFound("No Problem Categories found")
 
         #this is a bit hacky but it is what it is
         specified_problems_dict = {}

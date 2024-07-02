@@ -4,14 +4,14 @@ import os
 import json
 
 from api.models import EvaluationSettings, Metric, ProblemCategory, SpecifiedProblem, UserProfile
-from api.views.problem_occurence_view import ProblemOccurrenceView
+from api.views.problem_view import Problems
 
 from rest_framework.test import APITestCase, APIRequestFactory, force_authenticate
 
-class TestProblemOccurrenceView(APITestCase):
+class TestProblemView(APITestCase):
     def setUp(self):
-        # Create mock ProblemOccurrenceView object
-        self.view = ProblemOccurrenceView().as_view()
+        # Create mock Problems view object
+        self.view = Problems().as_view()
 
         # Create Request Factory object to create mock requests
         self.rf = APIRequestFactory()
@@ -41,33 +41,48 @@ class TestProblemOccurrenceView(APITestCase):
             evaluation_settings=self.evaluation_settings
         )
 
-        self.req = self.rf.get('/problems/problem_occurrence/' + str(self.problem.id))
+        # Add mock problem directly to database
+        self.problem2 = SpecifiedProblem.objects.create(
+            name='Test Problem2',
+            scoring_metric=self.metric,
+            category=self.category,
+            evaluation_settings=self.evaluation_settings
+        )
+
+        self.req = self.rf.post('/problems/occurrence_overview/')
 
     # Valid retrieval
-    def test_problem_occurrence_valid(self):
-        # Call get method on mock problem occurrence view object
-        response = self.view(self.req, self.problem.id)
+    def test_problem_valid(self):
+        #Call get method on mock problem occurrence view object
+        response = self.view(self.req)
         result = json.loads(response.content.decode())
 
-        # Check reponses
+        #Check reponses
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            result["name"],
-            'Test Problem',
+            result[0]["name"],
+            'TestCategory',
             'Name wrong'
         )
         self.assertEqual(
-            result["category"]["name"],
-            'TestCategory',
-            'Category wrong'
+            result[0]["description"],
+            'TestDescription',
+            'Description wrong'
         )
+
+        # Names of expected problems
+        expected_problems = ["Test Problem", "Test Problem2"]
+
+        # Check for missing problems
+        for retrieved_problem in result[0]["specified_problems"]:
+            self.assertIn(retrieved_problem["name"], expected_problems, 'Specified problem missing')
 
     # Non valid retrieval
     def test_problem_occurrence_non_valid(self):
-        # Call get method on mock problem occurrence view object
-        self.req = self.rf.get('/problems/problem_occurrence/f9e9cb40-9f4c-4fa3-8fa5-2004f4e02111')
-        response = self.view(self.req, "f9e9cb40-9f4c-4fa3-8fa5-2004f4e02111")
+        #Call get method on mock problem occurrence view object
+        ProblemCategory.objects.all().delete()
+        self.req = self.rf.post('/problems/occurrence_overview/')
+        response = self.view(self.req)
 
-        # Check reponses
+        #Check reponses
         self.assertEqual(response.status_code, 404)
-        self.assertEqual(response.data,  {"detail": "Problem not found."}, 'Problem was actually found')
