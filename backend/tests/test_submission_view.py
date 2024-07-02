@@ -1,13 +1,13 @@
 
 
-import os
 import json
 
 from api.models import EvaluationSettings, Metric, SpecifiedProblem, Submission, UserProfile
 from api.views.submission_view import SubmissionView
-from rest_framework.test import APITestCase, APIRequestFactory, force_authenticate
+from rest_framework.test import APIRequestFactory, APITestCase, force_authenticate
 
-class TestAccountView(APITestCase):
+
+class TestSubmissionView(APITestCase):
     def setUp(self):
         # Create mock SubmissionView object
         self.view = SubmissionView().as_view()
@@ -64,8 +64,8 @@ class TestAccountView(APITestCase):
         )
 
     # Not authenticated
-    def test_account_not_authenticated(self):
-        #Call signup method on mock account view object
+    def test_submission_not_authenticated(self):
+        #Call signup method on mock submissions view object
         self.req.user = None
         response = self.view(self.req)
         response.render()

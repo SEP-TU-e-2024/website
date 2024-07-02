@@ -1,12 +1,11 @@
 
 
-import os
 import json
 
-from api.models import EvaluationSettings, Metric, ProblemCategory, SpecifiedProblem, UserProfile
+from api.models import EvaluationSettings, Metric, ProblemCategory, SpecifiedProblem
 from api.views.problem_occurence_view import ProblemOccurrenceView
+from rest_framework.test import APIRequestFactory, APITestCase
 
-from rest_framework.test import APITestCase, APIRequestFactory, force_authenticate
 
 class TestProblemOccurrenceView(APITestCase):
     def setUp(self):

@@ -1,16 +1,13 @@
 
 
-import os
-import json
 from unittest import mock
 
-from django.http import HttpResponse
-from django.urls import reverse
-
-from azure.storage.blob import BlobServiceClient
 from api.models import StorageLocation
 from api.views.download_from_blob_view import DownloadFromBlobViewSet
-from rest_framework.test import APITestCase, APIRequestFactory, force_authenticate
+from azure.storage.blob import BlobServiceClient
+from django.http import HttpResponse
+from rest_framework.test import APIRequestFactory, APITestCase
+
 
 class TestDownloadFromBlob(APITestCase):
     def setUp(self):

@@ -1,24 +1,11 @@
 
 
-import os
 import json
-from unittest import mock
-
-from django.urls import reverse
 
 from api.models import UserProfile
-from smtplib import SMTPException
-from api.tokens import account_activation_token
 from api.views.account_view import AccountView
-from unittest.mock import patch, MagicMock
-from django.core import mail
-from django.http import HttpResponseRedirect
-from django.core.mail import EmailMessage
-from django.test import Client
-from rest_framework.test import APITestCase, APIRequestFactory, force_authenticate
-from django.utils.encoding import force_bytes, force_str
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-from rest_framework import status
+from rest_framework.test import APIRequestFactory, APITestCase, force_authenticate
+
 
 class TestAccountView(APITestCase):
     def setUp(self):
@@ -57,7 +44,6 @@ class TestAccountView(APITestCase):
         self.req.user = None
         response = self.view(self.req)
         response.render()
-        result = json.loads(response.content.decode())
 
         #Check reponses
         self.assertEqual(response.status_code, 401)

@@ -36,7 +36,10 @@ class SubmitViewSet(ViewSet):
         Method used for submtting a submission
         """
 
-        request_file = request.FILES["file"]
+        request_file = None
+        if "file" in request.FILES:
+            request_file = request.FILES["file"]
+        
         # Check if file exists
         if not request_file:
             return Response(
@@ -180,7 +183,7 @@ class SubmitViewSet(ViewSet):
         except ObjectDoesNotExist:
             self.logger.warning("Could not locate user")
             return Response(
-                {"detail": "User not found."}, status=status.HTTP_400_BAD_REQUEST
+                {"detail": "Submission not found."}, status=status.HTTP_400_BAD_REQUEST
             )
         
         # Checks token validity
