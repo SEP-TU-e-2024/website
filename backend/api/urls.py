@@ -27,7 +27,7 @@ api_router.register(
 # Urlpatterns are default for normal views
 urlpatterns = [
     path("problems/occurrence_overview", Problems.as_view()),
-    path("account", AccountView.as_view()),
+    path("account", AccountView.as_view(), name="account"),
     path("submissions", SubmissionView.as_view()),
     path(
         "problems/problem_occurrence/<str:problem_id>",

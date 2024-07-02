@@ -66,11 +66,3 @@ class ConfirmSubmissionTest(APITestCase):
             'Submission verification email verifies wrong submission!'
         )
         print(token)
-
-        #TODO: Make this work
-        # resp = self.client.get(f'/api/confirm_submission/{submission_sid}/{token}')
-        # self.assertEqual(
-        #     resp.status_code,
-        #     status.HTTP_200_OK,
-        #     f'Token verification went wrong, code: {resp.status_code}'
-        # )

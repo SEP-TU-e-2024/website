@@ -22,8 +22,12 @@ class DownloadFromBlobViewSet(ViewSet):
     @action(detail=False, methods=["GET"])
     def storage_location(self, request):
         id = request.GET.get('id')
-        storage_location = StorageLocation.objects.get(pk=id)
-
+        storage_location = None
+        try:
+            storage_location = StorageLocation.objects.get(pk=id)
+        except Exception as e:
+            self.logger.error(e, exc_info=True)
+        
         if not storage_location:
             # Storage location not found for id.
             return HttpResponse(status=404)

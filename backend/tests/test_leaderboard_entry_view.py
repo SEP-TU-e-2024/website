@@ -12,7 +12,8 @@ from api.models import (
     Submission,
     UserProfile,
 )
-from rest_framework.test import APITestCase
+from api.views.leaderboard_entry_view import LeaderboardEntryView
+from rest_framework.test import APIRequestFactory, APITestCase
 
 
 class LeaderboardEntryViewTest(APITestCase):
@@ -70,6 +71,9 @@ class LeaderboardEntryViewTest(APITestCase):
 
         #Create LeaderboardEntry for testing purposes
         self.entries = LeaderboardEntry(self.problem, self.submission)
+        
+        # Setup request factory
+        self.factory = APIRequestFactory()
 
 
     def test_leaderboard_entry(self):
@@ -86,4 +90,26 @@ class LeaderboardEntryViewTest(APITestCase):
         
         #Test attributes for results object
         self.assertEqual(self.result.score, float(result['instance_entries'][0]["results"]['TestMetric']))
+        
+    def test_leaderboard_entry_bad_submission(self):
+        #Send a request to the api endpoint
+        request = self.factory.get(f'/api/leaderboard/{str(self.problem.id)}/f9e9cb40-9f4c-4fa3-8fa5-2004f4e02111')
+
+        # Call the view function directly
+        view = LeaderboardEntryView.as_view()
+        response = view(request, submission_id=self.submission.id,  problem_id='f9e9cb40-9f4c-4fa3-8fa5-2004f4e02111')  # Pass the same ID here
+
+        # Assert the response status code
+        self.assertEqual(response.status_code, 400)
+
+    def test_leaderboard_entry_bad_problem(self):
+        #Send a request to the api endpoint
+        request = self.factory.get(f'/api/leaderboard/f9e9cb40-9f4c-4fa3-8fa5-2004f4e02111/{str(self.submission.id)}')
+
+        # Call the view function directly
+        view = LeaderboardEntryView.as_view()
+        response = view(request, submission_id="f9e9cb40-9f4c-4fa3-8fa5-2004f4e02111",  problem_id=self.problem.id)  # Pass the same ID here
+
+        # Assert the response status code
+        self.assertEqual(response.status_code, 400)
         

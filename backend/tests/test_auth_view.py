@@ -1,11 +1,14 @@
 
 
 import os
+from smtplib import SMTPException
+from unittest import mock
 
 from api.models import UserProfile
 from api.tokens import account_activation_token
 from api.views.auth_view import AuthViewSet
 from django.core import mail
+from django.core.mail import EmailMessage
 from django.http import HttpResponseRedirect
 from django.test import RequestFactory, TestCase
 from django.utils.encoding import force_bytes, force_str
@@ -32,8 +35,8 @@ class TestAuthView(TestCase):
         self.test_user_non_active.is_active = False
         self.test_user_non_active.save()
 
+    # Valid signup
     def test_sign_up_valid(self):
-        #Tests whether a valid signup works
         #Construct mock request for signing up
         req = self.rf.post(
             '/',
@@ -72,14 +75,51 @@ class TestAuthView(TestCase):
         )
 
 
+    # Invalid email
     def test_signup_invalid(self):
         #Tests whether an invalid signup is handled correctly
-        #Make mockup request with invalid email
         req = self.rf.post(
             '/',
         )
         req.data = {
                 'email':'asd',
+                'username':'benchlab user',
+                'password':'123'
+            }
+    
+        #Call signup request
+        resp = self.auth.signup(req)
+        #Verify that a bad request response code is thrown
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+    
+    # Used email
+    def test_signup_email_in_use(self):
+        #Tests whether an invalid signup is handled correctly
+        req = self.rf.post(
+            '/',
+        )
+        req.data = {
+                'email':'abc@abc.com',
+                'username':'benchlab user',
+                'password':'123'
+            }
+    
+        #Call signup request
+        resp = self.auth.signup(req)
+        #Verify that a bad request response code is thrown
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+
+    # Failed email
+    @mock.patch.object(AuthViewSet, 'send_activate_email')
+    def test_signup_failed_send_email(self, mock_send_email):
+        mock_send_email.return_value = False
+
+        #Tests whether an invalid signup is handled correctly
+        req = self.rf.post(
+            '/',
+        )
+        req.data = {
+                'email':'abc1@abc.com',
                 'username':'benchlab user',
                 'password':'123'
             }
@@ -112,6 +152,15 @@ class TestAuthView(TestCase):
         self.assertEqual(response.status_code, status.HTTP_302_FOUND)
         self.assertIn('error=Invalid%20link', response.url)
 
+    def test_login_inactive_user(self):
+        response = self.auth.login_through_email(
+            None,
+            urlsafe_base64_encode(force_bytes(self.test_user_non_active.pk)),
+            'test'
+        )
+        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
+        self.assertIn('error=Account%20not%20activated', response.url)
+
     def test_send_login_mail_valid(self):
         #Verifies whether send_login_mail method works on valid credentials
 
@@ -130,18 +179,9 @@ class TestAuthView(TestCase):
         #Check that the request was succesful
         self.assertEqual(r.status_code, status.HTTP_200_OK)
 
-    def test_login_inactive_user(self):
-        response = self.auth.login_through_email(
-            None,
-            urlsafe_base64_encode(force_bytes(self.test_user_non_active.pk)),
-            'test'
-        )
-        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
-        self.assertIn('error=Account%20not%20activated', response.url)
-
+    
+    #Test that no email will be sent if an invalid email is entered
     def test_send_login_non_existent(self):
-        #Test that no email will be sent if an invalid email is entered
-
         #Construct request with invalid email
         req = self.rf.post(
             '/',
@@ -158,8 +198,24 @@ class TestAuthView(TestCase):
         self.assertEqual(r.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(r.data,  {"detail": "User not found."})
     
-    def test_send_login_smtp_exception(self):
-        #TODO: figure out how to trigger SMPT exception
+    # Test for error message during SMTP exception
+    @mock.patch.object(EmailMessage, 'send', side_effect=SMTPException())
+    def test_send_login_smtp_exception(self, mock_send):
+        #Construct request with invalid email
+        req = self.rf.post(
+            '/',
+        )
+        req.data = {
+                'email':'abc@abc.com',
+                'username':'benchlab user',
+                'password':'123'
+            }
+        
+        #Try to call the email with invalid credentials
+        r = self.auth.send_login_email(req)
+        #Assert that the right errors are thrown
+        self.assertEqual(r.status_code, status.HTTP_500_INTERNAL_SERVER_ERROR)
+        self.assertEqual(r.data,  {"detail": "Failed to send email"})
         pass
     
     def test_activate_valid(self):
