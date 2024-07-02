@@ -36,7 +36,7 @@ class TestAccountView(APITestCase):
         self.req = self.rf.get('/account')
         self.req.user = self.test_user
 
-    # Valid signup
+    # Valid retrieval
     def test_account_authenticated(self):
         #Call get method on mock account view object
         force_authenticate(self.req, user=self.test_user)
@@ -51,8 +51,9 @@ class TestAccountView(APITestCase):
             'User email wrong'
         )
 
+    # Not authenticated
     def test_account_not_authenticated(self):
-        #Call signup method on mock account view object
+        #C all signup method on mock account view object
         self.req.user = None
         response = self.view(self.req)
         response.render()
