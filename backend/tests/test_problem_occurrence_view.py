@@ -2,44 +2,19 @@
 
 import json
 
-from api.models import EvaluationSettings, Metric, ProblemCategory, SpecifiedProblem
 from api.views.problem_occurence_view import ProblemOccurrenceView
-from rest_framework.test import APIRequestFactory, APITestCase
+
+from .create_test_data import CreateTestData
 
 
-class TestProblemOccurrenceView(APITestCase):
+class TestProblemOccurrenceView(CreateTestData):
     def setUp(self):
+        super(TestProblemOccurrenceView, self).setUp()
+
         # Create mock ProblemOccurrenceView object
         self.view = ProblemOccurrenceView().as_view()
 
-        # Create Request Factory object to create mock requests
-        self.rf = APIRequestFactory()
-
-        # Add mock Evaluation settings to database
-        self.evaluation_settings = EvaluationSettings.objects.create()
-
-        # Add mock Metric
-        self.metric = Metric.objects.create(
-            name="test_metric",
-            label="test"
-        )
-
-        # Add mock problem directly to database
-        self.category = ProblemCategory.objects.create(
-            name='TestCategory',
-            style=1,
-            type=1,
-            description='TestDescription'
-        )
-
-        # Add mock problem directly to database
-        self.problem = SpecifiedProblem.objects.create(
-            name='Test Problem',
-            scoring_metric=self.metric,
-            category=self.category,
-            evaluation_settings=self.evaluation_settings
-        )
-
+        # Create mock request
         self.req = self.rf.get('/problems/problem_occurrence/' + str(self.problem.id))
 
     # Valid retrieval

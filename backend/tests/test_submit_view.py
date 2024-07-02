@@ -2,61 +2,30 @@
 
 from unittest import mock
 
-from django.http import HttpResponseRedirect
-
-from api.models import EvaluationSettings, Metric, SpecifiedProblem, Submission, UserProfile
+from api.tokens import submission_confirm_token
 from api.views.submit_view import SubmitViewSet
 from azure.storage.blob import BlobServiceClient
 from django.contrib.auth.models import AnonymousUser
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.mail import EmailMessage
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from rest_framework.exceptions import ErrorDetail
-from rest_framework.test import APIRequestFactory, APITestCase
 
-from api.tokens import submission_confirm_token
-from django.utils.encoding import force_bytes, force_str
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from .create_test_data import CreateTestData
 
 
-class TestSubmitViewSet(APITestCase):
+class TestSubmitViewSet(CreateTestData):
     def setUp(self):
+        super(TestSubmitViewSet, self).setUp()
+
         # Create mock SubmissionView object
         self.view = SubmitViewSet()
         
-        # Create Request Factory object to create mock requests
-        self.rf = APIRequestFactory()
-        
-        # Create a new user for testing
-        self.test_user = UserProfile.objects.create(
-            email='abc@abc.com'
-        )
-        self.test_user.is_active = True
-        self.test_user.save()
-
+        # Creat mock file
         file_content = b'This is a test file content'
         self.file = SimpleUploadedFile("test_file.zip", file_content, content_type="text/plain")
 
-        # Add mock Metric to database
-        self.sc_metric = Metric.objects.create(
-            name='TestMetric'
-        )
-
-        # Add mock Evaluation settings to database
-        self.evaluation_settings = EvaluationSettings.objects.create()
-
-        # Add mock problem directly to database
-        self.problem = SpecifiedProblem.objects.create(
-            name='Test Problem',
-            scoring_metric=self.sc_metric,
-            evaluation_settings=self.evaluation_settings
-        )
-
-        #Add mock submission to database
-        self.submission = Submission.objects.create(
-            name="mysubmissions",
-            user=self.test_user,
-            problem=self.problem,
-        )
 
     # Valid retrieval
     @mock.patch.object(BlobServiceClient, 'from_connection_string')

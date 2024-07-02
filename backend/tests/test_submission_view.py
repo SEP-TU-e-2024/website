@@ -2,48 +2,19 @@
 
 import json
 
-from api.models import EvaluationSettings, Metric, SpecifiedProblem, Submission, UserProfile
 from api.views.submission_view import SubmissionView
-from rest_framework.test import APIRequestFactory, APITestCase, force_authenticate
+from rest_framework.test import force_authenticate
+
+from .create_test_data import CreateTestData
 
 
-class TestSubmissionView(APITestCase):
+class TestSubmissionView(CreateTestData):
     def setUp(self):
+        super(TestSubmissionView, self).setUp()
+
         # Create mock SubmissionView object
         self.view = SubmissionView().as_view()
-        
-        # Create Request Factory object to create mock requests
-        self.rf = APIRequestFactory()
-        
-        # Create a new user for testing
-        self.test_user = UserProfile.objects.create(
-            email='abc@abc.com'
-        )
-        self.test_user.is_active = True
-        self.test_user.save()
-
-        # Add mock Metric to database
-        self.sc_metric = Metric.objects.create(
-            name='TestMetric'
-        )
-
-        # Add mock Evaluation settings to database
-        self.evaluation_settings = EvaluationSettings.objects.create()
-
-        # Add mock problem directly to database
-        self.problem = SpecifiedProblem.objects.create(
-            name='Test Problem',
-            scoring_metric=self.sc_metric,
-            evaluation_settings=self.evaluation_settings
-        )
-
-        #Add mock submission to database
-        self.submission = Submission.objects.create(
-            name="mysubmissions",
-            user=self.test_user,
-            problem=self.problem,
-        )
-
+       
         self.req = self.rf.get('/submissions')
         self.req.user = self.test_user
 
@@ -59,7 +30,7 @@ class TestSubmissionView(APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             result[0]["name"],
-            'mysubmissions',
+            'mysubmission',
             'Wrong Submissions'
         )
 

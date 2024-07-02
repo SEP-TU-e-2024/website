@@ -2,52 +2,17 @@ import json
 import random
 
 from api.models import (
-    BenchmarkInstance,
-    EvaluationSettings,
-    Metric,
-    ProblemCategory,
     Result,
-    SpecifiedProblem,
     Submission,
-    UserProfile,
 )
 from api.views.leaderboard_view import LeaderboardView
-from rest_framework.test import APIRequestFactory, APITestCase
+
+from .create_test_data import CreateTestData
 
 
-class LeaderboardViewTest(APITestCase):
+class LeaderboardViewTest(CreateTestData):
     def setUp(self):
-        #Set up a test category
-        self.cat = ProblemCategory.objects.create(
-            name='TestCategory',
-            style=1,
-            type=1,
-            description='TestDescription'
-        )
-        #Set up a test evaluation settings
-        self.eval = EvaluationSettings.objects.create(cpu=1,time_limit=1)
-
-        #Set up Metric
-        self.sc_metric = Metric.objects.create(
-            name='test metric'
-        )
-        #Set up a test specified problem
-        self.problem = SpecifiedProblem.objects.create(
-            name='TestProblem',
-            evaluation_settings=self.eval,
-            category=self.cat,
-            scoring_metric=self.sc_metric
-        )
-        #Create a test benchmark
-        self.benchmark = BenchmarkInstance.objects.create(filepath='a/b/c')
-        
-        # Create a testing profile
-        self.profile = UserProfile.objects.create(
-            email='test@benchlab.com',
-            name='test man',
-            is_staff=False,
-            password='jolanda'
-        )
+        super(LeaderboardViewTest, self).setUp()
 
         #Add 100 random submissions
         self.submissions = []
@@ -55,7 +20,7 @@ class LeaderboardViewTest(APITestCase):
         for i in range(100):
             #Create the submission
             self.submissions += [Submission.objects.create(
-                user=self.profile,
+                user=self.test_user,
                 problem=self.problem,
                 name=f'test submission {i}',
             )]
@@ -69,11 +34,9 @@ class LeaderboardViewTest(APITestCase):
                 submission=self.submissions[i]
             )]
 
-        self.factory = APIRequestFactory()
-
     def test_leaderboard_sorting(self):
         #Send a request to the api endpoint
-        request = self.factory.get('/api/leaderboard/' + str(self.problem.id))
+        request = self.rf.get('/api/leaderboard/' + str(self.problem.id))
         view = LeaderboardView.as_view()
         response = view(request, problem_id=self.problem.id)
 
@@ -91,7 +54,7 @@ class LeaderboardViewTest(APITestCase):
         
     def test_leaderboard_problem_non_existent(self):
         #Send a request to the api endpoint
-        request = self.factory.get('/api/leaderboard/f9e9cb40-9f4c-4fa3-8fa5-2004f4e02111')
+        request = self.rf.get('/api/leaderboard/f9e9cb40-9f4c-4fa3-8fa5-2004f4e02111')
 
         # Call the view function directly
         view = LeaderboardView.as_view()

@@ -2,24 +2,20 @@
 
 import json
 
-from api.models import UserProfile
 from api.views.account_view import AccountView
-from rest_framework.test import APIRequestFactory, APITestCase, force_authenticate
+from rest_framework.test import force_authenticate
+
+from .create_test_data import CreateTestData
 
 
-class TestAccountView(APITestCase):
+class TestAccountView(CreateTestData):
     def setUp(self):
-        #Create mock AccountView object
-        self.view = AccountView().as_view()
-        #Create Request Factory object to create mock requests
-        self.rf = APIRequestFactory()
-        #Create a new user for testing
-        self.test_user = UserProfile.objects.create(
-            email='abc@abc.com'
-        )
-        self.test_user.is_active = True
-        self.test_user.save()
+        super(TestAccountView, self).setUp()
 
+        # Create mock AccountView object
+        self.view = AccountView().as_view()
+
+        # Create mock request
         self.req = self.rf.get('/account')
         self.req.user = self.test_user
 

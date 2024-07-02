@@ -6,24 +6,18 @@ from api.models import StorageLocation
 from api.views.download_from_blob_view import DownloadFromBlobViewSet
 from azure.storage.blob import BlobServiceClient
 from django.http import HttpResponse
-from rest_framework.test import APIRequestFactory, APITestCase
+
+from .create_test_data import CreateTestData
 
 
-class TestDownloadFromBlob(APITestCase):
+class TestDownloadFromBlob(CreateTestData):
     def setUp(self):
+        super(TestDownloadFromBlob, self).setUp()
+
         # Create mock DownloadFromBlobViewSet object
         self.view = DownloadFromBlobViewSet()
 
-        # Create Request Factory object to create mock requests
-        self.rf = APIRequestFactory()
-
-        # Create storage location
-        self.storage_location = StorageLocation.objects.create(
-            container="submissions",
-            filepath="test.zip",
-            is_downloadable = True
-        )
-
+        # Create mock request
         self.req = self.rf.get('/download/storage_location', {'id': self.storage_location.id})
 
     # Succesfull Download
