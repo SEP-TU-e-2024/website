@@ -1,47 +1,73 @@
-# import json
-
-# from api.models import EvaluationSettings, Metric, ProblemCategory, SpecifiedProblem
-# from rest_framework.test import APITestCase
 
 
-# class ProblemOccurenceViewTest(APITestCase):
-#     def setUp(self):
-#         #Set up a test category
-#         self.cat = ProblemCategory.objects.create(
-#             name='TestCategory',
-#             style=1,
-#             type=1,
-#             description='TestDescription'
-#         )
-#         #Set up a test evaluation settings
-#         self.eval = EvaluationSettings.objects.create(cpu=1,time_limit=1)
-#         #Set up metric
-#         self.metric = Metric.objects.create()
-#         #Set up a test specified problem
-#         self.problem = SpecifiedProblem.objects.create(
-#             name='TestProblem',
-#             evaluation_settings=self.eval,
-#             category=self.cat,
-#             scoring_metric=self.metric
-#         )
+import os
+import json
 
+from api.models import EvaluationSettings, Metric, ProblemCategory, SpecifiedProblem, UserProfile
+from api.views.problem_occurence_view import ProblemOccurrenceView
 
-#     def test_problem_list(self):
-#         #Send a request to the api endpoint
-#         resp = self.client.get('/api/problems/problem_occurrence/' + str(self.problem.id))
+from rest_framework.test import APITestCase, APIRequestFactory, force_authenticate
 
-#         # unpack the json object
-#         cat = json.loads(resp.content.decode())
+class TestProblemOccurrenceView(APITestCase):
+    def setUp(self):
+        # Create mock ProblemOccurrenceView object
+        self.view = ProblemOccurrenceView().as_view()
 
-#         problem = cat['']
-#         #test specified problem attributes
-#         self.assertEqual(problem['id'], str(self.problem.id))
-#         self.assertEqual(problem['name'], self.problem.name)
-#         self.assertEqual(problem['metrics'], self.problem.metrics)
-#         self.assertEqual(problem['category'], str(self.cat.id))
+        # Create Request Factory object to create mock requests
+        self.rf = APIRequestFactory()
 
-#         #get the evaluation settings
-#         evaluation = problem['evaluation_settings']
-#         self.assertEqual(evaluation['cpu'], 1)
-#         self.assertEqual(evaluation['time_limit'], 1.0)
+        # Add mock Evaluation settings to database
+        self.evaluation_settings = EvaluationSettings.objects.create()
 
+        # Add mock Metric
+        self.metric = Metric.objects.create(
+            name="test_metric",
+            label="test"
+        )
+
+        # Add mock problem directly to database
+        self.category = ProblemCategory.objects.create(
+            name='TestCategory',
+            style=1,
+            type=1,
+            description='TestDescription'
+        )
+
+        # Add mock problem directly to database
+        self.problem = SpecifiedProblem.objects.create(
+            name='Test Problem',
+            scoring_metric=self.metric,
+            category=self.category,
+            evaluation_settings=self.evaluation_settings
+        )
+
+        self.req = self.rf.get('/problems/occurrence_overview/' + str(self.problem.id))
+
+    # Valid retrieval
+    def test_problem_occurrence_valid(self):
+        #Call get method on mock problem occurrence view object
+        response = self.view(self.req, self.problem.id)
+        result = json.loads(response.content.decode())
+
+        #Check reponses
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            result["name"],
+            'Test Problem',
+            'Name wrong'
+        )
+        self.assertEqual(
+            result["category"]["name"],
+            'TestCategory',
+            'Category wrong'
+        )
+
+        # Valid retrieval
+    def test_problem_occurrence_non_valid(self):
+        #Call get method on mock problem occurrence view object
+        self.req = self.rf.get('/problems/occurrence_overview/f9e9cb40-9f4c-4fa3-8fa5-2004f4e02111')
+        response = self.view(self.req, "f9e9cb40-9f4c-4fa3-8fa5-2004f4e02111")
+
+        #Check reponses
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.data,  {"detail": "Problem not found."}, 'Problem was actually found')

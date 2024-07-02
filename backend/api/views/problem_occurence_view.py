@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from requests import Response
+from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 
@@ -19,7 +19,7 @@ class ProblemOccurrenceView(APIView):
         specified_problem = SpecifiedProblem.objects.filter(id=problem_id).select_related("category")
         #Check whether specified problem exists
         if not specified_problem.exists():
-            return Response({}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "Problem not found."}, status=status.HTTP_404_NOT_FOUND)
         #Retrieve the associated category
         specified_problem = specified_problem.get() #actually hit the DB now to fetch the data
         problem_data = SpecifiedProblemSerializer(specified_problem)
