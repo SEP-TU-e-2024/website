@@ -5,9 +5,7 @@ from unittest import mock
 from api.tokens import submission_confirm_token
 from api.views.submit_view import SubmitViewSet
 from azure.storage.blob import BlobServiceClient
-from django.contrib.auth.models import AnonymousUser
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.core.mail import EmailMessage
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from rest_framework.exceptions import ErrorDetail
