@@ -195,7 +195,6 @@ class TestAuthView(CreateTestData):
         # Assert that the right errors are thrown
         self.assertEqual(r.status_code, status.HTTP_500_INTERNAL_SERVER_ERROR)
         self.assertEqual(r.data,  {"detail": "Failed to send email"})
-        pass
     
     def test_activate_valid(self):
         # Test whether a valid user can activate their account
