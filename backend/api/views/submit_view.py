@@ -181,7 +181,7 @@ class SubmitViewSet(ViewSet):
             sid = force_str(urlsafe_base64_decode(sidb64))
             submission = Submission.objects.get(id=sid)
         except ObjectDoesNotExist:
-            self.logger.warning("Could not locate user")
+            self.logger.warning("Could not locate submissions")
             return Response(
                 {"detail": "Submission not found."}, status=status.HTTP_400_BAD_REQUEST
             )
