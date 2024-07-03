@@ -13,6 +13,8 @@ class LeaderboardEntryViewTest(CreateTestData):
         # Create mock view
         self.view = LeaderboardEntryView().as_view()
 
+        self.problem.benchmark_instances.set([self.benchmark])
+
         # Create LeaderboardEntry for testing purposes
         self.entries = LeaderboardEntry(self.problem, self.submission)
 
