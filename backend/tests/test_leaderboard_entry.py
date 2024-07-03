@@ -1,9 +1,6 @@
-import json
-import random
 
 from api.data_processing.leaderboard_entry import LeaderboardEntry
-from api.views.leaderboard_entry_view import LeaderboardEntryView
-from api.models import Result, Submission
+from api.models import Result
 
 from .create_test_data import CreateTestData
 
