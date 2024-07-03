@@ -10,7 +10,7 @@ function Aboutpage() {
   const devContactInfo = [
     { name: "Thijs Egberts" },
     { name: "Cristian Fildan" },
-    { name: "Vlad Haţegan" },
+    { name: "Vlad Hațegan" },
     { name: "Tom Nagel" },
     { name: "Marnik den Ouden" },
     { name: "Ronald den Ouden" },
