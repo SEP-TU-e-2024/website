@@ -78,7 +78,9 @@ describe("Leaderboard", () => {
         });
     });
 
-    // Leaderboard Row test
+});
+
+describe("LeaderboardRow", () => {
     it("leaderboard row test with unfold", async () => {
 
         // Render the LeaderboardRow component wrapped in BrowserRouter
@@ -111,7 +113,6 @@ describe("Leaderboard", () => {
         });
     });
 
-    // Leaderboard Row test
     it("leaderboard row test with unfold competition type", async () => {
 
         mockProblemDataLeaderboard.category.style = 0;
@@ -142,7 +143,6 @@ describe("Leaderboard", () => {
         });
     });
 
-    // Leaderboard Row test
     it("leaderboard row test no problem", async () => {
 
         // Render the InstanceRow component wrapped in BrowserRouter
@@ -162,7 +162,9 @@ describe("Leaderboard", () => {
         });
     });
 
-    // Instance Row test
+});
+
+describe("InstanceRow", () => {
     it("instance row test", async () => {
 
         // Render the InstanceRow component wrapped in BrowserRouter
@@ -197,101 +199,100 @@ describe("Leaderboard", () => {
         let columns = createInstanceColumns({})
         expect(columns).toHaveLength(0);
     });
+});
 
-    // Might not be testable because of file download
-    // TODO: Remove if we can not mock the resposne
-    describe('downloadBlob function', () => {
-        it('should trigger download with correct blob URL', () => {
-            // Call the function
-            // downloadBlob(mockBlobResponse);
-        });
+// Might not be testable because of file download
+// TODO: Remove if we can not mock the resposne
+describe('downloadBlob function', () => {
+    it('should trigger download with correct blob URL', () => {
+        // Call the function
+        // downloadBlob(mockBlobResponse);
     });
+});
 
-    describe('Download Handler Error test suite', () => {
-        const renderLeaderboard = () => renderWithRouter(true, () => (
-            <AggregateLeaderboard 
-                problemData={mockProblemDataLeaderboard}
-                leaderboardData={mockLeaderboardData}
-            />
-        ));
-        
-        const apiSpy = (statusCode) => {
-            const spy = vi.spyOn(api, 'get').mockRejectedValue({
-                response: {
-                    status: statusCode,
-                }
-            });
-            return spy
-        }        
-        
-        it('Error 401', async () => {
-            // Render component
-            renderLeaderboard()
-
-            await waitFor(async () => {
-                const spy = apiSpy(401)
-
-                // Find download button and click
-                let buttons = screen.getAllByRole('button')
-                await userEvent.click(buttons[0]);
-
-                // Check for error message
-                expect(spy).toBeCalled();
-                expect(screen.getByText("Unauthorized to access this content")).toBeInTheDocument();
-            });
-        });
+describe('Download Handler Error test suite', () => {
+    const renderLeaderboard = () => renderWithRouter(true, () => (
+        <AggregateLeaderboard 
+            problemData={mockProblemDataLeaderboard}
+            leaderboardData={mockLeaderboardData}
+        />
+    ));
     
-        it('Error 403', async () => {
-            // Render component
-            renderLeaderboard()
-
-            await waitFor(async () => {
-                const spy = apiSpy(403)
-
-                // Find download button and click
-                let buttons = screen.getAllByRole('button')
-                await userEvent.click(buttons[0]);
-
-                // Check for error message
-                expect(spy).toBeCalled();
-                expect(screen.getByText("File not downloadable")).toBeInTheDocument();
-            });
+    const apiSpy = (statusCode) => {
+        const spy = vi.spyOn(api, 'get').mockRejectedValue({
+            response: {
+                status: statusCode,
+            }
         });
+        return spy
+    }        
+    
+    it('Error 401', async () => {
+        // Render component
+        renderLeaderboard()
 
-        it('Error 404', async () => {
-            // Render component
-            renderLeaderboard()
+        await waitFor(async () => {
+            const spy = apiSpy(401)
 
-            await waitFor(async () => {
-                const spy = apiSpy(404)
+            // Find download button and click
+            let buttons = screen.getAllByRole('button')
+            await userEvent.click(buttons[0]);
 
-                // Find download button and click
-                let buttons = screen.getAllByRole('button')
-                await userEvent.click(buttons[0]);
-
-                // Check for error message
-                expect(spy).toBeCalled();
-                expect(screen.getByText("File not found")).toBeInTheDocument();
-            });
-        });
-
-        it('Error 500', async () => {
-            // Render component
-            renderLeaderboard()
-
-            await waitFor(async () => {
-                const spy = apiSpy(500)
-
-                // Find download button and click
-                let buttons = screen.getAllByRole('button')
-                await userEvent.click(buttons[0]);
-                await userEvent.click(buttons[0]);
-
-                // Check for error message
-                expect(spy).toBeCalled();
-                expect(screen.getByText("Something went wrong on the server")).toBeInTheDocument();
-            });
+            // Check for error message
+            expect(spy).toBeCalled();
+            expect(screen.getByText("Unauthorized to access this content")).toBeInTheDocument();
         });
     });
 
+    it('Error 403', async () => {
+        // Render component
+        renderLeaderboard()
+
+        await waitFor(async () => {
+            const spy = apiSpy(403)
+
+            // Find download button and click
+            let buttons = screen.getAllByRole('button')
+            await userEvent.click(buttons[0]);
+
+            // Check for error message
+            expect(spy).toBeCalled();
+            expect(screen.getByText("File not downloadable")).toBeInTheDocument();
+        });
+    });
+
+    it('Error 404', async () => {
+        // Render component
+        renderLeaderboard()
+
+        await waitFor(async () => {
+            const spy = apiSpy(404)
+
+            // Find download button and click
+            let buttons = screen.getAllByRole('button')
+            await userEvent.click(buttons[0]);
+
+            // Check for error message
+            expect(spy).toBeCalled();
+            expect(screen.getByText("File not found")).toBeInTheDocument();
+        });
+    });
+
+    it('Error 500', async () => {
+        // Render component
+        renderLeaderboard()
+
+        await waitFor(async () => {
+            const spy = apiSpy(500)
+
+            // Find download button and click
+            let buttons = screen.getAllByRole('button')
+            await userEvent.click(buttons[0]);
+            await userEvent.click(buttons[0]);
+
+            // Check for error message
+            expect(spy).toBeCalled();
+            expect(screen.getByText("Something went wrong on the server")).toBeInTheDocument();
+        });
+    });
 });

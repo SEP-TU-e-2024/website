@@ -84,14 +84,9 @@ function HomePage() {
 
     useEffect(() => {
         const fetchRows = async () => {
-        try {
             const data = await getRows(showAlert);
             setRows(data);
-        } catch(error) {
-            showAlert("Something went wrong", "error")
-            console.error(error)
-        }}
-
+        }
         fetchRows();
     }, []);
 
