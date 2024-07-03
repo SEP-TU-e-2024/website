@@ -104,3 +104,50 @@ describe("HomePage", () => {
     });
 
 });
+
+describe('API Error test suite', () => {
+    const apiSpy = (statusCode) => {
+        const spy = vi.spyOn(api, 'post').mockRejectedValue({
+            response: {
+                status: statusCode,
+            }
+        });
+        return spy
+    }        
+    
+    it('Error 401', async () => {
+        // Render component
+        const spy = apiSpy(401);
+        renderWithRouter(true, HomePage);
+
+        await waitFor(async () => {
+            // Check for error message
+            expect(spy).toBeCalled();
+            expect(screen.getByText("Unauthorized to access this content")).toBeInTheDocument();
+        });
+    });
+
+    it('Error 404', async () => {
+        // Render component
+        const spy = apiSpy(404);
+        renderWithRouter(true, HomePage);
+
+        await waitFor(async () => {
+            // Check for error message
+            expect(spy).toBeCalled();
+            expect(screen.getByText("No problems found")).toBeInTheDocument();
+        });
+    });
+
+    it('Generic error', async () => {
+        // Render component
+        const spy = apiSpy(500);
+        renderWithRouter(true, HomePage);
+
+        await waitFor(async () => {
+            // Check for error message
+            expect(spy).toBeCalled();
+            expect(screen.getByText("Something went wrong")).toBeInTheDocument();
+        });
+    });
+});

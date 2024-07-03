@@ -84,8 +84,8 @@ describe("LoginForm email fields", () => {
         });
     });
 
-    it("calls register_user when the register button is pressed and required fields are filled", async () => {
-        // Render with the register_user function mocked
+    it("calls send_email_login when the login button is pressed and required fields are filled", async () => {
+        // Render with the send_email_login function mocked
         renderWithMockLogin(false);
         
         var textBox = screen.getAllByRole("textbox")[0];
@@ -97,7 +97,7 @@ describe("LoginForm email fields", () => {
         var loginButton = screen.getByText("Send email");
         userEvent.click(loginButton);
 
-        // Check if the register_user function has been called
+        // Check if the send_email_login function has been called
         await waitFor(async () => {
             expect(mockLogin).toHaveBeenCalled();
         });
@@ -147,8 +147,8 @@ describe("LoginForm password fields", () => {
         });
     });
 
-    it("calls register_user when the register button is pressed and required fields are filled", async () => {
-        // Render with the register_user function mocked
+    it("calls login_user when the login button is pressed and required fields are filled", async () => {
+        // Render with the login_user function mocked
         renderWithMockLogin(true);
         
         // Click 'Or login with password'
@@ -170,7 +170,7 @@ describe("LoginForm password fields", () => {
         var loginButton = screen.getByRole("button");
         userEvent.click(loginButton);
 
-        // Check if the register_user function has been called
+        // Check if the login_user function has been called
         await waitFor(async () => {
             expect(mockLogin).toHaveBeenCalled();
         });

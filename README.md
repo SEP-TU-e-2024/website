@@ -195,5 +195,12 @@ TU/e uses [simian](http://www.harukizaemon.com/simian/index.html/) to analyse co
 
 ### Testing
 
-In order to test, navigate to the backend folder, then run the following command:
+In order to run backend unit tests, navigate to the backend folder, then run the following command:
 `python manage.py test tests`
+
+When you want to run frontend unit tests for the first time, navigate to the fontend folder. You might have to run this command first to install the necessary dependencies:
+`yarn`
+To run frontend unit tests, navigate to the fontend folder, then run the following command:
+`yarn run test`
+If you would like to also see code coverage, run the following command instead:
+`yarn run test --coverage`
