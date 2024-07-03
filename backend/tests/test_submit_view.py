@@ -28,8 +28,10 @@ class TestSubmitViewSet(CreateTestData):
 
 
     # Valid retrieval
-    @mock.patch.object(BlobServiceClient, 'from_connection_string')
-    def test_submission_authenticated(self, mock_connection):
+    @mock.patch.object(SubmitViewSet, 'save_to_blob_storage')
+    def test_submission_authenticated(self, mock_save):
+        mock_save.return_value = True
+
         # Create request
         self.req = self.rf.post('/submit/submit', {'file': self.file})
         self.req.user = self.test_user
@@ -46,8 +48,10 @@ class TestSubmitViewSet(CreateTestData):
         self.assertEqual(response.status_code, 200)
 
     # Invalid submission data
-    @mock.patch.object(BlobServiceClient, 'from_connection_string')
-    def test_invalid_data(self, mock_connection):
+    @mock.patch.object(SubmitViewSet, 'save_to_blob_storage')
+    def test_invalid_data(self, mock_save):
+        mock_save.return_value = True
+
         # Create request
         self.req = self.rf.post('/submit/submit', {'file': self.file})
         self.req.user = self.test_user
@@ -61,8 +65,10 @@ class TestSubmitViewSet(CreateTestData):
         self.assertEqual(response.data,  {"detail": [ErrorDetail(string='This field is required.', code='required')]}, 'submission data"')
 
     # No file provided
-    @mock.patch.object(BlobServiceClient, 'from_connection_string')
-    def test_no_file(self, mock_connection):
+    @mock.patch.object(SubmitViewSet, 'save_to_blob_storage')
+    def test_no_file(self, mock_save):
+        mock_save.return_value = True
+
         # Create request
         self.req = self.rf.post('/submit/submit')
         self.req.user = self.test_user
@@ -76,8 +82,10 @@ class TestSubmitViewSet(CreateTestData):
         self.assertEqual(response.data,  {"detail": "No file provided"}, 'No file"')
 
     # Invalid file provided
-    @mock.patch.object(BlobServiceClient, 'from_connection_string')
-    def test_invalid_file(self, mock_connection):
+    @mock.patch.object(SubmitViewSet, 'save_to_blob_storage')
+    def test_invalid_file(self, mock_save):
+        mock_save.return_value = True
+
         # Create request
         file_content = b'This is a test file content'
         self.file = SimpleUploadedFile("test_file.txt", file_content, content_type="text/plain")
@@ -115,7 +123,9 @@ class TestSubmitViewSet(CreateTestData):
 
     # Mock Email send error
     @mock.patch.object(EmailMessage, 'send')
-    def test_email_fail(self, mock_send):
+    @mock.patch.object(SubmitViewSet, 'save_to_blob_storage')
+    def test_email_fail(self, mock_save, mock_send):
+        mock_save.return_value = True
         mock_send.return_value = False
 
         # Create request
