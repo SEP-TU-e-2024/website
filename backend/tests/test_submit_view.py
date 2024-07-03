@@ -1,11 +1,11 @@
-
-
 from unittest import mock
 
 from api.tokens import submission_confirm_token
 from api.views.submit_view import SubmitViewSet
 from azure.storage.blob import BlobServiceClient
+from django.contrib.auth.models import AnonymousUser
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.mail import EmailMessage
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from rest_framework.exceptions import ErrorDetail
@@ -26,8 +26,10 @@ class TestSubmitViewSet(CreateTestData):
 
 
     # Valid retrieval
-    @mock.patch.object(BlobServiceClient, 'from_connection_string')
-    def test_submission_authenticated(self, mock_connection):
+    @mock.patch.object(SubmitViewSet, 'save_to_blob_storage')
+    def test_submission_authenticated(self, mock_save):
+        mock_save.return_value = True
+
         # Create request
         self.req = self.rf.post('/submit/submit', {'file': self.file})
         self.req.user = self.test_user
@@ -44,8 +46,10 @@ class TestSubmitViewSet(CreateTestData):
         self.assertEqual(response.status_code, 200)
 
     # Invalid submission data
-    @mock.patch.object(BlobServiceClient, 'from_connection_string')
-    def test_invalid_data(self, mock_connection):
+    @mock.patch.object(SubmitViewSet, 'save_to_blob_storage')
+    def test_invalid_data(self, mock_save):
+        mock_save.return_value = True
+
         # Create request
         self.req = self.rf.post('/submit/submit', {'file': self.file})
         self.req.user = self.test_user
@@ -59,8 +63,10 @@ class TestSubmitViewSet(CreateTestData):
         self.assertEqual(response.data,  {"detail": [ErrorDetail(string='This field is required.', code='required')]}, 'submission data"')
 
     # No file provided
-    @mock.patch.object(BlobServiceClient, 'from_connection_string')
-    def test_no_file(self, mock_connection):
+    @mock.patch.object(SubmitViewSet, 'save_to_blob_storage')
+    def test_no_file(self, mock_save):
+        mock_save.return_value = True
+
         # Create request
         self.req = self.rf.post('/submit/submit')
         self.req.user = self.test_user
@@ -74,8 +80,10 @@ class TestSubmitViewSet(CreateTestData):
         self.assertEqual(response.data,  {"detail": "No file provided"}, 'No file"')
 
     # Invalid file provided
-    @mock.patch.object(BlobServiceClient, 'from_connection_string')
-    def test_invalid_file(self, mock_connection):
+    @mock.patch.object(SubmitViewSet, 'save_to_blob_storage')
+    def test_invalid_file(self, mock_save):
+        mock_save.return_value = True
+
         # Create request
         file_content = b'This is a test file content'
         self.file = SimpleUploadedFile("test_file.txt", file_content, content_type="text/plain")
@@ -112,26 +120,28 @@ class TestSubmitViewSet(CreateTestData):
         self.assertEqual(response.data,  {"detail": "An error occurred during file upload"}, 'Upload error')
 
     # Mock Email send error
-    # @mock.patch.object(EmailMessage, 'send')
-    # def test_email_fail(self, mock_send):
-    #     mock_send.return_value = False
+    @mock.patch.object(EmailMessage, 'send')
+    @mock.patch.object(SubmitViewSet, 'save_to_blob_storage')
+    def test_email_fail(self, mock_save, mock_send):
+        mock_save.return_value = True
+        mock_send.return_value = False
 
-    #     # Create request
-    #     self.req = self.rf.post('/submit/submit', {'file': self.file})
-    #     self.req.user = AnonymousUser()
-    #     self.req.data = {
-    #         'email':'myemail@email.com',
-    #         'name':'mycoolsubmission',
-    #         'is_downloadable' : True,
-    #         "problem" : self.problem.id
-    #     }
+        # Create request
+        self.req = self.rf.post('/submit/submit', {'file': self.file})
+        self.req.user = AnonymousUser()
+        self.req.data = {
+            'email':'myemail@email.com',
+            'name':'mycoolsubmission',
+            'is_downloadable' : True,
+            "problem" : self.problem.id
+        }
 
-    #     # Call submit method on mock SubmitViewSet object
-    #     response = self.view.submit(self.req)
+        # Call submit method on mock SubmitViewSet object
+        response = self.view.submit(self.req)
 
-    #     # Check reponses
-    #     self.assertEqual(response.status_code, 500)
-    #     self.assertEqual(response.data,  {'error': 'An error occurred during sending of verification email'}, 'Upload error')
+        # Check reponses
+        self.assertEqual(response.status_code, 500)
+        self.assertEqual(response.data,  {'error': 'An error occurred during sending of verification email'}, 'Upload error')
 
     def test_activate_valid(self):
         # Test whether a valid user can activate their account

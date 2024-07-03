@@ -70,6 +70,10 @@ class CreateTestData(APITestCase):
             evaluation_settings=self.evaluation_settings
         )
 
+        # Add metric to many-many field
+        self.problem.metrics.set([self.sc_metric])
+        self.problem2.metrics.set([self.sc_metric])
+
         # Add mock submission to database
         self.submission = Submission.objects.create(
             user=self.test_user,

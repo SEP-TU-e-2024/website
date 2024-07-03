@@ -54,7 +54,10 @@ class TestDownloadFromBlob(CreateTestData):
         self.assertEqual(response.status_code, 400)
 
     # Download Failed Azure Mock
-    def test_download_failed_azure(self):
+    @mock.patch.object(BlobServiceClient, 'from_connection_string')
+    def test_download_failed_azure(self, mock_connection):
+        mock_connection.return_value = None
+
         # Call get method on mock account view object
         response = self.view.storage_location(self.req)
 
