@@ -1,7 +1,7 @@
 asgiref==3.8.1
 azure-storage-blob==12.20.0
 cffi==1.16.0
-Django==5.0.4
+Django==5.0.8
 django-cors-headers==4.3.1
 django-extensions==3.2.3
 djangorestframework==3.15.1
